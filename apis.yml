@@ -7,11 +7,219 @@ tags:
   - Financial
   - Banks
   - Consumer Banking
-description: 'Australia''s largest bank by market capitalization providing retail, business, and institutional banking services. Serves millions of customers across Australia and New Zealand with a leading digital banking platform and extensive branch network.'
+  - Business Banking
+  - Open Banking
+  - CDR
+  - Australia
+description: >-
+  Commonwealth Bank of Australia (CBA) is Australia's largest bank by market
+  capitalization providing retail, business, and institutional banking
+  services. CBA serves millions of customers through NetBank online banking,
+  the CommBank mobile app, CommBiz for business customers, CommBank Yello
+  loyalty, and participates as an Accredited Data Holder under the
+  Australian Consumer Data Right (CDR) Open Banking regime.
 created: '2026-05-05'
-modified: '2026-05-05'
+modified: '2026-05-16'
 specificationVersion: '0.19'
-apis: []
+apis:
+  - aid: commonwealth-bank:cba-cdr-open-banking-api
+    name: CommBank Consumer Data Right (CDR) Open Banking API
+    tags:
+      - Open Banking
+      - CDR
+      - Accounts
+      - Transactions
+      - Data Sharing
+    humanURL: https://www.commbank.com.au/digital-banking/data-sharing.html
+    properties:
+      - url: https://www.commbank.com.au/digital-banking/data-sharing.html
+        type: Documentation
+      - url: https://cdr.gov.au/
+        type: Standard
+    description: >-
+      Commonwealth Bank is an Accredited Data Holder under Australia's
+      Consumer Data Right (CDR) regime. The CDR API exposes consumer
+      and business banking data including accounts, balances, transactions,
+      direct debits, payees, product reference data, and customer
+      details to Accredited Data Recipients with explicit customer
+      consent. The API conforms to the Australian Banking Data Standards.
+
+  - aid: commonwealth-bank:commbank-mobile-app
+    name: CommBank Mobile App
+    tags:
+      - Mobile App
+      - Banking
+      - Payments
+      - Money Plan
+    humanURL: https://www.commbank.com.au/digital-banking/commbank-app.html
+    properties:
+      - url: https://www.commbank.com.au/digital-banking/commbank-app.html
+        type: Documentation
+    description: >-
+      The CommBank mobile app is the bank's primary digital channel
+      for personal customers offering account management, transfers,
+      bill payment via BPAY, mobile cheque deposit, PayID, NPP real-time
+      transfers, card controls, Money Plan budgeting tools, and the
+      Yello loyalty program.
+
+  - aid: commonwealth-bank:netbank
+    name: NetBank
+    tags:
+      - Online Banking
+      - Web Banking
+      - Self Service
+    humanURL: https://www.commbank.com.au/digital-banking/netbank.html
+    properties:
+      - url: https://www.commbank.com.au/digital-banking/netbank.html
+        type: Documentation
+    description: >-
+      NetBank is CommBank's web-based online banking platform giving
+      personal customers access to account details, transactions,
+      transfers, BPAY payments, statements, card services, and
+      customer self-service.
+
+  - aid: commonwealth-bank:commbiz
+    name: CommBiz
+    tags:
+      - Business Banking
+      - Treasury
+      - Payments
+    humanURL: https://www.commbank.com.au/business/digital-banking/commbiz.html
+    properties:
+      - url: https://www.commbank.com.au/business/digital-banking/commbiz.html
+        type: Documentation
+    description: >-
+      CommBiz is CommBank's business and corporate online banking
+      platform supporting multi-user payments, account management,
+      bulk payments, foreign exchange, file-based banking, treasury
+      management, and bank-to-customer integration.
+
+  - aid: commonwealth-bank:commbank-yello
+    name: CommBank Yello
+    tags:
+      - Loyalty
+      - Rewards
+      - Customer Recognition
+    humanURL: https://www.commbank.com.au/banking/yello.html
+    properties:
+      - url: https://www.commbank.com.au/banking/yello.html
+        type: Documentation
+    description: >-
+      CommBank Yello is the bank's customer recognition and rewards
+      program offering eligible customers exclusive cashback offers,
+      partner discounts, fee waivers, and home loan benefits surfaced
+      through the CommBank mobile app.
+
+  - aid: commonwealth-bank:commbank-merchant-payments
+    name: CommBank Merchant Payments
+    tags:
+      - Payments
+      - Merchant Services
+      - EFTPOS
+      - Ecommerce
+    humanURL: https://www.commbank.com.au/business/payments.html
+    properties:
+      - url: https://www.commbank.com.au/business/payments.html
+        type: Documentation
+    description: >-
+      CommBank provides merchant payment acceptance through EFTPOS
+      terminals, eCommerce gateways, BPAY merchant services, Smart
+      mini and Smart Pos terminals, and online card acceptance. Includes
+      integrations with major eCommerce platforms.
+
+  - aid: commonwealth-bank:commbank-international
+    name: CommBank International Payments
+    tags:
+      - International
+      - FX
+      - Cross-Border Payments
+    humanURL: https://www.commbank.com.au/international.html
+    properties:
+      - url: https://www.commbank.com.au/international.html
+        type: Documentation
+    description: >-
+      CommBank International Payments provides foreign exchange,
+      international money transfer, travel money cards, and overseas
+      payment services for retail and business customers, including
+      SWIFT integration for cross-border payments.
+
+  - aid: commonwealth-bank:commbank-app-api-banking
+    name: CommBank API Banking for Business
+    tags:
+      - API Banking
+      - Business
+      - Payments
+      - Integration
+    humanURL: https://www.commbank.com.au/business/payments/online-payments.html
+    properties:
+      - url: https://www.commbank.com.au/business/payments/online-payments.html
+        type: Documentation
+    description: >-
+      CommBank API Banking provides programmatic banking interfaces
+      for business customers covering payments, account information,
+      reconciliation, and direct integration with ERP and accounting
+      systems for automated treasury operations.
 common:
   - type: Website
     url: https://www.commbank.com.au/
+  - type: Login
+    url: https://www.my.commbank.com.au/netbank/Logon/Logon.aspx
+  - type: Business
+    url: https://www.commbank.com.au/business.html
+  - type: InvestorRelations
+    url: https://www.commbank.com.au/about-us/shareholders.html
+  - type: Security
+    url: https://www.commbank.com.au/support/security.html
+  - type: DataSharing
+    url: https://www.commbank.com.au/digital-banking/data-sharing.html
+  - type: Features
+    data:
+      - name: Personal Banking
+        description: Everyday accounts, savings, home loans, credit cards, and personal loans.
+      - name: Business Banking
+        description: Business accounts, lending, merchant services, and CommBiz integration.
+      - name: Open Banking (CDR)
+        description: Accredited Data Holder under Australia's Consumer Data Right with secure data sharing.
+      - name: Mobile Banking
+        description: CommBank app with Money Plan budgeting, card controls, and Yello rewards.
+      - name: Loyalty Recognition
+        description: CommBank Yello customer recognition with cashback offers and fee waivers.
+      - name: Merchant Payments
+        description: EFTPOS, eCommerce, and integrated payment acceptance for businesses.
+      - name: International Payments
+        description: FX, SWIFT, and travel money card services for personal and business customers.
+      - name: API Banking
+        description: Programmatic banking interfaces for business and corporate integration.
+      - name: Real-Time Payments
+        description: NPP and PayID instant transfer support across personal and business channels.
+  - type: UseCases
+    data:
+      - name: Open Banking Data Sharing
+        description: Authorized third parties access consumer banking data via CDR with consumer consent.
+      - name: Business Reconciliation
+        description: Automated reconciliation of accounts and payments via API Banking integrations.
+      - name: Merchant Acceptance
+        description: SME and enterprise card acceptance through CommBank merchant solutions.
+      - name: Consumer Mobile Banking
+        description: Daily banking, transfers, and budgeting through the CommBank app.
+      - name: Cross-Border Payments
+        description: Send and receive international payments for retail and business customers.
+      - name: Treasury Operations
+        description: Corporate treasury automation using CommBiz and API Banking.
+  - type: Integrations
+    data:
+      - name: NPP Australia
+        description: New Payments Platform real-time clearing and settlement integration.
+      - name: BPAY
+        description: BPAY scheme for bill payment and merchant collections.
+      - name: PayID
+        description: PayID alias-based addressing for NPP real-time payments.
+      - name: SWIFT
+        description: SWIFT messaging for cross-border payments and correspondent banking.
+      - name: CDR Ecosystem
+        description: Consumer Data Right data sharing with Accredited Data Recipients.
+      - name: Mastercard and Visa
+        description: Major card scheme acquiring and issuing partnerships.
+maintainers:
+  - FN: Kin Lane
+    email: kin@apievangelist.com
