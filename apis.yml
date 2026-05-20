@@ -160,6 +160,10 @@ apis:
       reconciliation, and direct integration with ERP and accounting
       systems for automated treasury operations.
 common:
+  - type: GitHubOrganization
+    url: https://github.com/commbank
+  - type: LinkedIn
+    url: https://www.linkedin.com/company/commonwealthbank
   - type: Website
     url: https://www.commbank.com.au/
   - type: Login
