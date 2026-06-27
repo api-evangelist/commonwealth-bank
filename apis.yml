@@ -35,7 +35,7 @@ apis:
       - url: https://www.commbank.com.au/digital-banking/data-sharing.html
         type: Documentation
       - url: https://cdr.gov.au/
-        type: Standard
+        type: Standards
     description: >-
       Commonwealth Bank is an Accredited Data Holder under Australia's
       Consumer Data Right (CDR) regime. The CDR API exposes consumer
