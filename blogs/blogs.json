@@ -1,0 +1,18 @@
+{
+  "repo": "commonwealth-bank",
+  "feeds": [
+    {
+      "source": "https://www.commbank.com.au/newsroom.html",
+      "feed_url": "https://www.commbank.com.au/newsroom.html",
+      "title": "",
+      "saved": 0,
+      "method": "none"
+    },
+    {
+      "source": "https://www.commbank.com.au/digital-banking/data-sharing.html",
+      "error": "HTTPError"
+    }
+  ],
+  "fetched": "2026-07-11T11:50:51Z",
+  "post_count": 3
+}
