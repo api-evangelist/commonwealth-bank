@@ -160,6 +160,8 @@ apis:
       reconciliation, and direct integration with ERP and accounting
       systems for automated treasury operations.
 common:
+  - type: DomainSecurity
+    url: security/commonwealth-bank-domain-security.yml
   - type: GitHubOrganization
     url: https://github.com/commbank
   - type: LinkedIn
@@ -224,6 +226,8 @@ common:
         description: Consumer Data Right data sharing with Accredited Data Recipients.
       - name: Mastercard and Visa
         description: Major card scheme acquiring and issuing partnerships.
+  - type: Blog
+    url: https://www.commbank.com.au/newsroom.html
 maintainers:
   - FN: Kin Lane
     email: kin@apievangelist.com
