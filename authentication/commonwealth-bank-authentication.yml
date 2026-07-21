@@ -1,0 +1,54 @@
+generated: '2026-07-21'
+method: searched
+source: >-
+  CommBank developer portal (Open Banking / CDR) + Consumer Data Standards
+  Australia CDR Information Security Profile (FAPI 1.0 Advanced). The harvested
+  Swagger 2.0 / OpenAPI specs declare no securitySchemes, so this profile is
+  authored from the CDR standard the specs implement.
+docs: https://www.commbank.com.au/banking/open-banking.html
+summary:
+  types: [oauth2, openIdConnect, mutualTLS, none]
+  oauth2_flows: [authorizationCode]
+  public_surface: >-
+    The CDR Product Reference Data (PRD) surface (GET /banking/products,
+    /banking/products/{productId}) is PUBLIC and UNAUTHENTICATED at
+    api.commbank.com.au/public/cds-au/v1 — only an x-v version header is required.
+  authorized_surface: >-
+    All other CDR Banking endpoints (accounts, balances, transactions, direct
+    debits, scheduled payments, payees, common customer) on
+    secure.api.commbank.com.au require an Accredited Data Recipient (ADR) access
+    token issued under explicit consumer consent.
+schemes:
+  - name: cdr-public-prd
+    type: none
+    applies_to: [Products/PRD]
+    note: Unauthenticated public product reference data; x-v header required.
+  - name: cdr-adr-oauth2
+    type: oauth2
+    flow: authorizationCode
+    description: >-
+      CDR ADR authorization_code flow with OIDC Hybrid, PAR (RFC 9126) and
+      request objects, as mandated by the CDR Security Profile (FAPI 1.0
+      Advanced). Access tokens are sender-constrained (mTLS, RFC 8705).
+    client_authentication: [private_key_jwt, tls_client_auth]
+    sender_constrained: mtls
+    consent: CDR consumer consent / authorisation via the Data Holder consent flow
+  - name: cdr-oidc
+    type: openIdConnect
+    description: >-
+      The Data Holder acts as an OpenID Provider; ADRs discover endpoints (issuer,
+      authorization, token, PAR, JWKS) via CDR OIDC discovery and register via
+      dynamic client registration (DCR).
+  - name: cdr-mtls
+    type: mutualTLS
+    description: Mutual-TLS at the token and resource endpoints; holder-of-key tokens.
+standards:
+  - FAPI 1.0 Advanced (CDR Security Profile)
+  - OAuth 2.0 (RFC 6749) authorization_code
+  - OpenID Connect Core + Discovery
+  - RFC 9126 Pushed Authorization Requests (PAR)
+  - RFC 8705 mutual-TLS client auth and sender-constrained tokens
+notes: >-
+  CommBank's business API catalogue (Fast Payment, NameCheck, PayTo) and the
+  merchant Payment Gateway also document OAuth 2.0 but their specs are
+  partner-gated and not wired here.

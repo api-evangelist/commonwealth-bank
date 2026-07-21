@@ -1,0 +1,31 @@
+generated: '2026-07-21'
+method: searched
+source: >-
+  CommBank developer portal (CDR Discovery Status/Outages API) + Consumer Data
+  Standards Australia versioning + deprecation policy.
+versioning:
+  scheme: header
+  header: x-v
+  min_version_header: x-min-v
+  current_standard: CDR Banking API v1.36.0
+  docs: https://consumerdatastandardsaustralia.github.io/standards/
+deprecation:
+  policy: >-
+    CDR endpoint versions are deprecated then obsoleted on the Data Standards
+    Body maintenance cadence; Data Holders must continue to support the minimum
+    negotiable version (x-min-v) through the deprecation window.
+  min_version_negotiation: x-min-v
+  policy_url: https://consumerdatastandardsaustralia.github.io/standards/
+sla:
+  note: >-
+    CDR Data Holders are bound by the CDR performance requirements and availability
+    obligations set by the ACCC/DSB rather than a published commercial SLA.
+status_page:
+  url: https://api.commbank.com.au/public/cds-au/v1/discovery/status
+  outages: https://api.commbank.com.au/public/cds-au/v1/discovery/outages
+  commbiz: https://cdr.commbiz.api.commbank.com.au/cbzpublic/cds-au/v1/discovery/status
+  docs: https://www.commbank.com.au/developer/Documentation/specification/Discovery
+  note: >-
+    CommBank exposes the mandated CDR machine-readable Get Status and Get Outages
+    endpoints (planned + unplanned outages) under the public discovery surface.
+deprecated_operations: []

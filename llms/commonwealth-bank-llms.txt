@@ -1,0 +1,33 @@
+# Commonwealth Bank (CommBank)
+
+> Commonwealth Bank of Australia (CBA) is Australia's largest bank and a designated Consumer Data Right (CDR) Open Banking data holder. It exposes a PUBLIC Product Reference Data API and consumer-authorised CDR Banking endpoints (accounts, balances, transactions, direct debits, scheduled payments, payees, customer) conforming to the DSB Consumer Data Standards CDR Banking API v1.36.0, plus a partner-gated business API catalogue (Fast Payment/NPP, NameCheck, PayTo) and a merchant Payment Gateway.
+
+## APIs (harvested OpenAPI/Swagger)
+- [CDR Product Reference Data (public)](openapi/commonwealth-bank-cdr-products-openapi.json): listProducts, getProductDetail — unauthenticated, x-v header only
+- [CDR Accounts](openapi/commonwealth-bank-cdr-accounts-openapi.json): listAccounts, getAccountDetail
+- [CDR Balances](openapi/commonwealth-bank-cdr-balances-openapi.json): getBalances, listBalancesBulk, listBalancesSpecificAccounts
+- [CDR Transactions](openapi/commonwealth-bank-cdr-transactions-openapi.json): getTransactions, getTransactionDetail
+- [CDR Regular Payments](openapi/commonwealth-bank-cdr-regular-payments-openapi.json): direct debits + scheduled payments
+- [CDR Payees](openapi/commonwealth-bank-cdr-payees-openapi.json): listPayees, getPayeeDetail
+- [CDR Customer](openapi/commonwealth-bank-cdr-customer-openapi.json): getCustomer, getCustomerDetail
+- [CDR Banking (DSB standard v1.36.0)](openapi/commonwealth-bank-cds-banking-openapi.json): full 16-endpoint shared standard
+
+## Auth & conventions
+- [Authentication](authentication/commonwealth-bank-authentication.yml): public PRD (none) + CDR ADR OAuth2 authorization_code / OIDC / FAPI 1.0 Advanced / mTLS
+- [OAuth scopes](scopes/commonwealth-bank-scopes.yml): bank:accounts.basic:read, bank:accounts.detail:read, bank:transactions:read, bank:payees:read, bank:regular_payments:read, common:customer.basic:read, common:customer.detail:read
+- [Conventions](conventions/commonwealth-bank-conventions.yml): x-v versioning, page/page-size pagination, x-fapi-* headers, CDS ResponseErrorList errors
+- [Error catalog](errors/commonwealth-bank-problem-types.yml)
+- [Lifecycle](lifecycle/commonwealth-bank-lifecycle.yml): CDR Discovery Status/Outages API
+- [Conformance](conformance/commonwealth-bank-conformance.yml): OAuth2, OIDC, FAPI 1.0 Advanced, PAR, mTLS, CDR Banking v1.36.0
+- [Data model](data-model/commonwealth-bank-data-model.yml)
+
+## Agent surfaces
+- [MCP (candidate tools)](mcp/commonwealth-bank-mcp.yml)
+- [Agent skills](skills/_index.yml)
+- [Agentic access](agentic-access/commonwealth-bank-agentic-access.yml)
+
+## Docs
+- [Developer portal](https://www.commbank.com.au/developer)
+- [Open Banking / CDR](https://www.commbank.com.au/banking/open-banking.html)
+- [Business API catalogue](https://developer.api.commbank.com.au/apis)
+- [Consumer Data Standards](https://consumerdatastandardsaustralia.github.io/standards/)

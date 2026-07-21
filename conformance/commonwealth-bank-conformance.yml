@@ -1,0 +1,40 @@
+generated: '2026-07-21'
+method: searched
+source: >-
+  CommBank developer portal + Consumer Data Standards Australia (DSB) Banking
+  v1.36.0 + CDR Security Profile (FAPI). Derived from openapi/ where noted.
+standards:
+  - id: oauth2
+    conforms: true
+    evidence: >-
+      CDR ADR access uses OAuth 2.0 authorization_code grant (CommBank documented
+      REST + OAuth 2.0; consumer-authorized CDR endpoints on secure.api.commbank.com.au).
+  - id: oidc
+    conforms: true
+    evidence: CDR Data Holders act as OpenID Providers (OIDC), discovery + JWKS per CDR infosec.
+  - id: fapi-1.0-advanced
+    conforms: true
+    evidence: CDR Security Profile mandates FAPI 1.0 Advanced (PAR, mTLS, private_key_jwt, request objects).
+  - id: cdr-consumer-data-standards-banking-1.36.0
+    conforms: true
+    evidence: All banking specs conform to DSB CDR Banking API v1.36.0 (x-v versioned endpoints).
+  - id: rfc8705-mtls
+    conforms: true
+    evidence: CDR requires mutual-TLS sender-constrained tokens + mTLS client authentication.
+  - id: rfc9126-par
+    conforms: true
+    evidence: CDR Security Profile requires Pushed Authorization Requests.
+  - id: cds-error-list
+    conforms: true
+    evidence: openapi 4xx/5xx return CDR ResponseErrorList (urn:au-cds:error URNs), not RFC 9457.
+  - id: rfc9457-problem-details
+    conforms: false
+    evidence: CDR uses its own ResponseErrorList envelope, not application/problem+json.
+  - id: pagination-page-based
+    conforms: true
+    evidence: openapi list ops expose page + page-size params with Links/Meta paginated envelopes.
+  - id: idempotency-keys
+    conforms: false
+    evidence: >-
+      The harvested CDR data-sharing surface is read-only (GET + bulk-read POST); no
+      Idempotency-Key contract. Payment-initiation (NPP/PayTo) specs are partner-gated.

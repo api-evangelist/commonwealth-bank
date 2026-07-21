@@ -1,0 +1,109 @@
+generated: '2026-07-21'
+method: derived
+status: candidate
+source: openapi/ operations (CDR Banking read APIs)
+notes: >-
+  Commonwealth Bank publishes no official hosted MCP server. This is a CANDIDATE
+  tool list derived one-to-one from the operationIds in the repo's harvested CDR
+  Banking OpenAPI/Swagger specs. All operations are read-only (CDR data-sharing);
+  any real deployment must front the CDR ADR OAuth2/FAPI + mTLS consent flow.
+server:
+  name: commonwealth-bank
+  transport: http
+tools:
+  - name: listAccounts
+    description: "Get Accounts"
+    source_operation: openapi/commonwealth-bank-cdr-accounts-openapi.json#listAccounts
+  - name: getAccountDetail
+    description: "Get Account Detail"
+    source_operation: openapi/commonwealth-bank-cdr-accounts-openapi.json#getAccountDetail
+  - name: getBalances
+    description: "Get Balances"
+    source_operation: openapi/commonwealth-bank-cdr-balances-openapi.json#getBalances
+  - name: listBalancesBulk
+    description: "Get Bulk Balances"
+    source_operation: openapi/commonwealth-bank-cdr-balances-openapi.json#listBalancesBulk
+  - name: listBalancesSpecificAccounts
+    description: "Get Balances For Specific Accounts"
+    source_operation: openapi/commonwealth-bank-cdr-balances-openapi.json#listBalancesSpecificAccounts
+  - name: getCustomer
+    description: "Get customer"
+    source_operation: openapi/commonwealth-bank-cdr-customer-openapi.json#getCustomer
+  - name: getCustomerDetail
+    description: "Get Customer Detail"
+    source_operation: openapi/commonwealth-bank-cdr-customer-openapi.json#getCustomerDetail
+  - name: listPayees
+    description: "Get Payees"
+    source_operation: openapi/commonwealth-bank-cdr-payees-openapi.json#listPayees
+  - name: getPayeeDetail
+    description: "Get Payee Detail"
+    source_operation: openapi/commonwealth-bank-cdr-payees-openapi.json#getPayeeDetail
+  - name: listProducts
+    description: "Get Products"
+    source_operation: openapi/commonwealth-bank-cdr-products-openapi.json#listProducts
+  - name: getProductDetail
+    description: "Get Product Detail"
+    source_operation: openapi/commonwealth-bank-cdr-products-openapi.json#getProductDetail
+  - name: listDirectDebits
+    description: "Get Direct Debits For Account"
+    source_operation: openapi/commonwealth-bank-cdr-regular-payments-openapi.json#listDirectDebits
+  - name: listDirectDebitsBulk
+    description: "Get Bulk Direct Debits"
+    source_operation: openapi/commonwealth-bank-cdr-regular-payments-openapi.json#listDirectDebitsBulk
+  - name: listDirectDebitsSpecificAccounts
+    description: "Get Direct Debits For Specific Accounts"
+    source_operation: openapi/commonwealth-bank-cdr-regular-payments-openapi.json#listDirectDebitsSpecificAccounts
+  - name: listScheduledPayments
+    description: "Get Scheduled Payments for Account"
+    source_operation: openapi/commonwealth-bank-cdr-regular-payments-openapi.json#listScheduledPayments
+  - name: listScheduledPaymentsBulk
+    description: "Get Scheduled Payments Bulk"
+    source_operation: openapi/commonwealth-bank-cdr-regular-payments-openapi.json#listScheduledPaymentsBulk
+  - name: listScheduledPaymentsSpecificAccounts
+    description: "Get Scheduled Payments For Specific Accounts"
+    source_operation: openapi/commonwealth-bank-cdr-regular-payments-openapi.json#listScheduledPaymentsSpecificAccounts
+  - name: getTransactions
+    description: "Get Transactions"
+    source_operation: openapi/commonwealth-bank-cdr-transactions-openapi.json#getTransactions
+  - name: getTransactionDetail
+    description: "Get Transaction detail"
+    source_operation: openapi/commonwealth-bank-cdr-transactions-openapi.json#getTransactionDetail
+  - name: listBankingAccounts
+    description: "Get Accounts"
+    source_operation: openapi/commonwealth-bank-cds-banking-openapi.json#listBankingAccounts
+  - name: listBankingBalancesBulk
+    description: "Get Bulk Balances"
+    source_operation: openapi/commonwealth-bank-cds-banking-openapi.json#listBankingBalancesBulk
+  - name: listBankingBalancesSpecificAccounts
+    description: "Get Balances For Specific Accounts"
+    source_operation: openapi/commonwealth-bank-cds-banking-openapi.json#listBankingBalancesSpecificAccounts
+  - name: getBankingBalance
+    description: "Get Account Balance"
+    source_operation: openapi/commonwealth-bank-cds-banking-openapi.json#getBankingBalance
+  - name: getBankingAccountDetail
+    description: "Get Account Detail"
+    source_operation: openapi/commonwealth-bank-cds-banking-openapi.json#getBankingAccountDetail
+  - name: listBankingTransactions
+    description: "Get Transactions For Account"
+    source_operation: openapi/commonwealth-bank-cds-banking-openapi.json#listBankingTransactions
+  - name: getBankingTransactionDetail
+    description: "Get Transaction Detail"
+    source_operation: openapi/commonwealth-bank-cds-banking-openapi.json#getBankingTransactionDetail
+  - name: listInstalmentPlans
+    description: "Get Instalment Plans for Account"
+    source_operation: openapi/commonwealth-bank-cds-banking-openapi.json#listInstalmentPlans
+  - name: listInstalmentPlansBulk
+    description: "Get Instalment Plans Bulk"
+    source_operation: openapi/commonwealth-bank-cds-banking-openapi.json#listInstalmentPlansBulk
+  - name: listBankingPayees
+    description: "Get Payees"
+    source_operation: openapi/commonwealth-bank-cds-banking-openapi.json#listBankingPayees
+  - name: getBankingPayeeDetail
+    description: "Get Payee Detail"
+    source_operation: openapi/commonwealth-bank-cds-banking-openapi.json#getBankingPayeeDetail
+  - name: listBankingProducts
+    description: "Get Products"
+    source_operation: openapi/commonwealth-bank-cds-banking-openapi.json#listBankingProducts
+  - name: getBankingProductDetail
+    description: "Get Product Detail"
+    source_operation: openapi/commonwealth-bank-cds-banking-openapi.json#getBankingProductDetail

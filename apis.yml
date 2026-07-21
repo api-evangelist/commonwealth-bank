@@ -50,6 +50,8 @@ apis:
         type: APIReference
       - url: openapi/commonwealth-bank-cdr-products-openapi.json
         type: OpenAPI
+      - url: overlays/commonwealth-bank-cdr-products-overlay.yaml
+        type: Overlay
       - url: https://www.commbank.com.au/banking/open-banking.html
         type: Standards
     description: >-
@@ -84,8 +86,12 @@ apis:
         type: APIReference
       - url: openapi/commonwealth-bank-cdr-accounts-openapi.json
         type: OpenAPI
+      - url: overlays/commonwealth-bank-cdr-accounts-overlay.yaml
+        type: Overlay
       - url: openapi/commonwealth-bank-cdr-balances-openapi.json
         type: OpenAPI
+      - url: overlays/commonwealth-bank-cdr-balances-overlay.yaml
+        type: Overlay
     description: >-
       Consumer-AUTHORIZED CDR surface covering the DSB Get Accounts, Get Account
       Detail, Get Bulk Balances and Get Account Balance contracts
@@ -114,6 +120,8 @@ apis:
         type: APIReference
       - url: openapi/commonwealth-bank-cdr-transactions-openapi.json
         type: OpenAPI
+      - url: overlays/commonwealth-bank-cdr-transactions-overlay.yaml
+        type: Overlay
     description: >-
       Consumer-AUTHORIZED CDR surface covering the DSB Get Transactions For
       Account and Get Transaction Detail contracts
@@ -143,6 +151,8 @@ apis:
         type: APIReference
       - url: openapi/commonwealth-bank-cdr-regular-payments-openapi.json
         type: OpenAPI
+      - url: overlays/commonwealth-bank-cdr-regular-payments-overlay.yaml
+        type: Overlay
     description: >-
       Consumer-AUTHORIZED CDR surface covering the DSB Get Direct Debits,
       Get Bulk Direct Debits, Get Scheduled Payments and Get Bulk Scheduled
@@ -171,6 +181,8 @@ apis:
         type: APIReference
       - url: openapi/commonwealth-bank-cdr-payees-openapi.json
         type: OpenAPI
+      - url: overlays/commonwealth-bank-cdr-payees-overlay.yaml
+        type: Overlay
     description: >-
       Consumer-AUTHORIZED CDR surface covering the DSB Get Payees and Get Payee
       Detail contracts (/banking/payees and /banking/payees/{payeeId}), exposing
@@ -197,6 +209,8 @@ apis:
         type: APIReference
       - url: openapi/commonwealth-bank-cdr-customer-openapi.json
         type: OpenAPI
+      - url: overlays/commonwealth-bank-cdr-customer-overlay.yaml
+        type: Overlay
     description: >-
       Consumer-AUTHORIZED CDR Common surface covering the DSB Get Customer and
       Get Customer Detail contracts (/common/customer and
@@ -223,6 +237,8 @@ apis:
         type: APIReference
       - url: openapi/commonwealth-bank-cds-banking-openapi.json
         type: OpenAPI
+      - url: overlays/commonwealth-bank-cds-banking-overlay.yaml
+        type: Overlay
       - url: https://www.commbank.com.au/banking/open-banking.html
         type: Documentation
     description: >-
@@ -453,8 +469,36 @@ apis:
       partner discounts, fee waivers, and home loan benefits surfaced
       through the CommBank mobile app.
 common:
+  - type: AgenticAccess
+    url: agentic-access/commonwealth-bank-agentic-access.yml
   - type: DomainSecurity
     url: security/commonwealth-bank-domain-security.yml
+  - type: Authentication
+    url: authentication/commonwealth-bank-authentication.yml
+  - type: OAuthScopes
+    url: scopes/commonwealth-bank-scopes.yml
+  - type: Conventions
+    url: conventions/commonwealth-bank-conventions.yml
+  - type: ErrorCatalog
+    url: errors/commonwealth-bank-problem-types.yml
+  - type: Lifecycle
+    url: lifecycle/commonwealth-bank-lifecycle.yml
+  - type: StatusPage
+    url: https://www.commbank.com.au/developer/Documentation/specification/Discovery
+  - type: Deprecation
+    url: https://consumerdatastandardsaustralia.github.io/standards/
+  - type: Conformance
+    url: conformance/commonwealth-bank-conformance.yml
+  - type: Compliance
+    url: https://www.commbank.com.au/banking/open-banking.html
+  - type: DataModel
+    url: data-model/commonwealth-bank-data-model.yml
+  - type: MCPServer
+    url: mcp/commonwealth-bank-mcp.yml
+  - type: AgentSkill
+    url: skills/_index.yml
+  - type: LLMsTxt
+    url: llms/commonwealth-bank-llms.txt
   - type: DeveloperPortal
     url: https://www.commbank.com.au/developer
   - type: Portal

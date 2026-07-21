@@ -1,0 +1,51 @@
+generated: '2026-07-21'
+method: searched
+source: >-
+  Consumer Data Standards Australia (DSB) — CDR Banking authorisation scopes.
+  CommBank, as a designated CDR Data Holder, implements the standardised CDR
+  scope set for consumer-consented data sharing. The harvested Swagger specs do
+  not declare oauth2 flows, so scopes are authored from the CDR standard.
+docs: https://consumerdatastandardsaustralia.github.io/standards/#authorisation-scopes
+flow: authorizationCode
+notes: >-
+  CDR scopes map to data clusters presented to the consumer during consent. The
+  public Product Reference Data surface needs no scope. openid is required for
+  the OIDC authorisation.
+scopes:
+  - scope: openid
+    description: OpenID Connect authentication of the consumer during the CDR consent flow.
+    data_cluster: identity
+  - scope: profile
+    description: Standard OIDC profile claims.
+    data_cluster: identity
+  - scope: bank:accounts.basic:read
+    description: Account name, type, and balance (basic account data cluster).
+    data_cluster: account-basic
+    operations: [listAccounts, listBankingAccounts]
+  - scope: bank:accounts.detail:read
+    description: Account numbers and detailed features (detailed account data cluster).
+    data_cluster: account-detail
+    operations: [getAccountDetail, getBankingAccountDetail]
+  - scope: bank:transactions:read
+    description: Transactions and details for authorised accounts.
+    data_cluster: transactions
+    operations: [getTransactions, getTransactionDetail, listBankingTransactions, getBankingTransactionDetail]
+  - scope: bank:payees:read
+    description: Saved payees (payee data cluster).
+    data_cluster: payees
+    operations: [listPayees, getPayeeDetail, listBankingPayees, getBankingPayeeDetail]
+  - scope: bank:regular_payments:read
+    description: Direct debits and scheduled/recurring payments.
+    data_cluster: regular-payments
+    operations: [listDirectDebits, listDirectDebitsBulk, listScheduledPayments, listScheduledPaymentsBulk]
+  - scope: common:customer.basic:read
+    description: Customer name and occupation (basic customer data cluster).
+    data_cluster: customer-basic
+    operations: [getCustomer]
+  - scope: common:customer.detail:read
+    description: Customer contact details (detailed customer data cluster).
+    data_cluster: customer-detail
+    operations: [getCustomerDetail]
+  - scope: cdr:registration
+    description: Dynamic client registration management for the ADR software product.
+    data_cluster: registration

@@ -1,0 +1,19 @@
+overlay: 1.0.0
+info:
+  title: API Evangelist enhancements for CommBank Balances API
+  version: 1.0.0
+extends: openapi/commonwealth-bank-cdr-balances-openapi.json
+actions:
+  - target: $.info
+    update:
+      x-apievangelist-enriched: '2026-07-21'
+      x-apievangelist-provider: commonwealth-bank
+      x-apievangelist-standard: CDR Consumer Data Standards (Banking)
+      x-apievangelist-auth: >-
+        CDR ADR OAuth2 authorization_code + OIDC/FAPI 1.0 Advanced, mTLS +
+        private_key_jwt client auth (public Products surface is unauthenticated).
+  - target: $.info
+    update:
+      x-apievangelist-conventions: conventions/commonwealth-bank-conventions.yml
+      x-apievangelist-errors: errors/commonwealth-bank-problem-types.yml
+      x-apievangelist-authentication: authentication/commonwealth-bank-authentication.yml

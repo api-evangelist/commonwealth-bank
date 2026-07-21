@@ -1,0 +1,73 @@
+generated: '2026-07-21'
+method: derived
+source: openapi/ 4xx/5xx responses (CDR Banking specs)
+format: cds-response-error-list
+envelope:
+  schema: ResponseErrorList
+  shape: '{ "errors": [ { "code": "<urn:au-cds:error:...>", "title": "...", "detail": "...", "meta": {} } ] }'
+  reference: https://consumerdatastandardsaustralia.github.io/standards/#error-codes
+notes: >-
+  CDR Banking does NOT use RFC 9457 application/problem+json. Errors are returned
+  as a Consumer Data Standards ResponseErrorList with an errors[] array; each
+  error carries a URN-form code (urn:au-cds:error:...), a title, and a detail.
+problems:
+  - status: 400
+    meaning: "Bad Request \u2014 malformed request or invalid field/header value (CDR urn:au-cds:error:cds-all:Field/Invalid or Header/Invalid)."
+    occurrences: 37
+    source_operations:
+      - openapi/commonwealth-bank-cdr-accounts-openapi.json#getAccountDetail
+      - openapi/commonwealth-bank-cdr-accounts-openapi.json#listAccounts
+      - openapi/commonwealth-bank-cdr-balances-openapi.json#getBalances
+      - openapi/commonwealth-bank-cdr-balances-openapi.json#listBalancesBulk
+      - openapi/commonwealth-bank-cdr-balances-openapi.json#listBalancesSpecificAccounts
+      - openapi/commonwealth-bank-cdr-customer-openapi.json#getCustomer
+  - status: 404
+    meaning: "Not Found \u2014 the requested resource (account, payee, product, transaction) is unavailable or unauthorised for this consent (urn:au-cds:error:cds-banking:Authorisation/... or cds-all:Resource/NotFound)."
+    occurrences: 11
+    source_operations:
+      - openapi/commonwealth-bank-cdr-payees-openapi.json#getPayeeDetail
+      - openapi/commonwealth-bank-cdr-payees-openapi.json#listPayees
+      - openapi/commonwealth-bank-cds-banking-openapi.json#getBankingAccountDetail
+      - openapi/commonwealth-bank-cds-banking-openapi.json#getBankingBalance
+      - openapi/commonwealth-bank-cds-banking-openapi.json#getBankingPayeeDetail
+      - openapi/commonwealth-bank-cds-banking-openapi.json#getBankingProductDetail
+  - status: 406
+    meaning: "Not Acceptable \u2014 unsupported or missing x-v version header (urn:au-cds:error:cds-all:Header/InvalidVersion or Header/Missing)."
+    occurrences: 38
+    source_operations:
+      - openapi/commonwealth-bank-cdr-accounts-openapi.json#getAccountDetail
+      - openapi/commonwealth-bank-cdr-accounts-openapi.json#listAccounts
+      - openapi/commonwealth-bank-cdr-balances-openapi.json#getBalances
+      - openapi/commonwealth-bank-cdr-balances-openapi.json#listBalancesBulk
+      - openapi/commonwealth-bank-cdr-balances-openapi.json#listBalancesSpecificAccounts
+      - openapi/commonwealth-bank-cdr-customer-openapi.json#getCustomer
+  - status: 422
+    meaning: "Unprocessable Entity \u2014 request understood but a supplied identifier/account in a bulk POST could not be processed (urn:au-cds:error:cds-all:Field/Invalid)."
+    occurrences: 30
+    source_operations:
+      - openapi/commonwealth-bank-cdr-accounts-openapi.json#getAccountDetail
+      - openapi/commonwealth-bank-cdr-accounts-openapi.json#listAccounts
+      - openapi/commonwealth-bank-cdr-balances-openapi.json#getBalances
+      - openapi/commonwealth-bank-cdr-balances-openapi.json#listBalancesBulk
+      - openapi/commonwealth-bank-cdr-balances-openapi.json#listBalancesSpecificAccounts
+      - openapi/commonwealth-bank-cdr-payees-openapi.json#getPayeeDetail
+  - status: 429
+    meaning: "Too Many Requests \u2014 CDR traffic-threshold / rate limit exceeded; retry after backoff."
+    occurrences: 14
+    source_operations:
+      - openapi/commonwealth-bank-cdr-balances-openapi.json#getBalances
+      - openapi/commonwealth-bank-cdr-balances-openapi.json#listBalancesBulk
+      - openapi/commonwealth-bank-cdr-customer-openapi.json#getCustomer
+      - openapi/commonwealth-bank-cdr-customer-openapi.json#getCustomerDetail
+      - openapi/commonwealth-bank-cdr-products-openapi.json#getProductDetail
+      - openapi/commonwealth-bank-cdr-products-openapi.json#listProducts
+  - status: 500
+    meaning: "Internal Server Error \u2014 unexpected server error (urn:au-cds:error:cds-all:GeneralError/Unexpected)."
+    occurrences: 19
+    source_operations:
+      - openapi/commonwealth-bank-cdr-accounts-openapi.json#getAccountDetail
+      - openapi/commonwealth-bank-cdr-accounts-openapi.json#listAccounts
+      - openapi/commonwealth-bank-cdr-balances-openapi.json#getBalances
+      - openapi/commonwealth-bank-cdr-balances-openapi.json#listBalancesBulk
+      - openapi/commonwealth-bank-cdr-balances-openapi.json#listBalancesSpecificAccounts
+      - openapi/commonwealth-bank-cdr-customer-openapi.json#getCustomer

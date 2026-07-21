@@ -1,0 +1,60 @@
+generated: '2026-07-21'
+method: searched
+source: >-
+  Consumer Data Standards Australia CDR Banking v1.36.0 (HTTP headers, pagination,
+  error) + CommBank developer portal. Derived from openapi/ global parameters.
+authentication:
+  style: >-
+    CDR ADR OAuth2 authorization_code + OIDC/FAPI for authorised endpoints; public
+    Product Reference Data is unauthenticated. See
+    authentication/commonwealth-bank-authentication.yml and
+    scopes/commonwealth-bank-scopes.yml.
+versioning:
+  style: header
+  request_header: x-v
+  min_version_header: x-min-v
+  response_header: x-v
+  note: >-
+    Every endpoint is versioned via the mandatory x-v request header; omitting or
+    sending an unsupported version returns HTTP 406. x-min-v allows negotiating an
+    acceptable range. This is CDR's endpoint-level versioning (not URI-path).
+idempotency:
+  supported: false
+  note: >-
+    The harvested CDR data-sharing surface is read-only (GET plus bulk-read POST
+    for balances/direct-debits/scheduled-payments); the CDR Banking standard
+    defines no Idempotency-Key contract for these endpoints.
+pagination:
+  style: page-number
+  params: [page, page-size]
+  page_size_max: 1000
+  response_links: {self: true, first: true, prev: true, next: true, last: true}
+  response_meta: [totalRecords, totalPages]
+  envelope: 'Links (LinksPaginated) + Meta (MetaPaginated) alongside data'
+request_tracing:
+  headers:
+    - x-fapi-interaction-id
+    - x-fapi-auth-date
+    - x-fapi-customer-ip-address
+    - x-cds-client-headers
+  note: >-
+    x-fapi-interaction-id is echoed on the response for correlation; the x-fapi-*
+    headers are the CDR/FAPI request-context headers.
+content_negotiation:
+  accept: application/json
+  note: CDR responses are application/json; there is no application/problem+json.
+error_envelope:
+  shape: '{ "errors": [ { "code": "<urn:au-cds:error:...>", "title": "...", "detail": "...", "meta": {} } ] }'
+  format: cds-response-error-list
+  ref: errors/commonwealth-bank-problem-types.yml
+rate_limiting:
+  signalled: true
+  status: 429
+  note: >-
+    Endpoints return HTTP 429 when CDR traffic thresholds are exceeded; CDR
+    defines tiered transaction thresholds per session/customer for Data Holders.
+cross_links:
+  authentication: authentication/commonwealth-bank-authentication.yml
+  scopes: scopes/commonwealth-bank-scopes.yml
+  errors: errors/commonwealth-bank-problem-types.yml
+  lifecycle: lifecycle/commonwealth-bank-lifecycle.yml

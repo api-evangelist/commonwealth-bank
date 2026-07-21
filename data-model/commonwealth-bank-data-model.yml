@@ -1,0 +1,122 @@
+generated: '2026-07-21'
+method: derived
+source: openapi/commonwealth-bank-cds-banking-openapi.json ($ref graph)
+notes: >-
+  Entity-relationship graph derived from the CDR Banking v1.36.0 component
+  schemas. Domains: Accounts, Balances, Transactions, Direct Debits, Scheduled
+  Payments, Payees, Products, Instalment Plans, Common Customer.
+schema_count: 107
+entities:
+  - name: BankingAccountV3
+    domain: banking
+  - name: BankingAccountDetailV5
+    domain: banking
+  - name: BankingBalance
+    domain: banking
+  - name: BankingTransactionV2
+    domain: banking
+  - name: BankingDirectDebit
+    domain: banking
+  - name: BankingPayeeV2
+    domain: banking
+  - name: BankingPayeeDetailV2
+    domain: banking
+  - name: BankingProductV6
+    domain: banking
+  - name: BankingProductDetailV7
+    domain: banking
+  - name: BankingInstalmentPlan
+    domain: banking
+relationships:
+  - from: BankingAccountV3
+    to: BankingAccountId
+    kind: has_one
+    via: $ref
+  - from: BankingAccountV3
+    to: BankingProductCategoryV2
+    kind: has_one
+    via: $ref
+  - from: BankingAccountDetailV5
+    to: BankingAccountDetailV5_allOf
+    kind: has_one
+    via: $ref
+  - from: BankingAccountDetailV5
+    to: BankingAccountV3
+    kind: has_one
+    via: $ref
+  - from: BankingBalance
+    to: BankingAccountId
+    kind: has_one
+    via: $ref
+  - from: BankingBalance
+    to: BankingBalancePurse
+    kind: has_one
+    via: $ref
+  - from: BankingTransactionV2
+    to: BankingAccountId
+    kind: has_one
+    via: $ref
+  - from: BankingTransactionV2
+    to: BankingInstalmentPlanId
+    kind: has_one
+    via: $ref
+  - from: BankingTransactionV2
+    to: BankingTransactionId
+    kind: has_one
+    via: $ref
+  - from: BankingDirectDebit
+    to: BankingAccountId
+    kind: has_one
+    via: $ref
+  - from: BankingDirectDebit
+    to: BankingAuthorisedEntity
+    kind: has_one
+    via: $ref
+  - from: BankingPayeeV2
+    to: BankingPayeeId
+    kind: has_one
+    via: $ref
+  - from: BankingPayeeDetailV2
+    to: BankingPayeeDetailV2_allOf
+    kind: has_one
+    via: $ref
+  - from: BankingPayeeDetailV2
+    to: BankingPayeeV2
+    kind: has_one
+    via: $ref
+  - from: BankingProductV6
+    to: BankingProductAdditionalInformationV2
+    kind: has_one
+    via: $ref
+  - from: BankingProductV6
+    to: BankingProductCardArt
+    kind: has_one
+    via: $ref
+  - from: BankingProductV6
+    to: BankingProductCategoryV2
+    kind: has_one
+    via: $ref
+  - from: BankingProductV6
+    to: BankingProductId
+    kind: has_one
+    via: $ref
+  - from: BankingProductDetailV7
+    to: BankingProductDetailV7_allOf
+    kind: has_one
+    via: $ref
+  - from: BankingProductDetailV7
+    to: BankingProductV6
+    kind: has_one
+    via: $ref
+  - from: BankingInstalmentPlan
+    to: BankingAccountId
+    kind: has_one
+    via: $ref
+  - from: BankingInstalmentPlan
+    to: BankingInstalmentPlanId
+    kind: has_one
+    via: $ref
+  - from: BankingInstalmentPlan
+    to: BankingInstalmentPlanSchedule
+    kind: has_one
+    via: $ref

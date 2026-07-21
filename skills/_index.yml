@@ -1,0 +1,16 @@
+generated: '2026-07-21'
+method: generated
+source: openapi/ (operationIds verified) + conventions/ + errors/
+skills:
+  - file: commonwealth-bank-product-reference-data.md
+    name: Fetch CommBank product reference data
+    api: openapi/commonwealth-bank-cdr-products-openapi.json
+    operations: [listProducts, getProductDetail]
+  - file: commonwealth-bank-accounts-and-balances.md
+    name: List CommBank accounts and balances
+    api: openapi/commonwealth-bank-cdr-accounts-openapi.json
+    operations: [listAccounts, getAccountDetail, listBalancesBulk, getBalances, listBalancesSpecificAccounts]
+  - file: commonwealth-bank-transactions.md
+    name: Retrieve CommBank account transactions
+    api: openapi/commonwealth-bank-cdr-transactions-openapi.json
+    operations: [getTransactions, getTransactionDetail]

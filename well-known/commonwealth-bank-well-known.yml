@@ -1,0 +1,33 @@
+generated: '2026-07-21'
+method: searched
+source: live probes of CommBank hosts (2026-07-21)
+notes: >-
+  No public /.well-known/ discovery document was retrievable. The corporate hosts
+  return 404; the public API host is WAF-gated (403 to unauthenticated probes);
+  the secure ADR host presents a client-cert-constrained TLS endpoint. CDR OIDC
+  discovery for Data Holders is published under the CDR infosec base URI reached
+  through the ADR registration channel, not an open /.well-known path. Empty is a
+  valid, expected result for a CDR Data Holder.
+hosts:
+  - host: https://api.commbank.com.au
+    documents:
+      - {path: /.well-known/openid-configuration, status: 403}
+      - {path: /.well-known/oauth-authorization-server, status: 403}
+      - {path: /.well-known/security.txt, status: 403}
+      - {path: /.well-known/api-catalog, status: 403}
+  - host: https://secure.api.commbank.com.au
+    documents:
+      - {path: /.well-known/openid-configuration, status: tls-client-cert-required}
+  - host: https://www.commbank.com.au
+    documents:
+      - {path: /.well-known/openid-configuration, status: 404}
+      - {path: /.well-known/security.txt, status: 404}
+      - {path: /.well-known/api-catalog, status: 404}
+  - host: https://developer.api.commbank.com.au
+    documents:
+      - {path: /.well-known/openid-configuration, status: 404}
+      - {path: /.well-known/security.txt, status: 404}
+      - {path: /.well-known/api-catalog, status: 404}
+cdr_discovery:
+  status_api: https://api.commbank.com.au/public/cds-au/v1/discovery/status
+  outages_api: https://api.commbank.com.au/public/cds-au/v1/discovery/outages
