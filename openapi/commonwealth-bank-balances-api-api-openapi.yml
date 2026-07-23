@@ -1,0 +1,721 @@
+swagger: '2.0'
+info:
+  version: ''
+  title: CommBank Accounts Accounts API Balances API API
+  description: "Obtain the list of accounts authorised to be shared by the customer. \n\nAccount API is a consumer API. To access data you'll need the customer's consent.</p><h3 style=\"margin-top:30px;\">Host URL</h3><p>CommBank requests are passed to the URL <span class=\"sc-1noysbl-9 JKaaQ\">https://secure.api.commbank.com.au/api/cds-au/v1/banking</span></p><p>CBA – CommBiz requests are passed to the URL <span class=\"sc-1noysbl-9 JKaaQ\">https://secure.cdr.commbiz.api.commbank.com.au/cbzapi/cds-au/v1/banking</span></p>"
+  x-provenance: First-party CommBank OpenAPI (Swagger 2.0) harvested verbatim from the CommBank developer portal. These are Commonwealth Bank's own renderings of its CDR / Open Banking Consumer Data Standards endpoints.
+  x-source-url: https://www.commbank.com.au/developer/Documentation/specification/Accounts
+  x-doc-url: https://www.commbank.com.au/developer/documentation/Accounts
+  x-harvested: '2026-07-21'
+host: secure.api.commbank.com.au
+basePath: /api/cds-au/v1/banking
+schemes:
+- https
+tags:
+- name: Balances API
+  description: "Obtain the balance for a single specified account. \n\nBalances API is a consumer API. To access data you'll need the customer's consent.</p><h3 style=\"margin-top:30px;\">Host URL</h3><p>CommBank requests are passed to the URL <span class=\"sc-1noysbl-9 JKaaQ\">https://secure.api.commbank.com.au/api/cds-au/v1/banking</span></p><p>CBA – CommBiz requests are passed to the URL <span class=\"sc-1noysbl-9 JKaaQ\">https://secure.cdr.commbiz.api.commbank.com.au/cbzapi/cds-au/v1/banking</span></p>"
+paths:
+  /accounts/{accountId}/balance:
+    get:
+      summary: Get Balances
+      description: Obtain the balance of a specified account
+      operationId: getBalances
+      tags:
+      - Balances API
+      consumes:
+      - application/json
+      produces:
+      - application/json
+      parameters:
+      - name: accountId
+        in: path
+        description: ID of the specific account requested.
+        required: true
+        type: string
+        x-cds-type: ASCIIString
+      - $ref: '#/parameters/ParamAcceptHeader'
+      - $ref: '#/parameters/ParamXVHeader'
+      - $ref: '#/parameters/ParamXMinVHeader'
+      - $ref: '#/parameters/ParamXFapiAuthDate'
+      - $ref: '#/parameters/ParamXFapiInterationId'
+      - $ref: '#/parameters/ParamXFapiCustomerIpAddress'
+      - $ref: '#/parameters/ParamXCdsClientHeaders'
+      responses:
+        '200':
+          description: Success
+          headers:
+            Content-Type:
+              type: string
+              description: Payload format responded with.
+            x-v:
+              type: integer
+              description: Version of the API end point responded with.
+            x-fapi-interaction-id:
+              type: string
+              description: Reflects the value of the Interaction ID in the request.
+          schema:
+            $ref: '#/definitions/ResponseBankingAccountsBalanceById'
+        '400':
+          description: Bad Request
+          headers:
+            Content-Type:
+              type: string
+              description: Payload format responded with.
+            x-v:
+              type: integer
+              description: Version of the API end point responded with.
+            x-fapi-interaction-id:
+              type: string
+              description: Reflects the value of the Interaction ID in the request.
+          schema:
+            $ref: '#/definitions/ErrorResponse400'
+        '406':
+          description: Not Acceptable
+          headers:
+            Content-Type:
+              type: string
+              description: Payload format responded with.
+            x-v:
+              type: integer
+              description: Version of the API end point responded with.
+            x-fapi-interaction-id:
+              type: string
+              description: Reflects the value of the Interaction ID in the request.
+          schema:
+            $ref: '#/definitions/ErrorResponse406'
+        '422':
+          description: Unprocessable Entity
+          headers:
+            Content-Type:
+              type: string
+              description: Payload format responded with.
+            x-v:
+              type: integer
+              description: Version of the API end point responded with.
+            x-fapi-interaction-id:
+              type: string
+              description: Reflects the value of the Interaction ID in the request.
+          schema:
+            $ref: '#/definitions/ErrorResponse422'
+        '429':
+          description: Too Many Requests
+          headers:
+            Content-Type:
+              type: string
+              description: Payload format responded with.
+            Retry-After:
+              type: integer
+              description: Amount of time the client should wait before re-trying the operation.
+            x-v:
+              type: integer
+              description: Version of the API end point responded with.
+            x-fapi-interaction-id:
+              type: string
+              description: Reflects the value of the Interaction ID in the request.
+          schema:
+            $ref: '#/definitions/ResponseNoBody'
+        '500':
+          description: Internal Server Error
+          headers:
+            Content-Type:
+              type: string
+              description: Payload format responded with.
+            x-v:
+              type: integer
+              description: Version of the API end point responded with.
+            x-fapi-interaction-id:
+              type: string
+              description: Reflects the value of the Interaction ID in the request.
+          schema:
+            $ref: '#/definitions/ErrorResponse500'
+  /accounts/balances:
+    get:
+      tags:
+      - Balances API
+      consumes:
+      - application/json
+      produces:
+      - application/json
+      summary: Get Bulk Balances
+      description: Obtain balances for multiple, filtered accounts
+      operationId: listBalancesBulk
+      parameters:
+      - name: product-category
+        in: query
+        description: Used to filter results on the productCategory field applicable to accounts. If absent then all accounts returned.
+        required: false
+        type: string
+        enum:
+        - TRANS_AND_SAVINGS_ACCOUNTS
+        - TERM_DEPOSITS
+        - TRAVEL_CARDS
+        - REGULATED_TRUST_ACCOUNTS
+        - RESIDENTIAL_MORTGAGES
+        - CRED_AND_CHRG_CARDS
+        - PERS_LOANS
+        - MARGIN_LOANS
+        - LEASES
+        - TRADE_FINANCE
+        - OVERDRAFTS
+        - BUSINESS_LOANS
+      - name: open-status
+        in: query
+        description: Used to filter results according to open/closed status. If absent then ALL is assumed
+        required: false
+        type: string
+        default: ALL
+        enum:
+        - OPEN
+        - CLOSED
+        - ALL
+      - name: is-owned
+        in: query
+        description: Filters accounts based on whether they are owned by the authorised customer.  True for owned accounts, false for unowned accounts and absent for all accounts
+        required: false
+        type: boolean
+        x-cds-type: Boolean
+      - $ref: '#/parameters/ParamPage'
+      - $ref: '#/parameters/ParamPageSize'
+      - $ref: '#/parameters/ParamXVHeader'
+      - $ref: '#/parameters/ParamXMinVHeader'
+      - $ref: '#/parameters/ParamXFapiAuthDate'
+      - $ref: '#/parameters/ParamXFapiInterationId'
+      - $ref: '#/parameters/ParamXFapiCustomerIpAddress'
+      - $ref: '#/parameters/ParamXCdsClientHeaders'
+      responses:
+        '200':
+          description: Success
+          headers:
+            Content-Type:
+              type: string
+              description: Payload format responded with.
+            x-v:
+              type: integer
+              description: Version of the API end point responded with.
+            x-fapi-interaction-id:
+              type: string
+              description: Reflects the value of the Interaction ID in the request.
+          schema:
+            $ref: '#/definitions/ResponseBankingAccountsBalanceList'
+        '400':
+          description: Bad Request
+          headers:
+            Content-Type:
+              type: string
+              description: Payload format responded with.
+            x-v:
+              type: integer
+              description: Version of the API end point responded with.
+            x-fapi-interaction-Id:
+              type: string
+              description: Reflects the value of the Interaction ID in the request.
+          schema:
+            $ref: '#/definitions/ErrorResponse400'
+        '406':
+          description: Not Acceptable
+          headers:
+            Content-Type:
+              type: string
+              description: Payload format responded with.
+            x-v:
+              type: integer
+              description: Version of the API end point responded with.
+            x-fapi-interaction-id:
+              type: string
+              description: Reflects the value of the Interaction ID in the request.
+          schema:
+            $ref: '#/definitions/ErrorResponse406'
+        '422':
+          description: Unprocessable Entity
+          headers:
+            Content-Type:
+              type: string
+              description: Payload format responded with.
+            x-v:
+              type: integer
+              description: Version of the API end point responded with.
+            x-fapi-interaction-id:
+              type: string
+              description: Reflects the value of the Interaction ID in the request.
+          schema:
+            $ref: '#/definitions/ErrorResponse422'
+        '429':
+          description: Too Many Requests
+          headers:
+            Content-Type:
+              type: string
+              description: Payload format responded with.
+            Retry-After:
+              type: integer
+              description: Amount of time the client should wait before re-trying the operation.
+            x-v:
+              type: integer
+              description: Version of the API end point responded with.
+            x-fapi-interaction-id:
+              type: string
+              description: Reflects the value of the Interaction ID in the request.
+          schema:
+            $ref: '#/definitions/ResponseNoBody'
+        '500':
+          description: Internal Server Error
+          headers:
+            Content-Type:
+              type: string
+              description: Payload format responded with.
+            x-v:
+              type: integer
+              description: Version of the API end point responded with.
+            x-fapi-interaction-id:
+              type: string
+              description: Reflects the value of the Interaction ID in the request.
+          schema:
+            $ref: '#/definitions/ErrorResponse500'
+      x-scopes:
+      - bank:accounts.basic:read
+      x-version: '1'
+    post:
+      tags:
+      - Balances API
+      summary: Get Balances For Specific Accounts
+      description: Obtain balances for a specified list of accounts
+      operationId: listBalancesSpecificAccounts
+      parameters:
+      - in: body
+        name: accountIds
+        description: The list of account IDs to obtain balances for
+        required: true
+        schema:
+          $ref: '#/definitions/RequestAccountIds'
+      - $ref: '#/parameters/ParamPage'
+      - $ref: '#/parameters/ParamPageSize'
+      - $ref: '#/parameters/ParamXVHeader'
+      - $ref: '#/parameters/ParamXMinVHeader'
+      - $ref: '#/parameters/ParamXFapiAuthDate'
+      - $ref: '#/parameters/ParamXFapiInterationId'
+      - $ref: '#/parameters/ParamXFapiCustomerIpAddress'
+      - $ref: '#/parameters/ParamXCdsClientHeaders'
+      responses:
+        '200':
+          description: Success
+          headers:
+            x-v:
+              type: string
+              description: Version of the API end point that the data holder has responded with.
+            x-fapi-interaction-id:
+              type: string
+              description: Reflects the value of the Interaction ID in the request.
+          schema:
+            $ref: '#/definitions/ResponseBankingAccountsBalanceList'
+        '400':
+          description: Bad Request
+          headers:
+            Content-Type:
+              type: string
+              description: Payload format responded with.
+            x-v:
+              type: integer
+              description: Version of the API end point responded with.
+            x-fapi-interaction-id:
+              type: string
+              description: Reflects the value of the Interaction ID in the request.
+          schema:
+            $ref: '#/definitions/ErrorResponse400'
+        '406':
+          description: Not Acceptable
+          headers:
+            Content-Type:
+              type: string
+              description: Payload format responded with.
+            x-v:
+              type: integer
+              description: Version of the API end point responded with.
+            x-fapi-interaction-id:
+              type: string
+              description: Reflects the value of the Interaction ID in the request.
+          schema:
+            $ref: '#/definitions/ErrorResponse406'
+        '422':
+          description: Unprocessable Entity
+          headers:
+            Content-Type:
+              type: string
+              description: Payload format responded with.
+            x-v:
+              type: integer
+              description: Version of the API end point responded with.
+            x-fapi-interaction-id:
+              type: string
+              description: Reflects the value of the Interaction ID in the request.
+          schema:
+            $ref: '#/definitions/ErrorResponse422'
+        '500':
+          description: Internal Server Error
+          headers:
+            Content-Type:
+              type: string
+              description: Payload format responded with.
+            x-v:
+              type: integer
+              description: Version of the API end point responded with.
+            x-fapi-interaction-id:
+              type: string
+              description: Reflects the value of the Interaction ID in the request.
+          schema:
+            $ref: '#/definitions/ErrorResponse500'
+      x-scopes:
+      - bank:accounts.basic:read
+      x-version: '1'
+definitions:
+  BankingBalancePurse:
+    type: object
+    required:
+    - amount
+    properties:
+      amount:
+        type: string
+        description: The balance available for this additional currency purse
+        x-cds-type: AmountString
+      currency:
+        type: string
+        description: The currency for the purse
+        x-cds-type: CurrencyString
+  LinksPaginated:
+    type: object
+    required:
+    - self
+    x-conditional:
+    - prev
+    - next
+    - first
+    - last
+    properties:
+      self:
+        type: string
+        description: Fully qualified link to this API call.
+      first:
+        type: string
+        description: URI to the first page of this set.
+      prev:
+        type: string
+        description: URI to the previous page of this set.
+      next:
+        type: string
+        description: URI to the next page of this set.
+      last:
+        type: string
+        description: URI to the last page of this set.
+  ResponseNoBody:
+    type: object
+    properties: {}
+    example: {}
+  ResponseBankingAccountsBalanceList:
+    type: object
+    required:
+    - data
+    - links
+    - meta
+    example:
+      data:
+        balances:
+        - accountId: 2M_8F2Q0aPjdPnO-FYMkt6fOBQNBPobNrXzAjwzrmWQ
+          currentBalance: '561950.07'
+          availableBalance: '561950.07'
+          currency: AUD
+        - accountId: 8L_GAHf3425ADFf-FYMkt6fOBQNBPobNrXzAjwzrmWQ
+          currentBalance: '32012.03'
+          availableBalance: '32012.037'
+          currency: AUD
+      links:
+        self: https://secure.api.commbank.com.au/api/cds-au/v1/banking/accounts/balances
+        first: https://secure.api.commbank.com.au/api/cds-au/v1/banking/accounts/balances?page=1&page-size=25
+        last: https://secure.api.commbank.com.au/api/cds-au/v1/banking/accounts/balances?page=1&page-size=25
+      meta:
+        totalRecords: 2
+        totalPages: 1
+    properties:
+      data:
+        $ref: '#/definitions/ResponseBankingAccountsBalanceList_data'
+      links:
+        $ref: '#/definitions/LinksPaginated'
+      meta:
+        $ref: '#/definitions/MetaPaginated'
+  RequestAccountIds:
+    type: object
+    required:
+    - data
+    example:
+      data:
+        accountIds:
+        - 2M_8F2Q0aPjdPnO-FYMkt6fOBQNBPobNrXzAjwzrmWQ
+        - 8L_GAHf3425ADFf-FYMkt6fOBQNBPobNrXzAjwzrmWQ
+      meta: {}
+    properties:
+      data:
+        $ref: '#/definitions/RequestAccountIds_data'
+      meta:
+        $ref: '#/definitions/Meta'
+  Links:
+    type: object
+    required:
+    - self
+    properties:
+      self:
+        type: string
+        description: Fully qualified link to this API call.
+  BankingBalance:
+    type: object
+    required:
+    - accountId
+    - availableBalance
+    - currentBalance
+    properties:
+      accountId:
+        type: string
+        description: A unique ID of the account adhering to the standards for ID permanence.
+        x-cds-type: ASCIIString
+      currentBalance:
+        type: string
+        description: The balance of the account at this time. Should align to the balance available via other channels such as Internet Banking. Assumed to be negative if the customer has money owing.
+        x-cds-type: AmountString
+      availableBalance:
+        type: string
+        description: Balance representing the amount of funds available for transfer. Assumed to be zero or positive.
+        x-cds-type: AmountString
+      creditLimit:
+        type: string
+        description: Object representing the maximum amount of credit that is available for this account. Assumed to be zero if absent.
+        x-cds-type: AmountString
+      amortisedLimit:
+        type: string
+        description: Object representing the available limit amortised according to payment schedule. Assumed to be zero if absent. <br><i>CommBank does not currently return this value.</i></br>
+        x-cds-type: AmountString
+      currency:
+        type: string
+        description: The currency for the balance amounts. If absent assumed to be AUD.
+        x-cds-type: CurrencyString
+      purses:
+        type: array
+        description: Optional array of balances for the account in other currencies. Included to support accounts that support multi-currency purses such as Travel Cards.
+        items:
+          $ref: '#/definitions/BankingBalancePurse'
+  MetaPaginated:
+    type: object
+    required:
+    - totalPages
+    - totalRecords
+    properties:
+      totalRecords:
+        type: integer
+        description: The total number of records in the full set. See [pagination](#pagination).
+        x-cds-type: NaturalNumber
+      totalPages:
+        type: integer
+        description: The total number of pages in the full set. See [pagination](#pagination).
+        x-cds-type: NaturalNumber
+  Error:
+    type: object
+    properties:
+      code:
+        type: string
+      title:
+        type: string
+      detail:
+        type: string
+  ResponseBankingAccountsBalanceList_data:
+    required:
+    - balances
+    properties:
+      balances:
+        type: array
+        description: The list of balances returned
+        items:
+          $ref: '#/definitions/BankingBalance'
+  ErrorResponse400:
+    type: object
+    properties:
+      errors:
+        uniqueItems: false
+        type: array
+        items:
+          $ref: '#/definitions/Error'
+    example:
+      errors:
+      - code: AA-BR-02
+        title: updated-since is invalid
+        detail: updated-since must be a valid date.
+      - code: AA-BR-03
+        title: effective is invalid
+        detail: effective must be either ALL, CURRENT or FUTURE.
+      - code: AA-BR-04
+        title: product-category is invalid
+        detail: product-category must be a valid enumeration.
+      - code: AA-BR-05
+        title: page is invalid
+        detail: page must be a number and must be greater than 0.
+      - code: AA-BR-06
+        title: '{field-name} is Invalid'
+        detail: Something is wrong with your request. Please check your query parameters and try again.
+      - code: AA-BR-07
+        title: brand is Invalid
+        detail: brand must be a valid value.
+  ErrorResponse422:
+    type: object
+    properties:
+      errors:
+        uniqueItems: false
+        type: array
+        items:
+          $ref: '#/definitions/Error'
+    example:
+      errors:
+      - code: AA-BR-01
+        title: page-size is invalid
+        detail: page-size must be a number and between 1 and 1000.
+  RequestAccountIds_data:
+    required:
+    - accountIds
+    properties:
+      accountIds:
+        type: array
+        items:
+          type: string
+          description: Array of specific accountIds to obtain authorisations for
+          x-cds-type: ASCIIString
+  ErrorResponse500:
+    type: object
+    properties:
+      errors:
+        uniqueItems: false
+        type: array
+        items:
+          $ref: '#/definitions/Error'
+    example:
+      errors:
+      - code: AA-IS-01
+        title: Server Error
+        detail: An error has occurred whilst processing your request. Please try again later.
+  Meta:
+    type: object
+    properties:
+      totalRecords:
+        type: integer
+        description: Total number of records in the full set.
+        example: 10
+      totalPages:
+        description: Total number of pages in the full set.
+        example: 10
+        type: integer
+  ResponseBankingAccountsBalanceById:
+    required:
+    - data
+    - links
+    properties:
+      data:
+        $ref: '#/definitions/BankingBalance'
+      links:
+        $ref: '#/definitions/Links'
+      meta:
+        $ref: '#/definitions/Meta'
+    example:
+      data:
+        accountId: 2M_8F2Q0aPjdPnO-FYMkt6fOBQNBPobNrXzAjwzrmWQ
+        currentBalance: '561950.07'
+        availableBalance: '561950.07'
+        currency: AUD
+      links:
+        self: https://secure.api.commbank.com.au/api/cds-au/v1/banking/accounts/balances
+      meta: {}
+  ErrorResponse406:
+    type: object
+    properties:
+      errors:
+        uniqueItems: false
+        type: array
+        items:
+          $ref: '#/definitions/Error'
+    example:
+      errors:
+      - code: AA-RH-01
+        title: Accept header is invalid
+        detail: Accept header must be application/json.
+      - code: AA-RH-02
+        title: Content-Type is invalid
+        detail: Content-Type header must be application/json.
+      - code: AA-RH-03
+        title: x-v is Invalid
+        detail: x-v header must be a supported version number.
+      - code: AA-RH-04
+        title: x-min-v is invalid
+        detail: x-min-v header must be a supported version number.
+parameters:
+  ParamXFapiCustomerIpAddress:
+    name: x-fapi-customer-ip-address
+    in: header
+    description: The customer's original IP address if the customer is currently logged in to the data recipient.
+    required: false
+    example: 192.168.1.1
+    type: string
+  ParamAcceptHeader:
+    name: Accept
+    in: header
+    description: Content-Type that is acceptable for the server's response.
+    type: string
+    enum:
+    - application/json
+    required: true
+  ParamXFapiAuthDate:
+    name: x-fapi-auth-date
+    in: header
+    description: The time when the customer last logged in to the data recipient.
+    required: false
+    example: '2002-10-03T01:00:00+10:00'
+    type: string
+  ParamPageSize:
+    name: page-size
+    in: query
+    description: Number of records to return with the page
+    required: false
+    type: integer
+    default: 25
+    maximum: 1000
+    minimum: 1
+  ParamPage:
+    name: page
+    in: query
+    description: Page number being requested
+    required: false
+    type: integer
+    default: 1
+  ParamXMinVHeader:
+    name: x-min-v
+    in: header
+    description: Minimum version of the API end point you are requesting.
+    type: integer
+    example: 1
+    required: false
+  ParamXCdsClientHeaders:
+    name: x-cds-client-headers
+    in: header
+    description: The customer's original standard http headers encoded, including the original User Agent header, if the customer is currently logged in to the data recipient.
+    required: false
+    example: Q3VzdG9tZXJzRGV2OkN1c3RvbWVyc0Rldg==
+    type: string
+    x-cds-type: Base64
+  ParamXFapiInterationId:
+    name: x-fapi-interaction-id
+    in: header
+    description: Reflects the value of the Interaction ID in the request.
+    required: false
+    example: f688ae24-9719-4975-9f58-f6b7e655c37d
+    type: string
+  ParamXVHeader:
+    name: x-v
+    in: header
+    description: Version of the API end point being requested.
+    type: integer
+    example: 1
+    required: false
+x-tagGroups:
+- name: ''
+  tags:
+  - Accounts API
