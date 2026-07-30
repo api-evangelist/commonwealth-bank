@@ -2,7 +2,19 @@ aid: commonwealth-bank
 url: https://raw.githubusercontent.com/api-evangelist/commonwealth-bank/refs/heads/main/apis.yml
 name: Commonwealth Bank
 kind: company
-image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
+accessModel:
+  pricing: unknown
+  onboarding: self-serve
+  trial: false
+  try_now: false
+  public: false
+  label: Self-serve signup
+  confidence: medium
+  source:
+  - authentication
+  generated: '2026-07-22'
+  method: derived
+image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/icons/commonwealth-bank.png
 tags:
   - Financial
   - Banks
@@ -32,442 +44,646 @@ created: '2026-05-05'
 modified: '2026-07-21'
 specificationVersion: '0.19'
 apis:
-  - aid: commonwealth-bank:cba-cdr-product-reference-data-api
-    name: Commonwealth Bank CDR Product Reference Data API
-    tags:
-      - CDR
-      - Open Banking
-      - Product Reference Data
-      - Banking
-      - Australia
-    image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
-    humanURL: https://www.commbank.com.au/developer/documentation/Products
-    baseURL: https://api.commbank.com.au/public/cds-au/v1/banking/products
-    properties:
-      - url: https://www.commbank.com.au/developer/documentation/Products
-        type: Documentation
-      - url: https://consumerdatastandardsaustralia.github.io/standards/
-        type: APIReference
-      - url: openapi/commonwealth-bank-cdr-products-openapi.json
-        type: OpenAPI
-      - url: overlays/commonwealth-bank-cdr-products-overlay.yaml
-        type: Overlay
-      - url: https://www.commbank.com.au/banking/open-banking.html
-        type: Standards
-    description: >-
-      PUBLIC, unauthenticated Product Reference Data (PRD) surface exposing
-      CommBank's banking product catalogue (rates, fees, features, eligibility)
-      under Australia's Consumer Data Right. Covers the DSB Get Products
-      (/banking/products) and Get Product Detail (/banking/products/{productId})
-      contract, served at the confirmed live CommBank CDR public base URI
-      api.commbank.com.au/public (verified against the CDR Register Get Data
-      Holder Brands Summary API; calls without a supported x-v header return
-      HTTP 406). Wired to CommBank's own first-party Swagger 2.0 spec harvested
-      verbatim from the developer portal.
+- aid: commonwealth-bank:cba-fast-payment-credit-transfer-api
+  name: Commonwealth Bank Fast Payment (Credit Transfer Initiation) API
+  tags:
+  - Payments
+  - NPP
+  - Real-Time Payments
+  - Credit Transfer
+  - Business
+  - Australia
+  image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
+  humanURL: https://developer.api.commbank.com.au/apis
+  properties:
+  - url: https://developer.api.commbank.com.au/apis
+    type: Documentation
+  - url: https://developer.api.commbank.com.au/terms-of-use
+    type: TermsOfService
+  description: >-
+    Documented in CommBank's business API catalogue as the Credit Transfer Initiation / Fast Payment API:
+    a near real-time capability that lets a business send money to most Australian financial institutions
+    through the New Payments Platform (NPP). REST-based with OAuth 2.0 security. The full OpenAPI specification
+    is not published as a public download — access to the catalogue and specs is granted at CommBank's
+    discretion behind developer registration (partner-gated), so no spec is wired here to avoid fabrication.
+- aid: commonwealth-bank:cba-namecheck-api
+  name: Commonwealth Bank NameCheck API
+  tags:
+  - Payments
+  - Fraud Prevention
+  - Confirmation of Payee
+  - Security
+  - Business
+  - Australia
+  image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
+  humanURL: https://developer.api.commbank.com.au/apis/namecheck
+  properties:
+  - url: https://developer.api.commbank.com.au/apis/namecheck
+    type: Documentation
+  - url: https://developer.api.commbank.com.au/terms-of-use
+    type: TermsOfService
+  description: >-
+    Documented in CommBank's business API catalogue: NameCheck is a security tool that helps organisations
+    and their customers avoid false billing scams and mistaken payments by checking payee account name/number
+    combinations before a payment is made. REST-based with OAuth 2.0 security. The OpenAPI specification
+    is not published as a public download (catalogue access is granted at CommBank's discretion behind
+    developer registration), so no spec is wired here to avoid fabrication.
+- aid: commonwealth-bank:cba-payto-api
+  name: Commonwealth Bank PayTo API
+  tags:
+  - Payments
+  - PayTo
+  - Real-Time Payments
+  - Direct Debit
+  - Business
+  - Australia
+  image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
+  humanURL: https://developer.api.commbank.com.au/apis/payto
+  properties:
+  - url: https://developer.api.commbank.com.au/apis/payto
+    type: Documentation
+  - url: https://developer.api.commbank.com.au/terms-of-use
+    type: TermsOfService
+  description: >-
+    Documented in CommBank's business API catalogue: PayTo is a modern digital payment solution enabling
+    near real-time, account-to-account payments from a customer's bank account over the New Payments Platform,
+    replacing traditional direct debit with a customer-authorised mandate model. REST-based with OAuth
+    2.0 security. The OpenAPI specification is not published as a public download (catalogue access is
+    granted at CommBank's discretion behind developer registration), so no spec is wired here to avoid
+    fabrication.
+- aid: commonwealth-bank:cba-payment-gateway-api
+  name: CommBank Payment Gateway API
+  tags:
+  - Payments
+  - Merchant Services
+  - Ecommerce
+  - Payment Gateway
+  - Cards
+  - Australia
+  image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
+  humanURL: https://paymentgateway.commbank.com.au/api/documentation
+  properties:
+  - url: https://paymentgateway.commbank.com.au/api/documentation
+    type: Documentation
+  description: >-
+    CommBank's merchant Payment Gateway exposes a hosted REST API for online card acceptance, authorisation,
+    capture, refunds, tokenisation, and hosted checkout for eCommerce merchants. Integration guidelines
+    and a full API reference are published as hosted HTML documentation at paymentgateway.commbank.com.au;
+    a downloadable OpenAPI/Swagger artifact is not offered publicly, so none is wired here to avoid fabrication.
+- aid: commonwealth-bank:commbank-app-api-banking
+  name: CommBank API Banking for Business
+  tags:
+  - API Banking
+  - Business
+  - Payments
+  - Integration
+  humanURL: https://developer.api.commbank.com.au/
+  properties:
+  - url: https://developer.api.commbank.com.au/
+    type: Documentation
+  - url: https://developer.api.commbank.com.au/terms-of-use
+    type: TermsOfService
+  description: >-
+    CommBank API Banking provides programmatic banking interfaces for business customers covering payments,
+    account information, reconciliation, and direct integration with ERP and accounting systems for automated
+    treasury operations, surfaced through the developer.api.commbank.com.au business API catalogue (REST
+    + OAuth 2.0).
+- aid: commonwealth-bank:commbiz
+  name: CommBiz
+  tags:
+  - Business Banking
+  - Treasury
+  - Payments
+  humanURL: https://www.commbank.com.au/business/digital-banking/commbiz.html
+  properties:
+  - url: https://www.commbank.com.au/business/digital-banking/commbiz.html
+    type: Documentation
+  description: >-
+    CommBiz is CommBank's business and corporate online banking platform supporting multi-user payments,
+    account management, bulk payments, foreign exchange, file-based banking, treasury management, and
+    bank-to-customer integration.
+- aid: commonwealth-bank:commbank-international
+  name: CommBank International Payments
+  tags:
+  - International
+  - FX
+  - Cross-Border Payments
+  humanURL: https://www.commbank.com.au/international.html
+  properties:
+  - url: https://www.commbank.com.au/international.html
+    type: Documentation
+  description: >-
+    CommBank International Payments provides foreign exchange, international money transfer, travel money
+    cards, and overseas payment services for retail and business customers, including SWIFT integration
+    for cross-border payments.
+- aid: commonwealth-bank:commbank-merchant-payments
+  name: CommBank Merchant Payments
+  tags:
+  - Payments
+  - Merchant Services
+  - EFTPOS
+  - Ecommerce
+  humanURL: https://www.commbank.com.au/business/payments.html
+  properties:
+  - url: https://www.commbank.com.au/business/payments.html
+    type: Documentation
+  description: >-
+    CommBank provides merchant payment acceptance through EFTPOS terminals, eCommerce gateways, BPAY merchant
+    services, Smart mini and Smart Pos terminals, and online card acceptance. Includes integrations with
+    major eCommerce platforms.
+- aid: commonwealth-bank:commbank-mobile-app
+  name: CommBank Mobile App
+  tags:
+  - Mobile App
+  - Banking
+  - Payments
+  - Money Plan
+  humanURL: https://www.commbank.com.au/digital-banking/commbank-app.html
+  properties:
+  - url: https://www.commbank.com.au/digital-banking/commbank-app.html
+    type: Documentation
+  description: >-
+    The CommBank mobile app is the bank's primary digital channel for personal customers offering account
+    management, transfers, bill payment via BPAY, mobile cheque deposit, PayID, NPP real-time transfers,
+    card controls, Money Plan budgeting tools, and the Yello loyalty program.
+- aid: commonwealth-bank:netbank
+  name: NetBank
+  tags:
+  - Online Banking
+  - Web Banking
+  - Self Service
+  humanURL: https://www.commbank.com.au/digital-banking/netbank.html
+  properties:
+  - url: https://www.commbank.com.au/digital-banking/netbank.html
+    type: Documentation
+  description: >-
+    NetBank is CommBank's web-based online banking platform giving personal customers access to account
+    details, transactions, transfers, BPAY payments, statements, card services, and customer self-service.
+- aid: commonwealth-bank:commbank-yello
+  name: CommBank Yello
+  tags:
+  - Loyalty
+  - Rewards
+  - Customer Recognition
+  humanURL: https://www.commbank.com.au/banking/yello.html
+  properties:
+  - url: https://www.commbank.com.au/banking/yello.html
+    type: Documentation
+  description: >-
+    CommBank Yello is the bank's customer recognition and rewards program offering eligible customers
+    exclusive cashback offers, partner discounts, fee waivers, and home loan benefits surfaced through
+    the CommBank mobile app.
+- aid: commonwealth-bank:commonwealth-bank-accounts-api-api
+  name: Commonwealth Bank Accounts API API
+  description: "Obtain the list of accounts authorised to be shared by the customer. \n\nAccount API is\
+    \ a consumer API. To access data you'll need the customer's consent.</p><h3 style=\"margin-top:30px;\"\
+    >Host URL</h3><p>CommBank requests are passed to the URL <span class=\"sc-1noysbl-9 JKaaQ\">https://secure.api.commbank.com.au/api/cds-au/v1/banking</span></p><p>CBA\
+    \ – CommBiz requests are passed to the URL <span class=\"sc-1noysbl-9 JKaaQ\">https://secure.cdr.commbiz.api.commbank.com.au/cbzapi/cds-au/v1/banking</span></p>"
+  humanURL: https://www.commbank.com.au/developer/documentation/Products
+  baseURL: https://api.commbank.com.au/public/cds-au/v1/banking/products
+  tags:
+  - Accounts API
+  properties:
+  - type: OpenAPI
+    url: openapi/commonwealth-bank-accounts-api-api-openapi.yml
+  - type: Documentation
+    url: https://www.commbank.com.au/developer/documentation/Products
+  - type: APIReference
+    url: https://consumerdatastandardsaustralia.github.io/standards/
+  - type: Standards
+    url: https://www.commbank.com.au/banking/open-banking.html
+  - type: Documentation
+    url: https://www.commbank.com.au/developer/documentation/Accounts
+  - type: Documentation
+    url: https://www.commbank.com.au/developer/documentation/Balances
+  - type: Documentation
+    url: https://www.commbank.com.au/developer/documentation/Transactions
+  - type: Documentation
+    url: https://www.commbank.com.au/developer/documentation/RegularPayments
+  - type: Documentation
+    url: https://www.commbank.com.au/developer/documentation/Payees
+  - type: Documentation
+    url: https://www.commbank.com.au/developer/documentation/Customer
+  - type: Documentation
+    url: https://www.commbank.com.au/banking/open-banking.html
+- aid: commonwealth-bank:commonwealth-bank-balances-api-api
+  name: Commonwealth Bank Balances API API
+  description: "Obtain the balance for a single specified account. \n\nBalances API is a consumer API.\
+    \ To access data you'll need the customer's consent.</p><h3 style=\"margin-top:30px;\">Host URL</h3><p>CommBank\
+    \ requests are passed to the URL <span class=\"sc-1noysbl-9 JKaaQ\">https://secure.api.commbank.com.au/api/cds-au/v1/banking</span></p><p>CBA\
+    \ – CommBiz requests are passed to the URL <span class=\"sc-1noysbl-9 JKaaQ\">https://secure.cdr.commbiz.api.commbank.com.au/cbzapi/cds-au/v1/banking</span></p>"
+  humanURL: https://www.commbank.com.au/developer/documentation/Products
+  baseURL: https://api.commbank.com.au/public/cds-au/v1/banking/products
+  tags:
+  - Balances API
+  properties:
+  - type: OpenAPI
+    url: openapi/commonwealth-bank-balances-api-api-openapi.yml
+  - type: Documentation
+    url: https://www.commbank.com.au/developer/documentation/Products
+  - type: APIReference
+    url: https://consumerdatastandardsaustralia.github.io/standards/
+  - type: Standards
+    url: https://www.commbank.com.au/banking/open-banking.html
+  - type: Documentation
+    url: https://www.commbank.com.au/developer/documentation/Accounts
+  - type: Documentation
+    url: https://www.commbank.com.au/developer/documentation/Balances
+  - type: Documentation
+    url: https://www.commbank.com.au/developer/documentation/Transactions
+  - type: Documentation
+    url: https://www.commbank.com.au/developer/documentation/RegularPayments
+  - type: Documentation
+    url: https://www.commbank.com.au/developer/documentation/Payees
+  - type: Documentation
+    url: https://www.commbank.com.au/developer/documentation/Customer
+  - type: Documentation
+    url: https://www.commbank.com.au/banking/open-banking.html
+- aid: commonwealth-bank:commonwealth-bank-banking-account-balances-api
+  name: Commonwealth Bank Banking Account Balances API
+  description: Banking Account Balance endpoints
+  humanURL: https://www.commbank.com.au/developer/documentation/Products
+  baseURL: https://api.commbank.com.au/public/cds-au/v1/banking/products
+  tags:
+  - Banking Account Balances
+  properties:
+  - type: OpenAPI
+    url: openapi/commonwealth-bank-banking-account-balances-api-openapi.yml
+  - type: Documentation
+    url: https://www.commbank.com.au/developer/documentation/Products
+  - type: APIReference
+    url: https://consumerdatastandardsaustralia.github.io/standards/
+  - type: Standards
+    url: https://www.commbank.com.au/banking/open-banking.html
+  - type: Documentation
+    url: https://www.commbank.com.au/developer/documentation/Accounts
+  - type: Documentation
+    url: https://www.commbank.com.au/developer/documentation/Balances
+  - type: Documentation
+    url: https://www.commbank.com.au/developer/documentation/Transactions
+  - type: Documentation
+    url: https://www.commbank.com.au/developer/documentation/RegularPayments
+  - type: Documentation
+    url: https://www.commbank.com.au/developer/documentation/Payees
+  - type: Documentation
+    url: https://www.commbank.com.au/developer/documentation/Customer
+  - type: Documentation
+    url: https://www.commbank.com.au/banking/open-banking.html
+- aid: commonwealth-bank:commonwealth-bank-banking-account-direct-debits-api
+  name: Commonwealth Bank Banking Account Direct Debits API
+  description: Banking Account Direct Debit endpoints
+  humanURL: https://www.commbank.com.au/developer/documentation/Products
+  baseURL: https://api.commbank.com.au/public/cds-au/v1/banking/products
+  tags:
+  - Banking Account Direct Debits
+  properties:
+  - type: OpenAPI
+    url: openapi/commonwealth-bank-banking-account-direct-debits-api-openapi.yml
+  - type: Documentation
+    url: https://www.commbank.com.au/developer/documentation/Products
+  - type: APIReference
+    url: https://consumerdatastandardsaustralia.github.io/standards/
+  - type: Standards
+    url: https://www.commbank.com.au/banking/open-banking.html
+  - type: Documentation
+    url: https://www.commbank.com.au/developer/documentation/Accounts
+  - type: Documentation
+    url: https://www.commbank.com.au/developer/documentation/Balances
+  - type: Documentation
+    url: https://www.commbank.com.au/developer/documentation/Transactions
+  - type: Documentation
+    url: https://www.commbank.com.au/developer/documentation/RegularPayments
+  - type: Documentation
+    url: https://www.commbank.com.au/developer/documentation/Payees
+  - type: Documentation
+    url: https://www.commbank.com.au/developer/documentation/Customer
+  - type: Documentation
+    url: https://www.commbank.com.au/banking/open-banking.html
+- aid: commonwealth-bank:commonwealth-bank-banking-account-scheduled-payments-api
+  name: Commonwealth Bank Banking Account Scheduled Payments API
+  description: Banking Account Scheduled Payment endpoints
+  humanURL: https://www.commbank.com.au/developer/documentation/Products
+  baseURL: https://api.commbank.com.au/public/cds-au/v1/banking/products
+  tags:
+  - Banking Account Scheduled Payments
+  properties:
+  - type: OpenAPI
+    url: openapi/commonwealth-bank-banking-account-scheduled-payments-api-openapi.yml
+  - type: Documentation
+    url: https://www.commbank.com.au/developer/documentation/Products
+  - type: APIReference
+    url: https://consumerdatastandardsaustralia.github.io/standards/
+  - type: Standards
+    url: https://www.commbank.com.au/banking/open-banking.html
+  - type: Documentation
+    url: https://www.commbank.com.au/developer/documentation/Accounts
+  - type: Documentation
+    url: https://www.commbank.com.au/developer/documentation/Balances
+  - type: Documentation
+    url: https://www.commbank.com.au/developer/documentation/Transactions
+  - type: Documentation
+    url: https://www.commbank.com.au/developer/documentation/RegularPayments
+  - type: Documentation
+    url: https://www.commbank.com.au/developer/documentation/Payees
+  - type: Documentation
+    url: https://www.commbank.com.au/developer/documentation/Customer
+  - type: Documentation
+    url: https://www.commbank.com.au/banking/open-banking.html
+- aid: commonwealth-bank:commonwealth-bank-banking-account-transactions-api
+  name: Commonwealth Bank Banking Account Transactions API
+  description: Banking Account Transaction endpoints
+  humanURL: https://www.commbank.com.au/developer/documentation/Products
+  baseURL: https://api.commbank.com.au/public/cds-au/v1/banking/products
+  tags:
+  - Banking Account Transactions
+  properties:
+  - type: OpenAPI
+    url: openapi/commonwealth-bank-banking-account-transactions-api-openapi.yml
+  - type: Documentation
+    url: https://www.commbank.com.au/developer/documentation/Products
+  - type: APIReference
+    url: https://consumerdatastandardsaustralia.github.io/standards/
+  - type: Standards
+    url: https://www.commbank.com.au/banking/open-banking.html
+  - type: Documentation
+    url: https://www.commbank.com.au/developer/documentation/Accounts
+  - type: Documentation
+    url: https://www.commbank.com.au/developer/documentation/Balances
+  - type: Documentation
+    url: https://www.commbank.com.au/developer/documentation/Transactions
+  - type: Documentation
+    url: https://www.commbank.com.au/developer/documentation/RegularPayments
+  - type: Documentation
+    url: https://www.commbank.com.au/developer/documentation/Payees
+  - type: Documentation
+    url: https://www.commbank.com.au/developer/documentation/Customer
+  - type: Documentation
+    url: https://www.commbank.com.au/banking/open-banking.html
+- aid: commonwealth-bank:commonwealth-bank-banking-accounts-api
+  name: Commonwealth Bank Banking Accounts API
+  description: Banking Account endpoints
+  humanURL: https://www.commbank.com.au/developer/documentation/Products
+  baseURL: https://api.commbank.com.au/public/cds-au/v1/banking/products
+  tags:
+  - Banking Accounts
+  properties:
+  - type: OpenAPI
+    url: openapi/commonwealth-bank-banking-accounts-api-openapi.yml
+  - type: Documentation
+    url: https://www.commbank.com.au/developer/documentation/Products
+  - type: APIReference
+    url: https://consumerdatastandardsaustralia.github.io/standards/
+  - type: Standards
+    url: https://www.commbank.com.au/banking/open-banking.html
+  - type: Documentation
+    url: https://www.commbank.com.au/developer/documentation/Accounts
+  - type: Documentation
+    url: https://www.commbank.com.au/developer/documentation/Balances
+  - type: Documentation
+    url: https://www.commbank.com.au/developer/documentation/Transactions
+  - type: Documentation
+    url: https://www.commbank.com.au/developer/documentation/RegularPayments
+  - type: Documentation
+    url: https://www.commbank.com.au/developer/documentation/Payees
+  - type: Documentation
+    url: https://www.commbank.com.au/developer/documentation/Customer
+  - type: Documentation
+    url: https://www.commbank.com.au/banking/open-banking.html
+- aid: commonwealth-bank:commonwealth-bank-banking-payees-api
+  name: Commonwealth Bank Banking Payees API
+  description: Banking Payee endpoints
+  humanURL: https://www.commbank.com.au/developer/documentation/Products
+  baseURL: https://api.commbank.com.au/public/cds-au/v1/banking/products
+  tags:
+  - Banking Payees
+  properties:
+  - type: OpenAPI
+    url: openapi/commonwealth-bank-banking-payees-api-openapi.yml
+  - type: Documentation
+    url: https://www.commbank.com.au/developer/documentation/Products
+  - type: APIReference
+    url: https://consumerdatastandardsaustralia.github.io/standards/
+  - type: Standards
+    url: https://www.commbank.com.au/banking/open-banking.html
+  - type: Documentation
+    url: https://www.commbank.com.au/developer/documentation/Accounts
+  - type: Documentation
+    url: https://www.commbank.com.au/developer/documentation/Balances
+  - type: Documentation
+    url: https://www.commbank.com.au/developer/documentation/Transactions
+  - type: Documentation
+    url: https://www.commbank.com.au/developer/documentation/RegularPayments
+  - type: Documentation
+    url: https://www.commbank.com.au/developer/documentation/Payees
+  - type: Documentation
+    url: https://www.commbank.com.au/developer/documentation/Customer
+  - type: Documentation
+    url: https://www.commbank.com.au/banking/open-banking.html
+- aid: commonwealth-bank:commonwealth-bank-banking-products-api
+  name: Commonwealth Bank Banking Products API
+  description: Banking Product endpoints
+  humanURL: https://www.commbank.com.au/developer/documentation/Products
+  baseURL: https://api.commbank.com.au/public/cds-au/v1/banking/products
+  tags:
+  - Banking Products
+  properties:
+  - type: OpenAPI
+    url: openapi/commonwealth-bank-banking-products-api-openapi.yml
+  - type: Documentation
+    url: https://www.commbank.com.au/developer/documentation/Products
+  - type: APIReference
+    url: https://consumerdatastandardsaustralia.github.io/standards/
+  - type: Standards
+    url: https://www.commbank.com.au/banking/open-banking.html
+  - type: Documentation
+    url: https://www.commbank.com.au/developer/documentation/Accounts
+  - type: Documentation
+    url: https://www.commbank.com.au/developer/documentation/Balances
+  - type: Documentation
+    url: https://www.commbank.com.au/developer/documentation/Transactions
+  - type: Documentation
+    url: https://www.commbank.com.au/developer/documentation/RegularPayments
+  - type: Documentation
+    url: https://www.commbank.com.au/developer/documentation/Payees
+  - type: Documentation
+    url: https://www.commbank.com.au/developer/documentation/Customer
+  - type: Documentation
+    url: https://www.commbank.com.au/banking/open-banking.html
+- aid: commonwealth-bank:commonwealth-bank-customer-api-api
+  name: Commonwealth Bank Customer API API
+  description: >-
+    Access a customer's basic contact details. The customer may choose to share their personal or organisation
+    details.
 
-  - aid: commonwealth-bank:cba-cdr-accounts-balances-api
-    name: Commonwealth Bank CDR Accounts & Balances API
-    tags:
-      - CDR
-      - Open Banking
-      - Accounts
-      - Balances
-      - Banking
-      - Australia
-    image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
-    humanURL: https://www.commbank.com.au/developer/documentation/Accounts
-    baseURL: https://secure.api.commbank.com.au/api/cds-au/v1/banking/accounts
-    properties:
-      - url: https://www.commbank.com.au/developer/documentation/Accounts
-        type: Documentation
-      - url: https://www.commbank.com.au/developer/documentation/Balances
-        type: Documentation
-      - url: https://consumerdatastandardsaustralia.github.io/standards/
-        type: APIReference
-      - url: openapi/commonwealth-bank-cdr-accounts-openapi.json
-        type: OpenAPI
-      - url: overlays/commonwealth-bank-cdr-accounts-overlay.yaml
-        type: Overlay
-      - url: openapi/commonwealth-bank-cdr-balances-openapi.json
-        type: OpenAPI
-      - url: overlays/commonwealth-bank-cdr-balances-overlay.yaml
-        type: Overlay
-    description: >-
-      Consumer-AUTHORIZED CDR surface covering the DSB Get Accounts, Get Account
-      Detail, Get Bulk Balances and Get Account Balance contracts
-      (/banking/accounts, /banking/accounts/{accountId},
-      /banking/accounts/balances, /banking/accounts/{accountId}/balance). Access
-      is available only to Accredited Data Recipients acting on explicit customer
-      consent via the CDR ADR model over the authenticated host
-      secure.api.commbank.com.au. Wired to CommBank's first-party Accounts and
-      Balances Swagger 2.0 specs harvested verbatim from the developer portal.
 
-  - aid: commonwealth-bank:cba-cdr-transactions-api
-    name: Commonwealth Bank CDR Transactions API
-    tags:
-      - CDR
-      - Open Banking
-      - Transactions
-      - Banking
-      - Australia
-    image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
-    humanURL: https://www.commbank.com.au/developer/documentation/Transactions
-    baseURL: https://secure.api.commbank.com.au/api/cds-au/v1/banking/accounts/{accountId}/transactions
-    properties:
-      - url: https://www.commbank.com.au/developer/documentation/Transactions
-        type: Documentation
-      - url: https://consumerdatastandardsaustralia.github.io/standards/
-        type: APIReference
-      - url: openapi/commonwealth-bank-cdr-transactions-openapi.json
-        type: OpenAPI
-      - url: overlays/commonwealth-bank-cdr-transactions-overlay.yaml
-        type: Overlay
-    description: >-
-      Consumer-AUTHORIZED CDR surface covering the DSB Get Transactions For
-      Account and Get Transaction Detail contracts
-      (/banking/accounts/{accountId}/transactions and
-      /banking/accounts/{accountId}/transactions/{transactionId}). Available to
-      Accredited Data Recipients with explicit customer consent over the
-      authenticated host secure.api.commbank.com.au. Wired to CommBank's
-      first-party Transaction Details Swagger 2.0 spec harvested verbatim from
-      the developer portal.
-
-  - aid: commonwealth-bank:cba-cdr-direct-debits-scheduled-payments-api
-    name: Commonwealth Bank CDR Direct Debits & Scheduled Payments API
-    tags:
-      - CDR
-      - Open Banking
-      - Direct Debits
-      - Scheduled Payments
-      - Banking
-      - Australia
-    image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
-    humanURL: https://www.commbank.com.au/developer/documentation/RegularPayments
-    baseURL: https://secure.api.commbank.com.au/api/cds-au/v1/banking/accounts/direct-debits
-    properties:
-      - url: https://www.commbank.com.au/developer/documentation/RegularPayments
-        type: Documentation
-      - url: https://consumerdatastandardsaustralia.github.io/standards/
-        type: APIReference
-      - url: openapi/commonwealth-bank-cdr-regular-payments-openapi.json
-        type: OpenAPI
-      - url: overlays/commonwealth-bank-cdr-regular-payments-overlay.yaml
-        type: Overlay
-    description: >-
-      Consumer-AUTHORIZED CDR surface covering the DSB Get Direct Debits,
-      Get Bulk Direct Debits, Get Scheduled Payments and Get Bulk Scheduled
-      Payments contracts (/banking/accounts/direct-debits,
-      /banking/accounts/{accountId}/direct-debits, /banking/payments/scheduled,
-      /banking/accounts/{accountId}/payments/scheduled). Available to Accredited
-      Data Recipients with explicit customer consent over the authenticated host
-      secure.api.commbank.com.au. Wired to CommBank's first-party Regular
-      Payments Swagger 2.0 spec harvested verbatim from the developer portal.
-
-  - aid: commonwealth-bank:cba-cdr-payees-api
-    name: Commonwealth Bank CDR Payees API
-    tags:
-      - CDR
-      - Open Banking
-      - Payees
-      - Banking
-      - Australia
-    image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
-    humanURL: https://www.commbank.com.au/developer/documentation/Payees
-    baseURL: https://secure.api.commbank.com.au/api/cds-au/v1/banking/payees
-    properties:
-      - url: https://www.commbank.com.au/developer/documentation/Payees
-        type: Documentation
-      - url: https://consumerdatastandardsaustralia.github.io/standards/
-        type: APIReference
-      - url: openapi/commonwealth-bank-cdr-payees-openapi.json
-        type: OpenAPI
-      - url: overlays/commonwealth-bank-cdr-payees-overlay.yaml
-        type: Overlay
-    description: >-
-      Consumer-AUTHORIZED CDR surface covering the DSB Get Payees and Get Payee
-      Detail contracts (/banking/payees and /banking/payees/{payeeId}), exposing
-      a customer's saved payees to Accredited Data Recipients with explicit
-      customer consent over the authenticated host secure.api.commbank.com.au.
-      Wired to CommBank's first-party Payees Swagger 2.0 spec harvested verbatim
-      from the developer portal.
-
-  - aid: commonwealth-bank:cba-cdr-customer-api
-    name: Commonwealth Bank CDR Customer API
-    tags:
-      - CDR
-      - Open Banking
-      - Customer
-      - Banking
-      - Australia
-    image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
-    humanURL: https://www.commbank.com.au/developer/documentation/Customer
-    baseURL: https://secure.api.commbank.com.au/api/cds-au/v1/banking/common/customer
-    properties:
-      - url: https://www.commbank.com.au/developer/documentation/Customer
-        type: Documentation
-      - url: https://consumerdatastandardsaustralia.github.io/standards/
-        type: APIReference
-      - url: openapi/commonwealth-bank-cdr-customer-openapi.json
-        type: OpenAPI
-      - url: overlays/commonwealth-bank-cdr-customer-overlay.yaml
-        type: Overlay
-    description: >-
-      Consumer-AUTHORIZED CDR Common surface covering the DSB Get Customer and
-      Get Customer Detail contracts (/common/customer and
-      /common/customer/detail), returning the authenticated customer's basic and
-      detailed profile to Accredited Data Recipients with explicit customer
-      consent over the authenticated host secure.api.commbank.com.au. Wired to
-      CommBank's first-party Customer Swagger 2.0 spec harvested verbatim from
-      the developer portal.
-
-  - aid: commonwealth-bank:cba-cds-banking-standard-api
-    name: Commonwealth Bank CDR Banking API (DSB Consumer Data Standards)
-    tags:
-      - CDR
-      - Open Banking
-      - Consumer Data Standards
-      - Banking
-      - Standards
-      - Australia
-    image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
-    humanURL: https://www.commbank.com.au/banking/open-banking.html
-    baseURL: https://api.commbank.com.au/public/cds-au/v1/banking
-    properties:
-      - url: https://consumerdatastandardsaustralia.github.io/standards/
-        type: APIReference
-      - url: openapi/commonwealth-bank-cds-banking-openapi.json
-        type: OpenAPI
-      - url: overlays/commonwealth-bank-cds-banking-overlay.yaml
-        type: Overlay
-      - url: https://www.commbank.com.au/banking/open-banking.html
-        type: Documentation
-    description: >-
-      The complete, shared DSB Consumer Data Standards CDR Banking API v1.36.0
-      that every Australian ADI (including Commonwealth Bank) is legally required
-      to implement. This is the standardized reference contract, NOT a
-      bank-proprietary spec: all 16 endpoints across products (public), accounts,
-      balances, transactions, direct debits, scheduled payments, payees, and
-      common customer. Harvested verbatim from the Data Standards Body
-      (consumerdatastandardsaustralia.github.io / ConsumerDataStandardsAustralia
-      standards repo, cds_banking swagger). Provided as the canonical standard
-      alongside CommBank's own per-family first-party specs.
-
-  - aid: commonwealth-bank:cba-fast-payment-credit-transfer-api
-    name: Commonwealth Bank Fast Payment (Credit Transfer Initiation) API
-    tags:
-      - Payments
-      - NPP
-      - Real-Time Payments
-      - Credit Transfer
-      - Business
-      - Australia
-    image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
-    humanURL: https://developer.api.commbank.com.au/apis
-    properties:
-      - url: https://developer.api.commbank.com.au/apis
-        type: Documentation
-      - url: https://developer.api.commbank.com.au/terms-of-use
-        type: TermsOfService
-    description: >-
-      Documented in CommBank's business API catalogue as the Credit Transfer
-      Initiation / Fast Payment API: a near real-time capability that lets a
-      business send money to most Australian financial institutions through the
-      New Payments Platform (NPP). REST-based with OAuth 2.0 security. The full
-      OpenAPI specification is not published as a public download — access to the
-      catalogue and specs is granted at CommBank's discretion behind developer
-      registration (partner-gated), so no spec is wired here to avoid fabrication.
-
-  - aid: commonwealth-bank:cba-namecheck-api
-    name: Commonwealth Bank NameCheck API
-    tags:
-      - Payments
-      - Fraud Prevention
-      - Confirmation of Payee
-      - Security
-      - Business
-      - Australia
-    image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
-    humanURL: https://developer.api.commbank.com.au/apis/namecheck
-    properties:
-      - url: https://developer.api.commbank.com.au/apis/namecheck
-        type: Documentation
-      - url: https://developer.api.commbank.com.au/terms-of-use
-        type: TermsOfService
-    description: >-
-      Documented in CommBank's business API catalogue: NameCheck is a security
-      tool that helps organisations and their customers avoid false billing scams
-      and mistaken payments by checking payee account name/number combinations
-      before a payment is made. REST-based with OAuth 2.0 security. The OpenAPI
-      specification is not published as a public download (catalogue access is
-      granted at CommBank's discretion behind developer registration), so no spec
-      is wired here to avoid fabrication.
-
-  - aid: commonwealth-bank:cba-payto-api
-    name: Commonwealth Bank PayTo API
-    tags:
-      - Payments
-      - PayTo
-      - Real-Time Payments
-      - Direct Debit
-      - Business
-      - Australia
-    image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
-    humanURL: https://developer.api.commbank.com.au/apis/payto
-    properties:
-      - url: https://developer.api.commbank.com.au/apis/payto
-        type: Documentation
-      - url: https://developer.api.commbank.com.au/terms-of-use
-        type: TermsOfService
-    description: >-
-      Documented in CommBank's business API catalogue: PayTo is a modern digital
-      payment solution enabling near real-time, account-to-account payments from
-      a customer's bank account over the New Payments Platform, replacing
-      traditional direct debit with a customer-authorised mandate model.
-      REST-based with OAuth 2.0 security. The OpenAPI specification is not
-      published as a public download (catalogue access is granted at CommBank's
-      discretion behind developer registration), so no spec is wired here to
-      avoid fabrication.
-
-  - aid: commonwealth-bank:cba-payment-gateway-api
-    name: CommBank Payment Gateway API
-    tags:
-      - Payments
-      - Merchant Services
-      - Ecommerce
-      - Payment Gateway
-      - Cards
-      - Australia
-    image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
-    humanURL: https://paymentgateway.commbank.com.au/api/documentation
-    properties:
-      - url: https://paymentgateway.commbank.com.au/api/documentation
-        type: Documentation
-    description: >-
-      CommBank's merchant Payment Gateway exposes a hosted REST API for online
-      card acceptance, authorisation, capture, refunds, tokenisation, and hosted
-      checkout for eCommerce merchants. Integration guidelines and a full API
-      reference are published as hosted HTML documentation at
-      paymentgateway.commbank.com.au; a downloadable OpenAPI/Swagger artifact is
-      not offered publicly, so none is wired here to avoid fabrication.
-
-  - aid: commonwealth-bank:commbank-app-api-banking
-    name: CommBank API Banking for Business
-    tags:
-      - API Banking
-      - Business
-      - Payments
-      - Integration
-    humanURL: https://developer.api.commbank.com.au/
-    properties:
-      - url: https://developer.api.commbank.com.au/
-        type: Documentation
-      - url: https://developer.api.commbank.com.au/terms-of-use
-        type: TermsOfService
-    description: >-
-      CommBank API Banking provides programmatic banking interfaces for business
-      customers covering payments, account information, reconciliation, and
-      direct integration with ERP and accounting systems for automated treasury
-      operations, surfaced through the developer.api.commbank.com.au business API
-      catalogue (REST + OAuth 2.0).
-
-  - aid: commonwealth-bank:commbiz
-    name: CommBiz
-    tags:
-      - Business Banking
-      - Treasury
-      - Payments
-    humanURL: https://www.commbank.com.au/business/digital-banking/commbiz.html
-    properties:
-      - url: https://www.commbank.com.au/business/digital-banking/commbiz.html
-        type: Documentation
-    description: >-
-      CommBiz is CommBank's business and corporate online banking
-      platform supporting multi-user payments, account management,
-      bulk payments, foreign exchange, file-based banking, treasury
-      management, and bank-to-customer integration.
-
-  - aid: commonwealth-bank:commbank-international
-    name: CommBank International Payments
-    tags:
-      - International
-      - FX
-      - Cross-Border Payments
-    humanURL: https://www.commbank.com.au/international.html
-    properties:
-      - url: https://www.commbank.com.au/international.html
-        type: Documentation
-    description: >-
-      CommBank International Payments provides foreign exchange,
-      international money transfer, travel money cards, and overseas
-      payment services for retail and business customers, including
-      SWIFT integration for cross-border payments.
-
-  - aid: commonwealth-bank:commbank-merchant-payments
-    name: CommBank Merchant Payments
-    tags:
-      - Payments
-      - Merchant Services
-      - EFTPOS
-      - Ecommerce
-    humanURL: https://www.commbank.com.au/business/payments.html
-    properties:
-      - url: https://www.commbank.com.au/business/payments.html
-        type: Documentation
-    description: >-
-      CommBank provides merchant payment acceptance through EFTPOS
-      terminals, eCommerce gateways, BPAY merchant services, Smart
-      mini and Smart Pos terminals, and online card acceptance. Includes
-      integrations with major eCommerce platforms.
-
-  - aid: commonwealth-bank:commbank-mobile-app
-    name: CommBank Mobile App
-    tags:
-      - Mobile App
-      - Banking
-      - Payments
-      - Money Plan
-    humanURL: https://www.commbank.com.au/digital-banking/commbank-app.html
-    properties:
-      - url: https://www.commbank.com.au/digital-banking/commbank-app.html
-        type: Documentation
-    description: >-
-      The CommBank mobile app is the bank's primary digital channel
-      for personal customers offering account management, transfers,
-      bill payment via BPAY, mobile cheque deposit, PayID, NPP real-time
-      transfers, card controls, Money Plan budgeting tools, and the
-      Yello loyalty program.
-
-  - aid: commonwealth-bank:netbank
-    name: NetBank
-    tags:
-      - Online Banking
-      - Web Banking
-      - Self Service
-    humanURL: https://www.commbank.com.au/digital-banking/netbank.html
-    properties:
-      - url: https://www.commbank.com.au/digital-banking/netbank.html
-        type: Documentation
-    description: >-
-      NetBank is CommBank's web-based online banking platform giving
-      personal customers access to account details, transactions,
-      transfers, BPAY payments, statements, card services, and
-      customer self-service.
-
-  - aid: commonwealth-bank:commbank-yello
-    name: CommBank Yello
-    tags:
-      - Loyalty
-      - Rewards
-      - Customer Recognition
-    humanURL: https://www.commbank.com.au/banking/yello.html
-    properties:
-      - url: https://www.commbank.com.au/banking/yello.html
-        type: Documentation
-    description: >-
-      CommBank Yello is the bank's customer recognition and rewards
-      program offering eligible customers exclusive cashback offers,
-      partner discounts, fee waivers, and home loan benefits surfaced
-      through the CommBank mobile app.
+    Customer API is a consumer API. To access data you'll need the customer's consent.</p><h3 style="margin-top:30px;">Host
+    URL</h3><p>CommBank requests are passed to the URL <span class="sc-1noysbl-9 JKaaQ">https://secure.api.commbank.com.au/api/cds-au/v1/banking/common/customer</span></p><p>CBA
+    – CommBiz requests are passed to the URL <span class="sc-1noysbl-9 JKaaQ">https://secure.cdr.commbiz.api.commbank.com.au/cbzapi/cds-au/v1/common/customer</span></p>
+  humanURL: https://www.commbank.com.au/developer/documentation/Products
+  baseURL: https://api.commbank.com.au/public/cds-au/v1/banking/products
+  tags:
+  - Customer API
+  properties:
+  - type: OpenAPI
+    url: openapi/commonwealth-bank-customer-api-api-openapi.yml
+  - type: Documentation
+    url: https://www.commbank.com.au/developer/documentation/Products
+  - type: APIReference
+    url: https://consumerdatastandardsaustralia.github.io/standards/
+  - type: Standards
+    url: https://www.commbank.com.au/banking/open-banking.html
+  - type: Documentation
+    url: https://www.commbank.com.au/developer/documentation/Accounts
+  - type: Documentation
+    url: https://www.commbank.com.au/developer/documentation/Balances
+  - type: Documentation
+    url: https://www.commbank.com.au/developer/documentation/Transactions
+  - type: Documentation
+    url: https://www.commbank.com.au/developer/documentation/RegularPayments
+  - type: Documentation
+    url: https://www.commbank.com.au/developer/documentation/Payees
+  - type: Documentation
+    url: https://www.commbank.com.au/developer/documentation/Customer
+  - type: Documentation
+    url: https://www.commbank.com.au/banking/open-banking.html
+- aid: commonwealth-bank:commonwealth-bank-payees-api-api
+  name: Commonwealth Bank Payees API API
+  description: "Obtain a list of pre-registered payees authorised to be shared by the customer. \n\nPayees\
+    \ API is a consumer API. To access data you'll need the customer's consent.</p><h3 style=\"margin-top:30px;\"\
+    >Host URL</h3>All requests are passed to the URL <span class=\"sc-1noysbl-9 JKaaQ\">https://secure.api.commbank.com.au/api/cds-au/v1/banking</span></p>"
+  humanURL: https://www.commbank.com.au/developer/documentation/Products
+  baseURL: https://api.commbank.com.au/public/cds-au/v1/banking/products
+  tags:
+  - Payees API
+  properties:
+  - type: OpenAPI
+    url: openapi/commonwealth-bank-payees-api-api-openapi.yml
+  - type: Documentation
+    url: https://www.commbank.com.au/developer/documentation/Products
+  - type: APIReference
+    url: https://consumerdatastandardsaustralia.github.io/standards/
+  - type: Standards
+    url: https://www.commbank.com.au/banking/open-banking.html
+  - type: Documentation
+    url: https://www.commbank.com.au/developer/documentation/Accounts
+  - type: Documentation
+    url: https://www.commbank.com.au/developer/documentation/Balances
+  - type: Documentation
+    url: https://www.commbank.com.au/developer/documentation/Transactions
+  - type: Documentation
+    url: https://www.commbank.com.au/developer/documentation/RegularPayments
+  - type: Documentation
+    url: https://www.commbank.com.au/developer/documentation/Payees
+  - type: Documentation
+    url: https://www.commbank.com.au/developer/documentation/Customer
+  - type: Documentation
+    url: https://www.commbank.com.au/banking/open-banking.html
+- aid: commonwealth-bank:commonwealth-bank-products-api-api
+  name: Commonwealth Bank Products API API
+  description: "Get details on available CommBank products including deposit and transaction accounts,\
+    \ credit cards, home loans, personal loans, and offset accounts. Information available through the\
+    \ API includes eligibility, features, pricing, and links to terms & conditions. \n\nThe Products API\
+    \ is public and does not require any authentication by consumers.\n\n<p>Product details including\
+    \ features, eligibility, rates and fees may change from time to time without notice. Please direct\
+    \ your end users to refer to <a href=\"https://www.commbank.com.au\">commbank.com.au</a> for current\
+    \ product details.</p><h3 style=\"margin-top:30px;\">Host URL</h3>All requests are passed to the URL\
+    \ <span class=\"sc-1noysbl-9 JKaaQ\">https://api.commbank.com.au/public/cds-au/v1/banking</span></p>"
+  humanURL: https://www.commbank.com.au/developer/documentation/Products
+  baseURL: https://api.commbank.com.au/public/cds-au/v1/banking/products
+  tags:
+  - Products API
+  properties:
+  - type: OpenAPI
+    url: openapi/commonwealth-bank-products-api-api-openapi.yml
+  - type: Documentation
+    url: https://www.commbank.com.au/developer/documentation/Products
+  - type: APIReference
+    url: https://consumerdatastandardsaustralia.github.io/standards/
+  - type: Standards
+    url: https://www.commbank.com.au/banking/open-banking.html
+  - type: Documentation
+    url: https://www.commbank.com.au/developer/documentation/Accounts
+  - type: Documentation
+    url: https://www.commbank.com.au/developer/documentation/Balances
+  - type: Documentation
+    url: https://www.commbank.com.au/developer/documentation/Transactions
+  - type: Documentation
+    url: https://www.commbank.com.au/developer/documentation/RegularPayments
+  - type: Documentation
+    url: https://www.commbank.com.au/developer/documentation/Payees
+  - type: Documentation
+    url: https://www.commbank.com.au/developer/documentation/Customer
+  - type: Documentation
+    url: https://www.commbank.com.au/banking/open-banking.html
+- aid: commonwealth-bank:commonwealth-bank-regular-payments-api-api
+  name: Commonwealth Bank Regular Payments API API
+  description: "Obtain the Regular Payment details authorised to be shared by the customer. \n\nRegular\
+    \ Payments API is a consumer API. To access data you'll need the customer's consent.</p><h3 style=\"\
+    margin-top:30px;\">Host URL</h3><p>CommBank requests are passed to the URL <span class=\"sc-1noysbl-9\
+    \ JKaaQ\">https://secure.api.commbank.com.au/api/cds-au/v1/banking</span></p><p>CBA – CommBiz requests\
+    \ are passed to the URL <span class=\"sc-1noysbl-9 JKaaQ\">https://secure.cdr.commbiz.api.commbank.com.au/cbzapi/cds-au/v1/banking</span></p>"
+  humanURL: https://www.commbank.com.au/developer/documentation/Products
+  baseURL: https://api.commbank.com.au/public/cds-au/v1/banking/products
+  tags:
+  - Regular Payments API
+  properties:
+  - type: OpenAPI
+    url: openapi/commonwealth-bank-regular-payments-api-api-openapi.yml
+  - type: Documentation
+    url: https://www.commbank.com.au/developer/documentation/Products
+  - type: APIReference
+    url: https://consumerdatastandardsaustralia.github.io/standards/
+  - type: Standards
+    url: https://www.commbank.com.au/banking/open-banking.html
+  - type: Documentation
+    url: https://www.commbank.com.au/developer/documentation/Accounts
+  - type: Documentation
+    url: https://www.commbank.com.au/developer/documentation/Balances
+  - type: Documentation
+    url: https://www.commbank.com.au/developer/documentation/Transactions
+  - type: Documentation
+    url: https://www.commbank.com.au/developer/documentation/RegularPayments
+  - type: Documentation
+    url: https://www.commbank.com.au/developer/documentation/Payees
+  - type: Documentation
+    url: https://www.commbank.com.au/developer/documentation/Customer
+  - type: Documentation
+    url: https://www.commbank.com.au/banking/open-banking.html
+- aid: commonwealth-bank:commonwealth-bank-transaction-api-api
+  name: Commonwealth Bank Transaction API API
+  description: "Obtain the list of transactions for a CommBank account and details for each transaction.\
+    \ \n\nTransaction API is a consumer API. To access data you'll need the customer's consent.\n\nSeven\
+    \ years’ worth of transactions will be available for active accounts, starting from transactions dated\
+    \ 1 Jan 2017.</p><h3 style=\"margin-top:30px;\">Host URL</h3><p>CommBank requests are passed to the\
+    \ URL <span class=\"sc-1noysbl-9 JKaaQ\">https://secure.api.commbank.com.au/api/cds-au/v1/banking</span></p><p>CBA\
+    \ – CommBiz requests are passed to the URL <span class=\"sc-1noysbl-9 JKaaQ\">https://secure.cdr.commbiz.api.commbank.com.au/cbzapi/cds-au/v1/banking</span></p>"
+  humanURL: https://www.commbank.com.au/developer/documentation/Products
+  baseURL: https://api.commbank.com.au/public/cds-au/v1/banking/products
+  tags:
+  - Transaction API
+  properties:
+  - type: OpenAPI
+    url: openapi/commonwealth-bank-transaction-api-api-openapi.yml
+  - type: Documentation
+    url: https://www.commbank.com.au/developer/documentation/Products
+  - type: APIReference
+    url: https://consumerdatastandardsaustralia.github.io/standards/
+  - type: Standards
+    url: https://www.commbank.com.au/banking/open-banking.html
+  - type: Documentation
+    url: https://www.commbank.com.au/developer/documentation/Accounts
+  - type: Documentation
+    url: https://www.commbank.com.au/developer/documentation/Balances
+  - type: Documentation
+    url: https://www.commbank.com.au/developer/documentation/Transactions
+  - type: Documentation
+    url: https://www.commbank.com.au/developer/documentation/RegularPayments
+  - type: Documentation
+    url: https://www.commbank.com.au/developer/documentation/Payees
+  - type: Documentation
+    url: https://www.commbank.com.au/developer/documentation/Customer
+  - type: Documentation
+    url: https://www.commbank.com.au/banking/open-banking.html
 common:
   - type: AgenticAccess
     url: agentic-access/commonwealth-bank-agentic-access.yml
