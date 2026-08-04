@@ -1,6 +1,6 @@
 swagger: '2.0'
 info:
-  version: ''
+  version: "1.0"
   title: CommBank Accounts Accounts API Transaction API API
   description: "Obtain the list of accounts authorised to be shared by the customer. \n\nAccount API is a consumer API. To access data you'll need the customer's consent.</p><h3 style=\"margin-top:30px;\">Host URL</h3><p>CommBank requests are passed to the URL <span class=\"sc-1noysbl-9 JKaaQ\">https://secure.api.commbank.com.au/api/cds-au/v1/banking</span></p><p>CBA – CommBiz requests are passed to the URL <span class=\"sc-1noysbl-9 JKaaQ\">https://secure.cdr.commbiz.api.commbank.com.au/cbzapi/cds-au/v1/banking</span></p>"
   x-provenance: First-party CommBank OpenAPI (Swagger 2.0) harvested verbatim from the CommBank developer portal. These are Commonwealth Bank's own renderings of its CDR / Open Banking Consumer Data Standards endpoints.
