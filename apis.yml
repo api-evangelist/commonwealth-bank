@@ -685,6 +685,8 @@ apis:
   - type: Documentation
     url: https://www.commbank.com.au/banking/open-banking.html
 common:
+  - type: Overlay
+    url: overlays/commonwealth-bank-cdr-accounts-overlay.yaml
   - type: AgenticAccess
     url: agentic-access/commonwealth-bank-agentic-access.yml
   - type: DomainSecurity
