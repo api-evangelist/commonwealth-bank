@@ -1,0 +1,4265 @@
+{
+  "item": [
+    {
+      "id": "67daf4f9-29c7-472b-9be1-82fbc70668f3",
+      "name": "Regular Payments API",
+      "description": {
+        "content": "Obtain the Regular Payment details authorised to be shared by the customer. \n\nRegular Payments API is a consumer API. To access data you'll need the customer's consent.</p><h3 style=\"margin-top:30px;\">Host URL</h3><p>CommBank requests are passed to the URL <span class=\"sc-1noysbl-9 JKaaQ\">https://secure.api.commbank.com.au/api/cds-au/v1/banking</span></p><p>CBA – CommBiz requests are passed to the URL <span class=\"sc-1noysbl-9 JKaaQ\">https://secure.cdr.commbiz.api.commbank.com.au/cbzapi/cds-au/v1/banking</span></p>",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "37ccc2ca-dee5-4f78-8ed5-98460c42d344",
+          "name": "Get Direct Debits For Account",
+          "request": {
+            "name": "Get Direct Debits For Account",
+            "description": {
+              "content": "Obtain direct debit authorisations for a specific account.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "accounts",
+                ":accountId",
+                "direct-debits"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "page",
+                  "value": "1",
+                  "description": "Page number being requested"
+                },
+                {
+                  "disabled": false,
+                  "key": "page-size",
+                  "value": "25",
+                  "description": "Number of records to return with the page"
+                }
+              ],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "accountId",
+                  "description": "(Required) ID of the account to get direct debit authorisations for."
+                }
+              ]
+            },
+            "header": [
+              {
+                "disabled": false,
+                "description": "Version of the API end point being requested.",
+                "key": "x-v",
+                "value": "<integer>"
+              },
+              {
+                "disabled": false,
+                "description": "Minimum version of the API end point you are requesting.",
+                "key": "x-min-v",
+                "value": "<integer>"
+              },
+              {
+                "disabled": false,
+                "description": "Reflects the value of the Interaction ID in the request.",
+                "key": "x-fapi-interaction-id",
+                "value": "<string>"
+              },
+              {
+                "disabled": false,
+                "description": "The time when the customer last logged in to the data recipient.",
+                "key": "x-fapi-auth-date",
+                "value": "<string>"
+              },
+              {
+                "disabled": false,
+                "description": "The customer's original IP address if the customer is currently logged in to the data recipient.",
+                "key": "x-fapi-customer-ip-address",
+                "value": "<string>"
+              },
+              {
+                "disabled": false,
+                "description": "The customer's original standard http headers encoded, including the original User Agent header, if the customer is currently logged in to the data recipient.",
+                "key": "x-cds-client-headers",
+                "value": "<string>"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "dc798c9f-a6d5-46f1-9b62-9fa7f9d00957",
+              "name": "Success",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "accounts",
+                    ":accountId",
+                    "direct-debits"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "page",
+                      "value": "1"
+                    },
+                    {
+                      "key": "page-size",
+                      "value": "25"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "accountId",
+                      "description": "(Required) ID of the account to get direct debit authorisations for."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "disabled": false,
+                    "description": "Version of the API end point being requested.",
+                    "key": "x-v",
+                    "value": "1"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "Minimum version of the API end point you are requesting.",
+                    "key": "x-min-v",
+                    "value": "1"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "Reflects the value of the Interaction ID in the request.",
+                    "key": "x-fapi-interaction-id",
+                    "value": "f688ae24-9719-4975-9f58-f6b7e655c37d"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "The time when the customer last logged in to the data recipient.",
+                    "key": "x-fapi-auth-date",
+                    "value": "2002-10-03T01:00:00+10:00"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "The customer's original IP address if the customer is currently logged in to the data recipient.",
+                    "key": "x-fapi-customer-ip-address",
+                    "value": "192.168.1.1"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "The customer's original standard http headers encoded, including the original User Agent header, if the customer is currently logged in to the data recipient.",
+                    "key": "x-cds-client-headers",
+                    "value": "Q3VzdG9tZXJzRGV2OkN1c3RvbWVyc0Rldg=="
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "disabled": false,
+                  "description": "Version of the API end point responded with.",
+                  "key": "x-v",
+                  "value": "string"
+                },
+                {
+                  "disabled": false,
+                  "description": "Reflects the value of the Interaction ID in the request.",
+                  "key": "x-fapi-interaction-id",
+                  "value": "string"
+                },
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"data\": {\n    \"directDebitAuthorisations\": [\n      {\n        \"accountId\": \"ygEST5viDcah5JJcdvT2uRDxuCbQezp0zWMrWrgSDb4\",\n        \"lastDebitDateTime\": \"2020-07-07T14:00:00Z\",\n        \"lastDebitAmount\": \"30.00\",\n        \"authorisedEntity\": {\n          \"description\": \"Kleenheat Gas Murdoch\"\n        }\n      },\n      {\n        \"accountId\": \"ygEST5viDcah5JJcdvT2uRDxuCbQezp0zWMrWrgSDb4\",\n        \"lastDebitDateTime\": \"2020-09-01T14:00:00Z\",\n        \"lastDebitAmount\": \"89.99\",\n        \"authorisedEntity\": {\n          \"description\": \"TPG Internet Pty Ltd\"\n        }\n      }\n    ]\n  },\n  \"links\": {\n    \"self\": \"https://secure.api.commbank.com.au/api/cds-au/v1/banking/accounts/ygEST5viDcah5JJcdvT2uRDxuCbQezp0zWMrWrgSDb4/direct-debits?page=1&page-size=25\",\n    \"first\": \"https://secure.api.commbank.com.au/api/cds-au/v1/banking/accounts/ygEST5viDcah5JJcdvT2uRDxuCbQezp0zWMrWrgSDb4/direct-debits?page=1&page-size=25\",\n    \"last\": \"https://secure.api.commbank.com.au/api/cds-au/v1/banking/accounts/ygEST5viDcah5JJcdvT2uRDxuCbQezp0zWMrWrgSDb4/direct-debits?page=1&page-size=25\"\n  },\n  \"meta\": {\n    \"totalRecords\": 2,\n    \"totalPages\": 1\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "23226031-6c2d-41fc-9f8f-e46556e5c747",
+              "name": "Bad Request",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "accounts",
+                    ":accountId",
+                    "direct-debits"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "page",
+                      "value": "1"
+                    },
+                    {
+                      "key": "page-size",
+                      "value": "25"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "accountId",
+                      "description": "(Required) ID of the account to get direct debit authorisations for."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "disabled": false,
+                    "description": "Version of the API end point being requested.",
+                    "key": "x-v",
+                    "value": "1"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "Minimum version of the API end point you are requesting.",
+                    "key": "x-min-v",
+                    "value": "1"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "Reflects the value of the Interaction ID in the request.",
+                    "key": "x-fapi-interaction-id",
+                    "value": "f688ae24-9719-4975-9f58-f6b7e655c37d"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "The time when the customer last logged in to the data recipient.",
+                    "key": "x-fapi-auth-date",
+                    "value": "2002-10-03T01:00:00+10:00"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "The customer's original IP address if the customer is currently logged in to the data recipient.",
+                    "key": "x-fapi-customer-ip-address",
+                    "value": "192.168.1.1"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "The customer's original standard http headers encoded, including the original User Agent header, if the customer is currently logged in to the data recipient.",
+                    "key": "x-cds-client-headers",
+                    "value": "Q3VzdG9tZXJzRGV2OkN1c3RvbWVyc0Rldg=="
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "disabled": false,
+                  "description": "Version of the API end point responded with.",
+                  "key": "x-v",
+                  "value": "3341"
+                },
+                {
+                  "disabled": false,
+                  "description": "Reflects the value of the Interaction ID in the request.",
+                  "key": "x-fapi-interaction-Id",
+                  "value": "string"
+                },
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"errors\": [\n    {\n      \"code\": \"RA-BR-02\",\n      \"title\": \"page is invalid\",\n      \"detail\": \"page must be a valid number.\"\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "a9926a5c-a171-43f9-b2cc-81dd53512271",
+              "name": "Not Acceptable",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "accounts",
+                    ":accountId",
+                    "direct-debits"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "page",
+                      "value": "1"
+                    },
+                    {
+                      "key": "page-size",
+                      "value": "25"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "accountId",
+                      "description": "(Required) ID of the account to get direct debit authorisations for."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "disabled": false,
+                    "description": "Version of the API end point being requested.",
+                    "key": "x-v",
+                    "value": "1"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "Minimum version of the API end point you are requesting.",
+                    "key": "x-min-v",
+                    "value": "1"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "Reflects the value of the Interaction ID in the request.",
+                    "key": "x-fapi-interaction-id",
+                    "value": "f688ae24-9719-4975-9f58-f6b7e655c37d"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "The time when the customer last logged in to the data recipient.",
+                    "key": "x-fapi-auth-date",
+                    "value": "2002-10-03T01:00:00+10:00"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "The customer's original IP address if the customer is currently logged in to the data recipient.",
+                    "key": "x-fapi-customer-ip-address",
+                    "value": "192.168.1.1"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "The customer's original standard http headers encoded, including the original User Agent header, if the customer is currently logged in to the data recipient.",
+                    "key": "x-cds-client-headers",
+                    "value": "Q3VzdG9tZXJzRGV2OkN1c3RvbWVyc0Rldg=="
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Not Acceptable",
+              "code": 406,
+              "header": [
+                {
+                  "disabled": false,
+                  "description": "Version of the API end point responded with.",
+                  "key": "x-v",
+                  "value": "3341"
+                },
+                {
+                  "disabled": false,
+                  "description": "Reflects the value of the Interaction ID in the request.",
+                  "key": "x-fapi-interaction-id",
+                  "value": "string"
+                },
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"errors\": [\n    {\n      \"code\": \"RA-RH-03\",\n      \"title\": \"x-v is invalid\",\n      \"detail\": \"x-v header must be a supported version number.\"\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "5f36f5e0-8027-453f-b351-8a179aa083d0",
+              "name": "Unprocessable Entity.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "accounts",
+                    ":accountId",
+                    "direct-debits"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "page",
+                      "value": "1"
+                    },
+                    {
+                      "key": "page-size",
+                      "value": "25"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "accountId",
+                      "description": "(Required) ID of the account to get direct debit authorisations for."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "disabled": false,
+                    "description": "Version of the API end point being requested.",
+                    "key": "x-v",
+                    "value": "1"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "Minimum version of the API end point you are requesting.",
+                    "key": "x-min-v",
+                    "value": "1"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "Reflects the value of the Interaction ID in the request.",
+                    "key": "x-fapi-interaction-id",
+                    "value": "f688ae24-9719-4975-9f58-f6b7e655c37d"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "The time when the customer last logged in to the data recipient.",
+                    "key": "x-fapi-auth-date",
+                    "value": "2002-10-03T01:00:00+10:00"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "The customer's original IP address if the customer is currently logged in to the data recipient.",
+                    "key": "x-fapi-customer-ip-address",
+                    "value": "192.168.1.1"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "The customer's original standard http headers encoded, including the original User Agent header, if the customer is currently logged in to the data recipient.",
+                    "key": "x-cds-client-headers",
+                    "value": "Q3VzdG9tZXJzRGV2OkN1c3RvbWVyc0Rldg=="
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Unprocessable Entity (WebDAV) (RFC 4918)",
+              "code": 422,
+              "header": [
+                {
+                  "disabled": false,
+                  "description": "Version of the API end point responded with.",
+                  "key": "x-v",
+                  "value": "3341"
+                },
+                {
+                  "disabled": false,
+                  "description": "Reflects the value of the Interaction ID in the request.",
+                  "key": "x-fapi-interaction-id",
+                  "value": "string"
+                },
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"errors\": [\n    {\n      \"Code\": \"RA-UE-01\",\n      \"Title\": \"page-size is Invalid\",\n      \"Detail\": \"page-size must be a number and between 1 and 1000.\"\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "472f57b8-1936-443a-8b16-5035df10077e",
+              "name": "Too Many Requests.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "accounts",
+                    ":accountId",
+                    "direct-debits"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "page",
+                      "value": "1"
+                    },
+                    {
+                      "key": "page-size",
+                      "value": "25"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "accountId",
+                      "description": "(Required) ID of the account to get direct debit authorisations for."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "disabled": false,
+                    "description": "Version of the API end point being requested.",
+                    "key": "x-v",
+                    "value": "1"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "Minimum version of the API end point you are requesting.",
+                    "key": "x-min-v",
+                    "value": "1"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "Reflects the value of the Interaction ID in the request.",
+                    "key": "x-fapi-interaction-id",
+                    "value": "f688ae24-9719-4975-9f58-f6b7e655c37d"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "The time when the customer last logged in to the data recipient.",
+                    "key": "x-fapi-auth-date",
+                    "value": "2002-10-03T01:00:00+10:00"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "The customer's original IP address if the customer is currently logged in to the data recipient.",
+                    "key": "x-fapi-customer-ip-address",
+                    "value": "192.168.1.1"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "The customer's original standard http headers encoded, including the original User Agent header, if the customer is currently logged in to the data recipient.",
+                    "key": "x-cds-client-headers",
+                    "value": "Q3VzdG9tZXJzRGV2OkN1c3RvbWVyc0Rldg=="
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Too Many Requests",
+              "code": 429,
+              "header": [
+                {
+                  "disabled": false,
+                  "description": "Amount of time the client should wait before re-trying the operation.",
+                  "key": "Retry-After",
+                  "value": "3341"
+                },
+                {
+                  "disabled": false,
+                  "description": "Version of the API end point responded with.",
+                  "key": "x-v",
+                  "value": "3341"
+                },
+                {
+                  "disabled": false,
+                  "description": "Reflects the value of the Interaction ID in the request.",
+                  "key": "x-fapi-interaction-id",
+                  "value": "string"
+                },
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "caccc57c-b9e9-4f70-9f52-eea0f8a0d1a7",
+              "name": "Internal Server Error.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "accounts",
+                    ":accountId",
+                    "direct-debits"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "page",
+                      "value": "1"
+                    },
+                    {
+                      "key": "page-size",
+                      "value": "25"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "accountId",
+                      "description": "(Required) ID of the account to get direct debit authorisations for."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "disabled": false,
+                    "description": "Version of the API end point being requested.",
+                    "key": "x-v",
+                    "value": "1"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "Minimum version of the API end point you are requesting.",
+                    "key": "x-min-v",
+                    "value": "1"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "Reflects the value of the Interaction ID in the request.",
+                    "key": "x-fapi-interaction-id",
+                    "value": "f688ae24-9719-4975-9f58-f6b7e655c37d"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "The time when the customer last logged in to the data recipient.",
+                    "key": "x-fapi-auth-date",
+                    "value": "2002-10-03T01:00:00+10:00"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "The customer's original IP address if the customer is currently logged in to the data recipient.",
+                    "key": "x-fapi-customer-ip-address",
+                    "value": "192.168.1.1"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "The customer's original standard http headers encoded, including the original User Agent header, if the customer is currently logged in to the data recipient.",
+                    "key": "x-cds-client-headers",
+                    "value": "Q3VzdG9tZXJzRGV2OkN1c3RvbWVyc0Rldg=="
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Internal Server Error",
+              "code": 500,
+              "header": [
+                {
+                  "disabled": false,
+                  "description": "Version of the API end point responded with.",
+                  "key": "x-v",
+                  "value": "3341"
+                },
+                {
+                  "disabled": false,
+                  "description": "Reflects the value of the Interaction ID in the request.",
+                  "key": "x-fapi-interaction-id",
+                  "value": "string"
+                },
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"errors\": [\n    {\n      \"code\": \"RA-IS-01\",\n      \"title\": \"Server Error\",\n      \"detail\": \"An error has occurred whilst processing your request. Please try again later.\"\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "438e5c09-184f-45d2-ba23-5d4907cd2138",
+          "name": "Get Bulk Direct Debits",
+          "request": {
+            "name": "Get Bulk Direct Debits",
+            "description": {
+              "content": "Obtain direct debit authorisations for multiple, filtered accounts.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "accounts",
+                "direct-debits"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "product-category",
+                  "value": "<string>",
+                  "description": "Used to filter results on the productCategory field applicable to accounts. If absent then all accounts returned."
+                },
+                {
+                  "disabled": false,
+                  "key": "open-status",
+                  "value": "ALL",
+                  "description": "Used to filter results according to open/closed status. If absent then ALL is assumed."
+                },
+                {
+                  "disabled": false,
+                  "key": "is-owned",
+                  "value": "<boolean>",
+                  "description": "Filters accounts based on whether they are owned by the authorised customer.  True for owned accounts, false for unowned accounts and absent for all accounts."
+                },
+                {
+                  "disabled": false,
+                  "key": "page",
+                  "value": "1",
+                  "description": "Page number being requested"
+                },
+                {
+                  "disabled": false,
+                  "key": "page-size",
+                  "value": "25",
+                  "description": "Number of records to return with the page"
+                }
+              ],
+              "variable": []
+            },
+            "header": [
+              {
+                "disabled": false,
+                "description": "Version of the API end point being requested.",
+                "key": "x-v",
+                "value": "<integer>"
+              },
+              {
+                "disabled": false,
+                "description": "Minimum version of the API end point you are requesting.",
+                "key": "x-min-v",
+                "value": "<integer>"
+              },
+              {
+                "disabled": false,
+                "description": "Reflects the value of the Interaction ID in the request.",
+                "key": "x-fapi-interaction-id",
+                "value": "<string>"
+              },
+              {
+                "disabled": false,
+                "description": "The time when the customer last logged in to the data recipient.",
+                "key": "x-fapi-auth-date",
+                "value": "<string>"
+              },
+              {
+                "disabled": false,
+                "description": "The customer's original IP address if the customer is currently logged in to the data recipient.",
+                "key": "x-fapi-customer-ip-address",
+                "value": "<string>"
+              },
+              {
+                "disabled": false,
+                "description": "The customer's original standard http headers encoded, including the original User Agent header, if the customer is currently logged in to the data recipient.",
+                "key": "x-cds-client-headers",
+                "value": "<string>"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "050c296f-ae75-4b95-bffa-44f0d164ac69",
+              "name": "Success",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "accounts",
+                    "direct-debits"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "product-category",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "open-status",
+                      "value": "ALL"
+                    },
+                    {
+                      "key": "is-owned",
+                      "value": "<boolean>"
+                    },
+                    {
+                      "key": "page",
+                      "value": "1"
+                    },
+                    {
+                      "key": "page-size",
+                      "value": "25"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "disabled": false,
+                    "description": "Version of the API end point being requested.",
+                    "key": "x-v",
+                    "value": "1"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "Minimum version of the API end point you are requesting.",
+                    "key": "x-min-v",
+                    "value": "1"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "Reflects the value of the Interaction ID in the request.",
+                    "key": "x-fapi-interaction-id",
+                    "value": "f688ae24-9719-4975-9f58-f6b7e655c37d"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "The time when the customer last logged in to the data recipient.",
+                    "key": "x-fapi-auth-date",
+                    "value": "2002-10-03T01:00:00+10:00"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "The customer's original IP address if the customer is currently logged in to the data recipient.",
+                    "key": "x-fapi-customer-ip-address",
+                    "value": "192.168.1.1"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "The customer's original standard http headers encoded, including the original User Agent header, if the customer is currently logged in to the data recipient.",
+                    "key": "x-cds-client-headers",
+                    "value": "Q3VzdG9tZXJzRGV2OkN1c3RvbWVyc0Rldg=="
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "disabled": false,
+                  "description": "Version of the API end point responded with.",
+                  "key": "x-v",
+                  "value": "string"
+                },
+                {
+                  "disabled": false,
+                  "description": "Reflects the value of the Interaction ID in the request.",
+                  "key": "x-fapi-interaction-id",
+                  "value": "string"
+                },
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"data\": {\n    \"directDebitAuthorisations\": [\n      {\n        \"accountId\": \"string\",\n        \"authorisedEntity\": {\n          \"description\": \"string\",\n          \"financialInstitution\": \"string\",\n          \"abn\": \"string\",\n          \"acn\": \"string\",\n          \"arbn\": \"string\"\n        },\n        \"lastDebitDateTime\": \"string\",\n        \"lastDebitAmount\": \"string\"\n      },\n      {\n        \"accountId\": \"string\",\n        \"authorisedEntity\": {\n          \"description\": \"string\",\n          \"financialInstitution\": \"string\",\n          \"abn\": \"string\",\n          \"acn\": \"string\",\n          \"arbn\": \"string\"\n        },\n        \"lastDebitDateTime\": \"string\",\n        \"lastDebitAmount\": \"string\"\n      }\n    ]\n  },\n  \"links\": {\n    \"self\": \"string\",\n    \"first\": \"string\",\n    \"prev\": \"string\",\n    \"next\": \"string\",\n    \"last\": \"string\"\n  },\n  \"meta\": {\n    \"totalPages\": 2598,\n    \"totalRecords\": 7930\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "a76abdb2-a96e-41d6-8483-4eb718b08bb4",
+              "name": "Bad Request",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "accounts",
+                    "direct-debits"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "product-category",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "open-status",
+                      "value": "ALL"
+                    },
+                    {
+                      "key": "is-owned",
+                      "value": "<boolean>"
+                    },
+                    {
+                      "key": "page",
+                      "value": "1"
+                    },
+                    {
+                      "key": "page-size",
+                      "value": "25"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "disabled": false,
+                    "description": "Version of the API end point being requested.",
+                    "key": "x-v",
+                    "value": "1"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "Minimum version of the API end point you are requesting.",
+                    "key": "x-min-v",
+                    "value": "1"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "Reflects the value of the Interaction ID in the request.",
+                    "key": "x-fapi-interaction-id",
+                    "value": "f688ae24-9719-4975-9f58-f6b7e655c37d"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "The time when the customer last logged in to the data recipient.",
+                    "key": "x-fapi-auth-date",
+                    "value": "2002-10-03T01:00:00+10:00"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "The customer's original IP address if the customer is currently logged in to the data recipient.",
+                    "key": "x-fapi-customer-ip-address",
+                    "value": "192.168.1.1"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "The customer's original standard http headers encoded, including the original User Agent header, if the customer is currently logged in to the data recipient.",
+                    "key": "x-cds-client-headers",
+                    "value": "Q3VzdG9tZXJzRGV2OkN1c3RvbWVyc0Rldg=="
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "disabled": false,
+                  "description": "Version of the API end point responded with.",
+                  "key": "x-v",
+                  "value": "3341"
+                },
+                {
+                  "disabled": false,
+                  "description": "Reflects the value of the Interaction ID in the request.",
+                  "key": "x-fapi-interaction-Id",
+                  "value": "string"
+                },
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"errors\": [\n    {\n      \"code\": \"string\",\n      \"title\": \"string\",\n      \"detail\": \"string\"\n    },\n    {\n      \"code\": \"string\",\n      \"title\": \"string\",\n      \"detail\": \"string\"\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "a231b014-2749-4989-b3ca-06a2be98650a",
+              "name": "Not Acceptable",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "accounts",
+                    "direct-debits"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "product-category",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "open-status",
+                      "value": "ALL"
+                    },
+                    {
+                      "key": "is-owned",
+                      "value": "<boolean>"
+                    },
+                    {
+                      "key": "page",
+                      "value": "1"
+                    },
+                    {
+                      "key": "page-size",
+                      "value": "25"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "disabled": false,
+                    "description": "Version of the API end point being requested.",
+                    "key": "x-v",
+                    "value": "1"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "Minimum version of the API end point you are requesting.",
+                    "key": "x-min-v",
+                    "value": "1"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "Reflects the value of the Interaction ID in the request.",
+                    "key": "x-fapi-interaction-id",
+                    "value": "f688ae24-9719-4975-9f58-f6b7e655c37d"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "The time when the customer last logged in to the data recipient.",
+                    "key": "x-fapi-auth-date",
+                    "value": "2002-10-03T01:00:00+10:00"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "The customer's original IP address if the customer is currently logged in to the data recipient.",
+                    "key": "x-fapi-customer-ip-address",
+                    "value": "192.168.1.1"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "The customer's original standard http headers encoded, including the original User Agent header, if the customer is currently logged in to the data recipient.",
+                    "key": "x-cds-client-headers",
+                    "value": "Q3VzdG9tZXJzRGV2OkN1c3RvbWVyc0Rldg=="
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Not Acceptable",
+              "code": 406,
+              "header": [
+                {
+                  "disabled": false,
+                  "description": "Version of the API end point responded with.",
+                  "key": "x-v",
+                  "value": "3341"
+                },
+                {
+                  "disabled": false,
+                  "description": "Reflects the value of the Interaction ID in the request.",
+                  "key": "x-fapi-interaction-id",
+                  "value": "string"
+                },
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"errors\": [\n    {\n      \"code\": \"string\",\n      \"title\": \"string\",\n      \"detail\": \"string\"\n    },\n    {\n      \"code\": \"string\",\n      \"title\": \"string\",\n      \"detail\": \"string\"\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "98370a79-fb41-4c71-83e7-5d3fc1bd1bfa",
+              "name": "Unprocessable Entity.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "accounts",
+                    "direct-debits"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "product-category",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "open-status",
+                      "value": "ALL"
+                    },
+                    {
+                      "key": "is-owned",
+                      "value": "<boolean>"
+                    },
+                    {
+                      "key": "page",
+                      "value": "1"
+                    },
+                    {
+                      "key": "page-size",
+                      "value": "25"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "disabled": false,
+                    "description": "Version of the API end point being requested.",
+                    "key": "x-v",
+                    "value": "1"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "Minimum version of the API end point you are requesting.",
+                    "key": "x-min-v",
+                    "value": "1"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "Reflects the value of the Interaction ID in the request.",
+                    "key": "x-fapi-interaction-id",
+                    "value": "f688ae24-9719-4975-9f58-f6b7e655c37d"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "The time when the customer last logged in to the data recipient.",
+                    "key": "x-fapi-auth-date",
+                    "value": "2002-10-03T01:00:00+10:00"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "The customer's original IP address if the customer is currently logged in to the data recipient.",
+                    "key": "x-fapi-customer-ip-address",
+                    "value": "192.168.1.1"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "The customer's original standard http headers encoded, including the original User Agent header, if the customer is currently logged in to the data recipient.",
+                    "key": "x-cds-client-headers",
+                    "value": "Q3VzdG9tZXJzRGV2OkN1c3RvbWVyc0Rldg=="
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Unprocessable Entity (WebDAV) (RFC 4918)",
+              "code": 422,
+              "header": [
+                {
+                  "disabled": false,
+                  "description": "Version of the API end point responded with.",
+                  "key": "x-v",
+                  "value": "3341"
+                },
+                {
+                  "disabled": false,
+                  "description": "Reflects the value of the Interaction ID in the request.",
+                  "key": "x-fapi-interaction-id",
+                  "value": "string"
+                },
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"errors\": [\n    {\n      \"code\": \"string\",\n      \"title\": \"string\",\n      \"detail\": \"string\"\n    },\n    {\n      \"code\": \"string\",\n      \"title\": \"string\",\n      \"detail\": \"string\"\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "ba0f6ec9-10c0-418c-9ef4-2e0e13af2c55",
+              "name": "Too Many Requests",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "accounts",
+                    "direct-debits"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "product-category",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "open-status",
+                      "value": "ALL"
+                    },
+                    {
+                      "key": "is-owned",
+                      "value": "<boolean>"
+                    },
+                    {
+                      "key": "page",
+                      "value": "1"
+                    },
+                    {
+                      "key": "page-size",
+                      "value": "25"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "disabled": false,
+                    "description": "Version of the API end point being requested.",
+                    "key": "x-v",
+                    "value": "1"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "Minimum version of the API end point you are requesting.",
+                    "key": "x-min-v",
+                    "value": "1"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "Reflects the value of the Interaction ID in the request.",
+                    "key": "x-fapi-interaction-id",
+                    "value": "f688ae24-9719-4975-9f58-f6b7e655c37d"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "The time when the customer last logged in to the data recipient.",
+                    "key": "x-fapi-auth-date",
+                    "value": "2002-10-03T01:00:00+10:00"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "The customer's original IP address if the customer is currently logged in to the data recipient.",
+                    "key": "x-fapi-customer-ip-address",
+                    "value": "192.168.1.1"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "The customer's original standard http headers encoded, including the original User Agent header, if the customer is currently logged in to the data recipient.",
+                    "key": "x-cds-client-headers",
+                    "value": "Q3VzdG9tZXJzRGV2OkN1c3RvbWVyc0Rldg=="
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Too Many Requests",
+              "code": 429,
+              "header": [
+                {
+                  "disabled": false,
+                  "description": "Amount of time the client should wait before re-trying the operation.",
+                  "key": "Retry-After",
+                  "value": "3341"
+                },
+                {
+                  "disabled": false,
+                  "description": "Version of the API end point responded with.",
+                  "key": "x-v",
+                  "value": "3341"
+                },
+                {
+                  "disabled": false,
+                  "description": "Reflects the value of the Interaction ID in the request.",
+                  "key": "x-fapi-interaction-id",
+                  "value": "string"
+                },
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "29b47000-2cd6-4db8-b358-230db05e444e",
+              "name": "Internal Server Error",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "accounts",
+                    "direct-debits"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "product-category",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "open-status",
+                      "value": "ALL"
+                    },
+                    {
+                      "key": "is-owned",
+                      "value": "<boolean>"
+                    },
+                    {
+                      "key": "page",
+                      "value": "1"
+                    },
+                    {
+                      "key": "page-size",
+                      "value": "25"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "disabled": false,
+                    "description": "Version of the API end point being requested.",
+                    "key": "x-v",
+                    "value": "1"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "Minimum version of the API end point you are requesting.",
+                    "key": "x-min-v",
+                    "value": "1"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "Reflects the value of the Interaction ID in the request.",
+                    "key": "x-fapi-interaction-id",
+                    "value": "f688ae24-9719-4975-9f58-f6b7e655c37d"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "The time when the customer last logged in to the data recipient.",
+                    "key": "x-fapi-auth-date",
+                    "value": "2002-10-03T01:00:00+10:00"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "The customer's original IP address if the customer is currently logged in to the data recipient.",
+                    "key": "x-fapi-customer-ip-address",
+                    "value": "192.168.1.1"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "The customer's original standard http headers encoded, including the original User Agent header, if the customer is currently logged in to the data recipient.",
+                    "key": "x-cds-client-headers",
+                    "value": "Q3VzdG9tZXJzRGV2OkN1c3RvbWVyc0Rldg=="
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Internal Server Error",
+              "code": 500,
+              "header": [
+                {
+                  "disabled": false,
+                  "description": "Version of the API end point responded with.",
+                  "key": "x-v",
+                  "value": "3341"
+                },
+                {
+                  "disabled": false,
+                  "description": "Reflects the value of the Interaction ID in the request.",
+                  "key": "x-fapi-interaction-id",
+                  "value": "string"
+                },
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"errors\": [\n    {\n      \"code\": \"string\",\n      \"title\": \"string\",\n      \"detail\": \"string\"\n    },\n    {\n      \"code\": \"string\",\n      \"title\": \"string\",\n      \"detail\": \"string\"\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "af74e84e-e721-466b-8dc4-383a2b053a99",
+          "name": "Get Direct Debits For Specific Accounts",
+          "request": {
+            "name": "Get Direct Debits For Specific Accounts",
+            "description": {
+              "content": "Obtain direct debit authorisations for a specified list of accounts.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "accounts",
+                "direct-debits"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "page",
+                  "value": "1",
+                  "description": "Page number being requested"
+                },
+                {
+                  "disabled": false,
+                  "key": "page-size",
+                  "value": "25",
+                  "description": "Number of records to return with the page"
+                }
+              ],
+              "variable": []
+            },
+            "header": [
+              {
+                "disabled": false,
+                "description": "Version of the API end point being requested.",
+                "key": "x-v",
+                "value": "<integer>"
+              },
+              {
+                "disabled": false,
+                "description": "Minimum version of the API end point you are requesting.",
+                "key": "x-min-v",
+                "value": "<integer>"
+              },
+              {
+                "disabled": false,
+                "description": "The time when the customer last logged in to the data recipient.",
+                "key": "x-fapi-auth-date",
+                "value": "<string>"
+              },
+              {
+                "disabled": false,
+                "description": "Reflects the value of the Interaction ID in the request.",
+                "key": "x-fapi-interaction-id",
+                "value": "<string>"
+              },
+              {
+                "disabled": false,
+                "description": "The customer's original IP address if the customer is currently logged in to the data recipient.",
+                "key": "x-fapi-customer-ip-address",
+                "value": "<string>"
+              },
+              {
+                "disabled": false,
+                "description": "The customer's original standard http headers encoded, including the original User Agent header, if the customer is currently logged in to the data recipient.",
+                "key": "x-cds-client-headers",
+                "value": "<string>"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "*/*"
+              }
+            ],
+            "method": "POST",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"data\": {\n    \"accountIds\": [\n      \"<string>\",\n      \"<string>\"\n    ]\n  },\n  \"meta\": \"<object>\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "b3d30410-c85f-447a-b1a1-9a6c1b4ece04",
+              "name": "Success",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "accounts",
+                    "direct-debits"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "page",
+                      "value": "1"
+                    },
+                    {
+                      "key": "page-size",
+                      "value": "25"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "disabled": false,
+                    "description": "Version of the API end point being requested.",
+                    "key": "x-v",
+                    "value": "1"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "Minimum version of the API end point you are requesting.",
+                    "key": "x-min-v",
+                    "value": "1"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "The time when the customer last logged in to the data recipient.",
+                    "key": "x-fapi-auth-date",
+                    "value": "2002-10-03T01:00:00+10:00"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "Reflects the value of the Interaction ID in the request.",
+                    "key": "x-fapi-interaction-id",
+                    "value": "f688ae24-9719-4975-9f58-f6b7e655c37d"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "The customer's original IP address if the customer is currently logged in to the data recipient.",
+                    "key": "x-fapi-customer-ip-address",
+                    "value": "192.168.1.1"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "The customer's original standard http headers encoded, including the original User Agent header, if the customer is currently logged in to the data recipient.",
+                    "key": "x-cds-client-headers",
+                    "value": "Q3VzdG9tZXJzRGV2OkN1c3RvbWVyc0Rldg=="
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "*/*"
+                  }
+                ],
+                "method": "POST",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "disabled": false,
+                  "description": "Version of the API end point responded with.",
+                  "key": "x-v",
+                  "value": "string"
+                },
+                {
+                  "disabled": false,
+                  "description": "Reflects the value of the Interaction ID in the request.",
+                  "key": "x-fapi-interaction-id",
+                  "value": "string"
+                },
+                {
+                  "key": "Content-Type",
+                  "value": "*/*"
+                }
+              ],
+              "body": "{\n  \"data\": {\n    \"directDebitAuthorisations\": [\n      {\n        \"accountId\": \"ygEST5viDcah5JJcdvT2uRDxuCbQezp0zWMrWrgSDb4\",\n        \"lastDebitDateTime\": \"2020-07-07T14:00:00Z\",\n        \"lastDebitAmount\": \"30.00\",\n        \"authorisedEntity\": {\n          \"description\": \"Kleenheat Gas Murdoch\"\n        }\n      },\n      {\n        \"accountId\": \"ygEST5viDcah5JJcdvT2uRDxuCbQezp0zWMrWrgSDb4\",\n        \"lastDebitDateTime\": \"2020-09-01T14:00:00Z\",\n        \"lastDebitAmount\": \"89.99\",\n        \"authorisedEntity\": {\n          \"description\": \"TPG Internet Pty Ltd\"\n        }\n      }\n    ]\n  },\n  \"links\": {\n    \"self\": \"https://secure.api.commbank.com.au/api/cds-au/v1/banking/accounts/ygEST5viDcah5JJcdvT2uRDxuCbQezp0zWMrWrgSDb4/direct-debits?page=1&page-size=25\",\n    \"first\": \"https://secure.api.commbank.com.au/api/cds-au/v1/banking/accounts/ygEST5viDcah5JJcdvT2uRDxuCbQezp0zWMrWrgSDb4/direct-debits?page=1&page-size=25\",\n    \"last\": \"https://secure.api.commbank.com.au/api/cds-au/v1/banking/accounts/ygEST5viDcah5JJcdvT2uRDxuCbQezp0zWMrWrgSDb4/direct-debits?page=1&page-size=25\"\n  },\n  \"meta\": {\n    \"totalRecords\": 2,\n    \"totalPages\": 1\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "875b261e-d4c3-4cdd-be2d-2250291e37c0",
+              "name": "Bad Request",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "accounts",
+                    "direct-debits"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "page",
+                      "value": "1"
+                    },
+                    {
+                      "key": "page-size",
+                      "value": "25"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "disabled": false,
+                    "description": "Version of the API end point being requested.",
+                    "key": "x-v",
+                    "value": "1"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "Minimum version of the API end point you are requesting.",
+                    "key": "x-min-v",
+                    "value": "1"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "The time when the customer last logged in to the data recipient.",
+                    "key": "x-fapi-auth-date",
+                    "value": "2002-10-03T01:00:00+10:00"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "Reflects the value of the Interaction ID in the request.",
+                    "key": "x-fapi-interaction-id",
+                    "value": "f688ae24-9719-4975-9f58-f6b7e655c37d"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "The customer's original IP address if the customer is currently logged in to the data recipient.",
+                    "key": "x-fapi-customer-ip-address",
+                    "value": "192.168.1.1"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "The customer's original standard http headers encoded, including the original User Agent header, if the customer is currently logged in to the data recipient.",
+                    "key": "x-cds-client-headers",
+                    "value": "Q3VzdG9tZXJzRGV2OkN1c3RvbWVyc0Rldg=="
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "*/*"
+                  }
+                ],
+                "method": "POST",
+                "body": {}
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "disabled": false,
+                  "description": "Version of the API end point responded with.",
+                  "key": "x-v",
+                  "value": "3341"
+                },
+                {
+                  "disabled": false,
+                  "description": "Reflects the value of the Interaction ID in the request.",
+                  "key": "x-fapi-interaction-Id",
+                  "value": "string"
+                },
+                {
+                  "key": "Content-Type",
+                  "value": "*/*"
+                }
+              ],
+              "body": "{\n  \"errors\": [\n    {\n      \"code\": \"string\",\n      \"title\": \"string\",\n      \"detail\": \"string\"\n    },\n    {\n      \"code\": \"string\",\n      \"title\": \"string\",\n      \"detail\": \"string\"\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "78092a34-228a-452b-beda-b86e1a222514",
+              "name": "Not Acceptable",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "accounts",
+                    "direct-debits"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "page",
+                      "value": "1"
+                    },
+                    {
+                      "key": "page-size",
+                      "value": "25"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "disabled": false,
+                    "description": "Version of the API end point being requested.",
+                    "key": "x-v",
+                    "value": "1"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "Minimum version of the API end point you are requesting.",
+                    "key": "x-min-v",
+                    "value": "1"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "The time when the customer last logged in to the data recipient.",
+                    "key": "x-fapi-auth-date",
+                    "value": "2002-10-03T01:00:00+10:00"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "Reflects the value of the Interaction ID in the request.",
+                    "key": "x-fapi-interaction-id",
+                    "value": "f688ae24-9719-4975-9f58-f6b7e655c37d"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "The customer's original IP address if the customer is currently logged in to the data recipient.",
+                    "key": "x-fapi-customer-ip-address",
+                    "value": "192.168.1.1"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "The customer's original standard http headers encoded, including the original User Agent header, if the customer is currently logged in to the data recipient.",
+                    "key": "x-cds-client-headers",
+                    "value": "Q3VzdG9tZXJzRGV2OkN1c3RvbWVyc0Rldg=="
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "*/*"
+                  }
+                ],
+                "method": "POST",
+                "body": {}
+              },
+              "status": "Not Acceptable",
+              "code": 406,
+              "header": [
+                {
+                  "disabled": false,
+                  "description": "Version of the API end point responded with.",
+                  "key": "x-v",
+                  "value": "3341"
+                },
+                {
+                  "disabled": false,
+                  "description": "Reflects the value of the Interaction ID in the request.",
+                  "key": "x-fapi-interaction-id",
+                  "value": "string"
+                },
+                {
+                  "key": "Content-Type",
+                  "value": "*/*"
+                }
+              ],
+              "body": "{\n  \"errors\": [\n    {\n      \"code\": \"string\",\n      \"title\": \"string\",\n      \"detail\": \"string\"\n    },\n    {\n      \"code\": \"string\",\n      \"title\": \"string\",\n      \"detail\": \"string\"\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "1d0d3da5-be2a-4dd2-a6bf-b024cbb9b451",
+              "name": "Unprocessable Entity.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "accounts",
+                    "direct-debits"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "page",
+                      "value": "1"
+                    },
+                    {
+                      "key": "page-size",
+                      "value": "25"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "disabled": false,
+                    "description": "Version of the API end point being requested.",
+                    "key": "x-v",
+                    "value": "1"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "Minimum version of the API end point you are requesting.",
+                    "key": "x-min-v",
+                    "value": "1"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "The time when the customer last logged in to the data recipient.",
+                    "key": "x-fapi-auth-date",
+                    "value": "2002-10-03T01:00:00+10:00"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "Reflects the value of the Interaction ID in the request.",
+                    "key": "x-fapi-interaction-id",
+                    "value": "f688ae24-9719-4975-9f58-f6b7e655c37d"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "The customer's original IP address if the customer is currently logged in to the data recipient.",
+                    "key": "x-fapi-customer-ip-address",
+                    "value": "192.168.1.1"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "The customer's original standard http headers encoded, including the original User Agent header, if the customer is currently logged in to the data recipient.",
+                    "key": "x-cds-client-headers",
+                    "value": "Q3VzdG9tZXJzRGV2OkN1c3RvbWVyc0Rldg=="
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "*/*"
+                  }
+                ],
+                "method": "POST",
+                "body": {}
+              },
+              "status": "Unprocessable Entity (WebDAV) (RFC 4918)",
+              "code": 422,
+              "header": [
+                {
+                  "disabled": false,
+                  "description": "Version of the API end point responded with.",
+                  "key": "x-v",
+                  "value": "3341"
+                },
+                {
+                  "disabled": false,
+                  "description": "Reflects the value of the Interaction ID in the request.",
+                  "key": "x-fapi-interaction-id",
+                  "value": "string"
+                },
+                {
+                  "key": "Content-Type",
+                  "value": "*/*"
+                }
+              ],
+              "body": "{\n  \"errors\": [\n    {\n      \"code\": \"string\",\n      \"title\": \"string\",\n      \"detail\": \"string\"\n    },\n    {\n      \"code\": \"string\",\n      \"title\": \"string\",\n      \"detail\": \"string\"\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "bc6b7a37-de1c-49f8-b3d4-a10ed6b57900",
+              "name": "Too Many Requests.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "accounts",
+                    "direct-debits"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "page",
+                      "value": "1"
+                    },
+                    {
+                      "key": "page-size",
+                      "value": "25"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "disabled": false,
+                    "description": "Version of the API end point being requested.",
+                    "key": "x-v",
+                    "value": "1"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "Minimum version of the API end point you are requesting.",
+                    "key": "x-min-v",
+                    "value": "1"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "The time when the customer last logged in to the data recipient.",
+                    "key": "x-fapi-auth-date",
+                    "value": "2002-10-03T01:00:00+10:00"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "Reflects the value of the Interaction ID in the request.",
+                    "key": "x-fapi-interaction-id",
+                    "value": "f688ae24-9719-4975-9f58-f6b7e655c37d"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "The customer's original IP address if the customer is currently logged in to the data recipient.",
+                    "key": "x-fapi-customer-ip-address",
+                    "value": "192.168.1.1"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "The customer's original standard http headers encoded, including the original User Agent header, if the customer is currently logged in to the data recipient.",
+                    "key": "x-cds-client-headers",
+                    "value": "Q3VzdG9tZXJzRGV2OkN1c3RvbWVyc0Rldg=="
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "*/*"
+                  }
+                ],
+                "method": "POST",
+                "body": {}
+              },
+              "status": "Too Many Requests",
+              "code": 429,
+              "header": [
+                {
+                  "disabled": false,
+                  "description": "Amount of time the client should wait before re-trying the operation.",
+                  "key": "Retry-After",
+                  "value": "3341"
+                },
+                {
+                  "disabled": false,
+                  "description": "Version of the API end point responded with.",
+                  "key": "x-v",
+                  "value": "3341"
+                },
+                {
+                  "disabled": false,
+                  "description": "Reflects the value of the Interaction ID in the request.",
+                  "key": "x-fapi-interaction-id",
+                  "value": "string"
+                },
+                {
+                  "key": "Content-Type",
+                  "value": "*/*"
+                }
+              ],
+              "body": "{}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "98a97a5e-2773-4ff9-a53f-6cacf8308c0b",
+              "name": "Internal Server Error",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "accounts",
+                    "direct-debits"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "page",
+                      "value": "1"
+                    },
+                    {
+                      "key": "page-size",
+                      "value": "25"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "disabled": false,
+                    "description": "Version of the API end point being requested.",
+                    "key": "x-v",
+                    "value": "1"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "Minimum version of the API end point you are requesting.",
+                    "key": "x-min-v",
+                    "value": "1"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "The time when the customer last logged in to the data recipient.",
+                    "key": "x-fapi-auth-date",
+                    "value": "2002-10-03T01:00:00+10:00"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "Reflects the value of the Interaction ID in the request.",
+                    "key": "x-fapi-interaction-id",
+                    "value": "f688ae24-9719-4975-9f58-f6b7e655c37d"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "The customer's original IP address if the customer is currently logged in to the data recipient.",
+                    "key": "x-fapi-customer-ip-address",
+                    "value": "192.168.1.1"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "The customer's original standard http headers encoded, including the original User Agent header, if the customer is currently logged in to the data recipient.",
+                    "key": "x-cds-client-headers",
+                    "value": "Q3VzdG9tZXJzRGV2OkN1c3RvbWVyc0Rldg=="
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "*/*"
+                  }
+                ],
+                "method": "POST",
+                "body": {}
+              },
+              "status": "Internal Server Error",
+              "code": 500,
+              "header": [
+                {
+                  "disabled": false,
+                  "description": "Version of the API end point responded with.",
+                  "key": "x-v",
+                  "value": "3341"
+                },
+                {
+                  "disabled": false,
+                  "description": "Reflects the value of the Interaction ID in the request.",
+                  "key": "x-fapi-interaction-id",
+                  "value": "string"
+                },
+                {
+                  "key": "Content-Type",
+                  "value": "*/*"
+                }
+              ],
+              "body": "{\n  \"errors\": [\n    {\n      \"code\": \"string\",\n      \"title\": \"string\",\n      \"detail\": \"string\"\n    },\n    {\n      \"code\": \"string\",\n      \"title\": \"string\",\n      \"detail\": \"string\"\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "e784763c-dc4e-499e-a525-72062d85b145",
+          "name": "Get Scheduled Payments for Account",
+          "request": {
+            "name": "Get Scheduled Payments for Account",
+            "description": {
+              "content": "Obtain scheduled, outgoing payments for a specific account.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "accounts",
+                ":accountId",
+                "payments",
+                "scheduled"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "page",
+                  "value": "1",
+                  "description": "Page number being requested"
+                },
+                {
+                  "disabled": false,
+                  "key": "page-size",
+                  "value": "25",
+                  "description": "Number of records to return with the page"
+                }
+              ],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "accountId",
+                  "description": "(Required) ID of the account to get scheduled payments for."
+                }
+              ]
+            },
+            "header": [
+              {
+                "disabled": false,
+                "description": "Version of the API end point being requested.",
+                "key": "x-v",
+                "value": "<integer>"
+              },
+              {
+                "disabled": false,
+                "description": "Minimum version of the API end point you are requesting.",
+                "key": "x-min-v",
+                "value": "<integer>"
+              },
+              {
+                "disabled": false,
+                "description": "The time when the customer last logged in to the data recipient.",
+                "key": "x-fapi-auth-date",
+                "value": "<string>"
+              },
+              {
+                "disabled": false,
+                "description": "Reflects the value of the Interaction ID in the request.",
+                "key": "x-fapi-interaction-id",
+                "value": "<string>"
+              },
+              {
+                "disabled": false,
+                "description": "The customer's original IP address if the customer is currently logged in to the data recipient.",
+                "key": "x-fapi-customer-ip-address",
+                "value": "<string>"
+              },
+              {
+                "disabled": false,
+                "description": "The customer's original standard http headers encoded, including the original User Agent header, if the customer is currently logged in to the data recipient.",
+                "key": "x-cds-client-headers",
+                "value": "<string>"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "b915501a-74e4-4101-8144-e32b10c6a7a6",
+              "name": "Success",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "accounts",
+                    ":accountId",
+                    "payments",
+                    "scheduled"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "page",
+                      "value": "1"
+                    },
+                    {
+                      "key": "page-size",
+                      "value": "25"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "accountId",
+                      "description": "(Required) ID of the account to get scheduled payments for."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "disabled": false,
+                    "description": "Version of the API end point being requested.",
+                    "key": "x-v",
+                    "value": "1"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "Minimum version of the API end point you are requesting.",
+                    "key": "x-min-v",
+                    "value": "1"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "The time when the customer last logged in to the data recipient.",
+                    "key": "x-fapi-auth-date",
+                    "value": "2002-10-03T01:00:00+10:00"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "Reflects the value of the Interaction ID in the request.",
+                    "key": "x-fapi-interaction-id",
+                    "value": "f688ae24-9719-4975-9f58-f6b7e655c37d"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "The customer's original IP address if the customer is currently logged in to the data recipient.",
+                    "key": "x-fapi-customer-ip-address",
+                    "value": "192.168.1.1"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "The customer's original standard http headers encoded, including the original User Agent header, if the customer is currently logged in to the data recipient.",
+                    "key": "x-cds-client-headers",
+                    "value": "Q3VzdG9tZXJzRGV2OkN1c3RvbWVyc0Rldg=="
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "disabled": false,
+                  "description": "Version of the API end point responded with.",
+                  "key": "x-v",
+                  "value": "string"
+                },
+                {
+                  "disabled": false,
+                  "description": "Reflects the value of the Interaction ID in the request.",
+                  "key": "x-fapi-interaction-id",
+                  "value": "string"
+                },
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"data\": {\n    \"scheduledPayments\": [\n      {\n        \"from\": {\n          \"accountId\": \"string\"\n        },\n        \"payeeReference\": \"string\",\n        \"payerReference\": \"string\",\n        \"paymentSet\": [\n          {\n            \"to\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"isAmountCalculated\": true,\n            \"amount\": \"string\",\n            \"currency\": \"string\"\n          },\n          {\n            \"to\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"isAmountCalculated\": true,\n            \"amount\": \"string\",\n            \"currency\": \"string\"\n          }\n        ],\n        \"recurrence\": {\n          \"recurrenceUType\": \"onceOff\",\n          \"nextPaymentDate\": \"string\",\n          \"onceOff\": {\n            \"paymentDate\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          },\n          \"intervalSchedule\": {\n            \"intervals\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"finalPaymentDate\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"paymentsRemaining\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"nonBusinessDayTreatment\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          },\n          \"lastWeekDay\": {\n            \"interval\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"lastWeekDay\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"finalPaymentDate\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"paymentsRemaining\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"nonBusinessDayTreatment\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          },\n          \"eventBased\": {\n            \"description\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          }\n        },\n        \"scheduledPaymentId\": \"string\",\n        \"status\": \"ACTIVE\",\n        \"nickname\": \"string\"\n      },\n      {\n        \"from\": {\n          \"accountId\": \"string\"\n        },\n        \"payeeReference\": \"string\",\n        \"payerReference\": \"string\",\n        \"paymentSet\": [\n          {\n            \"to\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"isAmountCalculated\": false,\n            \"amount\": \"string\",\n            \"currency\": \"string\"\n          },\n          {\n            \"to\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"isAmountCalculated\": true,\n            \"amount\": \"string\",\n            \"currency\": \"string\"\n          }\n        ],\n        \"recurrence\": {\n          \"recurrenceUType\": \"onceOff\",\n          \"nextPaymentDate\": \"string\",\n          \"onceOff\": {\n            \"paymentDate\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          },\n          \"intervalSchedule\": {\n            \"intervals\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"finalPaymentDate\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"paymentsRemaining\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"nonBusinessDayTreatment\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          },\n          \"lastWeekDay\": {\n            \"interval\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"lastWeekDay\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"finalPaymentDate\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"paymentsRemaining\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"nonBusinessDayTreatment\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          },\n          \"eventBased\": {\n            \"description\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          }\n        },\n        \"scheduledPaymentId\": \"string\",\n        \"status\": \"SKIP\",\n        \"nickname\": \"string\"\n      }\n    ]\n  },\n  \"links\": {\n    \"self\": \"string\",\n    \"first\": \"string\",\n    \"prev\": \"string\",\n    \"next\": \"string\",\n    \"last\": \"string\"\n  },\n  \"meta\": {\n    \"totalPages\": 4658,\n    \"totalRecords\": 274\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "539fef82-5381-447b-83d9-d88aafac5eab",
+              "name": "Bad Request.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "accounts",
+                    ":accountId",
+                    "payments",
+                    "scheduled"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "page",
+                      "value": "1"
+                    },
+                    {
+                      "key": "page-size",
+                      "value": "25"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "accountId",
+                      "description": "(Required) ID of the account to get scheduled payments for."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "disabled": false,
+                    "description": "Version of the API end point being requested.",
+                    "key": "x-v",
+                    "value": "1"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "Minimum version of the API end point you are requesting.",
+                    "key": "x-min-v",
+                    "value": "1"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "The time when the customer last logged in to the data recipient.",
+                    "key": "x-fapi-auth-date",
+                    "value": "2002-10-03T01:00:00+10:00"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "Reflects the value of the Interaction ID in the request.",
+                    "key": "x-fapi-interaction-id",
+                    "value": "f688ae24-9719-4975-9f58-f6b7e655c37d"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "The customer's original IP address if the customer is currently logged in to the data recipient.",
+                    "key": "x-fapi-customer-ip-address",
+                    "value": "192.168.1.1"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "The customer's original standard http headers encoded, including the original User Agent header, if the customer is currently logged in to the data recipient.",
+                    "key": "x-cds-client-headers",
+                    "value": "Q3VzdG9tZXJzRGV2OkN1c3RvbWVyc0Rldg=="
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "disabled": false,
+                  "description": "Version of the API end point responded with.",
+                  "key": "x-v",
+                  "value": "3341"
+                },
+                {
+                  "disabled": false,
+                  "description": "Reflects the value of the Interaction ID in the request.",
+                  "key": "x-fapi-interaction-Id",
+                  "value": "string"
+                },
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"errors\": [\n    {\n      \"code\": \"string\",\n      \"title\": \"string\",\n      \"detail\": \"string\"\n    },\n    {\n      \"code\": \"string\",\n      \"title\": \"string\",\n      \"detail\": \"string\"\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "3539d4a9-6d6d-4220-9db9-a40f89069eeb",
+              "name": "Not Acceptable",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "accounts",
+                    ":accountId",
+                    "payments",
+                    "scheduled"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "page",
+                      "value": "1"
+                    },
+                    {
+                      "key": "page-size",
+                      "value": "25"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "accountId",
+                      "description": "(Required) ID of the account to get scheduled payments for."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "disabled": false,
+                    "description": "Version of the API end point being requested.",
+                    "key": "x-v",
+                    "value": "1"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "Minimum version of the API end point you are requesting.",
+                    "key": "x-min-v",
+                    "value": "1"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "The time when the customer last logged in to the data recipient.",
+                    "key": "x-fapi-auth-date",
+                    "value": "2002-10-03T01:00:00+10:00"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "Reflects the value of the Interaction ID in the request.",
+                    "key": "x-fapi-interaction-id",
+                    "value": "f688ae24-9719-4975-9f58-f6b7e655c37d"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "The customer's original IP address if the customer is currently logged in to the data recipient.",
+                    "key": "x-fapi-customer-ip-address",
+                    "value": "192.168.1.1"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "The customer's original standard http headers encoded, including the original User Agent header, if the customer is currently logged in to the data recipient.",
+                    "key": "x-cds-client-headers",
+                    "value": "Q3VzdG9tZXJzRGV2OkN1c3RvbWVyc0Rldg=="
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Not Acceptable",
+              "code": 406,
+              "header": [
+                {
+                  "disabled": false,
+                  "description": "Version of the API end point responded with.",
+                  "key": "x-v",
+                  "value": "3341"
+                },
+                {
+                  "disabled": false,
+                  "description": "Reflects the value of the Interaction ID in the request.",
+                  "key": "x-fapi-interaction-id",
+                  "value": "string"
+                },
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"errors\": [\n    {\n      \"code\": \"string\",\n      \"title\": \"string\",\n      \"detail\": \"string\"\n    },\n    {\n      \"code\": \"string\",\n      \"title\": \"string\",\n      \"detail\": \"string\"\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "8339be6c-1cd6-4ffc-b88a-fa5f894a99af",
+              "name": "Unprocessable Entity.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "accounts",
+                    ":accountId",
+                    "payments",
+                    "scheduled"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "page",
+                      "value": "1"
+                    },
+                    {
+                      "key": "page-size",
+                      "value": "25"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "accountId",
+                      "description": "(Required) ID of the account to get scheduled payments for."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "disabled": false,
+                    "description": "Version of the API end point being requested.",
+                    "key": "x-v",
+                    "value": "1"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "Minimum version of the API end point you are requesting.",
+                    "key": "x-min-v",
+                    "value": "1"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "The time when the customer last logged in to the data recipient.",
+                    "key": "x-fapi-auth-date",
+                    "value": "2002-10-03T01:00:00+10:00"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "Reflects the value of the Interaction ID in the request.",
+                    "key": "x-fapi-interaction-id",
+                    "value": "f688ae24-9719-4975-9f58-f6b7e655c37d"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "The customer's original IP address if the customer is currently logged in to the data recipient.",
+                    "key": "x-fapi-customer-ip-address",
+                    "value": "192.168.1.1"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "The customer's original standard http headers encoded, including the original User Agent header, if the customer is currently logged in to the data recipient.",
+                    "key": "x-cds-client-headers",
+                    "value": "Q3VzdG9tZXJzRGV2OkN1c3RvbWVyc0Rldg=="
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Unprocessable Entity (WebDAV) (RFC 4918)",
+              "code": 422,
+              "header": [
+                {
+                  "disabled": false,
+                  "description": "Version of the API end point responded with.",
+                  "key": "x-v",
+                  "value": "3341"
+                },
+                {
+                  "disabled": false,
+                  "description": "Reflects the value of the Interaction ID in the request.",
+                  "key": "x-fapi-interaction-id",
+                  "value": "string"
+                },
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"errors\": [\n    {\n      \"code\": \"string\",\n      \"title\": \"string\",\n      \"detail\": \"string\"\n    },\n    {\n      \"code\": \"string\",\n      \"title\": \"string\",\n      \"detail\": \"string\"\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "d18ac866-0c54-4948-b79f-0a05e3e6e60c",
+              "name": "Too Many Requests",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "accounts",
+                    ":accountId",
+                    "payments",
+                    "scheduled"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "page",
+                      "value": "1"
+                    },
+                    {
+                      "key": "page-size",
+                      "value": "25"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "accountId",
+                      "description": "(Required) ID of the account to get scheduled payments for."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "disabled": false,
+                    "description": "Version of the API end point being requested.",
+                    "key": "x-v",
+                    "value": "1"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "Minimum version of the API end point you are requesting.",
+                    "key": "x-min-v",
+                    "value": "1"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "The time when the customer last logged in to the data recipient.",
+                    "key": "x-fapi-auth-date",
+                    "value": "2002-10-03T01:00:00+10:00"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "Reflects the value of the Interaction ID in the request.",
+                    "key": "x-fapi-interaction-id",
+                    "value": "f688ae24-9719-4975-9f58-f6b7e655c37d"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "The customer's original IP address if the customer is currently logged in to the data recipient.",
+                    "key": "x-fapi-customer-ip-address",
+                    "value": "192.168.1.1"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "The customer's original standard http headers encoded, including the original User Agent header, if the customer is currently logged in to the data recipient.",
+                    "key": "x-cds-client-headers",
+                    "value": "Q3VzdG9tZXJzRGV2OkN1c3RvbWVyc0Rldg=="
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Too Many Requests",
+              "code": 429,
+              "header": [
+                {
+                  "disabled": false,
+                  "description": "Amount of time the client should wait before re-trying the operation.",
+                  "key": "Retry-After",
+                  "value": "3341"
+                },
+                {
+                  "disabled": false,
+                  "description": "Version of the API end point responded with.",
+                  "key": "x-v",
+                  "value": "3341"
+                },
+                {
+                  "disabled": false,
+                  "description": "Reflects the value of the Interaction ID in the request.",
+                  "key": "x-fapi-interaction-id",
+                  "value": "string"
+                },
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "60f84df4-e245-4b02-8644-0b96a80dac0e",
+              "name": "Internal Server Error",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "accounts",
+                    ":accountId",
+                    "payments",
+                    "scheduled"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "page",
+                      "value": "1"
+                    },
+                    {
+                      "key": "page-size",
+                      "value": "25"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "accountId",
+                      "description": "(Required) ID of the account to get scheduled payments for."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "disabled": false,
+                    "description": "Version of the API end point being requested.",
+                    "key": "x-v",
+                    "value": "1"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "Minimum version of the API end point you are requesting.",
+                    "key": "x-min-v",
+                    "value": "1"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "The time when the customer last logged in to the data recipient.",
+                    "key": "x-fapi-auth-date",
+                    "value": "2002-10-03T01:00:00+10:00"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "Reflects the value of the Interaction ID in the request.",
+                    "key": "x-fapi-interaction-id",
+                    "value": "f688ae24-9719-4975-9f58-f6b7e655c37d"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "The customer's original IP address if the customer is currently logged in to the data recipient.",
+                    "key": "x-fapi-customer-ip-address",
+                    "value": "192.168.1.1"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "The customer's original standard http headers encoded, including the original User Agent header, if the customer is currently logged in to the data recipient.",
+                    "key": "x-cds-client-headers",
+                    "value": "Q3VzdG9tZXJzRGV2OkN1c3RvbWVyc0Rldg=="
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Internal Server Error",
+              "code": 500,
+              "header": [
+                {
+                  "disabled": false,
+                  "description": "Version of the API end point responded with.",
+                  "key": "x-v",
+                  "value": "3341"
+                },
+                {
+                  "disabled": false,
+                  "description": "Reflects the value of the Interaction ID in the request.",
+                  "key": "x-fapi-interaction-id",
+                  "value": "string"
+                },
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"errors\": [\n    {\n      \"code\": \"string\",\n      \"title\": \"string\",\n      \"detail\": \"string\"\n    },\n    {\n      \"code\": \"string\",\n      \"title\": \"string\",\n      \"detail\": \"string\"\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "8662ef5f-fb3f-40dc-bb87-40763a5f245a",
+          "name": "Get Scheduled Payments Bulk",
+          "request": {
+            "name": "Get Scheduled Payments Bulk",
+            "description": {
+              "content": "Obtain scheduled payments for multiple, filtered accounts that are the source of funds for the payments",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "payments",
+                "scheduled"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "product-category",
+                  "value": "<string>",
+                  "description": "Used to filter results on the productCategory field applicable to accounts. If absent then all accounts returned."
+                },
+                {
+                  "disabled": false,
+                  "key": "open-status",
+                  "value": "ALL",
+                  "description": "Used to filter results according to open/closed status. If absent then ALL is assumed."
+                },
+                {
+                  "disabled": false,
+                  "key": "is-owned",
+                  "value": "<boolean>",
+                  "description": "Filters accounts based on whether they are owned by the authorised customer.  True for owned accounts, false for unowned accounts and absent for all accounts."
+                },
+                {
+                  "disabled": false,
+                  "key": "page",
+                  "value": "1",
+                  "description": "Page number being requested"
+                },
+                {
+                  "disabled": false,
+                  "key": "page-size",
+                  "value": "25",
+                  "description": "Number of records to return with the page"
+                }
+              ],
+              "variable": []
+            },
+            "header": [
+              {
+                "disabled": false,
+                "description": "Version of the API end point being requested.",
+                "key": "x-v",
+                "value": "<integer>"
+              },
+              {
+                "disabled": false,
+                "description": "Minimum version of the API end point you are requesting.",
+                "key": "x-min-v",
+                "value": "<integer>"
+              },
+              {
+                "disabled": false,
+                "description": "The time when the customer last logged in to the data recipient.",
+                "key": "x-fapi-auth-date",
+                "value": "<string>"
+              },
+              {
+                "disabled": false,
+                "description": "Reflects the value of the Interaction ID in the request.",
+                "key": "x-fapi-interaction-id",
+                "value": "<string>"
+              },
+              {
+                "disabled": false,
+                "description": "The customer's original IP address if the customer is currently logged in to the data recipient.",
+                "key": "x-fapi-customer-ip-address",
+                "value": "<string>"
+              },
+              {
+                "disabled": false,
+                "description": "The customer's original standard http headers encoded, including the original User Agent header, if the customer is currently logged in to the data recipient.",
+                "key": "x-cds-client-headers",
+                "value": "<string>"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "e8b9afc1-8c11-40de-abcb-035626a3f7f9",
+              "name": "Success",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "payments",
+                    "scheduled"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "product-category",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "open-status",
+                      "value": "ALL"
+                    },
+                    {
+                      "key": "is-owned",
+                      "value": "<boolean>"
+                    },
+                    {
+                      "key": "page",
+                      "value": "1"
+                    },
+                    {
+                      "key": "page-size",
+                      "value": "25"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "disabled": false,
+                    "description": "Version of the API end point being requested.",
+                    "key": "x-v",
+                    "value": "1"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "Minimum version of the API end point you are requesting.",
+                    "key": "x-min-v",
+                    "value": "1"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "The time when the customer last logged in to the data recipient.",
+                    "key": "x-fapi-auth-date",
+                    "value": "2002-10-03T01:00:00+10:00"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "Reflects the value of the Interaction ID in the request.",
+                    "key": "x-fapi-interaction-id",
+                    "value": "f688ae24-9719-4975-9f58-f6b7e655c37d"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "The customer's original IP address if the customer is currently logged in to the data recipient.",
+                    "key": "x-fapi-customer-ip-address",
+                    "value": "192.168.1.1"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "The customer's original standard http headers encoded, including the original User Agent header, if the customer is currently logged in to the data recipient.",
+                    "key": "x-cds-client-headers",
+                    "value": "Q3VzdG9tZXJzRGV2OkN1c3RvbWVyc0Rldg=="
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "disabled": false,
+                  "description": "Version of the API end point responded with.",
+                  "key": "x-v",
+                  "value": "string"
+                },
+                {
+                  "disabled": false,
+                  "description": "Reflects the value of the Interaction ID in the request.",
+                  "key": "x-fapi-interaction-id",
+                  "value": "string"
+                },
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"data\": {\n    \"scheduledPayments\": [\n      {\n        \"from\": {\n          \"accountId\": \"string\"\n        },\n        \"payeeReference\": \"string\",\n        \"payerReference\": \"string\",\n        \"paymentSet\": [\n          {\n            \"to\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"isAmountCalculated\": true,\n            \"amount\": \"string\",\n            \"currency\": \"string\"\n          },\n          {\n            \"to\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"isAmountCalculated\": false,\n            \"amount\": \"string\",\n            \"currency\": \"string\"\n          }\n        ],\n        \"recurrence\": {\n          \"recurrenceUType\": \"lastWeekDay\",\n          \"nextPaymentDate\": \"string\",\n          \"onceOff\": {\n            \"paymentDate\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          },\n          \"intervalSchedule\": {\n            \"intervals\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"finalPaymentDate\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"paymentsRemaining\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"nonBusinessDayTreatment\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          },\n          \"lastWeekDay\": {\n            \"interval\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"lastWeekDay\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"finalPaymentDate\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"paymentsRemaining\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"nonBusinessDayTreatment\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          },\n          \"eventBased\": {\n            \"description\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          }\n        },\n        \"scheduledPaymentId\": \"string\",\n        \"status\": \"INACTIVE\",\n        \"nickname\": \"string\"\n      },\n      {\n        \"from\": {\n          \"accountId\": \"string\"\n        },\n        \"payeeReference\": \"string\",\n        \"payerReference\": \"string\",\n        \"paymentSet\": [\n          {\n            \"to\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"isAmountCalculated\": true,\n            \"amount\": \"string\",\n            \"currency\": \"string\"\n          },\n          {\n            \"to\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"isAmountCalculated\": false,\n            \"amount\": \"string\",\n            \"currency\": \"string\"\n          }\n        ],\n        \"recurrence\": {\n          \"recurrenceUType\": \"eventBased\",\n          \"nextPaymentDate\": \"string\",\n          \"onceOff\": {\n            \"paymentDate\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          },\n          \"intervalSchedule\": {\n            \"intervals\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"finalPaymentDate\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"paymentsRemaining\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"nonBusinessDayTreatment\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          },\n          \"lastWeekDay\": {\n            \"interval\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"lastWeekDay\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"finalPaymentDate\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"paymentsRemaining\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"nonBusinessDayTreatment\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          },\n          \"eventBased\": {\n            \"description\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          }\n        },\n        \"scheduledPaymentId\": \"string\",\n        \"status\": \"SKIP\",\n        \"nickname\": \"string\"\n      }\n    ]\n  },\n  \"links\": {\n    \"self\": \"string\",\n    \"first\": \"string\",\n    \"prev\": \"string\",\n    \"next\": \"string\",\n    \"last\": \"string\"\n  },\n  \"meta\": {\n    \"totalPages\": 6271,\n    \"totalRecords\": 5237\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "a017e553-23aa-44e3-9357-2fcb05113a08",
+              "name": "Bad Request.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "payments",
+                    "scheduled"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "product-category",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "open-status",
+                      "value": "ALL"
+                    },
+                    {
+                      "key": "is-owned",
+                      "value": "<boolean>"
+                    },
+                    {
+                      "key": "page",
+                      "value": "1"
+                    },
+                    {
+                      "key": "page-size",
+                      "value": "25"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "disabled": false,
+                    "description": "Version of the API end point being requested.",
+                    "key": "x-v",
+                    "value": "1"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "Minimum version of the API end point you are requesting.",
+                    "key": "x-min-v",
+                    "value": "1"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "The time when the customer last logged in to the data recipient.",
+                    "key": "x-fapi-auth-date",
+                    "value": "2002-10-03T01:00:00+10:00"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "Reflects the value of the Interaction ID in the request.",
+                    "key": "x-fapi-interaction-id",
+                    "value": "f688ae24-9719-4975-9f58-f6b7e655c37d"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "The customer's original IP address if the customer is currently logged in to the data recipient.",
+                    "key": "x-fapi-customer-ip-address",
+                    "value": "192.168.1.1"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "The customer's original standard http headers encoded, including the original User Agent header, if the customer is currently logged in to the data recipient.",
+                    "key": "x-cds-client-headers",
+                    "value": "Q3VzdG9tZXJzRGV2OkN1c3RvbWVyc0Rldg=="
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "disabled": false,
+                  "description": "Version of the API end point responded with.",
+                  "key": "x-v",
+                  "value": "3341"
+                },
+                {
+                  "disabled": false,
+                  "description": "Reflects the value of the Interaction ID in the request.",
+                  "key": "x-fapi-interaction-Id",
+                  "value": "string"
+                },
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"errors\": [\n    {\n      \"code\": \"string\",\n      \"title\": \"string\",\n      \"detail\": \"string\"\n    },\n    {\n      \"code\": \"string\",\n      \"title\": \"string\",\n      \"detail\": \"string\"\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "4ab2a92c-b373-4484-8d7a-c67b97480c1e",
+              "name": "Not Acceptable.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "payments",
+                    "scheduled"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "product-category",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "open-status",
+                      "value": "ALL"
+                    },
+                    {
+                      "key": "is-owned",
+                      "value": "<boolean>"
+                    },
+                    {
+                      "key": "page",
+                      "value": "1"
+                    },
+                    {
+                      "key": "page-size",
+                      "value": "25"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "disabled": false,
+                    "description": "Version of the API end point being requested.",
+                    "key": "x-v",
+                    "value": "1"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "Minimum version of the API end point you are requesting.",
+                    "key": "x-min-v",
+                    "value": "1"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "The time when the customer last logged in to the data recipient.",
+                    "key": "x-fapi-auth-date",
+                    "value": "2002-10-03T01:00:00+10:00"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "Reflects the value of the Interaction ID in the request.",
+                    "key": "x-fapi-interaction-id",
+                    "value": "f688ae24-9719-4975-9f58-f6b7e655c37d"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "The customer's original IP address if the customer is currently logged in to the data recipient.",
+                    "key": "x-fapi-customer-ip-address",
+                    "value": "192.168.1.1"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "The customer's original standard http headers encoded, including the original User Agent header, if the customer is currently logged in to the data recipient.",
+                    "key": "x-cds-client-headers",
+                    "value": "Q3VzdG9tZXJzRGV2OkN1c3RvbWVyc0Rldg=="
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Not Acceptable",
+              "code": 406,
+              "header": [
+                {
+                  "disabled": false,
+                  "description": "Version of the API end point responded with.",
+                  "key": "x-v",
+                  "value": "3341"
+                },
+                {
+                  "disabled": false,
+                  "description": "Reflects the value of the Interaction ID in the request.",
+                  "key": "x-fapi-interaction-id",
+                  "value": "string"
+                },
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"errors\": [\n    {\n      \"code\": \"string\",\n      \"title\": \"string\",\n      \"detail\": \"string\"\n    },\n    {\n      \"code\": \"string\",\n      \"title\": \"string\",\n      \"detail\": \"string\"\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "c55c4222-1700-48d6-b247-32933020ceef",
+              "name": "Unprocessable Entity.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "payments",
+                    "scheduled"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "product-category",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "open-status",
+                      "value": "ALL"
+                    },
+                    {
+                      "key": "is-owned",
+                      "value": "<boolean>"
+                    },
+                    {
+                      "key": "page",
+                      "value": "1"
+                    },
+                    {
+                      "key": "page-size",
+                      "value": "25"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "disabled": false,
+                    "description": "Version of the API end point being requested.",
+                    "key": "x-v",
+                    "value": "1"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "Minimum version of the API end point you are requesting.",
+                    "key": "x-min-v",
+                    "value": "1"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "The time when the customer last logged in to the data recipient.",
+                    "key": "x-fapi-auth-date",
+                    "value": "2002-10-03T01:00:00+10:00"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "Reflects the value of the Interaction ID in the request.",
+                    "key": "x-fapi-interaction-id",
+                    "value": "f688ae24-9719-4975-9f58-f6b7e655c37d"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "The customer's original IP address if the customer is currently logged in to the data recipient.",
+                    "key": "x-fapi-customer-ip-address",
+                    "value": "192.168.1.1"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "The customer's original standard http headers encoded, including the original User Agent header, if the customer is currently logged in to the data recipient.",
+                    "key": "x-cds-client-headers",
+                    "value": "Q3VzdG9tZXJzRGV2OkN1c3RvbWVyc0Rldg=="
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Unprocessable Entity (WebDAV) (RFC 4918)",
+              "code": 422,
+              "header": [
+                {
+                  "disabled": false,
+                  "description": "Version of the API end point responded with.",
+                  "key": "x-v",
+                  "value": "3341"
+                },
+                {
+                  "disabled": false,
+                  "description": "Reflects the value of the Interaction ID in the request.",
+                  "key": "x-fapi-interaction-id",
+                  "value": "string"
+                },
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"errors\": [\n    {\n      \"code\": \"string\",\n      \"title\": \"string\",\n      \"detail\": \"string\"\n    },\n    {\n      \"code\": \"string\",\n      \"title\": \"string\",\n      \"detail\": \"string\"\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "bc07a990-fe08-4341-9d40-84b5d1f4118a",
+              "name": "Too Many Requests.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "payments",
+                    "scheduled"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "product-category",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "open-status",
+                      "value": "ALL"
+                    },
+                    {
+                      "key": "is-owned",
+                      "value": "<boolean>"
+                    },
+                    {
+                      "key": "page",
+                      "value": "1"
+                    },
+                    {
+                      "key": "page-size",
+                      "value": "25"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "disabled": false,
+                    "description": "Version of the API end point being requested.",
+                    "key": "x-v",
+                    "value": "1"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "Minimum version of the API end point you are requesting.",
+                    "key": "x-min-v",
+                    "value": "1"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "The time when the customer last logged in to the data recipient.",
+                    "key": "x-fapi-auth-date",
+                    "value": "2002-10-03T01:00:00+10:00"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "Reflects the value of the Interaction ID in the request.",
+                    "key": "x-fapi-interaction-id",
+                    "value": "f688ae24-9719-4975-9f58-f6b7e655c37d"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "The customer's original IP address if the customer is currently logged in to the data recipient.",
+                    "key": "x-fapi-customer-ip-address",
+                    "value": "192.168.1.1"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "The customer's original standard http headers encoded, including the original User Agent header, if the customer is currently logged in to the data recipient.",
+                    "key": "x-cds-client-headers",
+                    "value": "Q3VzdG9tZXJzRGV2OkN1c3RvbWVyc0Rldg=="
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Too Many Requests",
+              "code": 429,
+              "header": [
+                {
+                  "disabled": false,
+                  "description": "Amount of time the client should wait before re-trying the operation.",
+                  "key": "Retry-After",
+                  "value": "3341"
+                },
+                {
+                  "disabled": false,
+                  "description": "Version of the API end point responded with.",
+                  "key": "x-v",
+                  "value": "3341"
+                },
+                {
+                  "disabled": false,
+                  "description": "Reflects the value of the Interaction ID in the request.",
+                  "key": "x-fapi-interaction-id",
+                  "value": "string"
+                },
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "751a5699-8598-490a-a23f-c52bcce25212",
+              "name": "Internal Server Error.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "payments",
+                    "scheduled"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "product-category",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "open-status",
+                      "value": "ALL"
+                    },
+                    {
+                      "key": "is-owned",
+                      "value": "<boolean>"
+                    },
+                    {
+                      "key": "page",
+                      "value": "1"
+                    },
+                    {
+                      "key": "page-size",
+                      "value": "25"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "disabled": false,
+                    "description": "Version of the API end point being requested.",
+                    "key": "x-v",
+                    "value": "1"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "Minimum version of the API end point you are requesting.",
+                    "key": "x-min-v",
+                    "value": "1"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "The time when the customer last logged in to the data recipient.",
+                    "key": "x-fapi-auth-date",
+                    "value": "2002-10-03T01:00:00+10:00"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "Reflects the value of the Interaction ID in the request.",
+                    "key": "x-fapi-interaction-id",
+                    "value": "f688ae24-9719-4975-9f58-f6b7e655c37d"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "The customer's original IP address if the customer is currently logged in to the data recipient.",
+                    "key": "x-fapi-customer-ip-address",
+                    "value": "192.168.1.1"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "The customer's original standard http headers encoded, including the original User Agent header, if the customer is currently logged in to the data recipient.",
+                    "key": "x-cds-client-headers",
+                    "value": "Q3VzdG9tZXJzRGV2OkN1c3RvbWVyc0Rldg=="
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Internal Server Error",
+              "code": 500,
+              "header": [
+                {
+                  "disabled": false,
+                  "description": "Version of the API end point responded with.",
+                  "key": "x-v",
+                  "value": "3341"
+                },
+                {
+                  "disabled": false,
+                  "description": "Reflects the value of the Interaction ID in the request.",
+                  "key": "x-fapi-interaction-id",
+                  "value": "string"
+                },
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"errors\": [\n    {\n      \"code\": \"string\",\n      \"title\": \"string\",\n      \"detail\": \"string\"\n    },\n    {\n      \"code\": \"string\",\n      \"title\": \"string\",\n      \"detail\": \"string\"\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "22b48b98-5a46-4a56-826b-63f91d84e3e9",
+          "name": "Get Scheduled Payments For Specific Accounts",
+          "request": {
+            "name": "Get Scheduled Payments For Specific Accounts",
+            "description": {
+              "content": "Obtain scheduled payments for a specified list of accounts.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "payments",
+                "scheduled"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "page",
+                  "value": "1",
+                  "description": "Page number being requested"
+                },
+                {
+                  "disabled": false,
+                  "key": "page-size",
+                  "value": "25",
+                  "description": "Number of records to return with the page"
+                }
+              ],
+              "variable": []
+            },
+            "header": [
+              {
+                "disabled": false,
+                "description": "Version of the API end point being requested.",
+                "key": "x-v",
+                "value": "<integer>"
+              },
+              {
+                "disabled": false,
+                "description": "Minimum version of the API end point you are requesting.",
+                "key": "x-min-v",
+                "value": "<integer>"
+              },
+              {
+                "disabled": false,
+                "description": "The time when the customer last logged in to the data recipient.",
+                "key": "x-fapi-auth-date",
+                "value": "<string>"
+              },
+              {
+                "disabled": false,
+                "description": "Reflects the value of the Interaction ID in the request.",
+                "key": "x-fapi-interaction-id",
+                "value": "<string>"
+              },
+              {
+                "disabled": false,
+                "description": "The customer's original IP address if the customer is currently logged in to the data recipient.",
+                "key": "x-fapi-customer-ip-address",
+                "value": "<string>"
+              },
+              {
+                "disabled": false,
+                "description": "The customer's original standard http headers encoded, including the original User Agent header, if the customer is currently logged in to the data recipient.",
+                "key": "x-cds-client-headers",
+                "value": "<string>"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "*/*"
+              }
+            ],
+            "method": "POST",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"data\": {\n    \"accountIds\": [\n      \"<string>\",\n      \"<string>\"\n    ]\n  },\n  \"meta\": \"<object>\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "7a489163-8940-4ca4-89fd-bcbd8ebbfb82",
+              "name": "Success",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "payments",
+                    "scheduled"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "page",
+                      "value": "1"
+                    },
+                    {
+                      "key": "page-size",
+                      "value": "25"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "disabled": false,
+                    "description": "Version of the API end point being requested.",
+                    "key": "x-v",
+                    "value": "1"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "Minimum version of the API end point you are requesting.",
+                    "key": "x-min-v",
+                    "value": "1"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "The time when the customer last logged in to the data recipient.",
+                    "key": "x-fapi-auth-date",
+                    "value": "2002-10-03T01:00:00+10:00"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "Reflects the value of the Interaction ID in the request.",
+                    "key": "x-fapi-interaction-id",
+                    "value": "f688ae24-9719-4975-9f58-f6b7e655c37d"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "The customer's original IP address if the customer is currently logged in to the data recipient.",
+                    "key": "x-fapi-customer-ip-address",
+                    "value": "192.168.1.1"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "The customer's original standard http headers encoded, including the original User Agent header, if the customer is currently logged in to the data recipient.",
+                    "key": "x-cds-client-headers",
+                    "value": "Q3VzdG9tZXJzRGV2OkN1c3RvbWVyc0Rldg=="
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "*/*"
+                  }
+                ],
+                "method": "POST",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "disabled": false,
+                  "description": "Version of the API end point responded with.",
+                  "key": "x-v",
+                  "value": "string"
+                },
+                {
+                  "disabled": false,
+                  "description": "Reflects the value of the Interaction ID in the request.",
+                  "key": "x-fapi-interaction-id",
+                  "value": "string"
+                },
+                {
+                  "key": "Content-Type",
+                  "value": "*/*"
+                }
+              ],
+              "body": "{\n  \"data\": {\n    \"scheduledPayments\": [\n      {\n        \"from\": {\n          \"accountId\": \"string\"\n        },\n        \"payeeReference\": \"string\",\n        \"payerReference\": \"string\",\n        \"paymentSet\": [\n          {\n            \"to\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"isAmountCalculated\": false,\n            \"amount\": \"string\",\n            \"currency\": \"string\"\n          },\n          {\n            \"to\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"isAmountCalculated\": true,\n            \"amount\": \"string\",\n            \"currency\": \"string\"\n          }\n        ],\n        \"recurrence\": {\n          \"recurrenceUType\": \"lastWeekDay\",\n          \"nextPaymentDate\": \"string\",\n          \"onceOff\": {\n            \"paymentDate\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          },\n          \"intervalSchedule\": {\n            \"intervals\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"finalPaymentDate\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"paymentsRemaining\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"nonBusinessDayTreatment\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          },\n          \"lastWeekDay\": {\n            \"interval\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"lastWeekDay\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"finalPaymentDate\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"paymentsRemaining\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"nonBusinessDayTreatment\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          },\n          \"eventBased\": {\n            \"description\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          }\n        },\n        \"scheduledPaymentId\": \"string\",\n        \"status\": \"INACTIVE\",\n        \"nickname\": \"string\"\n      },\n      {\n        \"from\": {\n          \"accountId\": \"string\"\n        },\n        \"payeeReference\": \"string\",\n        \"payerReference\": \"string\",\n        \"paymentSet\": [\n          {\n            \"to\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"isAmountCalculated\": false,\n            \"amount\": \"string\",\n            \"currency\": \"string\"\n          },\n          {\n            \"to\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"isAmountCalculated\": false,\n            \"amount\": \"string\",\n            \"currency\": \"string\"\n          }\n        ],\n        \"recurrence\": {\n          \"recurrenceUType\": \"lastWeekDay\",\n          \"nextPaymentDate\": \"string\",\n          \"onceOff\": {\n            \"paymentDate\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          },\n          \"intervalSchedule\": {\n            \"intervals\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"finalPaymentDate\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"paymentsRemaining\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"nonBusinessDayTreatment\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          },\n          \"lastWeekDay\": {\n            \"interval\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"lastWeekDay\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"finalPaymentDate\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"paymentsRemaining\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"nonBusinessDayTreatment\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          },\n          \"eventBased\": {\n            \"description\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          }\n        },\n        \"scheduledPaymentId\": \"string\",\n        \"status\": \"INACTIVE\",\n        \"nickname\": \"string\"\n      }\n    ]\n  },\n  \"links\": {\n    \"self\": \"string\",\n    \"first\": \"string\",\n    \"prev\": \"string\",\n    \"next\": \"string\",\n    \"last\": \"string\"\n  },\n  \"meta\": {\n    \"totalPages\": 9634,\n    \"totalRecords\": 5877\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "11bb4895-46d0-4cd9-9948-c879cecfcdb0",
+              "name": "Bad Request.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "payments",
+                    "scheduled"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "page",
+                      "value": "1"
+                    },
+                    {
+                      "key": "page-size",
+                      "value": "25"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "disabled": false,
+                    "description": "Version of the API end point being requested.",
+                    "key": "x-v",
+                    "value": "1"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "Minimum version of the API end point you are requesting.",
+                    "key": "x-min-v",
+                    "value": "1"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "The time when the customer last logged in to the data recipient.",
+                    "key": "x-fapi-auth-date",
+                    "value": "2002-10-03T01:00:00+10:00"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "Reflects the value of the Interaction ID in the request.",
+                    "key": "x-fapi-interaction-id",
+                    "value": "f688ae24-9719-4975-9f58-f6b7e655c37d"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "The customer's original IP address if the customer is currently logged in to the data recipient.",
+                    "key": "x-fapi-customer-ip-address",
+                    "value": "192.168.1.1"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "The customer's original standard http headers encoded, including the original User Agent header, if the customer is currently logged in to the data recipient.",
+                    "key": "x-cds-client-headers",
+                    "value": "Q3VzdG9tZXJzRGV2OkN1c3RvbWVyc0Rldg=="
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "*/*"
+                  }
+                ],
+                "method": "POST",
+                "body": {}
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "disabled": false,
+                  "description": "Version of the API end point responded with.",
+                  "key": "x-v",
+                  "value": "3341"
+                },
+                {
+                  "disabled": false,
+                  "description": "Reflects the value of the Interaction ID in the request.",
+                  "key": "x-fapi-interaction-Id",
+                  "value": "string"
+                },
+                {
+                  "key": "Content-Type",
+                  "value": "*/*"
+                }
+              ],
+              "body": "{\n  \"errors\": [\n    {\n      \"code\": \"string\",\n      \"title\": \"string\",\n      \"detail\": \"string\"\n    },\n    {\n      \"code\": \"string\",\n      \"title\": \"string\",\n      \"detail\": \"string\"\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "c64704b1-1226-487e-ac56-9eafa3f1bb4f",
+              "name": "Not Acceptable.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "payments",
+                    "scheduled"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "page",
+                      "value": "1"
+                    },
+                    {
+                      "key": "page-size",
+                      "value": "25"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "disabled": false,
+                    "description": "Version of the API end point being requested.",
+                    "key": "x-v",
+                    "value": "1"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "Minimum version of the API end point you are requesting.",
+                    "key": "x-min-v",
+                    "value": "1"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "The time when the customer last logged in to the data recipient.",
+                    "key": "x-fapi-auth-date",
+                    "value": "2002-10-03T01:00:00+10:00"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "Reflects the value of the Interaction ID in the request.",
+                    "key": "x-fapi-interaction-id",
+                    "value": "f688ae24-9719-4975-9f58-f6b7e655c37d"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "The customer's original IP address if the customer is currently logged in to the data recipient.",
+                    "key": "x-fapi-customer-ip-address",
+                    "value": "192.168.1.1"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "The customer's original standard http headers encoded, including the original User Agent header, if the customer is currently logged in to the data recipient.",
+                    "key": "x-cds-client-headers",
+                    "value": "Q3VzdG9tZXJzRGV2OkN1c3RvbWVyc0Rldg=="
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "*/*"
+                  }
+                ],
+                "method": "POST",
+                "body": {}
+              },
+              "status": "Not Acceptable",
+              "code": 406,
+              "header": [
+                {
+                  "disabled": false,
+                  "description": "Version of the API end point responded with.",
+                  "key": "x-v",
+                  "value": "3341"
+                },
+                {
+                  "disabled": false,
+                  "description": "Reflects the value of the Interaction ID in the request.",
+                  "key": "x-fapi-interaction-id",
+                  "value": "string"
+                },
+                {
+                  "key": "Content-Type",
+                  "value": "*/*"
+                }
+              ],
+              "body": "{\n  \"errors\": [\n    {\n      \"code\": \"string\",\n      \"title\": \"string\",\n      \"detail\": \"string\"\n    },\n    {\n      \"code\": \"string\",\n      \"title\": \"string\",\n      \"detail\": \"string\"\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "75e7090c-13e2-4ead-8821-20aff461a69d",
+              "name": "Unprocessable Entity.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "payments",
+                    "scheduled"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "page",
+                      "value": "1"
+                    },
+                    {
+                      "key": "page-size",
+                      "value": "25"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "disabled": false,
+                    "description": "Version of the API end point being requested.",
+                    "key": "x-v",
+                    "value": "1"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "Minimum version of the API end point you are requesting.",
+                    "key": "x-min-v",
+                    "value": "1"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "The time when the customer last logged in to the data recipient.",
+                    "key": "x-fapi-auth-date",
+                    "value": "2002-10-03T01:00:00+10:00"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "Reflects the value of the Interaction ID in the request.",
+                    "key": "x-fapi-interaction-id",
+                    "value": "f688ae24-9719-4975-9f58-f6b7e655c37d"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "The customer's original IP address if the customer is currently logged in to the data recipient.",
+                    "key": "x-fapi-customer-ip-address",
+                    "value": "192.168.1.1"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "The customer's original standard http headers encoded, including the original User Agent header, if the customer is currently logged in to the data recipient.",
+                    "key": "x-cds-client-headers",
+                    "value": "Q3VzdG9tZXJzRGV2OkN1c3RvbWVyc0Rldg=="
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "*/*"
+                  }
+                ],
+                "method": "POST",
+                "body": {}
+              },
+              "status": "Unprocessable Entity (WebDAV) (RFC 4918)",
+              "code": 422,
+              "header": [
+                {
+                  "disabled": false,
+                  "description": "Version of the API end point responded with.",
+                  "key": "x-v",
+                  "value": "3341"
+                },
+                {
+                  "disabled": false,
+                  "description": "Reflects the value of the Interaction ID in the request.",
+                  "key": "x-fapi-interaction-id",
+                  "value": "string"
+                },
+                {
+                  "key": "Content-Type",
+                  "value": "*/*"
+                }
+              ],
+              "body": "{\n  \"errors\": [\n    {\n      \"code\": \"string\",\n      \"title\": \"string\",\n      \"detail\": \"string\"\n    },\n    {\n      \"code\": \"string\",\n      \"title\": \"string\",\n      \"detail\": \"string\"\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "1efa0085-2cf8-4867-9023-dcba330e6ff1",
+              "name": "Too Many Requests.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "payments",
+                    "scheduled"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "page",
+                      "value": "1"
+                    },
+                    {
+                      "key": "page-size",
+                      "value": "25"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "disabled": false,
+                    "description": "Version of the API end point being requested.",
+                    "key": "x-v",
+                    "value": "1"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "Minimum version of the API end point you are requesting.",
+                    "key": "x-min-v",
+                    "value": "1"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "The time when the customer last logged in to the data recipient.",
+                    "key": "x-fapi-auth-date",
+                    "value": "2002-10-03T01:00:00+10:00"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "Reflects the value of the Interaction ID in the request.",
+                    "key": "x-fapi-interaction-id",
+                    "value": "f688ae24-9719-4975-9f58-f6b7e655c37d"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "The customer's original IP address if the customer is currently logged in to the data recipient.",
+                    "key": "x-fapi-customer-ip-address",
+                    "value": "192.168.1.1"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "The customer's original standard http headers encoded, including the original User Agent header, if the customer is currently logged in to the data recipient.",
+                    "key": "x-cds-client-headers",
+                    "value": "Q3VzdG9tZXJzRGV2OkN1c3RvbWVyc0Rldg=="
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "*/*"
+                  }
+                ],
+                "method": "POST",
+                "body": {}
+              },
+              "status": "Too Many Requests",
+              "code": 429,
+              "header": [
+                {
+                  "disabled": false,
+                  "description": "Amount of time the client should wait before re-trying the operation.",
+                  "key": "Retry-After",
+                  "value": "3341"
+                },
+                {
+                  "disabled": false,
+                  "description": "Version of the API end point responded with.",
+                  "key": "x-v",
+                  "value": "3341"
+                },
+                {
+                  "disabled": false,
+                  "description": "Reflects the value of the Interaction ID in the request.",
+                  "key": "x-fapi-interaction-id",
+                  "value": "string"
+                },
+                {
+                  "key": "Content-Type",
+                  "value": "*/*"
+                }
+              ],
+              "body": "{}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "11d37dc2-b81c-482a-a8b8-626a9e3cbff8",
+              "name": "Internal Server Error.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "payments",
+                    "scheduled"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "page",
+                      "value": "1"
+                    },
+                    {
+                      "key": "page-size",
+                      "value": "25"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "disabled": false,
+                    "description": "Version of the API end point being requested.",
+                    "key": "x-v",
+                    "value": "1"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "Minimum version of the API end point you are requesting.",
+                    "key": "x-min-v",
+                    "value": "1"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "The time when the customer last logged in to the data recipient.",
+                    "key": "x-fapi-auth-date",
+                    "value": "2002-10-03T01:00:00+10:00"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "Reflects the value of the Interaction ID in the request.",
+                    "key": "x-fapi-interaction-id",
+                    "value": "f688ae24-9719-4975-9f58-f6b7e655c37d"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "The customer's original IP address if the customer is currently logged in to the data recipient.",
+                    "key": "x-fapi-customer-ip-address",
+                    "value": "192.168.1.1"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "The customer's original standard http headers encoded, including the original User Agent header, if the customer is currently logged in to the data recipient.",
+                    "key": "x-cds-client-headers",
+                    "value": "Q3VzdG9tZXJzRGV2OkN1c3RvbWVyc0Rldg=="
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "*/*"
+                  }
+                ],
+                "method": "POST",
+                "body": {}
+              },
+              "status": "Internal Server Error",
+              "code": 500,
+              "header": [
+                {
+                  "disabled": false,
+                  "description": "Version of the API end point responded with.",
+                  "key": "x-v",
+                  "value": "3341"
+                },
+                {
+                  "disabled": false,
+                  "description": "Reflects the value of the Interaction ID in the request.",
+                  "key": "x-fapi-interaction-id",
+                  "value": "string"
+                },
+                {
+                  "key": "Content-Type",
+                  "value": "*/*"
+                }
+              ],
+              "body": "{\n  \"errors\": [\n    {\n      \"code\": \"string\",\n      \"title\": \"string\",\n      \"detail\": \"string\"\n    },\n    {\n      \"code\": \"string\",\n      \"title\": \"string\",\n      \"detail\": \"string\"\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "https://secure.api.commbank.com.au/api/cds-au/v1/banking",
+      "key": "baseUrl"
+    }
+  ],
+  "info": {
+    "_postman_id": "aa27b9ca-7df7-4e93-aff5-4d324c3d549c",
+    "name": "CommBank Accounts Accounts API Regular Payments API API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "Obtain the list of accounts authorised to be shared by the customer. \n\nAccount API is a consumer API. To access data you'll need the customer's consent.</p><h3 style=\"margin-top:30px;\">Host URL</h3><p>CommBank requests are passed to the URL <span class=\"sc-1noysbl-9 JKaaQ\">https://secure.api.commbank.com.au/api/cds-au/v1/banking</span></p><p>CBA – CommBiz requests are passed to the URL <span class=\"sc-1noysbl-9 JKaaQ\">https://secure.cdr.commbiz.api.commbank.com.au/cbzapi/cds-au/v1/banking</span></p>",
+      "type": "text/plain"
+    }
+  }
+}

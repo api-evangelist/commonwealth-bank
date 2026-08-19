@@ -1,0 +1,372 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "CommBank Accounts Accounts API Regular Payments API API",
+    "version": "1.0"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Regular Payments API",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Get Direct Debits For Account",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/accounts/:accountId/direct-debits",
+            "headers": [
+              {
+                "name": "x-v",
+                "value": "1"
+              },
+              {
+                "name": "x-min-v",
+                "value": "1"
+              },
+              {
+                "name": "x-fapi-interaction-id",
+                "value": "f688ae24-9719-4975-9f58-f6b7e655c37d"
+              },
+              {
+                "name": "x-fapi-auth-date",
+                "value": "2002-10-03T01:00:00+10:00"
+              },
+              {
+                "name": "x-fapi-customer-ip-address",
+                "value": "192.168.1.1"
+              },
+              {
+                "name": "x-cds-client-headers",
+                "value": "Q3VzdG9tZXJzRGV2OkN1c3RvbWVyc0Rldg=="
+              }
+            ],
+            "params": [
+              {
+                "name": "accountId",
+                "value": "",
+                "type": "path",
+                "description": "ID of the account to get direct debit authorisations for."
+              },
+              {
+                "name": "page",
+                "value": "",
+                "type": "query",
+                "description": "Page number being requested"
+              },
+              {
+                "name": "page-size",
+                "value": "",
+                "type": "query",
+                "description": "Number of records to return with the page"
+              }
+            ]
+          },
+          "docs": "Obtain direct debit authorisations for a specific account."
+        },
+        {
+          "info": {
+            "name": "Get Bulk Direct Debits",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/accounts/direct-debits",
+            "headers": [
+              {
+                "name": "x-v",
+                "value": "1"
+              },
+              {
+                "name": "x-min-v",
+                "value": "1"
+              },
+              {
+                "name": "x-fapi-interaction-id",
+                "value": "f688ae24-9719-4975-9f58-f6b7e655c37d"
+              },
+              {
+                "name": "x-fapi-auth-date",
+                "value": "2002-10-03T01:00:00+10:00"
+              },
+              {
+                "name": "x-fapi-customer-ip-address",
+                "value": "192.168.1.1"
+              },
+              {
+                "name": "x-cds-client-headers",
+                "value": "Q3VzdG9tZXJzRGV2OkN1c3RvbWVyc0Rldg=="
+              }
+            ],
+            "params": [
+              {
+                "name": "product-category",
+                "value": "",
+                "type": "query",
+                "description": "Used to filter results on the productCategory field applicable to accounts. If absent then all accounts returned."
+              },
+              {
+                "name": "open-status",
+                "value": "",
+                "type": "query",
+                "description": "Used to filter results according to open/closed status. If absent then ALL is assumed."
+              },
+              {
+                "name": "is-owned",
+                "value": "",
+                "type": "query",
+                "description": "Filters accounts based on whether they are owned by the authorised customer.  True for owned accounts, false for unowned accounts and absent for all accounts."
+              },
+              {
+                "name": "page",
+                "value": "",
+                "type": "query",
+                "description": "Page number being requested"
+              },
+              {
+                "name": "page-size",
+                "value": "",
+                "type": "query",
+                "description": "Number of records to return with the page"
+              }
+            ]
+          },
+          "docs": "Obtain direct debit authorisations for multiple, filtered accounts."
+        },
+        {
+          "info": {
+            "name": "Get Direct Debits For Specific Accounts",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "{{baseUrl}}/accounts/direct-debits",
+            "headers": [
+              {
+                "name": "x-v",
+                "value": "1"
+              },
+              {
+                "name": "x-min-v",
+                "value": "1"
+              },
+              {
+                "name": "x-fapi-auth-date",
+                "value": "2002-10-03T01:00:00+10:00"
+              },
+              {
+                "name": "x-fapi-interaction-id",
+                "value": "f688ae24-9719-4975-9f58-f6b7e655c37d"
+              },
+              {
+                "name": "x-fapi-customer-ip-address",
+                "value": "192.168.1.1"
+              },
+              {
+                "name": "x-cds-client-headers",
+                "value": "Q3VzdG9tZXJzRGV2OkN1c3RvbWVyc0Rldg=="
+              }
+            ],
+            "params": [
+              {
+                "name": "page",
+                "value": "",
+                "type": "query",
+                "description": "Page number being requested"
+              },
+              {
+                "name": "page-size",
+                "value": "",
+                "type": "query",
+                "description": "Number of records to return with the page"
+              }
+            ]
+          },
+          "docs": "Obtain direct debit authorisations for a specified list of accounts."
+        },
+        {
+          "info": {
+            "name": "Get Scheduled Payments for Account",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/accounts/:accountId/payments/scheduled",
+            "headers": [
+              {
+                "name": "x-v",
+                "value": "1"
+              },
+              {
+                "name": "x-min-v",
+                "value": "1"
+              },
+              {
+                "name": "x-fapi-auth-date",
+                "value": "2002-10-03T01:00:00+10:00"
+              },
+              {
+                "name": "x-fapi-interaction-id",
+                "value": "f688ae24-9719-4975-9f58-f6b7e655c37d"
+              },
+              {
+                "name": "x-fapi-customer-ip-address",
+                "value": "192.168.1.1"
+              },
+              {
+                "name": "x-cds-client-headers",
+                "value": "Q3VzdG9tZXJzRGV2OkN1c3RvbWVyc0Rldg=="
+              }
+            ],
+            "params": [
+              {
+                "name": "accountId",
+                "value": "",
+                "type": "path",
+                "description": "ID of the account to get scheduled payments for."
+              },
+              {
+                "name": "page",
+                "value": "",
+                "type": "query",
+                "description": "Page number being requested"
+              },
+              {
+                "name": "page-size",
+                "value": "",
+                "type": "query",
+                "description": "Number of records to return with the page"
+              }
+            ]
+          },
+          "docs": "Obtain scheduled, outgoing payments for a specific account."
+        },
+        {
+          "info": {
+            "name": "Get Scheduled Payments Bulk",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/payments/scheduled",
+            "headers": [
+              {
+                "name": "x-v",
+                "value": "1"
+              },
+              {
+                "name": "x-min-v",
+                "value": "1"
+              },
+              {
+                "name": "x-fapi-auth-date",
+                "value": "2002-10-03T01:00:00+10:00"
+              },
+              {
+                "name": "x-fapi-interaction-id",
+                "value": "f688ae24-9719-4975-9f58-f6b7e655c37d"
+              },
+              {
+                "name": "x-fapi-customer-ip-address",
+                "value": "192.168.1.1"
+              },
+              {
+                "name": "x-cds-client-headers",
+                "value": "Q3VzdG9tZXJzRGV2OkN1c3RvbWVyc0Rldg=="
+              }
+            ],
+            "params": [
+              {
+                "name": "product-category",
+                "value": "",
+                "type": "query",
+                "description": "Used to filter results on the productCategory field applicable to accounts. If absent then all accounts returned."
+              },
+              {
+                "name": "open-status",
+                "value": "",
+                "type": "query",
+                "description": "Used to filter results according to open/closed status. If absent then ALL is assumed."
+              },
+              {
+                "name": "is-owned",
+                "value": "",
+                "type": "query",
+                "description": "Filters accounts based on whether they are owned by the authorised customer.  True for owned accounts, false for unowned accounts and absent for all accounts."
+              },
+              {
+                "name": "page",
+                "value": "",
+                "type": "query",
+                "description": "Page number being requested"
+              },
+              {
+                "name": "page-size",
+                "value": "",
+                "type": "query",
+                "description": "Number of records to return with the page"
+              }
+            ]
+          },
+          "docs": "Obtain scheduled payments for multiple, filtered accounts that are the source of funds for the payments"
+        },
+        {
+          "info": {
+            "name": "Get Scheduled Payments For Specific Accounts",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "{{baseUrl}}/payments/scheduled",
+            "headers": [
+              {
+                "name": "x-v",
+                "value": "1"
+              },
+              {
+                "name": "x-min-v",
+                "value": "1"
+              },
+              {
+                "name": "x-fapi-auth-date",
+                "value": "2002-10-03T01:00:00+10:00"
+              },
+              {
+                "name": "x-fapi-interaction-id",
+                "value": "f688ae24-9719-4975-9f58-f6b7e655c37d"
+              },
+              {
+                "name": "x-fapi-customer-ip-address",
+                "value": "192.168.1.1"
+              },
+              {
+                "name": "x-cds-client-headers",
+                "value": "Q3VzdG9tZXJzRGV2OkN1c3RvbWVyc0Rldg=="
+              }
+            ],
+            "params": [
+              {
+                "name": "page",
+                "value": "",
+                "type": "query",
+                "description": "Page number being requested"
+              },
+              {
+                "name": "page-size",
+                "value": "",
+                "type": "query",
+                "description": "Number of records to return with the page"
+              }
+            ]
+          },
+          "docs": "Obtain scheduled payments for a specified list of accounts."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

@@ -1,0 +1,150 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "CommBank Accounts Accounts API Transaction API API",
+    "version": "1.0"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Transaction API",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Get Transactions",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/accounts/:accountId/transactions",
+            "headers": [
+              {
+                "name": "Accept",
+                "value": ""
+              },
+              {
+                "name": "x-v",
+                "value": "1"
+              },
+              {
+                "name": "x-min-v",
+                "value": "1"
+              },
+              {
+                "name": "x-fapi-interaction-id",
+                "value": "f688ae24-9719-4975-9f58-f6b7e655c37d"
+              },
+              {
+                "name": "x-fapi-customer-ip-address",
+                "value": "192.168.1.1"
+              },
+              {
+                "name": "x-cds-client-headers",
+                "value": "Q3VzdG9tZXJzRGV2OkN1c3RvbWVyc0Rldg=="
+              }
+            ],
+            "params": [
+              {
+                "name": "accountId",
+                "value": "",
+                "type": "path",
+                "description": "ID of the account."
+              },
+              {
+                "name": "oldest-time",
+                "value": "",
+                "type": "query",
+                "description": "Constrain transactions with effective time (UTC) at or after this date/time."
+              },
+              {
+                "name": "newest-time",
+                "value": "",
+                "type": "query",
+                "description": "Constrain transactions with effective time (UTC) at or before this date/time."
+              },
+              {
+                "name": "min-amount",
+                "value": "",
+                "type": "query",
+                "description": "Filter transactions to only transactions with amounts higher or equal to than this amount."
+              },
+              {
+                "name": "max-amount",
+                "value": "",
+                "type": "query",
+                "description": "Filter transactions to only transactions with amounts less than or equal to this amount."
+              },
+              {
+                "name": "page",
+                "value": "",
+                "type": "query",
+                "description": "Page number being requested"
+              },
+              {
+                "name": "page-size",
+                "value": "",
+                "type": "query",
+                "description": "Number of records to return with the page"
+              }
+            ]
+          },
+          "docs": "Obtain transactions for a specific account"
+        },
+        {
+          "info": {
+            "name": "Get Transaction detail",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/accounts/:accountId/transactions/:transactionId",
+            "headers": [
+              {
+                "name": "Accept",
+                "value": ""
+              },
+              {
+                "name": "x-v",
+                "value": "1"
+              },
+              {
+                "name": "x-min-v",
+                "value": "1"
+              },
+              {
+                "name": "x-fapi-interaction-id",
+                "value": "f688ae24-9719-4975-9f58-f6b7e655c37d"
+              },
+              {
+                "name": "x-fapi-customer-ip-address",
+                "value": "192.168.1.1"
+              },
+              {
+                "name": "x-cds-client-headers",
+                "value": "Q3VzdG9tZXJzRGV2OkN1c3RvbWVyc0Rldg=="
+              }
+            ],
+            "params": [
+              {
+                "name": "accountId",
+                "value": "",
+                "type": "path",
+                "description": "ID of the account."
+              },
+              {
+                "name": "transactionId",
+                "value": "",
+                "type": "path",
+                "description": "CommBank's unique identifier for this transaction."
+              }
+            ]
+          },
+          "docs": "Obtain detailed information on a transaction for a specific account"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

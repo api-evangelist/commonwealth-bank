@@ -1,0 +1,120 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "CommBank Accounts Accounts API Payees API API",
+    "version": "1.0"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Payees API",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Get Payees",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/payees",
+            "headers": [
+              {
+                "name": "x-v",
+                "value": "1"
+              },
+              {
+                "name": "x-min-v",
+                "value": "1"
+              },
+              {
+                "name": "x-fapi-interaction-id",
+                "value": "f688ae24-9719-4975-9f58-f6b7e655c37d"
+              },
+              {
+                "name": "x-fapi-auth-date",
+                "value": "2002-10-03T01:00:00+10:00"
+              },
+              {
+                "name": "x-fapi-customer-ip-address",
+                "value": "192.168.1.1"
+              },
+              {
+                "name": "x-cds-client-headers",
+                "value": "Q3VzdG9tZXJzRGV2OkN1c3RvbWVyc0Rldg=="
+              }
+            ],
+            "params": [
+              {
+                "name": "type",
+                "value": "",
+                "type": "query",
+                "description": "Filter on the payee type field."
+              },
+              {
+                "name": "page",
+                "value": "",
+                "type": "query",
+                "description": "Page number being requested"
+              },
+              {
+                "name": "page-size",
+                "value": "",
+                "type": "query",
+                "description": "Number of records to return with the page"
+              }
+            ]
+          },
+          "docs": "Obtain a list of pre-registered payees"
+        },
+        {
+          "info": {
+            "name": "Get Payee Detail",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/payees/:payeeId",
+            "headers": [
+              {
+                "name": "x-v",
+                "value": "1"
+              },
+              {
+                "name": "x-min-v",
+                "value": "1"
+              },
+              {
+                "name": "x-fapi-interaction-id",
+                "value": "f688ae24-9719-4975-9f58-f6b7e655c37d"
+              },
+              {
+                "name": "x-fapi-auth-date",
+                "value": "2002-10-03T01:00:00+10:00"
+              },
+              {
+                "name": "x-fapi-customer-ip-address",
+                "value": "192.168.1.1"
+              },
+              {
+                "name": "x-cds-client-headers",
+                "value": "Q3VzdG9tZXJzRGV2OkN1c3RvbWVyc0Rldg=="
+              }
+            ],
+            "params": [
+              {
+                "name": "payeeId",
+                "value": "",
+                "type": "path",
+                "description": "The ID used to locate the details of a particular payee"
+              }
+            ]
+          },
+          "docs": "Obtain detailed information on a single payee.\n\nNote that the payee sub-structure should be selected to represent the payment destination only rather than any known characteristics of the payment recipient"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

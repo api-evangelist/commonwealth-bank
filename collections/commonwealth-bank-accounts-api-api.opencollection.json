@@ -1,0 +1,132 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "CommBank Accounts Accounts API API",
+    "version": "1.0"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Accounts API",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Get Accounts",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/accounts",
+            "headers": [
+              {
+                "name": "x-v",
+                "value": "1"
+              },
+              {
+                "name": "x-min-v",
+                "value": "1"
+              },
+              {
+                "name": "x-fapi-interaction-id",
+                "value": "f688ae24-9719-4975-9f58-f6b7e655c37d"
+              },
+              {
+                "name": "x-fapi-auth-date",
+                "value": "2002-10-03T01:00:00+10:00"
+              },
+              {
+                "name": "x-fapi-customer-ip-address",
+                "value": "192.168.1.1"
+              },
+              {
+                "name": "x-cds-client-headers",
+                "value": "Q3VzdG9tZXJzRGV2OkN1c3RvbWVyc0Rldg=="
+              }
+            ],
+            "params": [
+              {
+                "name": "product-category",
+                "value": "",
+                "type": "query",
+                "description": "Used to filter results on the productCategory field applicable to accounts. If absent then all accounts returned."
+              },
+              {
+                "name": "open-status",
+                "value": "",
+                "type": "query",
+                "description": "Used to filter results according to open/closed status. If absent then ALL is assumed"
+              },
+              {
+                "name": "is-owned",
+                "value": "",
+                "type": "query",
+                "description": "Filters accounts based on whether they are owned by the authorised customer.  True for owned accounts, false for unowned accounts and absent for all accounts"
+              },
+              {
+                "name": "page",
+                "value": "",
+                "type": "query",
+                "description": "Page number being requested"
+              },
+              {
+                "name": "page-size",
+                "value": "",
+                "type": "query",
+                "description": "Number of records to return with the page"
+              }
+            ]
+          },
+          "docs": "Obtain a list of accounts"
+        },
+        {
+          "info": {
+            "name": "Get Account Detail",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/accounts/:accountId",
+            "headers": [
+              {
+                "name": "x-v",
+                "value": "1"
+              },
+              {
+                "name": "x-min-v",
+                "value": "1"
+              },
+              {
+                "name": "x-fapi-interaction-id",
+                "value": "f688ae24-9719-4975-9f58-f6b7e655c37d"
+              },
+              {
+                "name": "x-fapi-auth-date",
+                "value": "2002-10-03T01:00:00+10:00"
+              },
+              {
+                "name": "x-fapi-customer-ip-address",
+                "value": "192.168.1.1"
+              },
+              {
+                "name": "x-cds-client-headers",
+                "value": "Q3VzdG9tZXJzRGV2OkN1c3RvbWVyc0Rldg=="
+              }
+            ],
+            "params": [
+              {
+                "name": "accountId",
+                "value": "",
+                "type": "path",
+                "description": "A tokenised identifier for the account which is unique but not shareable"
+              }
+            ]
+          },
+          "docs": "Obtain detailed information on a single account"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

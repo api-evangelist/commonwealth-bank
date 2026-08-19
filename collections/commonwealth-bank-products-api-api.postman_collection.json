@@ -1,0 +1,1092 @@
+{
+  "item": [
+    {
+      "id": "0df0842c-f5e1-4d23-baba-4dc2ad758bcb",
+      "name": "Products API",
+      "description": {
+        "content": "Get details on available CommBank products including deposit and transaction accounts, credit cards, home loans, personal loans, and offset accounts. Information available through the API includes eligibility, features, pricing, and links to terms & conditions. \n\nThe Products API is public and does not require any authentication by consumers.\n\n<p>Product details including features, eligibility, rates and fees may change from time to time without notice. Please direct your end users to refer to <a href=\"https://www.commbank.com.au\">commbank.com.au</a> for current product details.</p><h3 style=\"margin-top:30px;\">Host URL</h3>All requests are passed to the URL <span class=\"sc-1noysbl-9 JKaaQ\">https://api.commbank.com.au/public/cds-au/v1/banking</span></p>",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "1d574d17-8085-4740-8f50-2ecffcbf2a24",
+          "name": "Get Products",
+          "request": {
+            "name": "Get Products",
+            "description": {
+              "content": "Retrieve summary level information of CommBank products",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "products"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "effective",
+                  "value": "CURRENT",
+                  "description": "Filter to retrieve products based on the effective status."
+                },
+                {
+                  "disabled": false,
+                  "key": "updated-since",
+                  "value": "<datetime>",
+                  "description": "Filter to retrieve products that were updated since the specified date and time."
+                },
+                {
+                  "disabled": false,
+                  "key": "brand",
+                  "value": "<string>",
+                  "description": "Filter to retrieve products with a specific brand."
+                },
+                {
+                  "disabled": false,
+                  "key": "product-category",
+                  "value": "<string>",
+                  "description": "Filter to retrieve products by their Product Category."
+                },
+                {
+                  "disabled": false,
+                  "key": "page",
+                  "value": "1",
+                  "description": "Page number being requested"
+                },
+                {
+                  "disabled": false,
+                  "key": "page-size",
+                  "value": "25",
+                  "description": "Number of records to return with the page"
+                }
+              ],
+              "variable": []
+            },
+            "header": [
+              {
+                "disabled": false,
+                "description": "(Required) Version of the API end point being requested.",
+                "key": "x-v",
+                "value": "<integer>"
+              },
+              {
+                "disabled": false,
+                "description": "Minimum version of the API end point you are requesting.",
+                "key": "x-min-v",
+                "value": "<integer>"
+              },
+              {
+                "disabled": false,
+                "description": "Reflects the value of the Interaction ID in the request.",
+                "key": "x-fapi-interaction-id",
+                "value": "<string>"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "65226d08-3ec5-40ea-90a6-ba68c349ef0f",
+              "name": "Success",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "products"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "effective",
+                      "value": "CURRENT"
+                    },
+                    {
+                      "key": "updated-since",
+                      "value": "<datetime>"
+                    },
+                    {
+                      "key": "brand",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "product-category",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "page",
+                      "value": "1"
+                    },
+                    {
+                      "key": "page-size",
+                      "value": "25"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "disabled": false,
+                    "description": "(Required) Content-Type that is acceptable for the server's response.",
+                    "key": "Accept",
+                    "value": "application/json"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) Version of the API end point being requested.",
+                    "key": "x-v",
+                    "value": "2"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "Minimum version of the API end point you are requesting.",
+                    "key": "x-min-v",
+                    "value": "2"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "Reflects the value of the Interaction ID in the request.",
+                    "key": "x-fapi-interaction-id",
+                    "value": "f688ae24-9719-4975-9f58-f6b7e655c37d"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "disabled": false,
+                  "description": "Version of the API end point responded with.",
+                  "key": "x-v",
+                  "value": "1696"
+                },
+                {
+                  "disabled": false,
+                  "description": "Reflects the value of the Interaction ID in the request, if provided.",
+                  "key": "x-fapi-interaction-Id",
+                  "value": "string"
+                },
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"data\": {\n    \"products\": [\n      {\n        \"productId\": \"ad22b1f0967349e8a5d586afe7f0d845\",\n        \"effectiveFrom\": \"2010-07-14T14:00:00Z\",\n        \"effectiveTo\": \"9999-12-30T13:00:00Z\",\n        \"lastUpdated\": \"2019-06-03T02:43:35.193777Z\",\n        \"productCategory\": \"TRANS_AND_SAVINGS_ACCOUNTS\",\n        \"name\": \"NetBank Saver\",\n        \"description\": \"NetBank Saver\",\n        \"brand\": \"CBA\",\n        \"brandName\": \"CommBank\",\n        \"applicationUri\": \"https://www.commbank.com.au/banking/netbank-saver.html#apply\",\n        \"isTailored\": false,\n        \"additionalInformation\": {\n          \"overviewUri\": \"https://www.commbank.com.au/banking/netbank-saver.html\",\n          \"termsUri\": \"https://www.commbank.com.au/content/dam/commbank/personal/apply-online/download-printed-forms/SavingsInvestment_ADB2852.pdf\",\n          \"eligibilityUri\": \"https://www.commbank.com.au/banking/netbank-saver.html#apply\",\n          \"feesAndPricingUri\": \"https://www.commbank.com.au/banking/netbank-saver.html#rates\"\n        }\n      },\n      {\n        \"productId\": \"7aff9e0e85e6450eb052d4ff2e953223\",\n        \"effectiveFrom\": \"2011-05-10T04:00:00Z\",\n        \"effectiveTo\": \"9999-12-30T13:00:00Z\",\n        \"lastUpdated\": \"2019-06-03T02:42:57.57482Z\",\n        \"productCategory\": \"TRANS_AND_SAVINGS_ACCOUNTS\",\n        \"name\": \"Youthsaver Account\",\n        \"description\": \"Youthsaver Account\",\n        \"brand\": \"CBA\",\n        \"brandName\": \"CommBank\",\n        \"applicationUri\": \"https://www.commbank.com.au/banking/youthsaver.html#apply\",\n        \"isTailored\": false,\n        \"additionalInformation\": {\n          \"overviewUri\": \"https://www.commbank.com.au/banking/youthsaver.html\",\n          \"termsUri\": \"https://www.commbank.com.au/content/dam/commbank/personal/apply-online/download-printed-forms/SavingsInvestment_ADB2852.pdf\",\n          \"eligibilityUri\": \"https://www.commbank.com.au/banking/youthsaver.html#apply\",\n          \"feesAndPricingUri\": \"https://www.commbank.com.au/banking/youthsaver.html#rates\"\n        }\n      }\n    ]\n  },\n  \"links\": {\n    \"self\": \"/cds-au/v1/banking/products?page-size=2\",\n    \"first\": \"/cds-au/v1/banking/products?page-size=2&page=1\",\n    \"next\": \"/cds-au/v1/banking/products?page-size=2&page=2\",\n    \"last\": \"/cds-au/v1/banking/products?page-size=2&page=14\"\n  },\n  \"meta\": {\n    \"totalRecords\": 28,\n    \"totalPages\": 14\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "6fff7820-82e4-4419-812d-1167d2a1ce37",
+              "name": "Bad Request",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "products"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "effective",
+                      "value": "CURRENT"
+                    },
+                    {
+                      "key": "updated-since",
+                      "value": "<datetime>"
+                    },
+                    {
+                      "key": "brand",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "product-category",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "page",
+                      "value": "1"
+                    },
+                    {
+                      "key": "page-size",
+                      "value": "25"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "disabled": false,
+                    "description": "(Required) Content-Type that is acceptable for the server's response.",
+                    "key": "Accept",
+                    "value": "application/json"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) Version of the API end point being requested.",
+                    "key": "x-v",
+                    "value": "2"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "Minimum version of the API end point you are requesting.",
+                    "key": "x-min-v",
+                    "value": "2"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "Reflects the value of the Interaction ID in the request.",
+                    "key": "x-fapi-interaction-id",
+                    "value": "f688ae24-9719-4975-9f58-f6b7e655c37d"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "disabled": false,
+                  "description": "Version of the API end point responded with.",
+                  "key": "x-v",
+                  "value": "1696"
+                },
+                {
+                  "disabled": false,
+                  "description": "Reflects the value of the Interaction ID in the request, if provided.",
+                  "key": "x-fapi-interaction-Id",
+                  "value": "string"
+                },
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"errors\": [\n    {\n      \"code\": \"string\",\n      \"title\": \"string\",\n      \"detail\": \"string\"\n    },\n    {\n      \"code\": \"string\",\n      \"title\": \"string\",\n      \"detail\": \"string\"\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "d710f98d-ad0f-43e3-ae54-50d74a07dd8b",
+              "name": "Not Acceptable",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "products"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "effective",
+                      "value": "CURRENT"
+                    },
+                    {
+                      "key": "updated-since",
+                      "value": "<datetime>"
+                    },
+                    {
+                      "key": "brand",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "product-category",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "page",
+                      "value": "1"
+                    },
+                    {
+                      "key": "page-size",
+                      "value": "25"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "disabled": false,
+                    "description": "(Required) Content-Type that is acceptable for the server's response.",
+                    "key": "Accept",
+                    "value": "application/json"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) Version of the API end point being requested.",
+                    "key": "x-v",
+                    "value": "2"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "Minimum version of the API end point you are requesting.",
+                    "key": "x-min-v",
+                    "value": "2"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "Reflects the value of the Interaction ID in the request.",
+                    "key": "x-fapi-interaction-id",
+                    "value": "f688ae24-9719-4975-9f58-f6b7e655c37d"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Not Acceptable",
+              "code": 406,
+              "header": [
+                {
+                  "disabled": false,
+                  "description": "Version of the API end point responded with.",
+                  "key": "x-v",
+                  "value": "1696"
+                },
+                {
+                  "disabled": false,
+                  "description": "Reflects the value of the Interaction ID in the request, if provided.",
+                  "key": "x-fapi-interaction-Id",
+                  "value": "string"
+                },
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"errors\": [\n    {\n      \"code\": \"string\",\n      \"title\": \"string\",\n      \"detail\": \"string\"\n    },\n    {\n      \"code\": \"string\",\n      \"title\": \"string\",\n      \"detail\": \"string\"\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "64c51cb3-3c91-4e34-87b6-786d0764d36e",
+              "name": "Unprocessable Entity",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "products"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "effective",
+                      "value": "CURRENT"
+                    },
+                    {
+                      "key": "updated-since",
+                      "value": "<datetime>"
+                    },
+                    {
+                      "key": "brand",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "product-category",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "page",
+                      "value": "1"
+                    },
+                    {
+                      "key": "page-size",
+                      "value": "25"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "disabled": false,
+                    "description": "(Required) Content-Type that is acceptable for the server's response.",
+                    "key": "Accept",
+                    "value": "application/json"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) Version of the API end point being requested.",
+                    "key": "x-v",
+                    "value": "2"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "Minimum version of the API end point you are requesting.",
+                    "key": "x-min-v",
+                    "value": "2"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "Reflects the value of the Interaction ID in the request.",
+                    "key": "x-fapi-interaction-id",
+                    "value": "f688ae24-9719-4975-9f58-f6b7e655c37d"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Unprocessable Entity (WebDAV) (RFC 4918)",
+              "code": 422,
+              "header": [
+                {
+                  "disabled": false,
+                  "description": "Version of the API end point responded with.",
+                  "key": "x-v",
+                  "value": "1696"
+                },
+                {
+                  "disabled": false,
+                  "description": "Reflects the value of the Interaction ID in the request, if provided.",
+                  "key": "x-fapi-interaction-Id",
+                  "value": "string"
+                },
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"errors\": [\n    {\n      \"code\": \"PA-BR-01\",\n      \"title\": \"page-size is invalid\",\n      \"detail\": \"page-size must be a number and between 1 and 1000.\"\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "c262d049-f0a7-4db2-a5aa-99aadf78bd20",
+              "name": "Too Many Requests",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "products"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "effective",
+                      "value": "CURRENT"
+                    },
+                    {
+                      "key": "updated-since",
+                      "value": "<datetime>"
+                    },
+                    {
+                      "key": "brand",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "product-category",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "page",
+                      "value": "1"
+                    },
+                    {
+                      "key": "page-size",
+                      "value": "25"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "disabled": false,
+                    "description": "(Required) Content-Type that is acceptable for the server's response.",
+                    "key": "Accept",
+                    "value": "application/json"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) Version of the API end point being requested.",
+                    "key": "x-v",
+                    "value": "2"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "Minimum version of the API end point you are requesting.",
+                    "key": "x-min-v",
+                    "value": "2"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "Reflects the value of the Interaction ID in the request.",
+                    "key": "x-fapi-interaction-id",
+                    "value": "f688ae24-9719-4975-9f58-f6b7e655c37d"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Too Many Requests",
+              "code": 429,
+              "header": [
+                {
+                  "disabled": false,
+                  "description": "Amount of time the client should wait before re-trying the operation.",
+                  "key": "Retry-After",
+                  "value": "1696"
+                },
+                {
+                  "disabled": false,
+                  "description": "Version of the API end point responded with.",
+                  "key": "x-v",
+                  "value": "1696"
+                },
+                {
+                  "disabled": false,
+                  "description": "Reflects the value of the Interaction ID in the request, if provided.",
+                  "key": "x-fapi-interaction-Id",
+                  "value": "string"
+                },
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "1960bd95-3864-457d-bdb7-aa84bb787d1a",
+              "name": "Internal Server Error",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "products"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "effective",
+                      "value": "CURRENT"
+                    },
+                    {
+                      "key": "updated-since",
+                      "value": "<datetime>"
+                    },
+                    {
+                      "key": "brand",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "product-category",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "page",
+                      "value": "1"
+                    },
+                    {
+                      "key": "page-size",
+                      "value": "25"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "disabled": false,
+                    "description": "(Required) Content-Type that is acceptable for the server's response.",
+                    "key": "Accept",
+                    "value": "application/json"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) Version of the API end point being requested.",
+                    "key": "x-v",
+                    "value": "2"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "Minimum version of the API end point you are requesting.",
+                    "key": "x-min-v",
+                    "value": "2"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "Reflects the value of the Interaction ID in the request.",
+                    "key": "x-fapi-interaction-id",
+                    "value": "f688ae24-9719-4975-9f58-f6b7e655c37d"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Internal Server Error",
+              "code": 500,
+              "header": [
+                {
+                  "disabled": false,
+                  "description": "Version of the API end point responded with.",
+                  "key": "x-v",
+                  "value": "1696"
+                },
+                {
+                  "disabled": false,
+                  "description": "Reflects the value of the Interaction ID in the request, if provided.",
+                  "key": "x-fapi-interaction-Id",
+                  "value": "string"
+                },
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"errors\": [\n    {\n      \"code\": \"PA-IS-01\",\n      \"title\": \"Server Error\",\n      \"detail\": \"An error has occurred whilst processing your request. Please try again later.\"\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "cede3a5d-cc4a-4e39-8eba-b7dc50dba936",
+          "name": "Get Product Detail",
+          "request": {
+            "name": "Get Product Detail",
+            "description": {
+              "content": "Retrieve detailed information on a single CommBank product.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "products",
+                ":productId"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "productId",
+                  "description": "(Required) CommBank’s unique identifier for the product. This should be obtained via the /products end point."
+                }
+              ]
+            },
+            "header": [
+              {
+                "disabled": false,
+                "description": "(Required) Version of the API end point being requested.",
+                "key": "x-v",
+                "value": "<integer>"
+              },
+              {
+                "disabled": false,
+                "description": "Minimum version of the API end point you are requesting.",
+                "key": "x-min-v",
+                "value": "<integer>"
+              },
+              {
+                "disabled": false,
+                "description": "Reflects the value of the Interaction ID in the request.",
+                "key": "x-fapi-interaction-id",
+                "value": "<string>"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "d68475e9-729b-4707-ad76-3fd2c14a326e",
+              "name": "Success",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "products",
+                    ":productId"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "productId",
+                      "description": "(Required) CommBank’s unique identifier for the product. This should be obtained via the /products end point."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "disabled": false,
+                    "description": "(Required) Content-Type that is acceptable for the server's response.",
+                    "key": "Accept",
+                    "value": "application/json"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) Version of the API end point being requested.",
+                    "key": "x-v",
+                    "value": "2"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "Minimum version of the API end point you are requesting.",
+                    "key": "x-min-v",
+                    "value": "2"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "Reflects the value of the Interaction ID in the request.",
+                    "key": "x-fapi-interaction-id",
+                    "value": "f688ae24-9719-4975-9f58-f6b7e655c37d"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "disabled": false,
+                  "description": "Version of the API end point responded with.",
+                  "key": "x-v",
+                  "value": "1696"
+                },
+                {
+                  "disabled": false,
+                  "description": "Reflects the value of the Interaction ID in the request, if provided.",
+                  "key": "x-fapi-interaction-Id",
+                  "value": "string"
+                },
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"data\": {\n    \"productId\": \"string\",\n    \"lastUpdated\": \"1994-04-12T03:48:56.976Z\",\n    \"productCategory\": \"CRED_AND_CHRG_CARDS\",\n    \"name\": \"string\",\n    \"description\": \"string\",\n    \"brand\": \"string\",\n    \"isTailored\": false,\n    \"effectiveFrom\": \"1980-01-20T15:48:33.688Z\",\n    \"effectiveTo\": \"1971-07-13T03:28:16.764Z\",\n    \"brandName\": \"string\",\n    \"applicationUri\": \"string\",\n    \"additionalInformation\": {\n      \"overviewUri\": \"string\",\n      \"termsUri\": \"string\",\n      \"eligibilityUri\": \"string\",\n      \"feesAndPricingUri\": \"string\",\n      \"bundleUri\": \"string\"\n    },\n    \"bundles\": [\n      {\n        \"name\": \"string\",\n        \"description\": \"string\",\n        \"productIds\": [\n          \"string\",\n          \"string\"\n        ],\n        \"additionalInfo\": \"string\",\n        \"additionalInfoUri\": \"string\"\n      },\n      {\n        \"name\": \"string\",\n        \"description\": \"string\",\n        \"productIds\": [\n          \"string\",\n          \"string\"\n        ],\n        \"additionalInfo\": \"string\",\n        \"additionalInfoUri\": \"string\"\n      }\n    ],\n    \"features\": [\n      {\n        \"featureType\": \"INTEREST_FREE_TRANSFERS\",\n        \"additionalValue\": \"No\",\n        \"additionalInfo\": \"string\",\n        \"additionalInfoUri\": \"string\"\n      },\n      {\n        \"featureType\": \"COMPLEMENTARY_PRODUCT_DISCOUNTS\",\n        \"additionalValue\": \"No\",\n        \"additionalInfo\": \"string\",\n        \"additionalInfoUri\": \"string\"\n      }\n    ],\n    \"constraints\": [\n      {\n        \"constraintType\": \"MIN_LIMIT\",\n        \"additionalValue\": \"string\",\n        \"additionalInfo\": \"string\",\n        \"additionalInfoUri\": \"string\"\n      },\n      {\n        \"constraintType\": \"MAX_BALANCE\",\n        \"additionalValue\": \"string\",\n        \"additionalInfo\": \"string\",\n        \"additionalInfoUri\": \"string\"\n      }\n    ],\n    \"eligibility\": [\n      {\n        \"eligibilityType\": \"RESIDENCY_STATUS\",\n        \"additionalValue\": \"14\",\n        \"additionalInfo\": \"string\",\n        \"additionalInfoUri\": \"string\"\n      },\n      {\n        \"eligibilityType\": \"EMPLOYMENT_STATUS\",\n        \"additionalValue\": \"14\",\n        \"additionalInfo\": \"string\",\n        \"additionalInfoUri\": \"string\"\n      }\n    ],\n    \"fees\": [\n      {\n        \"name\": \"string\",\n        \"feeType\": \"EXIT\",\n        \"amount\": \"string\",\n        \"balanceRate\": \"string\",\n        \"transactionRate\": \"string\",\n        \"accruedRate\": \"string\",\n        \"accrualFrequency\": \"string\",\n        \"currency\": \"string\",\n        \"discounts\": [\n          {\n            \"description\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"discountType\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"amount\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"balanceRate\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"transactionRate\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"accruedRate\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"feeRate\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"eligibility\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"additionalValue\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"additionalInfo\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"additionalInfoUri\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          },\n          {\n            \"description\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"discountType\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"amount\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"balanceRate\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"transactionRate\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"accruedRate\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"feeRate\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"eligibility\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"additionalValue\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"additionalInfo\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"additionalInfoUri\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          }\n        ],\n        \"additionalValue\": \"string\",\n        \"additionalInfo\": \"string\",\n        \"additionalInfoUri\": \"string\"\n      },\n      {\n        \"name\": \"string\",\n        \"feeType\": \"EVENT\",\n        \"amount\": \"string\",\n        \"balanceRate\": \"string\",\n        \"transactionRate\": \"string\",\n        \"accruedRate\": \"string\",\n        \"accrualFrequency\": \"string\",\n        \"currency\": \"string\",\n        \"discounts\": [\n          {\n            \"description\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"discountType\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"amount\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"balanceRate\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"transactionRate\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"accruedRate\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"feeRate\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"eligibility\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"additionalValue\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"additionalInfo\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"additionalInfoUri\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          },\n          {\n            \"description\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"discountType\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"amount\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"balanceRate\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"transactionRate\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"accruedRate\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"feeRate\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"eligibility\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"additionalValue\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"additionalInfo\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"additionalInfoUri\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          }\n        ],\n        \"additionalValue\": \"string\",\n        \"additionalInfo\": \"string\",\n        \"additionalInfoUri\": \"string\"\n      }\n    ],\n    \"depositRates\": [\n      {\n        \"depositRateType\": \"MARKET_LINKED\",\n        \"rate\": \"string\",\n        \"calculationFrequency\": \"string\",\n        \"applicationFrequency\": \"string\",\n        \"tiers\": [\n          {\n            \"name\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"unitOfMeasure\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"minimumValue\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"maximumValue\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"rateApplicationMethod\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"applicabilityConditions\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"subTier\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          },\n          {\n            \"name\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"unitOfMeasure\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"minimumValue\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"maximumValue\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"rateApplicationMethod\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"applicabilityConditions\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"subTier\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          }\n        ],\n        \"additionalValue\": \"string\",\n        \"additionalInfo\": \"string\",\n        \"additionalInfoUri\": \"string\"\n      },\n      {\n        \"depositRateType\": \"MARKET_LINKED\",\n        \"rate\": \"string\",\n        \"calculationFrequency\": \"string\",\n        \"applicationFrequency\": \"string\",\n        \"tiers\": [\n          {\n            \"name\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"unitOfMeasure\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"minimumValue\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"maximumValue\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"rateApplicationMethod\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"applicabilityConditions\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"subTier\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          },\n          {\n            \"name\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"unitOfMeasure\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"minimumValue\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"maximumValue\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"rateApplicationMethod\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"applicabilityConditions\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"subTier\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          }\n        ],\n        \"additionalValue\": \"string\",\n        \"additionalInfo\": \"string\",\n        \"additionalInfoUri\": \"string\"\n      }\n    ],\n    \"lendingRates\": [\n      {\n        \"lendingRateType\": \"CASH_ADVANCE\",\n        \"rate\": \"string\",\n        \"comparisonRate\": \"string\",\n        \"calculationFrequency\": \"string\",\n        \"applicationFrequency\": \"string\",\n        \"interestPaymentDue\": \"IN_ADVANCE\",\n        \"repaymentType\": \"INTEREST_ONLY\",\n        \"loanPurpose\": \"INVESTMENT\",\n        \"tiers\": [\n          {\n            \"name\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"unitOfMeasure\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"minimumValue\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"maximumValue\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"rateApplicationMethod\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"applicabilityConditions\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"subTier\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          },\n          {\n            \"name\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"unitOfMeasure\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"minimumValue\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"maximumValue\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"rateApplicationMethod\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"applicabilityConditions\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"subTier\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          }\n        ],\n        \"additionalValue\": \"string\",\n        \"additionalInfo\": \"string\",\n        \"additionalInfoUri\": \"string\"\n      },\n      {\n        \"lendingRateType\": \"DISCOUNT\",\n        \"rate\": \"string\",\n        \"comparisonRate\": \"string\",\n        \"calculationFrequency\": \"string\",\n        \"applicationFrequency\": \"string\",\n        \"interestPaymentDue\": \"IN_ARREARS\",\n        \"repaymentType\": \"INTEREST_ONLY\",\n        \"loanPurpose\": \"INVESTMENT\",\n        \"tiers\": [\n          {\n            \"name\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"unitOfMeasure\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"minimumValue\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"maximumValue\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"rateApplicationMethod\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"applicabilityConditions\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"subTier\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          },\n          {\n            \"name\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"unitOfMeasure\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"minimumValue\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"maximumValue\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"rateApplicationMethod\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"applicabilityConditions\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"subTier\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          }\n        ],\n        \"additionalValue\": \"string\",\n        \"additionalInfo\": \"string\",\n        \"additionalInfoUri\": \"string\"\n      }\n    ]\n  },\n  \"links\": {\n    \"self\": \"string\"\n  },\n  \"meta\": {\n    \"totalRecords\": 10,\n    \"totalPages\": 10\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "07768ece-d155-42f3-bfaf-13fe6e74b0e5",
+              "name": "Not Acceptable",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "products",
+                    ":productId"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "productId",
+                      "description": "(Required) CommBank’s unique identifier for the product. This should be obtained via the /products end point."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "disabled": false,
+                    "description": "(Required) Content-Type that is acceptable for the server's response.",
+                    "key": "Accept",
+                    "value": "application/json"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) Version of the API end point being requested.",
+                    "key": "x-v",
+                    "value": "2"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "Minimum version of the API end point you are requesting.",
+                    "key": "x-min-v",
+                    "value": "2"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "Reflects the value of the Interaction ID in the request.",
+                    "key": "x-fapi-interaction-id",
+                    "value": "f688ae24-9719-4975-9f58-f6b7e655c37d"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Not Acceptable",
+              "code": 406,
+              "header": [
+                {
+                  "disabled": false,
+                  "description": "Version of the API end point responded with.",
+                  "key": "x-v",
+                  "value": "1696"
+                },
+                {
+                  "disabled": false,
+                  "description": "Reflects the value of the Interaction ID in the request, if provided.",
+                  "key": "x-fapi-interaction-Id",
+                  "value": "string"
+                },
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"errors\": [\n    {\n      \"code\": \"string\",\n      \"title\": \"string\",\n      \"detail\": \"string\"\n    },\n    {\n      \"code\": \"string\",\n      \"title\": \"string\",\n      \"detail\": \"string\"\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "720b20f5-fb37-4ef9-905c-1c1c8cd90f35",
+              "name": "Too Many Requests",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "products",
+                    ":productId"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "productId",
+                      "description": "(Required) CommBank’s unique identifier for the product. This should be obtained via the /products end point."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "disabled": false,
+                    "description": "(Required) Content-Type that is acceptable for the server's response.",
+                    "key": "Accept",
+                    "value": "application/json"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) Version of the API end point being requested.",
+                    "key": "x-v",
+                    "value": "2"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "Minimum version of the API end point you are requesting.",
+                    "key": "x-min-v",
+                    "value": "2"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "Reflects the value of the Interaction ID in the request.",
+                    "key": "x-fapi-interaction-id",
+                    "value": "f688ae24-9719-4975-9f58-f6b7e655c37d"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Too Many Requests",
+              "code": 429,
+              "header": [
+                {
+                  "disabled": false,
+                  "description": "Indicates the amount of time the client should wait before retrying the operation",
+                  "key": "Retry-After",
+                  "value": "1696"
+                },
+                {
+                  "disabled": false,
+                  "description": "Version of the API end point responded with.",
+                  "key": "x-v",
+                  "value": "1696"
+                },
+                {
+                  "disabled": false,
+                  "description": "Reflects the value of the Interaction ID in the request, if provided.",
+                  "key": "x-fapi-interaction-Id",
+                  "value": "string"
+                },
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "a94aceaa-215d-41ad-921f-f23b6d5f39d4",
+              "name": "Server Error",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "products",
+                    ":productId"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "productId",
+                      "description": "(Required) CommBank’s unique identifier for the product. This should be obtained via the /products end point."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "disabled": false,
+                    "description": "(Required) Content-Type that is acceptable for the server's response.",
+                    "key": "Accept",
+                    "value": "application/json"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) Version of the API end point being requested.",
+                    "key": "x-v",
+                    "value": "2"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "Minimum version of the API end point you are requesting.",
+                    "key": "x-min-v",
+                    "value": "2"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "Reflects the value of the Interaction ID in the request.",
+                    "key": "x-fapi-interaction-id",
+                    "value": "f688ae24-9719-4975-9f58-f6b7e655c37d"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Internal Server Error",
+              "code": 500,
+              "header": [
+                {
+                  "disabled": false,
+                  "description": "Version of the API end point responded with.",
+                  "key": "x-v",
+                  "value": "1696"
+                },
+                {
+                  "disabled": false,
+                  "description": "Reflects the value of the Interaction ID in the request, if provided.",
+                  "key": "x-fapi-interaction-Id",
+                  "value": "string"
+                },
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"errors\": [\n    {\n      \"code\": \"string\",\n      \"title\": \"string\",\n      \"detail\": \"string\"\n    },\n    {\n      \"code\": \"string\",\n      \"title\": \"string\",\n      \"detail\": \"string\"\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "https://secure.api.commbank.com.au/api/cds-au/v1/banking",
+      "key": "baseUrl"
+    }
+  ],
+  "info": {
+    "_postman_id": "869de63a-1690-44c7-9d99-dd0b8198d57a",
+    "name": "CommBank Accounts Accounts API Products API API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "Obtain the list of accounts authorised to be shared by the customer. \n\nAccount API is a consumer API. To access data you'll need the customer's consent.</p><h3 style=\"margin-top:30px;\">Host URL</h3><p>CommBank requests are passed to the URL <span class=\"sc-1noysbl-9 JKaaQ\">https://secure.api.commbank.com.au/api/cds-au/v1/banking</span></p><p>CBA – CommBiz requests are passed to the URL <span class=\"sc-1noysbl-9 JKaaQ\">https://secure.cdr.commbiz.api.commbank.com.au/cbzapi/cds-au/v1/banking</span></p>",
+      "type": "text/plain"
+    }
+  }
+}

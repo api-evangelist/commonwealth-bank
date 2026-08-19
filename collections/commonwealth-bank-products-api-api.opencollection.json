@@ -1,0 +1,122 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "CommBank Accounts Accounts API Products API API",
+    "version": "1.0"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Products API",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Get Products",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/products",
+            "headers": [
+              {
+                "name": "Accept",
+                "value": ""
+              },
+              {
+                "name": "x-v",
+                "value": "2"
+              },
+              {
+                "name": "x-min-v",
+                "value": "2"
+              },
+              {
+                "name": "x-fapi-interaction-id",
+                "value": "f688ae24-9719-4975-9f58-f6b7e655c37d"
+              }
+            ],
+            "params": [
+              {
+                "name": "effective",
+                "value": "",
+                "type": "query",
+                "description": "Filter to retrieve products based on the effective status."
+              },
+              {
+                "name": "updated-since",
+                "value": "",
+                "type": "query",
+                "description": "Filter to retrieve products that were updated since the specified date and time."
+              },
+              {
+                "name": "brand",
+                "value": "",
+                "type": "query",
+                "description": "Filter to retrieve products with a specific brand."
+              },
+              {
+                "name": "product-category",
+                "value": "",
+                "type": "query",
+                "description": "Filter to retrieve products by their Product Category."
+              },
+              {
+                "name": "page",
+                "value": "",
+                "type": "query",
+                "description": "Page number being requested"
+              },
+              {
+                "name": "page-size",
+                "value": "",
+                "type": "query",
+                "description": "Number of records to return with the page"
+              }
+            ]
+          },
+          "docs": "Retrieve summary level information of CommBank products"
+        },
+        {
+          "info": {
+            "name": "Get Product Detail",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/products/:productId",
+            "headers": [
+              {
+                "name": "Accept",
+                "value": ""
+              },
+              {
+                "name": "x-v",
+                "value": "2"
+              },
+              {
+                "name": "x-min-v",
+                "value": "2"
+              },
+              {
+                "name": "x-fapi-interaction-id",
+                "value": "f688ae24-9719-4975-9f58-f6b7e655c37d"
+              }
+            ],
+            "params": [
+              {
+                "name": "productId",
+                "value": "",
+                "type": "path",
+                "description": "CommBank’s unique identifier for the product. This should be obtained via the /products end point."
+              }
+            ]
+          },
+          "docs": "Retrieve detailed information on a single CommBank product."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}
