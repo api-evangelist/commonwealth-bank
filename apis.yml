@@ -42,7 +42,7 @@ description: >-
   transfer initiation, NameCheck, PayTo) and a hosted merchant Payment Gateway.
 created: '2026-05-05'
 modified: '2026-07-21'
-specificationVersion: '0.19'
+specificationVersion: '0.23'
 apis:
 - aid: commonwealth-bank:cba-fast-payment-credit-transfer-api
   name: Commonwealth Bank Fast Payment (Credit Transfer Initiation) API
