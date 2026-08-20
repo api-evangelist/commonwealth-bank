@@ -116,6 +116,13 @@ apis:
   tags:
   - Payments
   - Merchant Services
+  - E-Commerce
+  - Payment Gateway
+  - Cards
+  - Australia
+  tags_raw:
+  - Payments
+  - Merchant Services
   - Ecommerce
   - Payment Gateway
   - Cards
@@ -182,6 +189,11 @@ apis:
   - Payments
   - Merchant Services
   - EFTPOS
+  - E-Commerce
+  tags_raw:
+  - Payments
+  - Merchant Services
+  - EFTPOS
   - Ecommerce
   humanURL: https://www.commbank.com.au/business/payments.html
   properties:
@@ -209,6 +221,10 @@ apis:
 - aid: commonwealth-bank:netbank
   name: NetBank
   tags:
+  - Online Banking
+  - Web Banking
+  - Self-Service
+  tags_raw:
   - Online Banking
   - Web Banking
   - Self Service
