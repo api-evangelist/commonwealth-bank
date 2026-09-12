@@ -2,23 +2,21 @@
   "repo": "commonwealth-bank",
   "feeds": [
     {
-      "source": "https://www.commbank.com.au/newsroom.html",
-      "feed_url": "https://www.commbank.com.au/newsroom.html",
-      "title": "",
-      "saved": 0,
-      "method": "none",
-      "nature": "vendor-blog",
-      "nature_basis": "path_blog"
-    },
-    {
       "source": "https://www.commbank.com.au/support/security.html",
       "feed_url": "https://www.commbank.com.au/support/security.html",
       "title": "",
       "saved": 0,
       "method": "none"
+    },
+    {
+      "source": "https://www.commbank.com.au/newsroom.html",
+      "feed_url": "https://www.commbank.com.au/newsroom.html",
+      "title": "",
+      "saved": 0,
+      "method": "none"
     }
   ],
-  "fetched": "2026-08-30T22:33:40Z",
+  "fetched": "2026-09-06T19:17:18Z",
   "post_count": 3,
   "feed_nature": "vendor-blog",
   "feed_nature_basis": "path_blog",
