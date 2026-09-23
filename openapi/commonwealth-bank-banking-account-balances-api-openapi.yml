@@ -1,16 +1,23 @@
-swagger: '2.0'
+openapi: 3.2.0
 info:
-  version: "1.0"
-  title: CommBank Accounts Accounts API Banking Account Balances API
-  description: "Obtain the list of accounts authorised to be shared by the customer. \n\nAccount API is a consumer API. To access data you'll need the customer's consent.</p><h3 style=\"margin-top:30px;\">Host URL</h3><p>CommBank requests are passed to the URL <span class=\"sc-1noysbl-9 JKaaQ\">https://secure.api.commbank.com.au/api/cds-au/v1/banking</span></p><p>CBA – CommBiz requests are passed to the URL <span class=\"sc-1noysbl-9 JKaaQ\">https://secure.cdr.commbiz.api.commbank.com.au/cbzapi/cds-au/v1/banking</span></p>"
-  x-provenance: First-party CommBank OpenAPI (Swagger 2.0) harvested verbatim from the CommBank developer portal. These are Commonwealth Bank's own renderings of its CDR / Open Banking Consumer Data Standards endpoints.
-  x-source-url: https://www.commbank.com.au/developer/Documentation/specification/Accounts
-  x-doc-url: https://www.commbank.com.au/developer/documentation/Accounts
+  contact:
+    email: contact@dsb.gov.au
+    name: Data Standards Body
+    url: https://dsb.gov.au/
+  description: Specifications for resource endpoints applicable to data holders in the Banking sector.
+  license:
+    name: MIT License
+    url: https://opensource.org/licenses/MIT
+  title: CDR Banking Banking Account Balances API
+  version: 1.36.0
+  x-provenance: Shared DSB Consumer Data Standards CDR Banking API (not bank-proprietary). Harvested verbatim from consumerdatastandardsaustralia.github.io / ConsumerDataStandardsAustralia/standards (slate/source/includes/swagger/cds_banking.json). Every AU Accredited Data Holder including Commonwealth Bank implements this standardized surface.
+  x-source-url: https://raw.githubusercontent.com/ConsumerDataStandardsAustralia/standards/master/slate/source/includes/swagger/cds_banking.json
+  x-cds-version: 1.36.0
   x-harvested: '2026-07-21'
-host: secure.api.commbank.com.au
-basePath: /api/cds-au/v1/banking
-schemes:
-- https
+  x-commbank-public-base-uri: https://api.commbank.com.au/public
+servers:
+- description: MTLS
+  url: https://mtls.dh.example.com/cds-au/v1
 tags:
 - description: Banking Account Balance endpoints
   name: Banking Account Balances
@@ -21,7 +28,7 @@ paths:
       description: 'Obtain balances for multiple, filtered accounts.
 
 
-        Obsolete versions: [v1](includes/obsolete/get-bulk-balances-v1.html).'
+        Obsolete versions: v1.'
       operationId: listBankingBalancesBulk
       parameters:
       - description: Used to filter results on the _productCategory_ field applicable to accounts. Any one of the valid values for this field can be supplied. If absent then all accounts returned.
@@ -402,6 +409,25 @@ paths:
       x-version: '1'
 components:
   schemas:
+    BankingProductCategoryV2:
+      description: The category to which a product or account belongs. See [here](#product-categories) for more details.
+      enum:
+      - BUSINESS_LOANS
+      - BUY_NOW_PAY_LATER
+      - CRED_AND_CHRG_CARDS
+      - LEASES
+      - MARGIN_LOANS
+      - OVERDRAFTS
+      - PERS_LOANS
+      - REGULATED_TRUST_ACCOUNTS
+      - RESIDENTIAL_MORTGAGES
+      - TERM_DEPOSITS
+      - TRADE_FINANCE
+      - TRANS_AND_SAVINGS_ACCOUNTS
+      - TRAVEL_CARDS
+      type: string
+    Meta:
+      type: object
     BankingBalancePurse:
       properties:
         amount:
@@ -415,8 +441,6 @@ components:
       required:
       - amount
       type: object
-    Meta:
-      type: object
     ResponseBankingAccountsBalanceList_data:
       properties:
         balances:
@@ -427,10 +451,6 @@ components:
       required:
       - balances
       type: object
-    BankingAccountId:
-      description: A unique identifier for a Banking account, generated according to [CDR ID Permanence](#id-permanence) requirements.
-      type: string
-      x-cds-type: ASCIIString
     ErrorV2:
       properties:
         code:
@@ -451,6 +471,75 @@ components:
       type: object
       x-conditional:
       - meta
+    BankingAccountId:
+      description: A unique identifier for a Banking account, generated according to [CDR ID Permanence](#id-permanence) requirements.
+      type: string
+      x-cds-type: ASCIIString
+    Links:
+      properties:
+        self:
+          description: Fully qualified link that generated the current response document.
+          type: string
+          x-cds-type: URIString
+      required:
+      - self
+      type: object
+    MetaPaginated:
+      properties:
+        totalRecords:
+          description: The total number of records in the full set. See [pagination](#pagination).
+          type: integer
+          x-cds-type: NaturalNumber
+        totalPages:
+          description: The total number of pages in the full set. See [pagination](#pagination).
+          type: integer
+          x-cds-type: NaturalNumber
+      required:
+      - totalPages
+      - totalRecords
+      type: object
+    RequestAccountIdListV1:
+      properties:
+        data:
+          $ref: '#/components/schemas/RequestAccountIdListV1_data'
+        meta:
+          $ref: '#/components/schemas/Meta'
+      required:
+      - data
+      type: object
+    ResponseErrorListV2:
+      properties:
+        errors:
+          description: List of errors.
+          items:
+            $ref: '#/components/schemas/ErrorV2'
+          type: array
+      required:
+      - errors
+      type: object
+    ResponseBankingAccountsBalanceList:
+      properties:
+        data:
+          $ref: '#/components/schemas/ResponseBankingAccountsBalanceList_data'
+        links:
+          $ref: '#/components/schemas/LinksPaginated'
+        meta:
+          $ref: '#/components/schemas/MetaPaginated'
+      required:
+      - data
+      - links
+      - meta
+      type: object
+    RequestAccountIdListV1_data:
+      properties:
+        accountIds:
+          description: Array of _accountId_ values to obtain data for.
+          items:
+            $ref: '#/components/schemas/BankingAccountId'
+          type: array
+      required:
+      - accountIds
+      type: object
     LinksPaginated:
       properties:
         self:
@@ -481,15 +570,6 @@ components:
       - next
       - first
       - last
-    ErrorV2_meta:
-      description: Additional data for customised error codes.
-      properties:
-        urn:
-          description: The CDR error code URN which the application-specific error code extends. Mandatory if the error _code_ is an application-specific error rather than a standardised error code.
-          type: string
-      type: object
-      x-conditional:
-      - urn
     BankingBalance:
       properties:
         accountId:
@@ -529,52 +609,15 @@ components:
       - availableBalance
       - currentBalance
       type: object
-    RequestAccountIdListV1_data:
+    ErrorV2_meta:
+      description: Additional data for customised error codes.
       properties:
-        accountIds:
-          description: Array of _accountId_ values to obtain data for.
-          items:
-            $ref: '#/components/schemas/BankingAccountId'
-          type: array
-      required:
-      - accountIds
-      type: object
-    MetaPaginated:
-      properties:
-        totalRecords:
-          description: The total number of records in the full set. See [pagination](#pagination).
-          type: integer
-          x-cds-type: NaturalNumber
-        totalPages:
-          description: The total number of pages in the full set. See [pagination](#pagination).
-          type: integer
-          x-cds-type: NaturalNumber
-      required:
-      - totalPages
-      - totalRecords
-      type: object
-    ResponseBankingAccountsBalanceList:
-      properties:
-        data:
-          $ref: '#/components/schemas/ResponseBankingAccountsBalanceList_data'
-        links:
-          $ref: '#/components/schemas/LinksPaginated'
-        meta:
-          $ref: '#/components/schemas/MetaPaginated'
-      required:
-      - data
-      - links
-      - meta
-      type: object
-    Links:
-      properties:
-        self:
-          description: Fully qualified link that generated the current response document.
+        urn:
+          description: The CDR error code URN which the application-specific error code extends. Mandatory if the error _code_ is an application-specific error rather than a standardised error code.
           type: string
-          x-cds-type: URIString
-      required:
-      - self
       type: object
+      x-conditional:
+      - urn
     ResponseBankingAccountsBalanceById:
       properties:
         data:
@@ -586,42 +629,6 @@ components:
       required:
       - data
       - links
-      type: object
-    RequestAccountIdListV1:
-      properties:
-        data:
-          $ref: '#/components/schemas/RequestAccountIdListV1_data'
-        meta:
-          $ref: '#/components/schemas/Meta'
-      required:
-      - data
-      type: object
-    BankingProductCategoryV2:
-      description: The category to which a product or account belongs. See [here](#product-categories) for more details.
-      enum:
-      - BUSINESS_LOANS
-      - BUY_NOW_PAY_LATER
-      - CRED_AND_CHRG_CARDS
-      - LEASES
-      - MARGIN_LOANS
-      - OVERDRAFTS
-      - PERS_LOANS
-      - REGULATED_TRUST_ACCOUNTS
-      - RESIDENTIAL_MORTGAGES
-      - TERM_DEPOSITS
-      - TRADE_FINANCE
-      - TRANS_AND_SAVINGS_ACCOUNTS
-      - TRAVEL_CARDS
-      type: string
-    ResponseErrorListV2:
-      properties:
-        errors:
-          description: List of errors.
-          items:
-            $ref: '#/components/schemas/ErrorV2'
-          type: array
-      required:
-      - errors
       type: object
   headers:
     XFAPIInteractionId:
@@ -646,7 +653,3 @@ components:
             $ref: '#/components/schemas/RequestAccountIdListV1'
       description: Request payload containing a list of _accountId_ values to obtain data for.
       required: true
-x-tagGroups:
-- name: ''
-  tags:
-  - Accounts API
