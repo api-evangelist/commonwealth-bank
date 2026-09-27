@@ -302,6 +302,74 @@ paths:
       - bank:accounts.detail:read
       x-version: '1'
 components:
+  parameters:
+    ParamXVHeader:
+      name: x-v
+      in: header
+      description: Version of the API end point being requested.
+      example: 1
+      required: false
+      schema:
+        type: integer
+    ParamPageSize:
+      name: page-size
+      in: query
+      description: Number of records to return with the page
+      required: false
+      schema:
+        type: integer
+        default: 25
+        maximum: 1000
+        minimum: 1
+    ParamXCdsClientHeaders:
+      name: x-cds-client-headers
+      in: header
+      description: The customer's original standard http headers encoded, including the original User Agent header, if the customer is currently logged in to the data recipient.
+      required: false
+      example: Q3VzdG9tZXJzRGV2OkN1c3RvbWVyc0Rldg==
+      x-cds-type: Base64
+      schema:
+        type: string
+    ParamXFapiCustomerIpAddress:
+      name: x-fapi-customer-ip-address
+      in: header
+      description: The customer's original IP address if the customer is currently logged in to the data recipient.
+      required: false
+      example: 192.168.1.1
+      schema:
+        type: string
+    ParamXFapiInterationId:
+      name: x-fapi-interaction-id
+      in: header
+      description: Reflects the value of the Interaction ID in the request.
+      required: false
+      example: f688ae24-9719-4975-9f58-f6b7e655c37d
+      schema:
+        type: string
+    ParamPage:
+      name: page
+      in: query
+      description: Page number being requested
+      required: false
+      schema:
+        type: integer
+        default: 1
+    ParamXMinVHeader:
+      name: x-min-v
+      in: header
+      description: Minimum version of the API end point you are requesting.
+      example: 1
+      required: false
+      schema:
+        type: integer
+    ParamXFapiAuthDate:
+      name: x-fapi-auth-date
+      in: header
+      description: The time when the customer last logged in to the data recipient.
+      required: false
+      example: '2002-10-03T01:00:00+10:00'
+      schema:
+        type: string
   schemas:
     Error:
       type: object
@@ -312,6 +380,427 @@ components:
           type: string
         detail:
           type: string
+    MetaPaginated:
+      type: object
+      required:
+      - totalPages
+      - totalRecords
+      properties:
+        totalRecords:
+          type: integer
+          description: The total number of records in the full set. See [pagination](#pagination).
+          x-cds-type: NaturalNumber
+        totalPages:
+          type: integer
+          description: The total number of pages in the full set. See [pagination](#pagination).
+          x-cds-type: NaturalNumber
+    CommonPhysicalAddress:
+      type: object
+      required:
+      - addressUType
+      properties:
+        addressUType:
+          type: string
+          description: The type of address object present
+          enum:
+          - simple
+          - paf
+        simple:
+          $ref: '#/components/schemas/CommonSimpleAddress'
+        paf:
+          $ref: '#/components/schemas/CommonPAFAddress'
+      x-conditional:
+      - simple
+      - paf
+    ResponseBankingAccountList_data:
+      required:
+      - accounts
+      properties:
+        accounts:
+          type: array
+          description: The list of accounts returned.
+          items:
+            $ref: '#/components/schemas/BankingAccount'
+    BankingAccount:
+      type: object
+      required:
+      - accountId
+      - displayName
+      - maskedNumber
+      - productCategory
+      - productName
+      properties:
+        accountId:
+          type: string
+          description: A unique ID of the account.
+          x-cds-type: ASCIIString
+        creationDate:
+          type: string
+          description: Date that the account was created.
+          x-cds-type: DateString
+        displayName:
+          type: string
+          description: The display name of the account as defined by CommBank.
+        nickname:
+          type: string
+          description: The nick name for the account.
+        openStatus:
+          type: string
+          description: Open or closed status for the account.
+          default: OPEN
+          enum:
+          - OPEN
+          - CLOSED
+        isOwned:
+          type: boolean
+          description: Flag indicating that the customer associated with the authorisation is an owner of the account.
+          default: true
+          x-cds-type: Boolean
+        maskedNumber:
+          type: string
+          description: A masked version of the account.
+          x-cds-type: MaskedAccountString
+        productCategory:
+          $ref: '#/components/schemas/BankingProductCategory'
+        productName:
+          type: string
+          description: The unique identifier of the account as defined by CommBank.
+    BankingProductDiscount:
+      type: object
+      required:
+      - description
+      - discountType
+      properties:
+        description:
+          type: string
+          description: Description of the discount
+        discountType:
+          type: string
+          description: The type of discount. See the next section for an overview of valid values and their meaning
+          enum:
+          - BALANCE
+          - DEPOSITS
+          - ELIGIBILITY_ONLY
+          - FEE_CAP
+          - PAYMENTS
+        amount:
+          type: string
+          description: Dollar value of the discount.
+          x-cds-type: AmountString
+        balanceRate:
+          type: string
+          description: A discount rate calculated based on a proportion of the balance.
+          x-cds-type: RateString
+        transactionRate:
+          type: string
+          description: A discount rate calculated based on a proportion of a transaction.
+          x-cds-type: RateString
+        accruedRate:
+          type: string
+          description: A discount rate calculated based on a proportion of the calculated interest accrued on the account.
+          x-cds-type: RateString
+        feeRate:
+          type: string
+          description: A discount rate calculated based on a proportion of the fee to which this discount is attached.
+          x-cds-type: RateString
+        additionalValue:
+          type: string
+          description: Generic field containing additional information relevant to the discount.
+        additionalInfo:
+          type: string
+          description: Display text providing more information on the discount.
+        additionalInfoUri:
+          type: string
+          description: Link to a web page with more information on this discount.
+          x-cds-type: URIString
+        eligibility:
+          type: array
+          description: Eligibility constraints that apply to this discount.
+          items:
+            $ref: '#/components/schemas/BankingProductDiscountEligibility'
+      x-conditional:
+      - accruedRate
+      - additionalValue
+      - amount
+      - balanceRate
+      - eligibility
+      - feeRate
+      - transactionRate
+    BankingProductRateCondition:
+      type: object
+      properties:
+        additionalInfo:
+          type: string
+          description: Display text providing more information on the condition
+        additionalInfoUri:
+          type: string
+          description: Link to a web page with more information on this condition
+          x-cds-type: URIString
+      description: Defines a condition for the applicability of a tiered rate
+    Links:
+      type: object
+      required:
+      - self
+      properties:
+        self:
+          type: string
+          description: Fully qualified link that generated the current response document
+          x-cds-type: URIString
+    ResponseBankingAccountList:
+      type: object
+      required:
+      - data
+      - links
+      - meta
+      example:
+        data:
+          accounts:
+          - accountId: EAMJfk-nntZqz6Wi_hV2cLISlJKgknoeBy3NuqSM-Ag
+            displayName: SHELBA  BRIEN
+            openStatus: OPEN
+            isOwned: false
+            maskedNumber: xxx-xxx xxxxx6924
+            productCategory: TRANS_AND_SAVINGS_ACCOUNTS
+            productName: Smart Access
+          - accountId: RwIEKEz1m9Q6nfCk_hQvLLIXxMejxytKUyHM6vjYrVg
+            displayName: IFW AUTO MATION
+            openStatus: OPEN
+            isOwned: false
+            maskedNumber: xxx-xxx xxxxx7530
+            productCategory: TRANS_AND_SAVINGS_ACCOUNTS
+            productName: Smart Access
+          - accountId: QlRQcUeizdJrzf-u_kF9K7FCzZGixntEXXzKuPiEowY
+            displayName: IFW AUTO MATION
+            openStatus: OPEN
+            isOwned: false
+            maskedNumber: xxx-xxx xxxxx7557
+            productCategory: TRANS_AND_SAVINGS_ACCOUNTS
+            productName: Smart Access
+        links:
+          self: https://secure.api.commbank.com.au/api/cds-au/v1/banking/accounts
+          first: https://secure.api.commbank.com.au/api/cds-au/v1/banking/accounts?page=1&page-size=25
+          last: https://secure.api.commbank.com.au/api/cds-au/v1/banking/accounts?page=1&page-size=25
+        meta:
+          totalRecords: 3
+          totalPages: 1
+      properties:
+        data:
+          $ref: '#/components/schemas/ResponseBankingAccountList_data'
+        links:
+          $ref: '#/components/schemas/LinksPaginated'
+        meta:
+          $ref: '#/components/schemas/MetaPaginated'
+    BankingProductDepositRate:
+      type: object
+      required:
+      - depositRateType
+      - rate
+      properties:
+        depositRateType:
+          type: string
+          description: The type of rate (base, bonus, etc). See the next section for an overview of valid values and their meaning
+          enum:
+          - BONUS
+          - BUNDLE_BONUS
+          - FIXED
+          - FLOATING
+          - INTRODUCTORY
+          - MARKET_LINKED
+          - VARIABLE
+        rate:
+          type: string
+          description: The rate to be applied
+          x-cds-type: RateString
+        calculationFrequency:
+          type: string
+          description: The period after which the rate is applied to the balance to calculate the amount due for the period
+          x-cds-type: ExternalRef
+        applicationFrequency:
+          type: string
+          description: The period after which the calculated amount(s) are 'applied' to the account
+          x-cds-type: ExternalRef
+        tiers:
+          type: array
+          description: Rate tiers applicable for this rate
+          items:
+            $ref: '#/components/schemas/BankingProductRateTierV3'
+        additionalValue:
+          type: string
+          description: Generic field containing additional information relevant to the [depositRateType](#tocSproductdepositratetypedoc) specified. Whether mandatory or not is dependent on the value of [depositRateType](#tocSproductdepositratetypedoc)
+        additionalInfo:
+          type: string
+          description: Display text providing more information on the rate
+        additionalInfoUri:
+          type: string
+          description: Link to a web page with more information on this rate
+          x-cds-type: URIString
+      x-conditional:
+      - additionalValue
+    CommonPAFAddress:
+      type: object
+      required:
+      - localityName
+      - postcode
+      - state
+      properties:
+        dpid:
+          type: string
+          description: Unique identifier for an address as defined by Australia Post.
+        thoroughfareNumber1:
+          type: integer
+          description: Thoroughfare number for a property.
+          x-cds-type: PositiveInteger
+        thoroughfareNumber1Suffix:
+          type: string
+          description: Suffix for the thoroughfare number.
+        thoroughfareNumber2:
+          type: integer
+          description: Second thoroughfare number.
+          x-cds-type: PositiveInteger
+        thoroughfareNumber2Suffix:
+          type: string
+          description: Suffix for the second thoroughfare number.
+        flatUnitType:
+          type: string
+          description: Type of flat or unit for the address.
+        flatUnitNumber:
+          type: string
+          description: Unit number.
+        floorLevelType:
+          type: string
+          description: Type of floor or level for the address.
+        floorLevelNumber:
+          type: string
+          description: Floor or level number.
+        lotNumber:
+          type: string
+          description: Allotment number for the address.
+        buildingName1:
+          type: string
+          description: Building/Property name 1.
+        buildingName2:
+          type: string
+          description: Building/Property name 2.
+        streetName:
+          type: string
+          description: The name of the street.
+        streetType:
+          type: string
+          description: The street type.
+        streetSuffix:
+          type: string
+          description: The street type suffix.
+        postalDeliveryType:
+          type: string
+          description: Postal delivery type.
+        postalDeliveryNumber:
+          type: integer
+          description: Postal delivery number if the address is a postal delivery type.
+          x-cds-type: PositiveInteger
+        postalDeliveryNumberPrefix:
+          type: string
+          description: Postal delivery number prefix related to the postal delivery number.
+        postalDeliveryNumberSuffix:
+          type: string
+          description: Postal delivery number suffix related to the postal delivery number.
+        localityName:
+          type: string
+          description: Full name of locality.
+        postcode:
+          type: string
+          description: Postcode for the locality.
+        state:
+          type: string
+          description: State in which the address belongs.
+      description: Australian address formatted according to the file format defined by the [PAF file format](https://auspost.com.au/content/dam/auspost_corp/media/documents/australia-post-data-guide.pdf).<br><i>CommBank does not currently return this value.</i></br>
+    BankingProductDiscountEligibility:
+      type: object
+      required:
+      - discountEligibilityType
+      properties:
+        discountEligibilityType:
+          type: string
+          description: The type of the specific eligibility constraint for a discount
+          enum:
+          - BUSINESS
+          - EMPLOYMENT_STATUS
+          - INTRODUCTORY
+          - MAX_AGE
+          - MIN_AGE
+          - MIN_INCOME
+          - MIN_TURNOVER
+          - NATURAL_PERSON
+          - PENSION_RECIPIENT
+          - RESIDENCY_STATUS
+          - STAFF
+          - STUDENT
+          - OTHER
+        additionalValue:
+          type: string
+          description: Generic field containing additional information relevant to the eligibility.
+        additionalInfo:
+          type: string
+          description: Display text providing more information on this eligibility constraint.
+        additionalInfoUri:
+          type: string
+          description: Link to a web page with more information on this eligibility constraint
+          x-cds-type: URIString
+      x-conditional:
+      - additionalInfo
+      - additionalValue
+    LinksPaginated:
+      type: object
+      required:
+      - self
+      properties:
+        self:
+          type: string
+          description: Fully qualified link that generated the current response document
+          x-cds-type: URIString
+        first:
+          type: string
+          description: URI to the first page of this set. Mandatory if this response is not the first page
+          x-cds-type: URIString
+        prev:
+          type: string
+          description: URI to the previous page of this set. Mandatory if this response is not the first page
+          x-cds-type: URIString
+        next:
+          type: string
+          description: URI to the next page of this set. Mandatory if this response is not the last page
+          x-cds-type: URIString
+        last:
+          type: string
+          description: URI to the last page of this set. Mandatory if this response is not the last page
+          x-cds-type: URIString
+      x-conditional:
+      - prev
+      - next
+      - first
+      - last
+    BankingCreditCardAccount:
+      type: object
+      required:
+      - minPaymentAmount
+      - paymentDueAmount
+      - paymentDueDate
+      properties:
+        minPaymentAmount:
+          type: string
+          description: The minimum payment amount due for the next card payment.
+          x-cds-type: AmountString
+        paymentDueAmount:
+          type: string
+          description: The amount due for the next card payment.
+          x-cds-type: AmountString
+        paymentCurrency:
+          type: string
+          description: The currency of the payment.
+          x-cds-type: CurrencyString
+        paymentDueDate:
+          type: string
+          description: Date that the next payment for the card is due.
+          x-cds-type: DateString
     ErrorResponse406:
       type: object
       properties:
@@ -325,8 +814,48 @@ components:
         - code: AA-RH-03
           title: x-v is invalid
           detail: x-v header must be a supported version number.
-    Meta:
+    BankingProductRateTierV3:
       type: object
+      required:
+      - minimumValue
+      - name
+      - unitOfMeasure
+      properties:
+        name:
+          type: string
+          description: A display name for the tier
+        unitOfMeasure:
+          type: string
+          description: The unit of measure that applies to the tierValueMinimum and tierValueMaximum values e.g. a **DOLLAR** amount. **PERCENT** (in the case of loan-to-value ratio or LVR). Tier term period representing a discrete number of **MONTH**'s or **DAY**'s (in the case of term deposit tiers)
+          enum:
+          - DOLLAR
+          - PERCENT
+          - DAY
+          - MONTH
+        minimumValue:
+          type: number
+          description: The number of tierUnitOfMeasure units that form the lower bound of the tier. The tier should be inclusive of this value
+          x-cds-type: Number
+        maximumValue:
+          type: number
+          description: 'The number of tierUnitOfMeasure units that form the upper bound of the tier or band. For a tier with a discrete value (as opposed to a range of values e.g. 1 month) this must be the same as tierValueMinimum. Where this is the same as the tierValueMinimum value of the next-higher tier the referenced tier should be exclusive of this value. For example a term deposit of 2 months falls into the upper tier of the following tiers: (1 – 2 months, 2 – 3 months). If absent the tier''s range has no upper bound.'
+          x-cds-type: Number
+        rateApplicationMethod:
+          type: string
+          description: The method used to calculate the amount to be applied using one or more tiers. A single rate may be applied to the entire balance or each applicable tier rate is applied to the portion of the balance that falls into that tier (referred to as 'bands' or 'steps')
+          enum:
+          - PER_TIER
+          - WHOLE_BALANCE
+        applicabilityConditions:
+          $ref: '#/components/schemas/BankingProductRateCondition'
+        additionalInfo:
+          type: string
+          description: Display text providing more information on the rate tier.
+        additionalInfoUri:
+          type: string
+          description: Link to a web page with more information on this rate tier
+          x-cds-type: URIString
+      description: Defines the criteria and conditions for which a rate applies
     BankingProductFee:
       type: object
       required:
@@ -408,6 +937,54 @@ components:
         - code: AA-BR-02
           title: page is invalid
           detail: page must be a valid number.
+    ErrorResponse500:
+      type: object
+      properties:
+        errors:
+          uniqueItems: false
+          type: array
+          items:
+            $ref: '#/components/schemas/Error'
+      example:
+        errors:
+        - code: AA-IS-01
+          title: Server Error
+          detail: An error has occurred whilst processing your request. Please try again later.
+    CommonSimpleAddress:
+      type: object
+      required:
+      - addressLine1
+      - city
+      - state
+      properties:
+        mailingName:
+          type: string
+          description: Name of the individual or business formatted.<br><i>CommBank does not currently return this value.</i></br>
+        addressLine1:
+          type: string
+          description: First line of the standard address object.
+        addressLine2:
+          type: string
+          description: Second line of the standard address object.
+        addressLine3:
+          type: string
+          description: Third line of the standard address object.
+        postcode:
+          type: string
+          description: Postcode for the locality.
+        city:
+          type: string
+          description: Name of the city or locality.
+        state:
+          type: string
+          description: State in which the address belongs.
+        country:
+          type: string
+          description: The country code.
+          default: AUS
+          x-cds-type: ExternalRef
+      x-conditional:
+      - postcode
     BankingProductFeature:
       type: object
       required:
@@ -453,156 +1030,34 @@ components:
       x-conditional:
       - additionalValue
       - additionalInfo
-    BankingCreditCardAccount:
+    BankingProductLendingRateV2:
       type: object
       required:
-      - minPaymentAmount
-      - paymentDueAmount
-      - paymentDueDate
-      properties:
-        minPaymentAmount:
-          type: string
-          description: The minimum payment amount due for the next card payment.
-          x-cds-type: AmountString
-        paymentDueAmount:
-          type: string
-          description: The amount due for the next card payment.
-          x-cds-type: AmountString
-        paymentCurrency:
-          type: string
-          description: The currency of the payment.
-          x-cds-type: CurrencyString
-        paymentDueDate:
-          type: string
-          description: Date that the next payment for the card is due.
-          x-cds-type: DateString
-    BankingTermDepositAccount:
-      type: object
-      required:
-      - lodgementDate
-      - maturityDate
-      - maturityInstructions
-      properties:
-        lodgementDate:
-          type: string
-          description: The lodgement date of the original deposit.
-          x-cds-type: DateString
-        maturityDate:
-          type: string
-          description: Maturity date for the term deposit.
-          x-cds-type: DateString
-        maturityAmount:
-          type: string
-          description: Amount to be paid upon maturity.
-          x-cds-type: AmountString
-        maturityCurrency:
-          type: string
-          description: The currency of the maturity.
-          x-cds-type: CurrencyString
-        maturityInstructions:
-          type: string
-          description: Current instructions on action to be taken at maturity.
-          enum:
-          - ROLLED_OVER
-          - PAID_OUT_AT_MATURITY
-          - HOLD_ON_MATURITY
-    CommonPAFAddress:
-      type: object
-      required:
-      - localityName
-      - postcode
-      - state
-      properties:
-        dpid:
-          type: string
-          description: Unique identifier for an address as defined by Australia Post.
-        thoroughfareNumber1:
-          type: integer
-          description: Thoroughfare number for a property.
-          x-cds-type: PositiveInteger
-        thoroughfareNumber1Suffix:
-          type: string
-          description: Suffix for the thoroughfare number.
-        thoroughfareNumber2:
-          type: integer
-          description: Second thoroughfare number.
-          x-cds-type: PositiveInteger
-        thoroughfareNumber2Suffix:
-          type: string
-          description: Suffix for the second thoroughfare number.
-        flatUnitType:
-          type: string
-          description: Type of flat or unit for the address.
-        flatUnitNumber:
-          type: string
-          description: Unit number.
-        floorLevelType:
-          type: string
-          description: Type of floor or level for the address.
-        floorLevelNumber:
-          type: string
-          description: Floor or level number.
-        lotNumber:
-          type: string
-          description: Allotment number for the address.
-        buildingName1:
-          type: string
-          description: Building/Property name 1.
-        buildingName2:
-          type: string
-          description: Building/Property name 2.
-        streetName:
-          type: string
-          description: The name of the street.
-        streetType:
-          type: string
-          description: The street type.
-        streetSuffix:
-          type: string
-          description: The street type suffix.
-        postalDeliveryType:
-          type: string
-          description: Postal delivery type.
-        postalDeliveryNumber:
-          type: integer
-          description: Postal delivery number if the address is a postal delivery type.
-          x-cds-type: PositiveInteger
-        postalDeliveryNumberPrefix:
-          type: string
-          description: Postal delivery number prefix related to the postal delivery number.
-        postalDeliveryNumberSuffix:
-          type: string
-          description: Postal delivery number suffix related to the postal delivery number.
-        localityName:
-          type: string
-          description: Full name of locality.
-        postcode:
-          type: string
-          description: Postcode for the locality.
-        state:
-          type: string
-          description: State in which the address belongs.
-      description: Australian address formatted according to the file format defined by the [PAF file format](https://auspost.com.au/content/dam/auspost_corp/media/documents/australia-post-data-guide.pdf).<br><i>CommBank does not currently return this value.</i></br>
-    BankingProductDepositRate:
-      type: object
-      required:
-      - depositRateType
+      - lendingRateType
       - rate
       properties:
-        depositRateType:
+        lendingRateType:
           type: string
-          description: The type of rate (base, bonus, etc). See the next section for an overview of valid values and their meaning
+          description: The type of rate (fixed, variable, etc). See the next section for an overview of valid values and their meaning
           enum:
-          - BONUS
-          - BUNDLE_BONUS
-          - FIXED
+          - BUNDLE_DISCOUNT_FIXED
+          - BUNDLE_DISCOUNT_VARIABLE
+          - CASH_ADVANCE
+          - DISCOUNT
           - FLOATING
           - INTRODUCTORY
           - MARKET_LINKED
+          - PENALTY
+          - PURCHASE
           - VARIABLE
+          - FIXED
         rate:
           type: string
           description: The rate to be applied
+          x-cds-type: RateString
+        comparisonRate:
+          type: string
+          description: A comparison rate equivalent for this rate
           x-cds-type: RateString
         calculationFrequency:
           type: string
@@ -612,6 +1067,24 @@ components:
           type: string
           description: The period after which the calculated amount(s) are 'applied' to the account
           x-cds-type: ExternalRef
+        interestPaymentDue:
+          type: string
+          description: When loan payments are due to be paid within each period
+          enum:
+          - IN_ADVANCE
+          - IN_ARREARS
+        repaymentType:
+          type: string
+          description: Options in place for repayments
+          enum:
+          - INTEREST_ONLY
+          - PRINCIPAL_AND_INTEREST
+        loanPurpose:
+          type: string
+          description: The reason for taking out the loan
+          enum:
+          - OWNER_OCCUPIED
+          - INVESTMENT
         tiers:
           type: array
           description: Rate tiers applicable for this rate
@@ -619,16 +1092,18 @@ components:
             $ref: '#/components/schemas/BankingProductRateTierV3'
         additionalValue:
           type: string
-          description: Generic field containing additional information relevant to the [depositRateType](#tocSproductdepositratetypedoc) specified. Whether mandatory or not is dependent on the value of [depositRateType](#tocSproductdepositratetypedoc)
+          description: Generic field containing additional information relevant to the [lendingRateType](#tocSproductlendingratetypedoc) specified. Whether mandatory or not is dependent on the value of [lendingRateType](#tocSproductlendingratetypedoc)
         additionalInfo:
           type: string
-          description: Display text providing more information on the rate
+          description: Display text providing more information on the rate.
         additionalInfoUri:
           type: string
           description: Link to a web page with more information on this rate
           x-cds-type: URIString
       x-conditional:
       - additionalValue
+    Meta:
+      type: object
     BankingAccountDetail:
       allOf:
       - $ref: '#/components/schemas/BankingAccount'
@@ -704,118 +1179,19 @@ components:
         - termDeposit
         - creditCard
         - loan
-    BankingProductRateTierV3:
+    ErrorResponse422:
       type: object
-      required:
-      - minimumValue
-      - name
-      - unitOfMeasure
       properties:
-        name:
-          type: string
-          description: A display name for the tier
-        unitOfMeasure:
-          type: string
-          description: The unit of measure that applies to the tierValueMinimum and tierValueMaximum values e.g. a **DOLLAR** amount. **PERCENT** (in the case of loan-to-value ratio or LVR). Tier term period representing a discrete number of **MONTH**'s or **DAY**'s (in the case of term deposit tiers)
-          enum:
-          - DOLLAR
-          - PERCENT
-          - DAY
-          - MONTH
-        minimumValue:
-          type: number
-          description: The number of tierUnitOfMeasure units that form the lower bound of the tier. The tier should be inclusive of this value
-          x-cds-type: Number
-        maximumValue:
-          type: number
-          description: 'The number of tierUnitOfMeasure units that form the upper bound of the tier or band. For a tier with a discrete value (as opposed to a range of values e.g. 1 month) this must be the same as tierValueMinimum. Where this is the same as the tierValueMinimum value of the next-higher tier the referenced tier should be exclusive of this value. For example a term deposit of 2 months falls into the upper tier of the following tiers: (1 – 2 months, 2 – 3 months). If absent the tier''s range has no upper bound.'
-          x-cds-type: Number
-        rateApplicationMethod:
-          type: string
-          description: The method used to calculate the amount to be applied using one or more tiers. A single rate may be applied to the entire balance or each applicable tier rate is applied to the portion of the balance that falls into that tier (referred to as 'bands' or 'steps')
-          enum:
-          - PER_TIER
-          - WHOLE_BALANCE
-        applicabilityConditions:
-          $ref: '#/components/schemas/BankingProductRateCondition'
-        additionalInfo:
-          type: string
-          description: Display text providing more information on the rate tier.
-        additionalInfoUri:
-          type: string
-          description: Link to a web page with more information on this rate tier
-          x-cds-type: URIString
-      description: Defines the criteria and conditions for which a rate applies
-    Links:
-      type: object
-      required:
-      - self
-      properties:
-        self:
-          type: string
-          description: Fully qualified link that generated the current response document
-          x-cds-type: URIString
-    BankingProductDiscount:
-      type: object
-      required:
-      - description
-      - discountType
-      properties:
-        description:
-          type: string
-          description: Description of the discount
-        discountType:
-          type: string
-          description: The type of discount. See the next section for an overview of valid values and their meaning
-          enum:
-          - BALANCE
-          - DEPOSITS
-          - ELIGIBILITY_ONLY
-          - FEE_CAP
-          - PAYMENTS
-        amount:
-          type: string
-          description: Dollar value of the discount.
-          x-cds-type: AmountString
-        balanceRate:
-          type: string
-          description: A discount rate calculated based on a proportion of the balance.
-          x-cds-type: RateString
-        transactionRate:
-          type: string
-          description: A discount rate calculated based on a proportion of a transaction.
-          x-cds-type: RateString
-        accruedRate:
-          type: string
-          description: A discount rate calculated based on a proportion of the calculated interest accrued on the account.
-          x-cds-type: RateString
-        feeRate:
-          type: string
-          description: A discount rate calculated based on a proportion of the fee to which this discount is attached.
-          x-cds-type: RateString
-        additionalValue:
-          type: string
-          description: Generic field containing additional information relevant to the discount.
-        additionalInfo:
-          type: string
-          description: Display text providing more information on the discount.
-        additionalInfoUri:
-          type: string
-          description: Link to a web page with more information on this discount.
-          x-cds-type: URIString
-        eligibility:
+        errors:
+          uniqueItems: false
           type: array
-          description: Eligibility constraints that apply to this discount.
           items:
-            $ref: '#/components/schemas/BankingProductDiscountEligibility'
-      x-conditional:
-      - accruedRate
-      - additionalValue
-      - amount
-      - balanceRate
-      - eligibility
-      - feeRate
-      - transactionRate
+            $ref: '#/components/schemas/Error'
+      example:
+        errors:
+        - Code: AA-UE-01
+          Title: page-size is Invalid
+          Detail: page-size must be a number and between 1 and 1000.
     ResponseBankingAccountById:
       type: object
       required:
@@ -1044,249 +1420,6 @@ components:
         links:
           self: https://secure.api.commbank.com.au/api/cds-au/v1/banking/accounts/SKjwqz97YhKUX_IP9M0VYkTvvHAHka2dsNkKHqi5z_Q
         meta: {}
-    BankingProductLendingRateV2:
-      type: object
-      required:
-      - lendingRateType
-      - rate
-      properties:
-        lendingRateType:
-          type: string
-          description: The type of rate (fixed, variable, etc). See the next section for an overview of valid values and their meaning
-          enum:
-          - BUNDLE_DISCOUNT_FIXED
-          - BUNDLE_DISCOUNT_VARIABLE
-          - CASH_ADVANCE
-          - DISCOUNT
-          - FLOATING
-          - INTRODUCTORY
-          - MARKET_LINKED
-          - PENALTY
-          - PURCHASE
-          - VARIABLE
-          - FIXED
-        rate:
-          type: string
-          description: The rate to be applied
-          x-cds-type: RateString
-        comparisonRate:
-          type: string
-          description: A comparison rate equivalent for this rate
-          x-cds-type: RateString
-        calculationFrequency:
-          type: string
-          description: The period after which the rate is applied to the balance to calculate the amount due for the period
-          x-cds-type: ExternalRef
-        applicationFrequency:
-          type: string
-          description: The period after which the calculated amount(s) are 'applied' to the account
-          x-cds-type: ExternalRef
-        interestPaymentDue:
-          type: string
-          description: When loan payments are due to be paid within each period
-          enum:
-          - IN_ADVANCE
-          - IN_ARREARS
-        repaymentType:
-          type: string
-          description: Options in place for repayments
-          enum:
-          - INTEREST_ONLY
-          - PRINCIPAL_AND_INTEREST
-        loanPurpose:
-          type: string
-          description: The reason for taking out the loan
-          enum:
-          - OWNER_OCCUPIED
-          - INVESTMENT
-        tiers:
-          type: array
-          description: Rate tiers applicable for this rate
-          items:
-            $ref: '#/components/schemas/BankingProductRateTierV3'
-        additionalValue:
-          type: string
-          description: Generic field containing additional information relevant to the [lendingRateType](#tocSproductlendingratetypedoc) specified. Whether mandatory or not is dependent on the value of [lendingRateType](#tocSproductlendingratetypedoc)
-        additionalInfo:
-          type: string
-          description: Display text providing more information on the rate.
-        additionalInfoUri:
-          type: string
-          description: Link to a web page with more information on this rate
-          x-cds-type: URIString
-      x-conditional:
-      - additionalValue
-    MetaPaginated:
-      type: object
-      required:
-      - totalPages
-      - totalRecords
-      properties:
-        totalRecords:
-          type: integer
-          description: The total number of records in the full set. See [pagination](#pagination).
-          x-cds-type: NaturalNumber
-        totalPages:
-          type: integer
-          description: The total number of pages in the full set. See [pagination](#pagination).
-          x-cds-type: NaturalNumber
-    BankingProductCategory:
-      type: string
-      description: The category to which a product or account belongs.
-      enum:
-      - TRANS_AND_SAVINGS_ACCOUNTS
-      - TERM_DEPOSITS
-      - TRAVEL_CARDS
-      - REGULATED_TRUST_ACCOUNTS
-      - RESIDENTIAL_MORTGAGES
-      - CRED_AND_CHRG_CARDS
-      - PERS_LOANS
-      - MARGIN_LOANS
-      - LEASES
-      - TRADE_FINANCE
-      - OVERDRAFTS
-      - BUSINESS_LOANS
-    CommonSimpleAddress:
-      type: object
-      required:
-      - addressLine1
-      - city
-      - state
-      properties:
-        mailingName:
-          type: string
-          description: Name of the individual or business formatted.<br><i>CommBank does not currently return this value.</i></br>
-        addressLine1:
-          type: string
-          description: First line of the standard address object.
-        addressLine2:
-          type: string
-          description: Second line of the standard address object.
-        addressLine3:
-          type: string
-          description: Third line of the standard address object.
-        postcode:
-          type: string
-          description: Postcode for the locality.
-        city:
-          type: string
-          description: Name of the city or locality.
-        state:
-          type: string
-          description: State in which the address belongs.
-        country:
-          type: string
-          description: The country code.
-          default: AUS
-          x-cds-type: ExternalRef
-      x-conditional:
-      - postcode
-    CommonPhysicalAddress:
-      type: object
-      required:
-      - addressUType
-      properties:
-        addressUType:
-          type: string
-          description: The type of address object present
-          enum:
-          - simple
-          - paf
-        simple:
-          $ref: '#/components/schemas/CommonSimpleAddress'
-        paf:
-          $ref: '#/components/schemas/CommonPAFAddress'
-      x-conditional:
-      - simple
-      - paf
-    BankingAccount:
-      type: object
-      required:
-      - accountId
-      - displayName
-      - maskedNumber
-      - productCategory
-      - productName
-      properties:
-        accountId:
-          type: string
-          description: A unique ID of the account.
-          x-cds-type: ASCIIString
-        creationDate:
-          type: string
-          description: Date that the account was created.
-          x-cds-type: DateString
-        displayName:
-          type: string
-          description: The display name of the account as defined by CommBank.
-        nickname:
-          type: string
-          description: The nick name for the account.
-        openStatus:
-          type: string
-          description: Open or closed status for the account.
-          default: OPEN
-          enum:
-          - OPEN
-          - CLOSED
-        isOwned:
-          type: boolean
-          description: Flag indicating that the customer associated with the authorisation is an owner of the account.
-          default: true
-          x-cds-type: Boolean
-        maskedNumber:
-          type: string
-          description: A masked version of the account.
-          x-cds-type: MaskedAccountString
-        productCategory:
-          $ref: '#/components/schemas/BankingProductCategory'
-        productName:
-          type: string
-          description: The unique identifier of the account as defined by CommBank.
-    ResponseBankingAccountList:
-      type: object
-      required:
-      - data
-      - links
-      - meta
-      example:
-        data:
-          accounts:
-          - accountId: EAMJfk-nntZqz6Wi_hV2cLISlJKgknoeBy3NuqSM-Ag
-            displayName: SHELBA  BRIEN
-            openStatus: OPEN
-            isOwned: false
-            maskedNumber: xxx-xxx xxxxx6924
-            productCategory: TRANS_AND_SAVINGS_ACCOUNTS
-            productName: Smart Access
-          - accountId: RwIEKEz1m9Q6nfCk_hQvLLIXxMejxytKUyHM6vjYrVg
-            displayName: IFW AUTO MATION
-            openStatus: OPEN
-            isOwned: false
-            maskedNumber: xxx-xxx xxxxx7530
-            productCategory: TRANS_AND_SAVINGS_ACCOUNTS
-            productName: Smart Access
-          - accountId: QlRQcUeizdJrzf-u_kF9K7FCzZGixntEXXzKuPiEowY
-            displayName: IFW AUTO MATION
-            openStatus: OPEN
-            isOwned: false
-            maskedNumber: xxx-xxx xxxxx7557
-            productCategory: TRANS_AND_SAVINGS_ACCOUNTS
-            productName: Smart Access
-        links:
-          self: https://secure.api.commbank.com.au/api/cds-au/v1/banking/accounts
-          first: https://secure.api.commbank.com.au/api/cds-au/v1/banking/accounts?page=1&page-size=25
-          last: https://secure.api.commbank.com.au/api/cds-au/v1/banking/accounts?page=1&page-size=25
-        meta:
-          totalRecords: 3
-          totalPages: 1
-      properties:
-        data:
-          $ref: '#/components/schemas/ResponseBankingAccountList_data'
-        links:
-          $ref: '#/components/schemas/LinksPaginated'
-        meta:
-          $ref: '#/components/schemas/MetaPaginated'
     BankingLoanAccount:
       type: object
       properties:
@@ -1355,185 +1488,52 @@ components:
           type: string
           description: The expected or required repayment frequency.
           x-cds-type: ExternalRef
-    ErrorResponse500:
-      type: object
-      properties:
-        errors:
-          uniqueItems: false
-          type: array
-          items:
-            $ref: '#/components/schemas/Error'
-      example:
-        errors:
-        - code: AA-IS-01
-          title: Server Error
-          detail: An error has occurred whilst processing your request. Please try again later.
-    ErrorResponse422:
-      type: object
-      properties:
-        errors:
-          uniqueItems: false
-          type: array
-          items:
-            $ref: '#/components/schemas/Error'
-      example:
-        errors:
-        - Code: AA-UE-01
-          Title: page-size is Invalid
-          Detail: page-size must be a number and between 1 and 1000.
-    LinksPaginated:
+    BankingTermDepositAccount:
       type: object
       required:
-      - self
+      - lodgementDate
+      - maturityDate
+      - maturityInstructions
       properties:
-        self:
+        lodgementDate:
           type: string
-          description: Fully qualified link that generated the current response document
-          x-cds-type: URIString
-        first:
+          description: The lodgement date of the original deposit.
+          x-cds-type: DateString
+        maturityDate:
           type: string
-          description: URI to the first page of this set. Mandatory if this response is not the first page
-          x-cds-type: URIString
-        prev:
+          description: Maturity date for the term deposit.
+          x-cds-type: DateString
+        maturityAmount:
           type: string
-          description: URI to the previous page of this set. Mandatory if this response is not the first page
-          x-cds-type: URIString
-        next:
+          description: Amount to be paid upon maturity.
+          x-cds-type: AmountString
+        maturityCurrency:
           type: string
-          description: URI to the next page of this set. Mandatory if this response is not the last page
-          x-cds-type: URIString
-        last:
+          description: The currency of the maturity.
+          x-cds-type: CurrencyString
+        maturityInstructions:
           type: string
-          description: URI to the last page of this set. Mandatory if this response is not the last page
-          x-cds-type: URIString
-      x-conditional:
-      - prev
-      - next
-      - first
-      - last
-    BankingProductRateCondition:
-      type: object
-      properties:
-        additionalInfo:
-          type: string
-          description: Display text providing more information on the condition
-        additionalInfoUri:
-          type: string
-          description: Link to a web page with more information on this condition
-          x-cds-type: URIString
-      description: Defines a condition for the applicability of a tiered rate
-    ResponseBankingAccountList_data:
-      required:
-      - accounts
-      properties:
-        accounts:
-          type: array
-          description: The list of accounts returned.
-          items:
-            $ref: '#/components/schemas/BankingAccount'
-    BankingProductDiscountEligibility:
-      type: object
-      required:
-      - discountEligibilityType
-      properties:
-        discountEligibilityType:
-          type: string
-          description: The type of the specific eligibility constraint for a discount
+          description: Current instructions on action to be taken at maturity.
           enum:
-          - BUSINESS
-          - EMPLOYMENT_STATUS
-          - INTRODUCTORY
-          - MAX_AGE
-          - MIN_AGE
-          - MIN_INCOME
-          - MIN_TURNOVER
-          - NATURAL_PERSON
-          - PENSION_RECIPIENT
-          - RESIDENCY_STATUS
-          - STAFF
-          - STUDENT
-          - OTHER
-        additionalValue:
-          type: string
-          description: Generic field containing additional information relevant to the eligibility.
-        additionalInfo:
-          type: string
-          description: Display text providing more information on this eligibility constraint.
-        additionalInfoUri:
-          type: string
-          description: Link to a web page with more information on this eligibility constraint
-          x-cds-type: URIString
-      x-conditional:
-      - additionalInfo
-      - additionalValue
-  parameters:
-    ParamXFapiInterationId:
-      name: x-fapi-interaction-id
-      in: header
-      description: Reflects the value of the Interaction ID in the request.
-      required: false
-      example: f688ae24-9719-4975-9f58-f6b7e655c37d
-      schema:
-        type: string
-    ParamXFapiCustomerIpAddress:
-      name: x-fapi-customer-ip-address
-      in: header
-      description: The customer's original IP address if the customer is currently logged in to the data recipient.
-      required: false
-      example: 192.168.1.1
-      schema:
-        type: string
-    ParamXFapiAuthDate:
-      name: x-fapi-auth-date
-      in: header
-      description: The time when the customer last logged in to the data recipient.
-      required: false
-      example: '2002-10-03T01:00:00+10:00'
-      schema:
-        type: string
-    ParamPage:
-      name: page
-      in: query
-      description: Page number being requested
-      required: false
-      schema:
-        type: integer
-        default: 1
-    ParamXMinVHeader:
-      name: x-min-v
-      in: header
-      description: Minimum version of the API end point you are requesting.
-      example: 1
-      required: false
-      schema:
-        type: integer
-    ParamXVHeader:
-      name: x-v
-      in: header
-      description: Version of the API end point being requested.
-      example: 1
-      required: false
-      schema:
-        type: integer
-    ParamPageSize:
-      name: page-size
-      in: query
-      description: Number of records to return with the page
-      required: false
-      schema:
-        type: integer
-        default: 25
-        maximum: 1000
-        minimum: 1
-    ParamXCdsClientHeaders:
-      name: x-cds-client-headers
-      in: header
-      description: The customer's original standard http headers encoded, including the original User Agent header, if the customer is currently logged in to the data recipient.
-      required: false
-      example: Q3VzdG9tZXJzRGV2OkN1c3RvbWVyc0Rldg==
-      x-cds-type: Base64
-      schema:
-        type: string
+          - ROLLED_OVER
+          - PAID_OUT_AT_MATURITY
+          - HOLD_ON_MATURITY
+    BankingProductCategory:
+      type: string
+      description: The category to which a product or account belongs.
+      enum:
+      - TRANS_AND_SAVINGS_ACCOUNTS
+      - TERM_DEPOSITS
+      - TRAVEL_CARDS
+      - REGULATED_TRUST_ACCOUNTS
+      - RESIDENTIAL_MORTGAGES
+      - CRED_AND_CHRG_CARDS
+      - PERS_LOANS
+      - MARGIN_LOANS
+      - LEASES
+      - TRADE_FINANCE
+      - OVERDRAFTS
+      - BUSINESS_LOANS
 x-tagGroups:
 - name: ''
   tags:

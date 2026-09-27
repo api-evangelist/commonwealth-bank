@@ -471,6 +471,83 @@ paths:
         description: The list of account IDs to obtain balances for
         required: true
 components:
+  parameters:
+    ParamXVHeader:
+      name: x-v
+      in: header
+      description: Version of the API end point being requested.
+      example: 1
+      required: false
+      schema:
+        type: integer
+    ParamAcceptHeader:
+      name: Accept
+      in: header
+      description: Content-Type that is acceptable for the server's response.
+      required: true
+      schema:
+        type: string
+        enum:
+        - application/json
+    ParamPageSize:
+      name: page-size
+      in: query
+      description: Number of records to return with the page
+      required: false
+      schema:
+        type: integer
+        default: 25
+        maximum: 1000
+        minimum: 1
+    ParamXCdsClientHeaders:
+      name: x-cds-client-headers
+      in: header
+      description: The customer's original standard http headers encoded, including the original User Agent header, if the customer is currently logged in to the data recipient.
+      required: false
+      example: Q3VzdG9tZXJzRGV2OkN1c3RvbWVyc0Rldg==
+      x-cds-type: Base64
+      schema:
+        type: string
+    ParamXFapiCustomerIpAddress:
+      name: x-fapi-customer-ip-address
+      in: header
+      description: The customer's original IP address if the customer is currently logged in to the data recipient.
+      required: false
+      example: 192.168.1.1
+      schema:
+        type: string
+    ParamXFapiInterationId:
+      name: x-fapi-interaction-id
+      in: header
+      description: Reflects the value of the Interaction ID in the request.
+      required: false
+      example: f688ae24-9719-4975-9f58-f6b7e655c37d
+      schema:
+        type: string
+    ParamPage:
+      name: page
+      in: query
+      description: Page number being requested
+      required: false
+      schema:
+        type: integer
+        default: 1
+    ParamXMinVHeader:
+      name: x-min-v
+      in: header
+      description: Minimum version of the API end point you are requesting.
+      example: 1
+      required: false
+      schema:
+        type: integer
+    ParamXFapiAuthDate:
+      name: x-fapi-auth-date
+      in: header
+      description: The time when the customer last logged in to the data recipient.
+      required: false
+      example: '2002-10-03T01:00:00+10:00'
+      schema:
+        type: string
   schemas:
     Error:
       type: object
@@ -481,97 +558,6 @@ components:
           type: string
         detail:
           type: string
-    ErrorResponse406:
-      type: object
-      properties:
-        errors:
-          uniqueItems: false
-          type: array
-          items:
-            $ref: '#/components/schemas/Error'
-      example:
-        errors:
-        - code: AA-RH-01
-          title: Accept header is invalid
-          detail: Accept header must be application/json.
-        - code: AA-RH-02
-          title: Content-Type is invalid
-          detail: Content-Type header must be application/json.
-        - code: AA-RH-03
-          title: x-v is Invalid
-          detail: x-v header must be a supported version number.
-        - code: AA-RH-04
-          title: x-min-v is invalid
-          detail: x-min-v header must be a supported version number.
-    Meta:
-      type: object
-      properties:
-        totalRecords:
-          type: integer
-          description: Total number of records in the full set.
-          example: 10
-        totalPages:
-          description: Total number of pages in the full set.
-          example: 10
-          type: integer
-    BankingBalancePurse:
-      type: object
-      required:
-      - amount
-      properties:
-        amount:
-          type: string
-          description: The balance available for this additional currency purse
-          x-cds-type: AmountString
-        currency:
-          type: string
-          description: The currency for the purse
-          x-cds-type: CurrencyString
-    ResponseBankingAccountsBalanceList_data:
-      required:
-      - balances
-      properties:
-        balances:
-          type: array
-          description: The list of balances returned
-          items:
-            $ref: '#/components/schemas/BankingBalance'
-    ErrorResponse400:
-      type: object
-      properties:
-        errors:
-          uniqueItems: false
-          type: array
-          items:
-            $ref: '#/components/schemas/Error'
-      example:
-        errors:
-        - code: AA-BR-02
-          title: updated-since is invalid
-          detail: updated-since must be a valid date.
-        - code: AA-BR-03
-          title: effective is invalid
-          detail: effective must be either ALL, CURRENT or FUTURE.
-        - code: AA-BR-04
-          title: product-category is invalid
-          detail: product-category must be a valid enumeration.
-        - code: AA-BR-05
-          title: page is invalid
-          detail: page must be a number and must be greater than 0.
-        - code: AA-BR-06
-          title: '{field-name} is Invalid'
-          detail: Something is wrong with your request. Please check your query parameters and try again.
-        - code: AA-BR-07
-          title: brand is Invalid
-          detail: brand must be a valid value.
-    Links:
-      type: object
-      required:
-      - self
-      properties:
-        self:
-          type: string
-          description: Fully qualified link to this API call.
     MetaPaginated:
       type: object
       required:
@@ -586,6 +572,77 @@ components:
           type: integer
           description: The total number of pages in the full set. See [pagination](#pagination).
           x-cds-type: NaturalNumber
+    RequestAccountIds_data:
+      required:
+      - accountIds
+      properties:
+        accountIds:
+          type: array
+          items:
+            type: string
+            description: Array of specific accountIds to obtain authorisations for
+            x-cds-type: ASCIIString
+    Links:
+      type: object
+      required:
+      - self
+      properties:
+        self:
+          type: string
+          description: Fully qualified link to this API call.
+    RequestAccountIds:
+      type: object
+      required:
+      - data
+      example:
+        data:
+          accountIds:
+          - 2M_8F2Q0aPjdPnO-FYMkt6fOBQNBPobNrXzAjwzrmWQ
+          - 8L_GAHf3425ADFf-FYMkt6fOBQNBPobNrXzAjwzrmWQ
+        meta: {}
+      properties:
+        data:
+          $ref: '#/components/schemas/RequestAccountIds_data'
+        meta:
+          $ref: '#/components/schemas/Meta'
+    LinksPaginated:
+      type: object
+      required:
+      - self
+      x-conditional:
+      - prev
+      - next
+      - first
+      - last
+      properties:
+        self:
+          type: string
+          description: Fully qualified link to this API call.
+        first:
+          type: string
+          description: URI to the first page of this set.
+        prev:
+          type: string
+          description: URI to the previous page of this set.
+        next:
+          type: string
+          description: URI to the next page of this set.
+        last:
+          type: string
+          description: URI to the last page of this set.
+    BankingBalancePurse:
+      type: object
+      required:
+      - amount
+      properties:
+        amount:
+          type: string
+          description: The balance available for this additional currency purse
+          x-cds-type: AmountString
+        currency:
+          type: string
+          description: The currency for the purse
+          x-cds-type: CurrencyString
     ResponseBankingAccountsBalanceList:
       type: object
       required:
@@ -617,10 +674,56 @@ components:
           $ref: '#/components/schemas/LinksPaginated'
         meta:
           $ref: '#/components/schemas/MetaPaginated'
-    ResponseNoBody:
+    ErrorResponse406:
       type: object
-      properties: {}
-      example: {}
+      properties:
+        errors:
+          uniqueItems: false
+          type: array
+          items:
+            $ref: '#/components/schemas/Error'
+      example:
+        errors:
+        - code: AA-RH-01
+          title: Accept header is invalid
+          detail: Accept header must be application/json.
+        - code: AA-RH-02
+          title: Content-Type is invalid
+          detail: Content-Type header must be application/json.
+        - code: AA-RH-03
+          title: x-v is Invalid
+          detail: x-v header must be a supported version number.
+        - code: AA-RH-04
+          title: x-min-v is invalid
+          detail: x-min-v header must be a supported version number.
+    ErrorResponse400:
+      type: object
+      properties:
+        errors:
+          uniqueItems: false
+          type: array
+          items:
+            $ref: '#/components/schemas/Error'
+      example:
+        errors:
+        - code: AA-BR-02
+          title: updated-since is invalid
+          detail: updated-since must be a valid date.
+        - code: AA-BR-03
+          title: effective is invalid
+          detail: effective must be either ALL, CURRENT or FUTURE.
+        - code: AA-BR-04
+          title: product-category is invalid
+          detail: product-category must be a valid enumeration.
+        - code: AA-BR-05
+          title: page is invalid
+          detail: page must be a number and must be greater than 0.
+        - code: AA-BR-06
+          title: '{field-name} is Invalid'
+          detail: Something is wrong with your request. Please check your query parameters and try again.
+        - code: AA-BR-07
+          title: brand is Invalid
+          detail: brand must be a valid value.
     ErrorResponse500:
       type: object
       properties:
@@ -634,54 +737,17 @@ components:
         - code: AA-IS-01
           title: Server Error
           detail: An error has occurred whilst processing your request. Please try again later.
-    ErrorResponse422:
+    Meta:
       type: object
       properties:
-        errors:
-          uniqueItems: false
-          type: array
-          items:
-            $ref: '#/components/schemas/Error'
-      example:
-        errors:
-        - code: AA-BR-01
-          title: page-size is invalid
-          detail: page-size must be a number and between 1 and 1000.
-    RequestAccountIds_data:
-      required:
-      - accountIds
-      properties:
-        accountIds:
-          type: array
-          items:
-            type: string
-            description: Array of specific accountIds to obtain authorisations for
-            x-cds-type: ASCIIString
-    LinksPaginated:
-      type: object
-      required:
-      - self
-      x-conditional:
-      - prev
-      - next
-      - first
-      - last
-      properties:
-        self:
-          type: string
-          description: Fully qualified link to this API call.
-        first:
-          type: string
-          description: URI to the first page of this set.
-        prev:
-          type: string
-          description: URI to the previous page of this set.
-        next:
-          type: string
-          description: URI to the next page of this set.
-        last:
-          type: string
-          description: URI to the last page of this set.
+        totalRecords:
+          type: integer
+          description: Total number of records in the full set.
+          example: 10
+        totalPages:
+          description: Total number of pages in the full set.
+          example: 10
+          type: integer
     BankingBalance:
       type: object
       required:
@@ -718,6 +784,32 @@ components:
           description: Optional array of balances for the account in other currencies. Included to support accounts that support multi-currency purses such as Travel Cards.
           items:
             $ref: '#/components/schemas/BankingBalancePurse'
+    ErrorResponse422:
+      type: object
+      properties:
+        errors:
+          uniqueItems: false
+          type: array
+          items:
+            $ref: '#/components/schemas/Error'
+      example:
+        errors:
+        - code: AA-BR-01
+          title: page-size is invalid
+          detail: page-size must be a number and between 1 and 1000.
+    ResponseNoBody:
+      type: object
+      properties: {}
+      example: {}
+    ResponseBankingAccountsBalanceList_data:
+      required:
+      - balances
+      properties:
+        balances:
+          type: array
+          description: The list of balances returned
+          items:
+            $ref: '#/components/schemas/BankingBalance'
     ResponseBankingAccountsBalanceById:
       required:
       - data
@@ -738,98 +830,6 @@ components:
         links:
           self: https://secure.api.commbank.com.au/api/cds-au/v1/banking/accounts/balances
         meta: {}
-    RequestAccountIds:
-      type: object
-      required:
-      - data
-      example:
-        data:
-          accountIds:
-          - 2M_8F2Q0aPjdPnO-FYMkt6fOBQNBPobNrXzAjwzrmWQ
-          - 8L_GAHf3425ADFf-FYMkt6fOBQNBPobNrXzAjwzrmWQ
-        meta: {}
-      properties:
-        data:
-          $ref: '#/components/schemas/RequestAccountIds_data'
-        meta:
-          $ref: '#/components/schemas/Meta'
-  parameters:
-    ParamXFapiInterationId:
-      name: x-fapi-interaction-id
-      in: header
-      description: Reflects the value of the Interaction ID in the request.
-      required: false
-      example: f688ae24-9719-4975-9f58-f6b7e655c37d
-      schema:
-        type: string
-    ParamXFapiCustomerIpAddress:
-      name: x-fapi-customer-ip-address
-      in: header
-      description: The customer's original IP address if the customer is currently logged in to the data recipient.
-      required: false
-      example: 192.168.1.1
-      schema:
-        type: string
-    ParamPage:
-      name: page
-      in: query
-      description: Page number being requested
-      required: false
-      schema:
-        type: integer
-        default: 1
-    ParamXFapiAuthDate:
-      name: x-fapi-auth-date
-      in: header
-      description: The time when the customer last logged in to the data recipient.
-      required: false
-      example: '2002-10-03T01:00:00+10:00'
-      schema:
-        type: string
-    ParamXMinVHeader:
-      name: x-min-v
-      in: header
-      description: Minimum version of the API end point you are requesting.
-      example: 1
-      required: false
-      schema:
-        type: integer
-    ParamXVHeader:
-      name: x-v
-      in: header
-      description: Version of the API end point being requested.
-      example: 1
-      required: false
-      schema:
-        type: integer
-    ParamPageSize:
-      name: page-size
-      in: query
-      description: Number of records to return with the page
-      required: false
-      schema:
-        type: integer
-        default: 25
-        maximum: 1000
-        minimum: 1
-    ParamXCdsClientHeaders:
-      name: x-cds-client-headers
-      in: header
-      description: The customer's original standard http headers encoded, including the original User Agent header, if the customer is currently logged in to the data recipient.
-      required: false
-      example: Q3VzdG9tZXJzRGV2OkN1c3RvbWVyc0Rldg==
-      x-cds-type: Base64
-      schema:
-        type: string
-    ParamAcceptHeader:
-      name: Accept
-      in: header
-      description: Content-Type that is acceptable for the server's response.
-      required: true
-      schema:
-        type: string
-        enum:
-        - application/json
 x-tagGroups:
 - name: ''
   tags:

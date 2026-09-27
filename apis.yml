@@ -28,6 +28,16 @@ accessModel:
   method: derived
 image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/icons/commonwealth-bank.png
 tags:
+- Finance
+- Banks
+- Consumer Banking
+- Business Banking
+- Open Banking
+- CDR
+- Product Reference Data
+- ADI
+- Australia
+tags_raw:
 - Financial
 - Banks
 - Consumer Banking
@@ -204,20 +214,6 @@ apis:
   description: CommBank provides merchant payment acceptance through EFTPOS terminals, eCommerce gateways,
     BPAY merchant services, Smart mini and Smart Pos terminals, and online card acceptance. Includes integrations
     with major eCommerce platforms.
-- aid: commonwealth-bank:commbank-mobile-app
-  name: CommBank Mobile App
-  tags:
-  - Mobile App
-  - Banking
-  - Payments
-  - Money Plan
-  humanURL: https://www.commbank.com.au/digital-banking/commbank-app.html
-  properties:
-  - url: https://www.commbank.com.au/digital-banking/commbank-app.html
-    type: Documentation
-  description: The CommBank mobile app is the bank's primary digital channel for personal customers offering
-    account management, transfers, bill payment via BPAY, mobile cheque deposit, PayID, NPP real-time
-    transfers, card controls, Money Plan budgeting tools, and the Yello loyalty program.
 - aid: commonwealth-bank:netbank
   name: NetBank
   tags:
