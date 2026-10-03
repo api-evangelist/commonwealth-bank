@@ -942,75 +942,16 @@ paths:
         description: ID of the accounts to get direct debit authorisations for.
         required: true
 components:
-  parameters:
-    ParamXVHeader:
-      name: x-v
-      in: header
-      description: Version of the API end point being requested.
-      example: 1
-      required: false
-      schema:
-        type: integer
-    ParamPageSize:
-      name: page-size
-      in: query
-      description: Number of records to return with the page
-      required: false
-      schema:
-        type: integer
-        default: 25
-        maximum: 1000
-        minimum: 1
-    ParamXCdsClientHeaders:
-      name: x-cds-client-headers
-      in: header
-      description: The customer's original standard http headers encoded, including the original User Agent header, if the customer is currently logged in to the data recipient.
-      required: false
-      example: Q3VzdG9tZXJzRGV2OkN1c3RvbWVyc0Rldg==
-      x-cds-type: Base64
-      schema:
-        type: string
-    ParamXFapiCustomerIpAddress:
-      name: x-fapi-customer-ip-address
-      in: header
-      description: The customer's original IP address if the customer is currently logged in to the data recipient.
-      required: false
-      example: 192.168.1.1
-      schema:
-        type: string
-    ParamXFapiInterationId:
-      name: x-fapi-interaction-id
-      in: header
-      description: Reflects the value of the Interaction ID in the request.
-      required: false
-      example: f688ae24-9719-4975-9f58-f6b7e655c37d
-      schema:
-        type: string
-    ParamPage:
-      name: page
-      in: query
-      description: Page number being requested
-      required: false
-      schema:
-        type: integer
-        default: 1
-    ParamXMinVHeader:
-      name: x-min-v
-      in: header
-      description: Minimum version of the API end point you are requesting.
-      example: 1
-      required: false
-      schema:
-        type: integer
-    ParamXFapiAuthDate:
-      name: x-fapi-auth-date
-      in: header
-      description: The time when the customer last logged in to the data recipient.
-      required: false
-      example: '2002-10-03T01:00:00+10:00'
-      schema:
-        type: string
   schemas:
+    ResponseBankingDirectDebitAuthorisationList_data:
+      required:
+      - directDebitAuthorisations
+      properties:
+        directDebitAuthorisations:
+          type: array
+          description: The list of authorisations returned.
+          items:
+            $ref: '#/components/schemas/BankingDirectDebit'
     Error:
       type: object
       properties:
@@ -1020,221 +961,15 @@ components:
           type: string
         detail:
           type: string
-    MetaPaginated:
-      type: object
+    ResponseBankingScheduledPaymentsList_data:
       required:
-      - totalPages
-      - totalRecords
+      - scheduledPayments
       properties:
-        totalRecords:
-          type: integer
-          description: The total number of records in the full set. See [pagination](#pagination).
-          x-cds-type: NaturalNumber
-        totalPages:
-          type: integer
-          description: The total number of pages in the full set. See [pagination](#pagination).
-          x-cds-type: NaturalNumber
-    BankingDomesticPayee:
-      type: object
-      required:
-      - payeeAccountUType
-      properties:
-        payeeAccountUType:
-          type: string
-          description: Type of account object included.
-          enum:
-          - account
-          - card
-          - payId
-        account:
-          $ref: '#/components/schemas/BankingDomesticPayeeAccount'
-        card:
-          $ref: '#/components/schemas/BankingDomesticPayeeCard'
-        payId:
-          $ref: '#/components/schemas/BankingDomesticPayeePayId'
-      x-conditional:
-      - account
-      - card
-      - payId
-    BankingScheduledPayment:
-      type: object
-      required:
-      - from
-      - payeeReference
-      - payerReference
-      - paymentSet
-      - recurrence
-      - scheduledPaymentId
-      - status
-      properties:
-        scheduledPaymentId:
-          type: string
-          description: A unique ID of the scheduled payment adhering to the standards for ID permanence.
-          x-cds-type: ASCIIString
-        nickname:
-          type: string
-          description: The short display name of the payee as provided by the customer.
-        payerReference:
-          type: string
-          description: The reference for the transaction, empty string if no data provided.
-        payeeReference:
-          type: string
-          description: The reference for the transaction, empty string if no data provided.
-        status:
-          type: string
-          description: Indicates the schedule status.
-          enum:
-          - ACTIVE
-          - INACTIVE
-          - SKIP
-        from:
-          $ref: '#/components/schemas/BankingScheduledPaymentFrom'
-        paymentSet:
+        scheduledPayments:
           type: array
+          description: The list of scheduled payments to return.
           items:
-            $ref: '#/components/schemas/BankingScheduledPaymentSet'
-        recurrence:
-          $ref: '#/components/schemas/BankingScheduledPaymentRecurrence'
-    BankingDirectDebit:
-      type: object
-      required:
-      - accountId
-      - authorisedEntity
-      properties:
-        accountId:
-          type: string
-          description: A unique ID of the account adhering to the standards for ID permanence.
-          x-cds-type: ASCIIString
-        authorisedEntity:
-          $ref: '#/components/schemas/BankingAuthorisedEntity'
-        lastDebitDateTime:
-          type: string
-          description: The date and time of the last debit executed under this authorisation.
-          x-cds-type: DateTimeString
-        lastDebitAmount:
-          type: string
-          description: The amount of the last debit executed under this authorisation.
-          x-cds-type: AmountString
-    ResponseBankingScheduledPaymentsList:
-      type: object
-      required:
-      - data
-      - links
-      - meta
-      example:
-        data:
-          scheduledPayments:
-          - scheduledPaymentId: zFFDTZuzApyks5JddvD0vhCjv3rVJWgqzGoiXu9ADLo
-            nickname: nicknametest
-            payerReference: Payer Ref T3
-            payeeReference: ''
-            status: ACTIVE
-            from:
-              accountId: yV9HHs_mV8b14MRed6L0uhHw7CuDez8gm29xDb8TDLw
-            paymentSet:
-            - to:
-                toUType: biller
-                biller:
-                  billerCode: '1313'
-                  crn: '791940509106'
-                  billerName: EnergyAustralia Electricity
-              amount: '35.00'
-              currency: AUD
-            recurrence:
-              nextPaymentDate: '2020-10-30'
-              recurrenceUType: intervalSchedule
-              intervalSchedule:
-                finalPaymentDate: '2020-12-11'
-                paymentsRemaining: 4
-                intervals:
-                - interval: P14D
-          - scheduledPaymentId: mF9DTprhA8bysMUIdqSouUn96y2Bc2t3ymxwDroXCr8
-            payerReference: Payer Ref T4
-            payeeReference: Pay Ref T4
-            status: ACTIVE
-            from:
-              accountId: yV9HHs_mV8b14MRed6L0uhHw7CuDez8gm29xDb8TDLw
-            paymentSet:
-            - to:
-                toUType: domestic
-                domestic:
-                  payeeAccountUType: card
-                  card:
-                    cardNumber: xxxx xxxx xxxx 8706
-              amount: '45.00'
-              currency: AUD
-            recurrence:
-              nextPaymentDate: '2020-10-31'
-              recurrenceUType: intervalSchedule
-              intervalSchedule:
-                finalPaymentDate: '2020-12-31'
-                paymentsRemaining: 2
-                intervals:
-                - interval: P0.5M
-          - scheduledPaymentId: zVBFQpu0AJGh6ZELdqCo7xGntC-BdmknmWMnWL8dW7k
-            payerReference: Payer Ref T2
-            payeeReference: Payee Ref T2
-            status: ACTIVE
-            from:
-              accountId: yV9HHs_mV8b14MRed6L0uhHw7CuDez8gm29xDb8TDLw
-            paymentSet:
-            - to:
-                toUType: domestic
-                domestic:
-                  payeeAccountUType: account
-                  account:
-                    accountName: belle
-                    bsb: 032069
-                    accountNumber: '540546'
-              amount: '25.00'
-              currency: AUD
-            recurrence:
-              nextPaymentDate: '2020-10-31'
-              recurrenceUType: intervalSchedule
-              intervalSchedule:
-                finalPaymentDate: '2020-11-14'
-                paymentsRemaining: 3
-                intervals:
-                - interval: P7D
-          - scheduledPaymentId: mANFSMniVsWi4scNdvekukr263_Sdm5znD8iX7lCWe8
-            payerReference: Payer reference T1
-            payeeReference: Payee Ref T1
-            status: ACTIVE
-            from:
-              accountId: yV9HHs_mV8b14MRed6L0uhHw7CuDez8gm29xDb8TDLw
-            paymentSet:
-            - to:
-                toUType: domestic
-                domestic:
-                  payeeAccountUType: account
-                  account:
-                    accountName: ''
-                    bsb: 062268
-                    accountNumber: '11993757'
-              amount: '15.00'
-              currency: AUD
-            recurrence:
-              nextPaymentDate: '2020-11-28'
-              recurrenceUType: intervalSchedule
-              intervalSchedule:
-                finalPaymentDate: '2020-11-28'
-                paymentsRemaining: 1
-                intervals:
-                - interval: P1M
-        links:
-          self: https://secure.api.commbank.com.au/api/cds-au/v1/banking/accounts/yV9HHs_mV8b14MRed6L0uhHw7CuDez8gm29xDb8TDLw/payments/scheduled?page=1&page-size=25
-          first: https://secure.api.commbank.com.au/api/cds-au/v1/banking/accounts/yV9HHs_mV8b14MRed6L0uhHw7CuDez8gm29xDb8TDLw/payments/scheduled?page=1&page-size=25
-          last: https://secure.api.commbank.com.au/api/cds-au/v1/banking/accounts/yV9HHs_mV8b14MRed6L0uhHw7CuDez8gm29xDb8TDLw/payments/scheduled?page=1&page-size=25
-        meta:
-          totalRecords: 4
-          totalPages: 1
-      properties:
-        data:
-          $ref: '#/components/schemas/ResponseBankingScheduledPaymentsList_data'
-        links:
-          $ref: '#/components/schemas/LinksPaginated'
-        meta:
-          $ref: '#/components/schemas/MetaPaginated'
+            $ref: '#/components/schemas/BankingScheduledPayment'
     BankingScheduledPaymentRecurrenceEventBased:
       type: object
       required:
@@ -1244,25 +979,6 @@ components:
           type: string
           description: Description of the event and conditions that will result in the payment.
       description: Indicates that the schedule of payments is defined according to an external event that cannot be predetermined.
-    RequestAccountIds_data:
-      required:
-      - accountIds
-      properties:
-        accountIds:
-          type: array
-          items:
-            type: string
-            description: Array of specific accountIds to obtain authorisations for.
-            x-cds-type: ASCIIString
-    BankingDomesticPayeeCard:
-      type: object
-      required:
-      - cardNumber
-      properties:
-        cardNumber:
-          type: string
-          description: Name of the account to pay to.
-          x-cds-type: MaskedPANString
     ResponseBankingDirectDebitAuthorisationList:
       type: object
       required:
@@ -1296,266 +1012,46 @@ components:
           $ref: '#/components/schemas/LinksPaginated'
         meta:
           $ref: '#/components/schemas/MetaPaginated'
-    ResponseBankingDirectDebitAuthorisationList_data:
+    RequestAccountIds_data:
       required:
-      - directDebitAuthorisations
+      - accountIds
       properties:
-        directDebitAuthorisations:
+        accountIds:
           type: array
-          description: The list of authorisations returned.
           items:
-            $ref: '#/components/schemas/BankingDirectDebit'
-    ResponseBankingScheduledPaymentsList_data:
-      required:
-      - scheduledPayments
-      properties:
-        scheduledPayments:
-          type: array
-          description: The list of scheduled payments to return.
-          items:
-            $ref: '#/components/schemas/BankingScheduledPayment'
-    BankingInternationalPayee_beneficiaryDetails:
-      required:
-      - country
-      properties:
-        name:
-          type: string
-          description: Name of the beneficiary.
-        country:
-          type: string
-          description: Country where the beneficiary resides.
-          x-cds-type: ExternalRef
-        message:
-          type: string
-          description: Response message for the payment.
-    BankingInternationalPayee:
+            type: string
+            description: Array of specific accountIds to obtain authorisations for.
+            x-cds-type: ASCIIString
+    BankingScheduledPaymentRecurrenceIntervalSchedule:
       type: object
       required:
-      - bankDetails
-      - beneficiaryDetails
+      - intervals
       properties:
-        beneficiaryDetails:
-          $ref: '#/components/schemas/BankingInternationalPayee_beneficiaryDetails'
-        bankDetails:
-          $ref: '#/components/schemas/BankingInternationalPayee_bankDetails'
-    BankingAuthorisedEntity:
-      type: object
-      properties:
-        description:
+        finalPaymentDate:
           type: string
-          description: Description of the authorised entity derived from previously executed direct debits
-        financialInstitution:
-          type: string
-          description: Name of the financial institution through which the direct debit will be executed. Is required unless the payment is made via a credit card scheme.
-        abn:
-          type: string
-          description: Australian Business Number for the authorised entity.
-        acn:
-          type: string
-          description: Australian Company Number for the authorised entity.
-        arbn:
-          type: string
-          description: Australian Registered Body Number for the authorised entity.
-    BankingInternationalPayee_bankDetails:
-      required:
-      - accountNumber
-      - country
-      properties:
-        country:
-          type: string
-          description: Country of the recipient institution.
-          x-cds-type: ExternalRef
-        accountNumber:
-          type: string
-          description: Account Targeted for payment.
-        bankAddress:
-          $ref: '#/components/schemas/BankingInternationalPayee_bankDetails_bankAddress'
-        beneficiaryBankBIC:
-          type: string
-          description: Swift bank code.
-          x-cds-type: ExternalRef
-        fedWireNumber:
-          type: string
-          description: Number for Fedwire payment (Federal Reserve Wire Network).
-        sortCode:
-          type: string
-          description: Sort code used for account identification in some jurisdictions.
-        chipNumber:
-          type: string
-          description: Number for the Clearing House Interbank Payments System.
-        routingNumber:
-          type: string
-          description: International bank routing number.
-        legalEntityIdentifier:
-          type: string
-          description: The legal entity identifier (LEI) for the beneficiary.
-          x-cds-type: ExternalRef
-    BankingBillerPayee:
-      type: object
-      required:
-      - billerCode
-      - billerName
-      properties:
-        billerCode:
-          type: string
-          description: BPAY Biller Code of the Biller.
-        crn:
-          type: string
-          description: BPAY CRN of the Biller.
-        billerName:
-          type: string
-          description: Name of the Biller.
-      x-conditional:
-      - crn
-    RequestAccountIds:
-      type: object
-      required:
-      - data
-      example:
-        data:
-          accountIds:
-          - 2M_8F2Q0aPjdPnO-FYMkt6fOBQNBPobNrXzAjwzrmWQ
-          - 8L_GAHf3425ADFf-FYMkt6fOBQNBPobNrXzAjwzrmWQ
-        meta: {}
-      properties:
-        data:
-          $ref: '#/components/schemas/RequestAccountIds_data'
-        meta:
-          $ref: '#/components/schemas/Meta'
-    BankingScheduledPaymentRecurrenceOnceOff:
-      type: object
-      required:
-      - paymentDate
-      properties:
-        paymentDate:
-          type: string
-          description: The scheduled date for the once off payment.
+          description: The limit date after which no more payments should be made using this schedule.
           x-cds-type: DateString
-      description: Indicates that the payment is a once off payment on a specific future date.
-    LinksPaginated:
-      type: object
-      required:
-      - self
-      properties:
-        self:
+        paymentsRemaining:
+          type: integer
+          description: Indicates the number of payments remaining in the schedule.
+          x-cds-type: PositiveInteger
+        nonBusinessDayTreatment:
           type: string
-          description: Fully qualified link that generated the current response document2.
-          x-cds-type: URIString
-        first:
-          type: string
-          description: URI to the first page of this set. Mandatory if this response is not the first page.
-          x-cds-type: URIString
-        prev:
-          type: string
-          description: URI to the previous page of this set. Mandatory if this response is not the first page.
-          x-cds-type: URIString
-        next:
-          type: string
-          description: URI to the next page of this set. Mandatory if this response is not the last page.
-          x-cds-type: URIString
-        last:
-          type: string
-          description: URI to the last page of this set. Mandatory if this response is not the last page.
-          x-cds-type: URIString
-      x-conditional:
-      - prev
-      - next
-      - first
-      - last
-    ResponseBankingDirectDebitAuthorisationBulkList:
-      type: object
-      required:
-      - data
-      - links
-      - meta
-      example:
-        data:
-          directDebitAuthorisations:
-          - accountId: yV9HHs_mV8b14MRed6L0uhHw7CuDez8gm29xDb8TDLw
-            lastDebitDateTime: '2020-08-20T14:00:00Z'
-            lastDebitAmount: '11.99'
-            authorisedEntity:
-              description: Spotify P10fc4db06
-          - accountId: yV9HHs_mV8b14MRed6L0uhHw7CuDez8gm29xDb8TDLw
-            lastDebitDateTime: '2020-06-02T14:00:00Z'
-            lastDebitAmount: '29.95'
-            authorisedEntity:
-              description: NRMA Insurance 1
-          - accountId: yV9HHs_mV8b14MRed6L0uhHw7CuDez8gm29xDb8TDLw
-            lastDebitDateTime: '2020-10-26T13:00:00Z'
-            lastDebitAmount: '371.96'
-            authorisedEntity:
-              description: Nib
-          - accountId: yV9HHs_mV8b14MRed6L0uhHw7CuDez8gm29xDb8TDLw
-            lastDebitDateTime: '2020-06-02T14:00:00Z'
-            lastDebitAmount: '29.95'
-            authorisedEntity:
-              description: Commonwealth Sec
-          - accountId: yV9HHs_mV8b14MRed6L0uhHw7CuDez8gm29xDb8TDLw
-            lastDebitDateTime: '2020-08-25T14:00:00Z'
-            lastDebitAmount: '130.00'
-            authorisedEntity:
-              description: Optus Billing
-          - accountId: ygEST5viDcah5JJcdvT2uRDxuCbQezp0zWMrWrgSDb4
-            lastDebitDateTime: '2020-07-07T14:00:00Z'
-            lastDebitAmount: '30.00'
-            authorisedEntity:
-              description: Kleenheat Gas Murdoch
-          - accountId: ygEST5viDcah5JJcdvT2uRDxuCbQezp0zWMrWrgSDb4
-            lastDebitDateTime: '2020-09-01T14:00:00Z'
-            lastDebitAmount: '89.99'
-            authorisedEntity:
-              description: TPG Internet Pty Ltd
-        links:
-          self: https://secure.api.commbank.com.au/api/cds-au/v1/banking/accounts/direct-debits?page=1&page-size=25
-          first: https://secure.api.commbank.com.au/api/cds-au/v1/banking/accounts/direct-debits?page=1&page-size=25
-          last: https://secure.api.commbank.com.au/api/cds-au/v1/banking/accounts/direct-debits?page=1&page-size=25
-        meta:
-          totalRecords: 7
-          totalPages: 1
-      properties:
-        data:
-          $ref: '#/components/schemas/ResponseBankingDirectDebitAuthorisationList_data'
-        links:
-          $ref: '#/components/schemas/LinksPaginated'
-        meta:
-          $ref: '#/components/schemas/MetaPaginated'
-    ErrorResponse406:
-      type: object
-      properties:
-        errors:
-          uniqueItems: false
+          description: Enumerated field giving the treatment where a scheduled payment date is not a business day.
+          default: 'ON'
+          enum:
+          - AFTER
+          - BEFORE
+          - 'ON'
+          - ONLY
+        intervals:
           type: array
+          description: An array of interval objects defining the payment schedule.
           items:
-            $ref: '#/components/schemas/Error'
-      example:
-        errors:
-        - code: RA-RH-03
-          title: x-v is invalid
-          detail: x-v header must be a supported version number.
-    ErrorResponse400:
+            $ref: '#/components/schemas/BankingScheduledPaymentInterval'
+      description: Indicates that the schedule of payments is defined by a series of intervals.
+    Meta:
       type: object
-      properties:
-        errors:
-          uniqueItems: false
-          type: array
-          items:
-            $ref: '#/components/schemas/Error'
-      example:
-        errors:
-        - code: RA-BR-02
-          title: page is invalid
-          detail: page must be a valid number.
-    BankingScheduledPaymentFrom:
-      type: object
-      required:
-      - accountId
-      properties:
-        accountId:
-          type: string
-          description: ID of the account that is the source of funds for the payment.
-          x-cds-type: ASCIIString
-      description: Object containing details of the source of the payment.
     BankingScheduledPaymentRecurrenceLastWeekday:
       type: object
       required:
@@ -1595,7 +1091,70 @@ components:
           - 'ON'
           - ONLY
       description: Indicates that the schedule of payments is defined according to the last occurrence of a specific weekday in an interval.
-    ErrorResponse500:
+    BankingInternationalPayee_bankDetails_bankAddress:
+      required:
+      - address
+      - name
+      properties:
+        name:
+          type: string
+          description: Name of the recipient Bank>
+        address:
+          type: string
+          description: Address of the recipient Bank.
+    BankingInternationalPayee_bankDetails:
+      required:
+      - accountNumber
+      - country
+      properties:
+        country:
+          type: string
+          description: Country of the recipient institution.
+          x-cds-type: ExternalRef
+        accountNumber:
+          type: string
+          description: Account Targeted for payment.
+        bankAddress:
+          $ref: '#/components/schemas/BankingInternationalPayee_bankDetails_bankAddress'
+        beneficiaryBankBIC:
+          type: string
+          description: Swift bank code.
+          x-cds-type: ExternalRef
+        fedWireNumber:
+          type: string
+          description: Number for Fedwire payment (Federal Reserve Wire Network).
+        sortCode:
+          type: string
+          description: Sort code used for account identification in some jurisdictions.
+        chipNumber:
+          type: string
+          description: Number for the Clearing House Interbank Payments System.
+        routingNumber:
+          type: string
+          description: International bank routing number.
+        legalEntityIdentifier:
+          type: string
+          description: The legal entity identifier (LEI) for the beneficiary.
+          x-cds-type: ExternalRef
+    BankingInternationalPayee_beneficiaryDetails:
+      required:
+      - country
+      properties:
+        name:
+          type: string
+          description: Name of the beneficiary.
+        country:
+          type: string
+          description: Country where the beneficiary resides.
+          x-cds-type: ExternalRef
+        message:
+          type: string
+          description: Response message for the payment.
+    ResponseNoBody:
+      type: object
+      properties: {}
+      example: {}
+    ErrorResponse400:
       type: object
       properties:
         errors:
@@ -1605,22 +1164,39 @@ components:
             $ref: '#/components/schemas/Error'
       example:
         errors:
-        - code: RA-IS-01
-          title: Server Error
-          detail: An error has occurred whilst processing your request. Please try again later.
-    BankingScheduledPaymentInterval:
+        - code: RA-BR-02
+          title: page is invalid
+          detail: page must be a valid number.
+    LinksPaginated:
       type: object
       required:
-      - interval
+      - self
       properties:
-        interval:
+        self:
           type: string
-          description: An interval for the payment.
-          x-cds-type: ExternalRef
-        dayInInterval:
+          description: Fully qualified link that generated the current response document2.
+          x-cds-type: URIString
+        first:
           type: string
-          description: Uses an interval to define the ordinal day within the interval defined by the interval field on which the payment occurs.
-          x-cds-type: ExternalRef
+          description: URI to the first page of this set. Mandatory if this response is not the first page.
+          x-cds-type: URIString
+        prev:
+          type: string
+          description: URI to the previous page of this set. Mandatory if this response is not the first page.
+          x-cds-type: URIString
+        next:
+          type: string
+          description: URI to the next page of this set. Mandatory if this response is not the last page.
+          x-cds-type: URIString
+        last:
+          type: string
+          description: URI to the last page of this set. Mandatory if this response is not the last page.
+          x-cds-type: URIString
+      x-conditional:
+      - prev
+      - next
+      - first
+      - last
     BankingDomesticPayeePayId:
       type: object
       required:
@@ -1656,43 +1232,41 @@ components:
         accountNumber:
           type: string
           description: Number of the account to pay to.
-    BankingScheduledPaymentTo:
+    BankingBillerPayee:
       type: object
       required:
-      - toUType
+      - billerCode
+      - billerName
       properties:
-        toUType:
+        billerCode:
           type: string
-          description: The type of object provided that specifies the destination of the funds for the payment.
-          enum:
-          - accountId
-          - payeeId
-          - domestic
-          - biller
-          - international
-        accountId:
+          description: BPAY Biller Code of the Biller.
+        crn:
           type: string
-          description: Present if toUType is set to accountId.
-          x-cds-type: ASCIIString
-        payeeId:
+          description: BPAY CRN of the Biller.
+        billerName:
           type: string
-          description: Present if toUType is set to payeeId. Indicates that the payment is to registered payee that can be accessed using the payee end point.
-          x-cds-type: ASCIIString
-        domestic:
-          $ref: '#/components/schemas/BankingDomesticPayee'
-        biller:
-          $ref: '#/components/schemas/BankingBillerPayee'
-        international:
-          $ref: '#/components/schemas/BankingInternationalPayee'
-      description: Object containing details of the destination of the payment.
+          description: Name of the Biller.
       x-conditional:
-      - accountId
-      - payeeId
-      - domestic
-      - biller
-      - international
-    Meta:
+      - crn
+    BankingAuthorisedEntity:
       type: object
+      properties:
+        description:
+          type: string
+          description: Description of the authorised entity derived from previously executed direct debits
+        financialInstitution:
+          type: string
+          description: Name of the financial institution through which the direct debit will be executed. Is required unless the payment is made via a credit card scheme.
+        abn:
+          type: string
+          description: Australian Business Number for the authorised entity.
+        acn:
+          type: string
+          description: Australian Company Number for the authorised entity.
+        arbn:
+          type: string
+          description: Australian Registered Body Number for the authorised entity.
     ResponseBankingScheduledPaymentsBulkList:
       type: object
       required:
@@ -1826,34 +1400,246 @@ components:
           $ref: '#/components/schemas/LinksPaginated'
         meta:
           $ref: '#/components/schemas/MetaPaginated'
-    BankingScheduledPaymentRecurrenceIntervalSchedule:
+    BankingScheduledPaymentTo:
       type: object
       required:
-      - intervals
+      - toUType
       properties:
-        finalPaymentDate:
+        toUType:
           type: string
-          description: The limit date after which no more payments should be made using this schedule.
-          x-cds-type: DateString
-        paymentsRemaining:
-          type: integer
-          description: Indicates the number of payments remaining in the schedule.
-          x-cds-type: PositiveInteger
-        nonBusinessDayTreatment:
-          type: string
-          description: Enumerated field giving the treatment where a scheduled payment date is not a business day.
-          default: 'ON'
+          description: The type of object provided that specifies the destination of the funds for the payment.
           enum:
-          - AFTER
-          - BEFORE
-          - 'ON'
-          - ONLY
-        intervals:
+          - accountId
+          - payeeId
+          - domestic
+          - biller
+          - international
+        accountId:
+          type: string
+          description: Present if toUType is set to accountId.
+          x-cds-type: ASCIIString
+        payeeId:
+          type: string
+          description: Present if toUType is set to payeeId. Indicates that the payment is to registered payee that can be accessed using the payee end point.
+          x-cds-type: ASCIIString
+        domestic:
+          $ref: '#/components/schemas/BankingDomesticPayee'
+        biller:
+          $ref: '#/components/schemas/BankingBillerPayee'
+        international:
+          $ref: '#/components/schemas/BankingInternationalPayee'
+      description: Object containing details of the destination of the payment.
+      x-conditional:
+      - accountId
+      - payeeId
+      - domestic
+      - biller
+      - international
+    BankingScheduledPaymentFrom:
+      type: object
+      required:
+      - accountId
+      properties:
+        accountId:
+          type: string
+          description: ID of the account that is the source of funds for the payment.
+          x-cds-type: ASCIIString
+      description: Object containing details of the source of the payment.
+    BankingScheduledPaymentInterval:
+      type: object
+      required:
+      - interval
+      properties:
+        interval:
+          type: string
+          description: An interval for the payment.
+          x-cds-type: ExternalRef
+        dayInInterval:
+          type: string
+          description: Uses an interval to define the ordinal day within the interval defined by the interval field on which the payment occurs.
+          x-cds-type: ExternalRef
+    ResponseBankingScheduledPaymentsList:
+      type: object
+      required:
+      - data
+      - links
+      - meta
+      example:
+        data:
+          scheduledPayments:
+          - scheduledPaymentId: zFFDTZuzApyks5JddvD0vhCjv3rVJWgqzGoiXu9ADLo
+            nickname: nicknametest
+            payerReference: Payer Ref T3
+            payeeReference: ''
+            status: ACTIVE
+            from:
+              accountId: yV9HHs_mV8b14MRed6L0uhHw7CuDez8gm29xDb8TDLw
+            paymentSet:
+            - to:
+                toUType: biller
+                biller:
+                  billerCode: '1313'
+                  crn: '791940509106'
+                  billerName: EnergyAustralia Electricity
+              amount: '35.00'
+              currency: AUD
+            recurrence:
+              nextPaymentDate: '2020-10-30'
+              recurrenceUType: intervalSchedule
+              intervalSchedule:
+                finalPaymentDate: '2020-12-11'
+                paymentsRemaining: 4
+                intervals:
+                - interval: P14D
+          - scheduledPaymentId: mF9DTprhA8bysMUIdqSouUn96y2Bc2t3ymxwDroXCr8
+            payerReference: Payer Ref T4
+            payeeReference: Pay Ref T4
+            status: ACTIVE
+            from:
+              accountId: yV9HHs_mV8b14MRed6L0uhHw7CuDez8gm29xDb8TDLw
+            paymentSet:
+            - to:
+                toUType: domestic
+                domestic:
+                  payeeAccountUType: card
+                  card:
+                    cardNumber: xxxx xxxx xxxx 8706
+              amount: '45.00'
+              currency: AUD
+            recurrence:
+              nextPaymentDate: '2020-10-31'
+              recurrenceUType: intervalSchedule
+              intervalSchedule:
+                finalPaymentDate: '2020-12-31'
+                paymentsRemaining: 2
+                intervals:
+                - interval: P0.5M
+          - scheduledPaymentId: zVBFQpu0AJGh6ZELdqCo7xGntC-BdmknmWMnWL8dW7k
+            payerReference: Payer Ref T2
+            payeeReference: Payee Ref T2
+            status: ACTIVE
+            from:
+              accountId: yV9HHs_mV8b14MRed6L0uhHw7CuDez8gm29xDb8TDLw
+            paymentSet:
+            - to:
+                toUType: domestic
+                domestic:
+                  payeeAccountUType: account
+                  account:
+                    accountName: belle
+                    bsb: 032069
+                    accountNumber: '540546'
+              amount: '25.00'
+              currency: AUD
+            recurrence:
+              nextPaymentDate: '2020-10-31'
+              recurrenceUType: intervalSchedule
+              intervalSchedule:
+                finalPaymentDate: '2020-11-14'
+                paymentsRemaining: 3
+                intervals:
+                - interval: P7D
+          - scheduledPaymentId: mANFSMniVsWi4scNdvekukr263_Sdm5znD8iX7lCWe8
+            payerReference: Payer reference T1
+            payeeReference: Payee Ref T1
+            status: ACTIVE
+            from:
+              accountId: yV9HHs_mV8b14MRed6L0uhHw7CuDez8gm29xDb8TDLw
+            paymentSet:
+            - to:
+                toUType: domestic
+                domestic:
+                  payeeAccountUType: account
+                  account:
+                    accountName: ''
+                    bsb: 062268
+                    accountNumber: '11993757'
+              amount: '15.00'
+              currency: AUD
+            recurrence:
+              nextPaymentDate: '2020-11-28'
+              recurrenceUType: intervalSchedule
+              intervalSchedule:
+                finalPaymentDate: '2020-11-28'
+                paymentsRemaining: 1
+                intervals:
+                - interval: P1M
+        links:
+          self: https://secure.api.commbank.com.au/api/cds-au/v1/banking/accounts/yV9HHs_mV8b14MRed6L0uhHw7CuDez8gm29xDb8TDLw/payments/scheduled?page=1&page-size=25
+          first: https://secure.api.commbank.com.au/api/cds-au/v1/banking/accounts/yV9HHs_mV8b14MRed6L0uhHw7CuDez8gm29xDb8TDLw/payments/scheduled?page=1&page-size=25
+          last: https://secure.api.commbank.com.au/api/cds-au/v1/banking/accounts/yV9HHs_mV8b14MRed6L0uhHw7CuDez8gm29xDb8TDLw/payments/scheduled?page=1&page-size=25
+        meta:
+          totalRecords: 4
+          totalPages: 1
+      properties:
+        data:
+          $ref: '#/components/schemas/ResponseBankingScheduledPaymentsList_data'
+        links:
+          $ref: '#/components/schemas/LinksPaginated'
+        meta:
+          $ref: '#/components/schemas/MetaPaginated'
+    ErrorResponse500:
+      type: object
+      properties:
+        errors:
+          uniqueItems: false
           type: array
-          description: An array of interval objects defining the payment schedule.
           items:
-            $ref: '#/components/schemas/BankingScheduledPaymentInterval'
-      description: Indicates that the schedule of payments is defined by a series of intervals.
+            $ref: '#/components/schemas/Error'
+      example:
+        errors:
+        - code: RA-IS-01
+          title: Server Error
+          detail: An error has occurred whilst processing your request. Please try again later.
+    BankingScheduledPayment:
+      type: object
+      required:
+      - from
+      - payeeReference
+      - payerReference
+      - paymentSet
+      - recurrence
+      - scheduledPaymentId
+      - status
+      properties:
+        scheduledPaymentId:
+          type: string
+          description: A unique ID of the scheduled payment adhering to the standards for ID permanence.
+          x-cds-type: ASCIIString
+        nickname:
+          type: string
+          description: The short display name of the payee as provided by the customer.
+        payerReference:
+          type: string
+          description: The reference for the transaction, empty string if no data provided.
+        payeeReference:
+          type: string
+          description: The reference for the transaction, empty string if no data provided.
+        status:
+          type: string
+          description: Indicates the schedule status.
+          enum:
+          - ACTIVE
+          - INACTIVE
+          - SKIP
+        from:
+          $ref: '#/components/schemas/BankingScheduledPaymentFrom'
+        paymentSet:
+          type: array
+          items:
+            $ref: '#/components/schemas/BankingScheduledPaymentSet'
+        recurrence:
+          $ref: '#/components/schemas/BankingScheduledPaymentRecurrence'
+    BankingScheduledPaymentRecurrenceOnceOff:
+      type: object
+      required:
+      - paymentDate
+      properties:
+        paymentDate:
+          type: string
+          description: The scheduled date for the once off payment.
+          x-cds-type: DateString
+      description: Indicates that the payment is a once off payment on a specific future date.
     ErrorResponse422:
       type: object
       properties:
@@ -1867,42 +1653,26 @@ components:
         - Code: RA-UE-01
           Title: page-size is Invalid
           Detail: page-size must be a number and between 1 and 1000.
-    BankingScheduledPaymentSet:
-      required:
-      - to
-      properties:
-        to:
-          $ref: '#/components/schemas/BankingScheduledPaymentTo'
-        isAmountCalculated:
-          type: boolean
-          description: Flag indicating whether the amount of the payment is calculated based on the context of the event.
-          x-cds-type: Boolean
-        amount:
-          type: string
-          description: The amount of the next payment if known.
-          x-cds-type: AmountString
-        currency:
-          type: string
-          description: The currency for the payment. AUD assumed if not present.
-          x-cds-type: CurrencyString
-      description: The set of payment amounts and destination accounts for this payment accommodating multi-part payments.
-      x-conditional:
-      - amount
-    BankingInternationalPayee_bankDetails_bankAddress:
-      required:
-      - address
-      - name
-      properties:
-        name:
-          type: string
-          description: Name of the recipient Bank>
-        address:
-          type: string
-          description: Address of the recipient Bank.
-    ResponseNoBody:
+    BankingDirectDebit:
       type: object
-      properties: {}
-      example: {}
+      required:
+      - accountId
+      - authorisedEntity
+      properties:
+        accountId:
+          type: string
+          description: A unique ID of the account adhering to the standards for ID permanence.
+          x-cds-type: ASCIIString
+        authorisedEntity:
+          $ref: '#/components/schemas/BankingAuthorisedEntity'
+        lastDebitDateTime:
+          type: string
+          description: The date and time of the last debit executed under this authorisation.
+          x-cds-type: DateTimeString
+        lastDebitAmount:
+          type: string
+          description: The amount of the last debit executed under this authorisation.
+          x-cds-type: AmountString
     BankingScheduledPaymentRecurrence:
       type: object
       required:
@@ -1934,6 +1704,236 @@ components:
       - intervalSchedule
       - lastWeekDay
       - eventBased
+    ResponseBankingDirectDebitAuthorisationBulkList:
+      type: object
+      required:
+      - data
+      - links
+      - meta
+      example:
+        data:
+          directDebitAuthorisations:
+          - accountId: yV9HHs_mV8b14MRed6L0uhHw7CuDez8gm29xDb8TDLw
+            lastDebitDateTime: '2020-08-20T14:00:00Z'
+            lastDebitAmount: '11.99'
+            authorisedEntity:
+              description: Spotify P10fc4db06
+          - accountId: yV9HHs_mV8b14MRed6L0uhHw7CuDez8gm29xDb8TDLw
+            lastDebitDateTime: '2020-06-02T14:00:00Z'
+            lastDebitAmount: '29.95'
+            authorisedEntity:
+              description: NRMA Insurance 1
+          - accountId: yV9HHs_mV8b14MRed6L0uhHw7CuDez8gm29xDb8TDLw
+            lastDebitDateTime: '2020-10-26T13:00:00Z'
+            lastDebitAmount: '371.96'
+            authorisedEntity:
+              description: Nib
+          - accountId: yV9HHs_mV8b14MRed6L0uhHw7CuDez8gm29xDb8TDLw
+            lastDebitDateTime: '2020-06-02T14:00:00Z'
+            lastDebitAmount: '29.95'
+            authorisedEntity:
+              description: Commonwealth Sec
+          - accountId: yV9HHs_mV8b14MRed6L0uhHw7CuDez8gm29xDb8TDLw
+            lastDebitDateTime: '2020-08-25T14:00:00Z'
+            lastDebitAmount: '130.00'
+            authorisedEntity:
+              description: Optus Billing
+          - accountId: ygEST5viDcah5JJcdvT2uRDxuCbQezp0zWMrWrgSDb4
+            lastDebitDateTime: '2020-07-07T14:00:00Z'
+            lastDebitAmount: '30.00'
+            authorisedEntity:
+              description: Kleenheat Gas Murdoch
+          - accountId: ygEST5viDcah5JJcdvT2uRDxuCbQezp0zWMrWrgSDb4
+            lastDebitDateTime: '2020-09-01T14:00:00Z'
+            lastDebitAmount: '89.99'
+            authorisedEntity:
+              description: TPG Internet Pty Ltd
+        links:
+          self: https://secure.api.commbank.com.au/api/cds-au/v1/banking/accounts/direct-debits?page=1&page-size=25
+          first: https://secure.api.commbank.com.au/api/cds-au/v1/banking/accounts/direct-debits?page=1&page-size=25
+          last: https://secure.api.commbank.com.au/api/cds-au/v1/banking/accounts/direct-debits?page=1&page-size=25
+        meta:
+          totalRecords: 7
+          totalPages: 1
+      properties:
+        data:
+          $ref: '#/components/schemas/ResponseBankingDirectDebitAuthorisationList_data'
+        links:
+          $ref: '#/components/schemas/LinksPaginated'
+        meta:
+          $ref: '#/components/schemas/MetaPaginated'
+    ErrorResponse406:
+      type: object
+      properties:
+        errors:
+          uniqueItems: false
+          type: array
+          items:
+            $ref: '#/components/schemas/Error'
+      example:
+        errors:
+        - code: RA-RH-03
+          title: x-v is invalid
+          detail: x-v header must be a supported version number.
+    RequestAccountIds:
+      type: object
+      required:
+      - data
+      example:
+        data:
+          accountIds:
+          - 2M_8F2Q0aPjdPnO-FYMkt6fOBQNBPobNrXzAjwzrmWQ
+          - 8L_GAHf3425ADFf-FYMkt6fOBQNBPobNrXzAjwzrmWQ
+        meta: {}
+      properties:
+        data:
+          $ref: '#/components/schemas/RequestAccountIds_data'
+        meta:
+          $ref: '#/components/schemas/Meta'
+    BankingScheduledPaymentSet:
+      required:
+      - to
+      properties:
+        to:
+          $ref: '#/components/schemas/BankingScheduledPaymentTo'
+        isAmountCalculated:
+          type: boolean
+          description: Flag indicating whether the amount of the payment is calculated based on the context of the event.
+          x-cds-type: Boolean
+        amount:
+          type: string
+          description: The amount of the next payment if known.
+          x-cds-type: AmountString
+        currency:
+          type: string
+          description: The currency for the payment. AUD assumed if not present.
+          x-cds-type: CurrencyString
+      description: The set of payment amounts and destination accounts for this payment accommodating multi-part payments.
+      x-conditional:
+      - amount
+    MetaPaginated:
+      type: object
+      required:
+      - totalPages
+      - totalRecords
+      properties:
+        totalRecords:
+          type: integer
+          description: The total number of records in the full set. See [pagination](#pagination).
+          x-cds-type: NaturalNumber
+        totalPages:
+          type: integer
+          description: The total number of pages in the full set. See [pagination](#pagination).
+          x-cds-type: NaturalNumber
+    BankingDomesticPayeeCard:
+      type: object
+      required:
+      - cardNumber
+      properties:
+        cardNumber:
+          type: string
+          description: Name of the account to pay to.
+          x-cds-type: MaskedPANString
+    BankingInternationalPayee:
+      type: object
+      required:
+      - bankDetails
+      - beneficiaryDetails
+      properties:
+        beneficiaryDetails:
+          $ref: '#/components/schemas/BankingInternationalPayee_beneficiaryDetails'
+        bankDetails:
+          $ref: '#/components/schemas/BankingInternationalPayee_bankDetails'
+    BankingDomesticPayee:
+      type: object
+      required:
+      - payeeAccountUType
+      properties:
+        payeeAccountUType:
+          type: string
+          description: Type of account object included.
+          enum:
+          - account
+          - card
+          - payId
+        account:
+          $ref: '#/components/schemas/BankingDomesticPayeeAccount'
+        card:
+          $ref: '#/components/schemas/BankingDomesticPayeeCard'
+        payId:
+          $ref: '#/components/schemas/BankingDomesticPayeePayId'
+      x-conditional:
+      - account
+      - card
+      - payId
+  parameters:
+    ParamXVHeader:
+      name: x-v
+      in: header
+      description: Version of the API end point being requested.
+      example: 1
+      required: false
+      schema:
+        type: integer
+    ParamXMinVHeader:
+      name: x-min-v
+      in: header
+      description: Minimum version of the API end point you are requesting.
+      example: 1
+      required: false
+      schema:
+        type: integer
+    ParamXCdsClientHeaders:
+      name: x-cds-client-headers
+      in: header
+      description: The customer's original standard http headers encoded, including the original User Agent header, if the customer is currently logged in to the data recipient.
+      required: false
+      example: Q3VzdG9tZXJzRGV2OkN1c3RvbWVyc0Rldg==
+      x-cds-type: Base64
+      schema:
+        type: string
+    ParamXFapiInterationId:
+      name: x-fapi-interaction-id
+      in: header
+      description: Reflects the value of the Interaction ID in the request.
+      required: false
+      example: f688ae24-9719-4975-9f58-f6b7e655c37d
+      schema:
+        type: string
+    ParamXFapiAuthDate:
+      name: x-fapi-auth-date
+      in: header
+      description: The time when the customer last logged in to the data recipient.
+      required: false
+      example: '2002-10-03T01:00:00+10:00'
+      schema:
+        type: string
+    ParamXFapiCustomerIpAddress:
+      name: x-fapi-customer-ip-address
+      in: header
+      description: The customer's original IP address if the customer is currently logged in to the data recipient.
+      required: false
+      example: 192.168.1.1
+      schema:
+        type: string
+    ParamPageSize:
+      name: page-size
+      in: query
+      description: Number of records to return with the page
+      required: false
+      schema:
+        type: integer
+        default: 25
+        maximum: 1000
+        minimum: 1
+    ParamPage:
+      name: page
+      in: query
+      description: Page number being requested
+      required: false
+      schema:
+        type: integer
+        default: 1
 x-tagGroups:
 - name: ''
   tags:
