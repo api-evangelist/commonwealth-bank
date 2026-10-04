@@ -472,25 +472,19 @@ paths:
         required: true
 components:
   schemas:
-    Error:
+    BankingBalancePurse:
       type: object
-      properties:
-        code:
-          type: string
-        title:
-          type: string
-        detail:
-          type: string
-    RequestAccountIds_data:
       required:
-      - accountIds
+      - amount
       properties:
-        accountIds:
-          type: array
-          items:
-            type: string
-            description: Array of specific accountIds to obtain authorisations for
-            x-cds-type: ASCIIString
+        amount:
+          type: string
+          description: The balance available for this additional currency purse
+          x-cds-type: AmountString
+        currency:
+          type: string
+          description: The currency for the purse
+          x-cds-type: CurrencyString
     BankingBalance:
       type: object
       required:
@@ -527,6 +521,21 @@ components:
           description: Optional array of balances for the account in other currencies. Included to support accounts that support multi-currency purses such as Travel Cards.
           items:
             $ref: '#/components/schemas/BankingBalancePurse'
+    RequestAccountIds:
+      type: object
+      required:
+      - data
+      example:
+        data:
+          accountIds:
+          - 2M_8F2Q0aPjdPnO-FYMkt6fOBQNBPobNrXzAjwzrmWQ
+          - 8L_GAHf3425ADFf-FYMkt6fOBQNBPobNrXzAjwzrmWQ
+        meta: {}
+      properties:
+        data:
+          $ref: '#/components/schemas/RequestAccountIds_data'
+        meta:
+          $ref: '#/components/schemas/Meta'
     Meta:
       type: object
       properties:
@@ -538,46 +547,30 @@ components:
           description: Total number of pages in the full set.
           example: 10
           type: integer
-    Links:
-      type: object
-      required:
-      - self
-      properties:
-        self:
-          type: string
-          description: Fully qualified link to this API call.
     ResponseNoBody:
       type: object
       properties: {}
       example: {}
-    ErrorResponse400:
-      type: object
+    ResponseBankingAccountsBalanceById:
+      required:
+      - data
+      - links
       properties:
-        errors:
-          uniqueItems: false
-          type: array
-          items:
-            $ref: '#/components/schemas/Error'
+        data:
+          $ref: '#/components/schemas/BankingBalance'
+        links:
+          $ref: '#/components/schemas/Links'
+        meta:
+          $ref: '#/components/schemas/Meta'
       example:
-        errors:
-        - code: AA-BR-02
-          title: updated-since is invalid
-          detail: updated-since must be a valid date.
-        - code: AA-BR-03
-          title: effective is invalid
-          detail: effective must be either ALL, CURRENT or FUTURE.
-        - code: AA-BR-04
-          title: product-category is invalid
-          detail: product-category must be a valid enumeration.
-        - code: AA-BR-05
-          title: page is invalid
-          detail: page must be a number and must be greater than 0.
-        - code: AA-BR-06
-          title: '{field-name} is Invalid'
-          detail: Something is wrong with your request. Please check your query parameters and try again.
-        - code: AA-BR-07
-          title: brand is Invalid
-          detail: brand must be a valid value.
+        data:
+          accountId: 2M_8F2Q0aPjdPnO-FYMkt6fOBQNBPobNrXzAjwzrmWQ
+          currentBalance: '561950.07'
+          availableBalance: '561950.07'
+          currency: AUD
+        links:
+          self: https://secure.api.commbank.com.au/api/cds-au/v1/banking/accounts/balances
+        meta: {}
     LinksPaginated:
       type: object
       required:
@@ -603,74 +596,6 @@ components:
         last:
           type: string
           description: URI to the last page of this set.
-    ErrorResponse500:
-      type: object
-      properties:
-        errors:
-          uniqueItems: false
-          type: array
-          items:
-            $ref: '#/components/schemas/Error'
-      example:
-        errors:
-        - code: AA-IS-01
-          title: Server Error
-          detail: An error has occurred whilst processing your request. Please try again later.
-    ResponseBankingAccountsBalanceList_data:
-      required:
-      - balances
-      properties:
-        balances:
-          type: array
-          description: The list of balances returned
-          items:
-            $ref: '#/components/schemas/BankingBalance'
-    BankingBalancePurse:
-      type: object
-      required:
-      - amount
-      properties:
-        amount:
-          type: string
-          description: The balance available for this additional currency purse
-          x-cds-type: AmountString
-        currency:
-          type: string
-          description: The currency for the purse
-          x-cds-type: CurrencyString
-    ErrorResponse422:
-      type: object
-      properties:
-        errors:
-          uniqueItems: false
-          type: array
-          items:
-            $ref: '#/components/schemas/Error'
-      example:
-        errors:
-        - code: AA-BR-01
-          title: page-size is invalid
-          detail: page-size must be a number and between 1 and 1000.
-    ResponseBankingAccountsBalanceById:
-      required:
-      - data
-      - links
-      properties:
-        data:
-          $ref: '#/components/schemas/BankingBalance'
-        links:
-          $ref: '#/components/schemas/Links'
-        meta:
-          $ref: '#/components/schemas/Meta'
-      example:
-        data:
-          accountId: 2M_8F2Q0aPjdPnO-FYMkt6fOBQNBPobNrXzAjwzrmWQ
-          currentBalance: '561950.07'
-          availableBalance: '561950.07'
-          currency: AUD
-        links:
-          self: https://secure.api.commbank.com.au/api/cds-au/v1/banking/accounts/balances
-        meta: {}
     ErrorResponse406:
       type: object
       properties:
@@ -693,35 +618,6 @@ components:
         - code: AA-RH-04
           title: x-min-v is invalid
           detail: x-min-v header must be a supported version number.
-    RequestAccountIds:
-      type: object
-      required:
-      - data
-      example:
-        data:
-          accountIds:
-          - 2M_8F2Q0aPjdPnO-FYMkt6fOBQNBPobNrXzAjwzrmWQ
-          - 8L_GAHf3425ADFf-FYMkt6fOBQNBPobNrXzAjwzrmWQ
-        meta: {}
-      properties:
-        data:
-          $ref: '#/components/schemas/RequestAccountIds_data'
-        meta:
-          $ref: '#/components/schemas/Meta'
-    MetaPaginated:
-      type: object
-      required:
-      - totalPages
-      - totalRecords
-      properties:
-        totalRecords:
-          type: integer
-          description: The total number of records in the full set. See [pagination](#pagination).
-          x-cds-type: NaturalNumber
-        totalPages:
-          type: integer
-          description: The total number of pages in the full set. See [pagination](#pagination).
-          x-cds-type: NaturalNumber
     ResponseBankingAccountsBalanceList:
       type: object
       required:
@@ -753,6 +649,110 @@ components:
           $ref: '#/components/schemas/LinksPaginated'
         meta:
           $ref: '#/components/schemas/MetaPaginated'
+    ErrorResponse400:
+      type: object
+      properties:
+        errors:
+          uniqueItems: false
+          type: array
+          items:
+            $ref: '#/components/schemas/Error'
+      example:
+        errors:
+        - code: AA-BR-02
+          title: updated-since is invalid
+          detail: updated-since must be a valid date.
+        - code: AA-BR-03
+          title: effective is invalid
+          detail: effective must be either ALL, CURRENT or FUTURE.
+        - code: AA-BR-04
+          title: product-category is invalid
+          detail: product-category must be a valid enumeration.
+        - code: AA-BR-05
+          title: page is invalid
+          detail: page must be a number and must be greater than 0.
+        - code: AA-BR-06
+          title: '{field-name} is Invalid'
+          detail: Something is wrong with your request. Please check your query parameters and try again.
+        - code: AA-BR-07
+          title: brand is Invalid
+          detail: brand must be a valid value.
+    ResponseBankingAccountsBalanceList_data:
+      required:
+      - balances
+      properties:
+        balances:
+          type: array
+          description: The list of balances returned
+          items:
+            $ref: '#/components/schemas/BankingBalance'
+    ErrorResponse422:
+      type: object
+      properties:
+        errors:
+          uniqueItems: false
+          type: array
+          items:
+            $ref: '#/components/schemas/Error'
+      example:
+        errors:
+        - code: AA-BR-01
+          title: page-size is invalid
+          detail: page-size must be a number and between 1 and 1000.
+    Links:
+      type: object
+      required:
+      - self
+      properties:
+        self:
+          type: string
+          description: Fully qualified link to this API call.
+    MetaPaginated:
+      type: object
+      required:
+      - totalPages
+      - totalRecords
+      properties:
+        totalRecords:
+          type: integer
+          description: The total number of records in the full set. See [pagination](#pagination).
+          x-cds-type: NaturalNumber
+        totalPages:
+          type: integer
+          description: The total number of pages in the full set. See [pagination](#pagination).
+          x-cds-type: NaturalNumber
+    Error:
+      type: object
+      properties:
+        code:
+          type: string
+        title:
+          type: string
+        detail:
+          type: string
+    ErrorResponse500:
+      type: object
+      properties:
+        errors:
+          uniqueItems: false
+          type: array
+          items:
+            $ref: '#/components/schemas/Error'
+      example:
+        errors:
+        - code: AA-IS-01
+          title: Server Error
+          detail: An error has occurred whilst processing your request. Please try again later.
+    RequestAccountIds_data:
+      required:
+      - accountIds
+      properties:
+        accountIds:
+          type: array
+          items:
+            type: string
+            description: Array of specific accountIds to obtain authorisations for
+            x-cds-type: ASCIIString
   parameters:
     ParamXVHeader:
       name: x-v
@@ -762,6 +762,24 @@ components:
       required: false
       schema:
         type: integer
+    ParamXFapiAuthDate:
+      name: x-fapi-auth-date
+      in: header
+      description: The time when the customer last logged in to the data recipient.
+      required: false
+      example: '2002-10-03T01:00:00+10:00'
+      schema:
+        type: string
+    ParamPageSize:
+      name: page-size
+      in: query
+      description: Number of records to return with the page
+      required: false
+      schema:
+        type: integer
+        default: 25
+        maximum: 1000
+        minimum: 1
     ParamXMinVHeader:
       name: x-min-v
       in: header
@@ -770,6 +788,14 @@ components:
       required: false
       schema:
         type: integer
+    ParamXFapiCustomerIpAddress:
+      name: x-fapi-customer-ip-address
+      in: header
+      description: The customer's original IP address if the customer is currently logged in to the data recipient.
+      required: false
+      example: 192.168.1.1
+      schema:
+        type: string
     ParamXCdsClientHeaders:
       name: x-cds-client-headers
       in: header
@@ -787,40 +813,6 @@ components:
       example: f688ae24-9719-4975-9f58-f6b7e655c37d
       schema:
         type: string
-    ParamXFapiAuthDate:
-      name: x-fapi-auth-date
-      in: header
-      description: The time when the customer last logged in to the data recipient.
-      required: false
-      example: '2002-10-03T01:00:00+10:00'
-      schema:
-        type: string
-    ParamXFapiCustomerIpAddress:
-      name: x-fapi-customer-ip-address
-      in: header
-      description: The customer's original IP address if the customer is currently logged in to the data recipient.
-      required: false
-      example: 192.168.1.1
-      schema:
-        type: string
-    ParamPageSize:
-      name: page-size
-      in: query
-      description: Number of records to return with the page
-      required: false
-      schema:
-        type: integer
-        default: 25
-        maximum: 1000
-        minimum: 1
-    ParamPage:
-      name: page
-      in: query
-      description: Page number being requested
-      required: false
-      schema:
-        type: integer
-        default: 1
     ParamAcceptHeader:
       name: Accept
       in: header
@@ -830,6 +822,14 @@ components:
         type: string
         enum:
         - application/json
+    ParamPage:
+      name: page
+      in: query
+      description: Page number being requested
+      required: false
+      schema:
+        type: integer
+        default: 1
 x-tagGroups:
 - name: ''
   tags:

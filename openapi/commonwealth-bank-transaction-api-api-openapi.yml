@@ -319,15 +319,6 @@ paths:
                 $ref: '#/components/schemas/ErrorResponse500'
 components:
   schemas:
-    Error:
-      type: object
-      properties:
-        code:
-          type: string
-        title:
-          type: string
-        detail:
-          type: string
     BankingTransactionDetail_extendedData_x2p101Payload:
       required:
       - extendedDescription
@@ -355,43 +346,19 @@ components:
           description: Total number of pages in the full set.
           example: 10
           type: integer
-    Links:
-      type: object
-      required:
-      - self
-      properties:
-        self:
-          type: string
-          description: Fully qualified link to this API call.
     ResponseNoBody:
       type: object
       properties: {}
       example: {}
-    ErrorResponse400:
-      type: object
-      properties:
-        errors:
-          uniqueItems: false
-          type: array
-          items:
-            $ref: '#/components/schemas/Error'
-      example:
-        errors:
-        - code: TA-BR-03
-          title: min-amount is Invalid
-          detail: min-amount must be a valid value
-        - code: TA-BR-04
-          title: max-amount is Invalid
-          detail: max-amount must be a valid value
-        - code: TA-BR-05
-          title: max-amount is Invalid
-          detail: max-amount is less than min-amount
-        - code: TA-BR-06
-          title: oldest-time is Invalid
-          detail: oldest-time must be a valid date and time
-        - code: TA-BR-07
-          title: newest-time is Invalid
-          detail: newest-time must be a valid date and time
+    BankingTransactionDetail:
+      allOf:
+      - $ref: '#/components/schemas/BankingTransaction'
+      - type: object
+        required:
+        - extendedData
+        properties:
+          extendedData:
+            $ref: '#/components/schemas/BankingTransactionDetail_extendedData'
     LinksPaginated:
       type: object
       required:
@@ -417,6 +384,266 @@ components:
         last:
           type: string
           description: URI to the last page of this set.
+    ErrorResponse406:
+      type: object
+      properties:
+        errors:
+          uniqueItems: false
+          type: array
+          items:
+            $ref: '#/components/schemas/Error'
+      example:
+        errors:
+        - code: TA-RH-01
+          title: Accept header is invalid
+          detail: Accept header must be application/json.
+        - code: TA-RH-02
+          title: Content-Type is invalid
+          detail: Content-Type header must be application/json.
+        - code: TA-RH-03
+          title: x-v is Invalid
+          detail: x-v header must be a supported version number.
+        - code: TA-RH-04
+          title: x-min-v is invalid
+          detail: x-min-v header must be a supported version number.
+    ErrorResponse400:
+      type: object
+      properties:
+        errors:
+          uniqueItems: false
+          type: array
+          items:
+            $ref: '#/components/schemas/Error'
+      example:
+        errors:
+        - code: TA-BR-03
+          title: min-amount is Invalid
+          detail: min-amount must be a valid value
+        - code: TA-BR-04
+          title: max-amount is Invalid
+          detail: max-amount must be a valid value
+        - code: TA-BR-05
+          title: max-amount is Invalid
+          detail: max-amount is less than min-amount
+        - code: TA-BR-06
+          title: oldest-time is Invalid
+          detail: oldest-time must be a valid date and time
+        - code: TA-BR-07
+          title: newest-time is Invalid
+          detail: newest-time must be a valid date and time
+    ErrorResponse422:
+      type: object
+      properties:
+        errors:
+          uniqueItems: false
+          type: array
+          items:
+            $ref: '#/components/schemas/Error'
+      example:
+        errors:
+        - Code: TA-UE-01
+          Title: page-size is Invalid
+          Detail: page-size must be a number.
+    Links:
+      type: object
+      required:
+      - self
+      properties:
+        self:
+          type: string
+          description: Fully qualified link to this API call.
+    MetaPaginated:
+      type: object
+      required:
+      - totalPages
+      - totalRecords
+      properties:
+        totalRecords:
+          type: integer
+          description: The total number of records in the full set. See [pagination](#pagination).
+          x-cds-type: NaturalNumber
+        totalPages:
+          type: integer
+          description: The total number of pages in the full set. See [pagination](#pagination).
+          x-cds-type: NaturalNumber
+    BankingTransaction:
+      type: object
+      required:
+      - accountId
+      - amount
+      - description
+      - isDetailAvailable
+      - reference
+      - status
+      - type
+      properties:
+        accountId:
+          type: string
+          description: ID of the account.
+          x-cds-type: ASCIIString
+        transactionId:
+          type: string
+          description: A unique ID of the transaction.
+          x-cds-type: ASCIIString
+        isDetailAvailable:
+          type: boolean
+          description: True if extended information is available.
+          x-cds-type: Boolean
+        type:
+          type: string
+          description: The type of the transaction
+          enum:
+          - FEE
+          - INTEREST_CHARGED
+          - INTEREST_PAID
+          - TRANSFER_OUTGOING
+          - TRANSFER_INCOMING
+          - PAYMENT
+          - DIRECT_DEBIT
+          - OTHER
+        status:
+          type: string
+          description: Status of the transaction whether pending or posted.
+          enum:
+          - PENDING
+          - POSTED
+        description:
+          type: string
+          description: The transaction description as applied by CommBank.
+        postingDateTime:
+          type: string
+          description: The time the transaction was posted.
+          x-cds-type: DateTimeString
+        valueDateTime:
+          type: string
+          description: Date and time at which assets become available to the account owner in case of a credit entry, or cease to be available to the account owner in case of a debit transaction entry.<br><i>CommBank does not currently return this value.</i></br>
+          x-cds-type: DateTimeString
+        executionDateTime:
+          type: string
+          description: The time the transaction was executed by the originating customer.
+          x-cds-type: DateTimeString
+        amount:
+          type: string
+          description: The value of the transaction.
+          x-cds-type: AmountString
+        currency:
+          type: string
+          description: The currency for the transaction amount.
+          x-cds-type: CurrencyString
+        reference:
+          type: string
+          description: The reference for the transaction provided by the originating institution.
+        merchantName:
+          type: string
+          description: Name of the merchant for an outgoing payment to a merchant.<br><i>CommBank does not currently return this value.</i></br>
+        merchantCategoryCode:
+          type: string
+          description: The merchant category code (or MCC) for an outgoing payment to a merchant.
+        billerCode:
+          type: string
+          description: BPAY Biller Code for the transaction.
+        billerName:
+          type: string
+          description: Name of the BPAY biller for the transaction.<br><i>CommBank does not currently return this value.</i></br>
+        crn:
+          type: string
+          description: BPAY CRN for the transaction.
+        apcaNumber:
+          type: string
+          description: 6 Digit APCA number for the initiating institution.
+      x-conditional:
+      - transactionId
+      - postingDateTime
+    ResponseBankingTransactionById:
+      type: object
+      required:
+      - data
+      - links
+      example:
+        data:
+          extendedData:
+            payer: JmcUXYZ4
+            extensionUType: x2p101Payload
+            x2P101Payload:
+              extendedDescription: Bill
+            service: X2P1.01
+          accountId: 2M_8F2Q0aPjdPnO-FYMkt6fOBQNBPobNrXzAjwzrmWQ
+          transactionId: '28851230353809514384540036706486'
+          isDetailAvailable: true
+          type: PAYMENT
+          status: POSTED
+          description: 'Transfer to Jmcuxyz4
+
+            ,PayID Phone from CommBank App
+
+            ,Bill'
+          postingDateTime: '2019-07-25T04:18:51.424Z'
+          executionDateTime: '2019-07-25T04:18:51.424Z'
+          amount: '-1.00'
+          currency: AUD
+          reference: C206908399077
+        links:
+          self: https://secure.api.commbank.com.au/cds-au/v1/banking/accounts/2M_8F2Q0aPjdPnO-FYMkt6fOBQNBPobNrXzAjwzrmWQ/transactions/28851230353809514384540036706486
+        meta: {}
+      properties:
+        data:
+          $ref: '#/components/schemas/BankingTransactionDetail'
+        links:
+          $ref: '#/components/schemas/Links'
+        meta:
+          $ref: '#/components/schemas/Meta'
+    BankingTransactionDetail_extendedData:
+      required:
+      - service
+      properties:
+        payer:
+          type: string
+          description: Label of the originating payer.
+        payee:
+          type: string
+          description: Label of the target PayID. The name assigned to the BSB/Account Number or PayID (by the owner of the PayID).
+        extensionUType:
+          type: string
+          description: Optional extended data provided specific to transaction originated via NPP.
+          enum:
+          - x2p101Payload
+        x2p101Payload:
+          $ref: '#/components/schemas/BankingTransactionDetail_extendedData_x2p101Payload'
+        service:
+          type: string
+          description: 'Identifier of the applicable overlay service. Valid values are: X2P1.01.'
+          enum:
+          - X2P1.01
+    ResponseBankingTransactionList_data:
+      required:
+      - transactions
+      properties:
+        transactions:
+          type: array
+          items:
+            $ref: '#/components/schemas/BankingTransaction'
+    Error:
+      type: object
+      properties:
+        code:
+          type: string
+        title:
+          type: string
+        detail:
+          type: string
+    ErrorResponse500:
+      type: object
+      properties:
+        errors:
+          uniqueItems: false
+          type: array
+          items:
+            $ref: '#/components/schemas/Error'
+      example:
+        errors:
+        - code: TA-IS-01
+          title: Server Error
+          detail: An error has occurred whilst processing your request. Please try again later.
     ResponseBankingTransactionList:
       type: object
       required:
@@ -706,233 +933,6 @@ components:
           $ref: '#/components/schemas/LinksPaginated'
         meta:
           $ref: '#/components/schemas/MetaPaginated'
-    BankingTransaction:
-      type: object
-      required:
-      - accountId
-      - amount
-      - description
-      - isDetailAvailable
-      - reference
-      - status
-      - type
-      properties:
-        accountId:
-          type: string
-          description: ID of the account.
-          x-cds-type: ASCIIString
-        transactionId:
-          type: string
-          description: A unique ID of the transaction.
-          x-cds-type: ASCIIString
-        isDetailAvailable:
-          type: boolean
-          description: True if extended information is available.
-          x-cds-type: Boolean
-        type:
-          type: string
-          description: The type of the transaction
-          enum:
-          - FEE
-          - INTEREST_CHARGED
-          - INTEREST_PAID
-          - TRANSFER_OUTGOING
-          - TRANSFER_INCOMING
-          - PAYMENT
-          - DIRECT_DEBIT
-          - OTHER
-        status:
-          type: string
-          description: Status of the transaction whether pending or posted.
-          enum:
-          - PENDING
-          - POSTED
-        description:
-          type: string
-          description: The transaction description as applied by CommBank.
-        postingDateTime:
-          type: string
-          description: The time the transaction was posted.
-          x-cds-type: DateTimeString
-        valueDateTime:
-          type: string
-          description: Date and time at which assets become available to the account owner in case of a credit entry, or cease to be available to the account owner in case of a debit transaction entry.<br><i>CommBank does not currently return this value.</i></br>
-          x-cds-type: DateTimeString
-        executionDateTime:
-          type: string
-          description: The time the transaction was executed by the originating customer.
-          x-cds-type: DateTimeString
-        amount:
-          type: string
-          description: The value of the transaction.
-          x-cds-type: AmountString
-        currency:
-          type: string
-          description: The currency for the transaction amount.
-          x-cds-type: CurrencyString
-        reference:
-          type: string
-          description: The reference for the transaction provided by the originating institution.
-        merchantName:
-          type: string
-          description: Name of the merchant for an outgoing payment to a merchant.<br><i>CommBank does not currently return this value.</i></br>
-        merchantCategoryCode:
-          type: string
-          description: The merchant category code (or MCC) for an outgoing payment to a merchant.
-        billerCode:
-          type: string
-          description: BPAY Biller Code for the transaction.
-        billerName:
-          type: string
-          description: Name of the BPAY biller for the transaction.<br><i>CommBank does not currently return this value.</i></br>
-        crn:
-          type: string
-          description: BPAY CRN for the transaction.
-        apcaNumber:
-          type: string
-          description: 6 Digit APCA number for the initiating institution.
-      x-conditional:
-      - transactionId
-      - postingDateTime
-    ErrorResponse500:
-      type: object
-      properties:
-        errors:
-          uniqueItems: false
-          type: array
-          items:
-            $ref: '#/components/schemas/Error'
-      example:
-        errors:
-        - code: TA-IS-01
-          title: Server Error
-          detail: An error has occurred whilst processing your request. Please try again later.
-    ErrorResponse422:
-      type: object
-      properties:
-        errors:
-          uniqueItems: false
-          type: array
-          items:
-            $ref: '#/components/schemas/Error'
-      example:
-        errors:
-        - Code: TA-UE-01
-          Title: page-size is Invalid
-          Detail: page-size must be a number.
-    ResponseBankingTransactionById:
-      type: object
-      required:
-      - data
-      - links
-      example:
-        data:
-          extendedData:
-            payer: JmcUXYZ4
-            extensionUType: x2p101Payload
-            x2P101Payload:
-              extendedDescription: Bill
-            service: X2P1.01
-          accountId: 2M_8F2Q0aPjdPnO-FYMkt6fOBQNBPobNrXzAjwzrmWQ
-          transactionId: '28851230353809514384540036706486'
-          isDetailAvailable: true
-          type: PAYMENT
-          status: POSTED
-          description: 'Transfer to Jmcuxyz4
-
-            ,PayID Phone from CommBank App
-
-            ,Bill'
-          postingDateTime: '2019-07-25T04:18:51.424Z'
-          executionDateTime: '2019-07-25T04:18:51.424Z'
-          amount: '-1.00'
-          currency: AUD
-          reference: C206908399077
-        links:
-          self: https://secure.api.commbank.com.au/cds-au/v1/banking/accounts/2M_8F2Q0aPjdPnO-FYMkt6fOBQNBPobNrXzAjwzrmWQ/transactions/28851230353809514384540036706486
-        meta: {}
-      properties:
-        data:
-          $ref: '#/components/schemas/BankingTransactionDetail'
-        links:
-          $ref: '#/components/schemas/Links'
-        meta:
-          $ref: '#/components/schemas/Meta'
-    BankingTransactionDetail:
-      allOf:
-      - $ref: '#/components/schemas/BankingTransaction'
-      - type: object
-        required:
-        - extendedData
-        properties:
-          extendedData:
-            $ref: '#/components/schemas/BankingTransactionDetail_extendedData'
-    ErrorResponse406:
-      type: object
-      properties:
-        errors:
-          uniqueItems: false
-          type: array
-          items:
-            $ref: '#/components/schemas/Error'
-      example:
-        errors:
-        - code: TA-RH-01
-          title: Accept header is invalid
-          detail: Accept header must be application/json.
-        - code: TA-RH-02
-          title: Content-Type is invalid
-          detail: Content-Type header must be application/json.
-        - code: TA-RH-03
-          title: x-v is Invalid
-          detail: x-v header must be a supported version number.
-        - code: TA-RH-04
-          title: x-min-v is invalid
-          detail: x-min-v header must be a supported version number.
-    MetaPaginated:
-      type: object
-      required:
-      - totalPages
-      - totalRecords
-      properties:
-        totalRecords:
-          type: integer
-          description: The total number of records in the full set. See [pagination](#pagination).
-          x-cds-type: NaturalNumber
-        totalPages:
-          type: integer
-          description: The total number of pages in the full set. See [pagination](#pagination).
-          x-cds-type: NaturalNumber
-    BankingTransactionDetail_extendedData:
-      required:
-      - service
-      properties:
-        payer:
-          type: string
-          description: Label of the originating payer.
-        payee:
-          type: string
-          description: Label of the target PayID. The name assigned to the BSB/Account Number or PayID (by the owner of the PayID).
-        extensionUType:
-          type: string
-          description: Optional extended data provided specific to transaction originated via NPP.
-          enum:
-          - x2p101Payload
-        x2p101Payload:
-          $ref: '#/components/schemas/BankingTransactionDetail_extendedData_x2p101Payload'
-        service:
-          type: string
-          description: 'Identifier of the applicable overlay service. Valid values are: X2P1.01.'
-          enum:
-          - X2P1.01
-    ResponseBankingTransactionList_data:
-      required:
-      - transactions
-      properties:
-        transactions:
-          type: array
-          items:
-            $ref: '#/components/schemas/BankingTransaction'
   parameters:
     ParamXVHeader:
       name: x-v
@@ -942,6 +942,16 @@ components:
       required: false
       schema:
         type: integer
+    ParamPageSize:
+      name: page-size
+      in: query
+      description: Number of records to return with the page
+      required: false
+      schema:
+        type: integer
+        default: 25
+        maximum: 1000
+        minimum: 1
     ParamXMinVHeader:
       name: x-min-v
       in: header
@@ -950,6 +960,14 @@ components:
       required: false
       schema:
         type: integer
+    ParamXFapiCustomerIpAddress:
+      name: x-fapi-customer-ip-address
+      in: header
+      description: The customer's original IP address if the customer is currently logged in to the data recipient.
+      required: false
+      example: 192.168.1.1
+      schema:
+        type: string
     ParamXCdsClientHeaders:
       name: x-cds-client-headers
       in: header
@@ -967,32 +985,6 @@ components:
       example: f688ae24-9719-4975-9f58-f6b7e655c37d
       schema:
         type: string
-    ParamXFapiCustomerIpAddress:
-      name: x-fapi-customer-ip-address
-      in: header
-      description: The customer's original IP address if the customer is currently logged in to the data recipient.
-      required: false
-      example: 192.168.1.1
-      schema:
-        type: string
-    ParamPageSize:
-      name: page-size
-      in: query
-      description: Number of records to return with the page
-      required: false
-      schema:
-        type: integer
-        default: 25
-        maximum: 1000
-        minimum: 1
-    ParamPage:
-      name: page
-      in: query
-      description: Page number being requested
-      required: false
-      schema:
-        type: integer
-        default: 1
     ParamAcceptHeader:
       name: Accept
       in: header
@@ -1002,6 +994,14 @@ components:
         type: string
         enum:
         - application/json
+    ParamPage:
+      name: page
+      in: query
+      description: Page number being requested
+      required: false
+      schema:
+        type: integer
+        default: 1
 x-tagGroups:
 - name: ''
   tags:
