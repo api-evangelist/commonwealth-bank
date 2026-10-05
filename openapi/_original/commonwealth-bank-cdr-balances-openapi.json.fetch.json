@@ -1,0 +1,12 @@
+{
+ "url": "https://www.commbank.com.au/developer/Documentation/specification/Balances",
+ "requested_url": "https://www.commbank.com.au/developer/Documentation/specification/Balances",
+ "status": 200,
+ "content_type": "text/plain; charset=utf-8",
+ "bytes": 54290,
+ "sha256": "0be4c5ed5169f9c0ef652b719b6e7736f4b4f63b88ec04a2042e4c9396c94ff6",
+ "fetched_at": "2026-10-04",
+ "fetched_by": "APIEvangelist-Harvest/1.0 (+https://apievangelist.com)",
+ "match": "equivalent",
+ "note": "Re-fetched from the provider by verify-openapi-sources.py; the provider's current document describes the same operations (Jaccard 1.0), but the bytes differ, so the archive is an earlier or reformatted copy."
+}

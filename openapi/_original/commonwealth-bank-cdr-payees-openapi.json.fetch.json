@@ -1,0 +1,12 @@
+{
+ "url": "https://www.commbank.com.au/developer/Documentation/specification/Payees",
+ "requested_url": "https://www.commbank.com.au/developer/Documentation/specification/Payees",
+ "status": 200,
+ "content_type": "text/plain; charset=utf-8",
+ "bytes": 18046,
+ "sha256": "7389124800525bf69d432dac1484f544ced389e6c9effacf7b88f8599561bf2e",
+ "fetched_at": "2026-10-04",
+ "fetched_by": "APIEvangelist-Harvest/1.0 (+https://apievangelist.com)",
+ "match": "equivalent",
+ "note": "Re-fetched from the provider by verify-openapi-sources.py; the provider's current document describes the same operations (Jaccard 1.0), but the bytes differ, so the archive is an earlier or reformatted copy."
+}
