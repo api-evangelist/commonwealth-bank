@@ -1,0 +1,51 @@
+generated: '2026-10-12'
+method: searched
+source:
+- https://zapier.com/apps/commonwealth-bank/integrations
+- https://n8n.io/integrations/commonwealth-bank/
+- https://composio.dev/toolkits/commonwealth-bank
+- https://monid.ai/tools/commonwealth-bank
+checked:
+- https://api.cdr.gov.au/cdr-register/v1/all/data-holders/brands/summary
+- https://composio.dev/toolkits/commonwealth-bank
+- https://monid.ai/tools/commonwealth-bank
+- https://n8n.io/integrations/commonwealth-bank/
+- https://zapier.com/apps/commonwealth-bank/integrations
+summary: null
+marketplace_apps: []
+edges:
+- partner_name: Consumer Data Right
+  partner: null
+  type: contract
+  channel: regulator-register
+  relationship: standard-participant
+  direction: partner-built
+  evidence: https://api.cdr.gov.au/cdr-register/v1/all/data-holders/brands/summary
+  contract_reference:
+    register: CDR Register (Australia, ACCC)
+    spec_file: null
+    role: data-holder
+    registered_name: CommBank
+    register_id: 25233bad-e494-ea11-a831-000d3a8842e1
+    matched_domain: commbank.com.au
+    api_families: null
+    detected_by: sweep-standard-registers.py
+    detected: '2026-10-12'
+- partner_name: Consumer Data Right
+  partner: null
+  type: contract
+  channel: regulator-register
+  relationship: standard-participant
+  direction: partner-built
+  evidence: https://api.cdr.gov.au/cdr-register/v1/all/data-holders/brands/summary
+  contract_reference:
+    register: CDR Register (Australia, ACCC)
+    spec_file: null
+    role: data-holder
+    registered_name: CBA - CommBiz
+    register_id: de48e3c6-aaff-eb11-a826-000d3a884a20
+    matched_domain: commbank.com.au
+    api_families: null
+    detected_by: sweep-standard-registers.py
+    detected: '2026-10-12'
+templates: []
