@@ -319,71 +319,42 @@ paths:
                 $ref: '#/components/schemas/ErrorResponse500'
 components:
   schemas:
-    BankingTransactionDetail_extendedData_x2p101Payload:
-      required:
-      - extendedDescription
+    ErrorResponse500:
+      type: object
       properties:
-        extendedDescription:
-          type: string
-          description: An extended string description.
-        endToEndId:
-          type: string
-          description: An end to end ID for the payment created at initiation.
-        purposeCode:
-          type: string
-          description: Purpose of the payment.<br><i>CommBank does not currently return this value.</i></br>
-    Meta:
+        errors:
+          uniqueItems: false
+          type: array
+          items:
+            $ref: '#/components/schemas/Error'
+      example:
+        errors:
+        - code: TA-IS-01
+          title: Server Error
+          detail: An error has occurred whilst processing your request. Please try again later.
+    MetaPaginated:
       type: object
       required:
-      - totalRecords
       - totalPages
+      - totalRecords
       properties:
         totalRecords:
           type: integer
-          description: Total number of records in the full set.
-          example: 10
+          description: The total number of records in the full set. See [pagination](#pagination).
+          x-cds-type: NaturalNumber
         totalPages:
-          description: Total number of pages in the full set.
-          example: 10
           type: integer
-    ResponseNoBody:
+          description: The total number of pages in the full set. See [pagination](#pagination).
+          x-cds-type: NaturalNumber
+    Error:
       type: object
-      properties: {}
-      example: {}
-    BankingTransactionDetail:
-      allOf:
-      - $ref: '#/components/schemas/BankingTransaction'
-      - type: object
-        required:
-        - extendedData
-        properties:
-          extendedData:
-            $ref: '#/components/schemas/BankingTransactionDetail_extendedData'
-    LinksPaginated:
-      type: object
-      required:
-      - self
-      x-conditional:
-      - prev
-      - next
-      - first
-      - last
       properties:
-        self:
+        code:
           type: string
-          description: Fully qualified link to this API call.
-        first:
+        title:
           type: string
-          description: URI to the first page of this set.
-        prev:
+        detail:
           type: string
-          description: URI to the previous page of this set.
-        next:
-          type: string
-          description: URI to the next page of this set.
-        last:
-          type: string
-          description: URI to the last page of this set.
     ErrorResponse406:
       type: object
       properties:
@@ -406,66 +377,28 @@ components:
         - code: TA-RH-04
           title: x-min-v is invalid
           detail: x-min-v header must be a supported version number.
-    ErrorResponse400:
-      type: object
-      properties:
-        errors:
-          uniqueItems: false
-          type: array
-          items:
-            $ref: '#/components/schemas/Error'
-      example:
-        errors:
-        - code: TA-BR-03
-          title: min-amount is Invalid
-          detail: min-amount must be a valid value
-        - code: TA-BR-04
-          title: max-amount is Invalid
-          detail: max-amount must be a valid value
-        - code: TA-BR-05
-          title: max-amount is Invalid
-          detail: max-amount is less than min-amount
-        - code: TA-BR-06
-          title: oldest-time is Invalid
-          detail: oldest-time must be a valid date and time
-        - code: TA-BR-07
-          title: newest-time is Invalid
-          detail: newest-time must be a valid date and time
-    ErrorResponse422:
-      type: object
-      properties:
-        errors:
-          uniqueItems: false
-          type: array
-          items:
-            $ref: '#/components/schemas/Error'
-      example:
-        errors:
-        - Code: TA-UE-01
-          Title: page-size is Invalid
-          Detail: page-size must be a number.
-    Links:
-      type: object
+    BankingTransactionDetail_extendedData:
       required:
-      - self
+      - service
       properties:
-        self:
+        payer:
           type: string
-          description: Fully qualified link to this API call.
-    MetaPaginated:
-      type: object
-      required:
-      - totalPages
-      - totalRecords
-      properties:
-        totalRecords:
-          type: integer
-          description: The total number of records in the full set. See [pagination](#pagination).
-          x-cds-type: NaturalNumber
-        totalPages:
-          type: integer
-          description: The total number of pages in the full set. See [pagination](#pagination).
-          x-cds-type: NaturalNumber
+          description: Label of the originating payer.
+        payee:
+          type: string
+          description: Label of the target PayID. The name assigned to the BSB/Account Number or PayID (by the owner of the PayID).
+        extensionUType:
+          type: string
+          description: Optional extended data provided specific to transaction originated via NPP.
+          enum:
+          - x2p101Payload
+        x2p101Payload:
+          $ref: '#/components/schemas/BankingTransactionDetail_extendedData_x2p101Payload'
+        service:
+          type: string
+          description: 'Identifier of the applicable overlay service. Valid values are: X2P1.01.'
+          enum:
+          - X2P1.01
     BankingTransaction:
       type: object
       required:
@@ -554,6 +487,70 @@ components:
       x-conditional:
       - transactionId
       - postingDateTime
+    ResponseNoBody:
+      type: object
+      properties: {}
+      example: {}
+    LinksPaginated:
+      type: object
+      required:
+      - self
+      x-conditional:
+      - prev
+      - next
+      - first
+      - last
+      properties:
+        self:
+          type: string
+          description: Fully qualified link to this API call.
+        first:
+          type: string
+          description: URI to the first page of this set.
+        prev:
+          type: string
+          description: URI to the previous page of this set.
+        next:
+          type: string
+          description: URI to the next page of this set.
+        last:
+          type: string
+          description: URI to the last page of this set.
+    Meta:
+      type: object
+      required:
+      - totalRecords
+      - totalPages
+      properties:
+        totalRecords:
+          type: integer
+          description: Total number of records in the full set.
+          example: 10
+        totalPages:
+          description: Total number of pages in the full set.
+          example: 10
+          type: integer
+    Links:
+      type: object
+      required:
+      - self
+      properties:
+        self:
+          type: string
+          description: Fully qualified link to this API call.
+    ErrorResponse422:
+      type: object
+      properties:
+        errors:
+          uniqueItems: false
+          type: array
+          items:
+            $ref: '#/components/schemas/Error'
+      example:
+        errors:
+        - Code: TA-UE-01
+          Title: page-size is Invalid
+          Detail: page-size must be a number.
     ResponseBankingTransactionById:
       type: object
       required:
@@ -592,46 +589,29 @@ components:
           $ref: '#/components/schemas/Links'
         meta:
           $ref: '#/components/schemas/Meta'
-    BankingTransactionDetail_extendedData:
+    BankingTransactionDetail:
+      allOf:
+      - $ref: '#/components/schemas/BankingTransaction'
+      - type: object
+        required:
+        - extendedData
+        properties:
+          extendedData:
+            $ref: '#/components/schemas/BankingTransactionDetail_extendedData'
+    BankingTransactionDetail_extendedData_x2p101Payload:
       required:
-      - service
+      - extendedDescription
       properties:
-        payer:
+        extendedDescription:
           type: string
-          description: Label of the originating payer.
-        payee:
+          description: An extended string description.
+        endToEndId:
           type: string
-          description: Label of the target PayID. The name assigned to the BSB/Account Number or PayID (by the owner of the PayID).
-        extensionUType:
+          description: An end to end ID for the payment created at initiation.
+        purposeCode:
           type: string
-          description: Optional extended data provided specific to transaction originated via NPP.
-          enum:
-          - x2p101Payload
-        x2p101Payload:
-          $ref: '#/components/schemas/BankingTransactionDetail_extendedData_x2p101Payload'
-        service:
-          type: string
-          description: 'Identifier of the applicable overlay service. Valid values are: X2P1.01.'
-          enum:
-          - X2P1.01
-    ResponseBankingTransactionList_data:
-      required:
-      - transactions
-      properties:
-        transactions:
-          type: array
-          items:
-            $ref: '#/components/schemas/BankingTransaction'
-    Error:
-      type: object
-      properties:
-        code:
-          type: string
-        title:
-          type: string
-        detail:
-          type: string
-    ErrorResponse500:
+          description: Purpose of the payment.<br><i>CommBank does not currently return this value.</i></br>
+    ErrorResponse400:
       type: object
       properties:
         errors:
@@ -641,9 +621,21 @@ components:
             $ref: '#/components/schemas/Error'
       example:
         errors:
-        - code: TA-IS-01
-          title: Server Error
-          detail: An error has occurred whilst processing your request. Please try again later.
+        - code: TA-BR-03
+          title: min-amount is Invalid
+          detail: min-amount must be a valid value
+        - code: TA-BR-04
+          title: max-amount is Invalid
+          detail: max-amount must be a valid value
+        - code: TA-BR-05
+          title: max-amount is Invalid
+          detail: max-amount is less than min-amount
+        - code: TA-BR-06
+          title: oldest-time is Invalid
+          detail: oldest-time must be a valid date and time
+        - code: TA-BR-07
+          title: newest-time is Invalid
+          detail: newest-time must be a valid date and time
     ResponseBankingTransactionList:
       type: object
       required:
@@ -933,58 +925,15 @@ components:
           $ref: '#/components/schemas/LinksPaginated'
         meta:
           $ref: '#/components/schemas/MetaPaginated'
+    ResponseBankingTransactionList_data:
+      required:
+      - transactions
+      properties:
+        transactions:
+          type: array
+          items:
+            $ref: '#/components/schemas/BankingTransaction'
   parameters:
-    ParamXVHeader:
-      name: x-v
-      in: header
-      description: Version of the API end point being requested.
-      example: 1
-      required: false
-      schema:
-        type: integer
-    ParamPageSize:
-      name: page-size
-      in: query
-      description: Number of records to return with the page
-      required: false
-      schema:
-        type: integer
-        default: 25
-        maximum: 1000
-        minimum: 1
-    ParamXMinVHeader:
-      name: x-min-v
-      in: header
-      description: Minimum version of the API end point you are requesting.
-      example: 1
-      required: false
-      schema:
-        type: integer
-    ParamXFapiCustomerIpAddress:
-      name: x-fapi-customer-ip-address
-      in: header
-      description: The customer's original IP address if the customer is currently logged in to the data recipient.
-      required: false
-      example: 192.168.1.1
-      schema:
-        type: string
-    ParamXCdsClientHeaders:
-      name: x-cds-client-headers
-      in: header
-      description: The customer's original standard http headers encoded, including the original User Agent header, if the customer is currently logged in to the data recipient.
-      required: false
-      example: Q3VzdG9tZXJzRGV2OkN1c3RvbWVyc0Rldg==
-      x-cds-type: Base64
-      schema:
-        type: string
-    ParamXFapiInterationId:
-      name: x-fapi-interaction-id
-      in: header
-      description: Reflects the value of the Interaction ID in the request.
-      required: false
-      example: f688ae24-9719-4975-9f58-f6b7e655c37d
-      schema:
-        type: string
     ParamAcceptHeader:
       name: Accept
       in: header
@@ -1002,6 +951,57 @@ components:
       schema:
         type: integer
         default: 1
+    ParamXMinVHeader:
+      name: x-min-v
+      in: header
+      description: Minimum version of the API end point you are requesting.
+      example: 1
+      required: false
+      schema:
+        type: integer
+    ParamPageSize:
+      name: page-size
+      in: query
+      description: Number of records to return with the page
+      required: false
+      schema:
+        type: integer
+        default: 25
+        maximum: 1000
+        minimum: 1
+    ParamXCdsClientHeaders:
+      name: x-cds-client-headers
+      in: header
+      description: The customer's original standard http headers encoded, including the original User Agent header, if the customer is currently logged in to the data recipient.
+      required: false
+      example: Q3VzdG9tZXJzRGV2OkN1c3RvbWVyc0Rldg==
+      x-cds-type: Base64
+      schema:
+        type: string
+    ParamXVHeader:
+      name: x-v
+      in: header
+      description: Version of the API end point being requested.
+      example: 1
+      required: false
+      schema:
+        type: integer
+    ParamXFapiCustomerIpAddress:
+      name: x-fapi-customer-ip-address
+      in: header
+      description: The customer's original IP address if the customer is currently logged in to the data recipient.
+      required: false
+      example: 192.168.1.1
+      schema:
+        type: string
+    ParamXFapiInterationId:
+      name: x-fapi-interaction-id
+      in: header
+      description: Reflects the value of the Interaction ID in the request.
+      required: false
+      example: f688ae24-9719-4975-9f58-f6b7e655c37d
+      schema:
+        type: string
 x-tagGroups:
 - name: ''
   tags:
