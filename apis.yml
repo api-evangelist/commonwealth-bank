@@ -66,6 +66,13 @@ apis:
   name: Commonwealth Bank Fast Payment (Credit Transfer Initiation) API
   tags:
   - Payments
+  - New Payments Platform
+  - Real-Time Payments
+  - Credit Transfer
+  - Business
+  - Australia
+  tags_raw:
+  - Payments
   - NPP
   - Real-Time Payments
   - Credit Transfer
@@ -185,6 +192,10 @@ apis:
 - aid: commonwealth-bank:commbank-international
   name: CommBank International Payments
   tags:
+  - International
+  - Foreign Exchange
+  - Cross-Border Payments
+  tags_raw:
   - International
   - FX
   - Cross-Border Payments
