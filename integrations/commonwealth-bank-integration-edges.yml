@@ -8,9 +8,13 @@ source:
 checked:
 - https://api.cdr.gov.au/cdr-register/v1/all/data-holders/brands/summary
 - https://composio.dev/toolkits/commonwealth-bank
+- https://eservices.mas.gov.sg/fid
 - https://monid.ai/tools/commonwealth-bank
 - https://n8n.io/integrations/commonwealth-bank/
+- https://www.bi.go.id/id/layanan/informasi-perizinan/sistem-pembayaran/default.aspx
+- https://www.bnm.gov.my/list-of-regulatees
 - https://www.iso20022.org/sites/default/files/ISO10383_MIC/ISO10383_MIC.csv
+- https://www.ojk.go.id/id/kanal/iknb/data-dan-statistik/direktori/fintech/Default.aspx
 - https://zapier.com/apps/commonwealth-bank/integrations
 summary: null
 marketplace_apps: []
@@ -90,4 +94,31 @@ edges:
     detected: '2026-10-15'
   detected_by: sweep-capital-markets.py
   first_seen: '2026-10-15'
+- partner_name: MAS Financial Institutions Directory
+  partner: null
+  partner_match: register
+  type: register
+  channel: regulator-register
+  relationship: standard-participant
+  direction: partner-built
+  evidence: https://eservices.mas.gov.sg/fid
+  category: open finance (Singapore)
+  contract_reference:
+    register: MAS Financial Institutions Directory
+    spec_file: null
+    standard: MAS licensing (Banking Act / Payment Services Act, Singapore)
+    role: licensed-participant
+    registrations:
+    - registered_name: COMMONWEALTH BANK OF AUSTRALIA
+      licences:
+      - Wholesale Bank
+      matched_domain: commbank.com.au
+      matched_by: domain
+      evidence: https://eservices.mas.gov.sg/fid/institution/detail/3137-COMMONWEALTH-BANK-OF-AUSTRALIA
+      register_id: 3137-COMMONWEALTH-BANK-OF-AUSTRALIA
+    signal_note: 'participation only: a regulator licence; no API conformance is published by this register'
+    detected_by: sweep-gulf-asean-open-finance.py
+    detected: '2026-10-18'
+  detected_by: sweep-gulf-asean-open-finance.py
+  first_seen: '2026-10-18'
 templates: []
