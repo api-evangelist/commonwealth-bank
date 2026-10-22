@@ -1,0 +1,23 @@
+overlay: 1.0.0
+info:
+  title: API Evangelist enhancements for CommBank Accounts Accounts API
+  version: 1.0.0
+extends: openapi/commonwealth-bank-accounts-api-api-openapi.yml
+x-generated: '2026-10-20'
+x-method: generated
+actions:
+- target: $.info
+  update:
+    x-apievangelist-enriched: '2026-10-20'
+    x-apievangelist-provider: commonwealth-bank
+    x-apievangelist-standard: CDR Consumer Data Standards (Banking)
+    x-apievangelist-auth: CDR Accredited Data Recipient OAuth2 authorization_code + FAPI/mTLS on consumer consent;
+      x-v header required.
+- target: $.paths['/accounts'].get
+  update:
+    x-apievangelist-agent-safe: true
+    x-apievangelist-mcp-tool: listAccounts
+- target: $.paths['/accounts/{accountId}'].get
+  update:
+    x-apievangelist-agent-safe: true
+    x-apievangelist-mcp-tool: getAccountDetail

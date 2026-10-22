@@ -1,0 +1,1278 @@
+{
+  "@context": {
+    "@vocab": "https://commbank.com.au/schema#",
+    "schema": "https://schema.org/",
+    "xsd": "http://www.w3.org/2001/XMLSchema#",
+    "dcterms": "http://purl.org/dc/terms/",
+    "commonwealth": "https://commbank.com.au/schema#",
+    "ResponseBankingAccountById": "commonwealth:ResponseBankingAccountById",
+    "data": {
+      "@id": "commonwealth:data",
+      "@type": "@id"
+    },
+    "links": {
+      "@id": "commonwealth:links",
+      "@type": "@id"
+    },
+    "meta": {
+      "@id": "commonwealth:meta",
+      "@type": "@id"
+    },
+    "ErrorResponse500": "commonwealth:ErrorResponse500",
+    "errors": {
+      "@id": "commonwealth:errors",
+      "@container": "@list"
+    },
+    "BankingProductDiscount": "commonwealth:BankingProductDiscount",
+    "description": {
+      "@id": "commonwealth:description",
+      "@type": "xsd:string"
+    },
+    "discountType": {
+      "@id": "commonwealth:discountType",
+      "@type": "xsd:string"
+    },
+    "amount": {
+      "@id": "commonwealth:amount",
+      "@type": "xsd:string"
+    },
+    "balanceRate": {
+      "@id": "commonwealth:balanceRate",
+      "@type": "xsd:string"
+    },
+    "transactionRate": {
+      "@id": "commonwealth:transactionRate",
+      "@type": "xsd:string"
+    },
+    "accruedRate": {
+      "@id": "commonwealth:accruedRate",
+      "@type": "xsd:string"
+    },
+    "feeRate": {
+      "@id": "commonwealth:feeRate",
+      "@type": "xsd:string"
+    },
+    "additionalValue": {
+      "@id": "commonwealth:additionalValue",
+      "@type": "xsd:string"
+    },
+    "additionalInfo": {
+      "@id": "commonwealth:additionalInfo",
+      "@type": "xsd:string"
+    },
+    "additionalInfoUri": {
+      "@id": "commonwealth:additionalInfoUri",
+      "@type": "xsd:string"
+    },
+    "eligibility": {
+      "@id": "commonwealth:eligibility",
+      "@container": "@list"
+    },
+    "MetaPaginated": "commonwealth:MetaPaginated",
+    "totalRecords": {
+      "@id": "commonwealth:totalRecords",
+      "@type": "xsd:integer"
+    },
+    "totalPages": {
+      "@id": "commonwealth:totalPages",
+      "@type": "xsd:integer"
+    },
+    "Error": "commonwealth:Error",
+    "code": {
+      "@id": "commonwealth:code",
+      "@type": "xsd:string"
+    },
+    "title": {
+      "@id": "commonwealth:title",
+      "@type": "xsd:string"
+    },
+    "detail": {
+      "@id": "commonwealth:detail",
+      "@type": "xsd:string"
+    },
+    "ErrorResponse406": "commonwealth:ErrorResponse406",
+    "BankingProductDiscountEligibility": "commonwealth:BankingProductDiscountEligibility",
+    "discountEligibilityType": {
+      "@id": "commonwealth:discountEligibilityType",
+      "@type": "xsd:string"
+    },
+    "CommonPAFAddress": "commonwealth:CommonPAFAddress",
+    "dpid": {
+      "@id": "commonwealth:dpid",
+      "@type": "xsd:string"
+    },
+    "thoroughfareNumber1": {
+      "@id": "commonwealth:thoroughfareNumber1",
+      "@type": "xsd:integer"
+    },
+    "thoroughfareNumber1Suffix": {
+      "@id": "commonwealth:thoroughfareNumber1Suffix",
+      "@type": "xsd:string"
+    },
+    "thoroughfareNumber2": {
+      "@id": "commonwealth:thoroughfareNumber2",
+      "@type": "xsd:integer"
+    },
+    "thoroughfareNumber2Suffix": {
+      "@id": "commonwealth:thoroughfareNumber2Suffix",
+      "@type": "xsd:string"
+    },
+    "flatUnitType": {
+      "@id": "commonwealth:flatUnitType",
+      "@type": "xsd:string"
+    },
+    "flatUnitNumber": {
+      "@id": "commonwealth:flatUnitNumber",
+      "@type": "xsd:string"
+    },
+    "floorLevelType": {
+      "@id": "commonwealth:floorLevelType",
+      "@type": "xsd:string"
+    },
+    "floorLevelNumber": {
+      "@id": "commonwealth:floorLevelNumber",
+      "@type": "xsd:string"
+    },
+    "lotNumber": {
+      "@id": "commonwealth:lotNumber",
+      "@type": "xsd:string"
+    },
+    "buildingName1": {
+      "@id": "commonwealth:buildingName1",
+      "@type": "xsd:string"
+    },
+    "buildingName2": {
+      "@id": "commonwealth:buildingName2",
+      "@type": "xsd:string"
+    },
+    "streetName": {
+      "@id": "commonwealth:streetName",
+      "@type": "xsd:string"
+    },
+    "streetType": {
+      "@id": "commonwealth:streetType",
+      "@type": "xsd:string"
+    },
+    "streetSuffix": {
+      "@id": "commonwealth:streetSuffix",
+      "@type": "xsd:string"
+    },
+    "postalDeliveryType": {
+      "@id": "commonwealth:postalDeliveryType",
+      "@type": "xsd:string"
+    },
+    "postalDeliveryNumber": {
+      "@id": "commonwealth:postalDeliveryNumber",
+      "@type": "xsd:integer"
+    },
+    "postalDeliveryNumberPrefix": {
+      "@id": "commonwealth:postalDeliveryNumberPrefix",
+      "@type": "xsd:string"
+    },
+    "postalDeliveryNumberSuffix": {
+      "@id": "commonwealth:postalDeliveryNumberSuffix",
+      "@type": "xsd:string"
+    },
+    "localityName": {
+      "@id": "commonwealth:localityName",
+      "@type": "xsd:string"
+    },
+    "postcode": {
+      "@id": "commonwealth:postcode",
+      "@type": "xsd:string"
+    },
+    "state": {
+      "@id": "commonwealth:state",
+      "@type": "xsd:string"
+    },
+    "ResponseBankingAccountList": "commonwealth:ResponseBankingAccountList",
+    "BankingAccount": "commonwealth:BankingAccount",
+    "accountId": {
+      "@id": "commonwealth:accountId",
+      "@type": "xsd:string"
+    },
+    "creationDate": {
+      "@id": "commonwealth:creationDate",
+      "@type": "xsd:string"
+    },
+    "displayName": {
+      "@id": "commonwealth:displayName",
+      "@type": "xsd:string"
+    },
+    "nickname": {
+      "@id": "commonwealth:nickname",
+      "@type": "xsd:string"
+    },
+    "openStatus": {
+      "@id": "commonwealth:openStatus",
+      "@type": "xsd:string"
+    },
+    "isOwned": {
+      "@id": "commonwealth:isOwned",
+      "@type": "xsd:boolean"
+    },
+    "maskedNumber": {
+      "@id": "commonwealth:maskedNumber",
+      "@type": "xsd:string"
+    },
+    "productCategory": {
+      "@id": "commonwealth:productCategory",
+      "@type": "@id"
+    },
+    "productName": {
+      "@id": "commonwealth:productName",
+      "@type": "xsd:string"
+    },
+    "BankingProductFeature": "commonwealth:BankingProductFeature",
+    "featureType": {
+      "@id": "commonwealth:featureType",
+      "@type": "xsd:string"
+    },
+    "BankingLoanAccount": "commonwealth:BankingLoanAccount",
+    "originalStartDate": {
+      "@id": "commonwealth:originalStartDate",
+      "@type": "xsd:string"
+    },
+    "originalLoanAmount": {
+      "@id": "commonwealth:originalLoanAmount",
+      "@type": "xsd:string"
+    },
+    "originalLoanCurrency": {
+      "@id": "commonwealth:originalLoanCurrency",
+      "@type": "xsd:string"
+    },
+    "loanEndDate": {
+      "@id": "commonwealth:loanEndDate",
+      "@type": "xsd:string"
+    },
+    "nextInstalmentDate": {
+      "@id": "commonwealth:nextInstalmentDate",
+      "@type": "xsd:string"
+    },
+    "minInstalmentAmount": {
+      "@id": "commonwealth:minInstalmentAmount",
+      "@type": "xsd:string"
+    },
+    "minInstalmentCurrency": {
+      "@id": "commonwealth:minInstalmentCurrency",
+      "@type": "xsd:string"
+    },
+    "maxRedraw": {
+      "@id": "commonwealth:maxRedraw",
+      "@type": "xsd:string"
+    },
+    "maxRedrawCurrency": {
+      "@id": "commonwealth:maxRedrawCurrency",
+      "@type": "xsd:string"
+    },
+    "minRedraw": {
+      "@id": "commonwealth:minRedraw",
+      "@type": "xsd:string"
+    },
+    "minRedrawCurrency": {
+      "@id": "commonwealth:minRedrawCurrency",
+      "@type": "xsd:string"
+    },
+    "offsetAccountEnabled": {
+      "@id": "commonwealth:offsetAccountEnabled",
+      "@type": "xsd:boolean"
+    },
+    "offsetAccountIds": {
+      "@id": "commonwealth:offsetAccountIds",
+      "@container": "@list"
+    },
+    "repaymentType": {
+      "@id": "commonwealth:repaymentType",
+      "@type": "xsd:string"
+    },
+    "repaymentFrequency": {
+      "@id": "commonwealth:repaymentFrequency",
+      "@type": "xsd:string"
+    },
+    "CommonPhysicalAddress": "commonwealth:CommonPhysicalAddress",
+    "addressUType": {
+      "@id": "commonwealth:addressUType",
+      "@type": "xsd:string"
+    },
+    "simple": {
+      "@id": "commonwealth:simple",
+      "@type": "@id"
+    },
+    "paf": {
+      "@id": "commonwealth:paf",
+      "@type": "@id"
+    },
+    "LinksPaginated": "commonwealth:LinksPaginated",
+    "self": {
+      "@id": "commonwealth:self",
+      "@type": "xsd:string"
+    },
+    "first": {
+      "@id": "commonwealth:first",
+      "@type": "xsd:string"
+    },
+    "prev": {
+      "@id": "commonwealth:prev",
+      "@type": "xsd:string"
+    },
+    "next": {
+      "@id": "commonwealth:next",
+      "@type": "xsd:string"
+    },
+    "last": {
+      "@id": "commonwealth:last",
+      "@type": "xsd:string"
+    },
+    "Links": "commonwealth:Links",
+    "ResponseBankingAccountList_data": "commonwealth:ResponseBankingAccountList_data",
+    "accounts": {
+      "@id": "commonwealth:accounts",
+      "@container": "@list"
+    },
+    "BankingProductRateTierV3": "commonwealth:BankingProductRateTierV3",
+    "name": {
+      "@id": "commonwealth:name",
+      "@type": "xsd:string"
+    },
+    "unitOfMeasure": {
+      "@id": "commonwealth:unitOfMeasure",
+      "@type": "xsd:string"
+    },
+    "minimumValue": {
+      "@id": "commonwealth:minimumValue",
+      "@type": "xsd:decimal"
+    },
+    "maximumValue": {
+      "@id": "commonwealth:maximumValue",
+      "@type": "xsd:decimal"
+    },
+    "rateApplicationMethod": {
+      "@id": "commonwealth:rateApplicationMethod",
+      "@type": "xsd:string"
+    },
+    "applicabilityConditions": {
+      "@id": "commonwealth:applicabilityConditions",
+      "@type": "@id"
+    },
+    "ErrorResponse422": "commonwealth:ErrorResponse422",
+    "BankingProductFee": "commonwealth:BankingProductFee",
+    "feeType": {
+      "@id": "commonwealth:feeType",
+      "@type": "xsd:string"
+    },
+    "accrualFrequency": {
+      "@id": "commonwealth:accrualFrequency",
+      "@type": "xsd:string"
+    },
+    "currency": {
+      "@id": "commonwealth:currency",
+      "@type": "xsd:string"
+    },
+    "discounts": {
+      "@id": "commonwealth:discounts",
+      "@container": "@list"
+    },
+    "ErrorResponse400": "commonwealth:ErrorResponse400",
+    "BankingCreditCardAccount": "commonwealth:BankingCreditCardAccount",
+    "minPaymentAmount": {
+      "@id": "commonwealth:minPaymentAmount",
+      "@type": "xsd:string"
+    },
+    "paymentDueAmount": {
+      "@id": "commonwealth:paymentDueAmount",
+      "@type": "xsd:string"
+    },
+    "paymentCurrency": {
+      "@id": "commonwealth:paymentCurrency",
+      "@type": "xsd:string"
+    },
+    "paymentDueDate": {
+      "@id": "commonwealth:paymentDueDate",
+      "@type": "xsd:string"
+    },
+    "CommonSimpleAddress": "commonwealth:CommonSimpleAddress",
+    "mailingName": {
+      "@id": "commonwealth:mailingName",
+      "@type": "xsd:string"
+    },
+    "addressLine1": {
+      "@id": "commonwealth:addressLine1",
+      "@type": "xsd:string"
+    },
+    "addressLine2": {
+      "@id": "commonwealth:addressLine2",
+      "@type": "xsd:string"
+    },
+    "addressLine3": {
+      "@id": "commonwealth:addressLine3",
+      "@type": "xsd:string"
+    },
+    "city": {
+      "@id": "commonwealth:city",
+      "@type": "xsd:string"
+    },
+    "country": {
+      "@id": "commonwealth:country",
+      "@type": "xsd:string"
+    },
+    "BankingProductLendingRateV2": "commonwealth:BankingProductLendingRateV2",
+    "lendingRateType": {
+      "@id": "commonwealth:lendingRateType",
+      "@type": "xsd:string"
+    },
+    "rate": {
+      "@id": "commonwealth:rate",
+      "@type": "xsd:string"
+    },
+    "comparisonRate": {
+      "@id": "commonwealth:comparisonRate",
+      "@type": "xsd:string"
+    },
+    "calculationFrequency": {
+      "@id": "commonwealth:calculationFrequency",
+      "@type": "xsd:string"
+    },
+    "applicationFrequency": {
+      "@id": "commonwealth:applicationFrequency",
+      "@type": "xsd:string"
+    },
+    "interestPaymentDue": {
+      "@id": "commonwealth:interestPaymentDue",
+      "@type": "xsd:string"
+    },
+    "loanPurpose": {
+      "@id": "commonwealth:loanPurpose",
+      "@type": "xsd:string"
+    },
+    "tiers": {
+      "@id": "commonwealth:tiers",
+      "@container": "@list"
+    },
+    "BankingProductRateCondition": "commonwealth:BankingProductRateCondition",
+    "BankingProductDepositRate": "commonwealth:BankingProductDepositRate",
+    "depositRateType": {
+      "@id": "commonwealth:depositRateType",
+      "@type": "xsd:string"
+    },
+    "BankingTermDepositAccount": "commonwealth:BankingTermDepositAccount",
+    "lodgementDate": {
+      "@id": "commonwealth:lodgementDate",
+      "@type": "xsd:string"
+    },
+    "maturityDate": {
+      "@id": "commonwealth:maturityDate",
+      "@type": "xsd:string"
+    },
+    "maturityAmount": {
+      "@id": "commonwealth:maturityAmount",
+      "@type": "xsd:string"
+    },
+    "maturityCurrency": {
+      "@id": "commonwealth:maturityCurrency",
+      "@type": "xsd:string"
+    },
+    "maturityInstructions": {
+      "@id": "commonwealth:maturityInstructions",
+      "@type": "xsd:string"
+    },
+    "BankingProductCategory": "commonwealth:BankingProductCategory",
+    "ResponseBankingAccountsBalanceList": "commonwealth:ResponseBankingAccountsBalanceList",
+    "ResponseBankingAccountsBalanceList_data": "commonwealth:ResponseBankingAccountsBalanceList_data",
+    "balances": {
+      "@id": "commonwealth:balances",
+      "@container": "@list"
+    },
+    "ResponseBankingAccountsBalanceById": "commonwealth:ResponseBankingAccountsBalanceById",
+    "RequestAccountIds": "commonwealth:RequestAccountIds",
+    "RequestAccountIds_data": "commonwealth:RequestAccountIds_data",
+    "accountIds": {
+      "@id": "commonwealth:accountIds",
+      "@container": "@list"
+    },
+    "BankingBalance": "commonwealth:BankingBalance",
+    "currentBalance": {
+      "@id": "commonwealth:currentBalance",
+      "@type": "xsd:string"
+    },
+    "availableBalance": {
+      "@id": "commonwealth:availableBalance",
+      "@type": "xsd:string"
+    },
+    "creditLimit": {
+      "@id": "commonwealth:creditLimit",
+      "@type": "xsd:string"
+    },
+    "amortisedLimit": {
+      "@id": "commonwealth:amortisedLimit",
+      "@type": "xsd:string"
+    },
+    "purses": {
+      "@id": "commonwealth:purses",
+      "@container": "@list"
+    },
+    "BankingBalancePurse": "commonwealth:BankingBalancePurse",
+    "BankingProductConstraint": "commonwealth:BankingProductConstraint",
+    "constraintType": {
+      "@id": "commonwealth:constraintType",
+      "@type": "xsd:string"
+    },
+    "BankingProductEligibility": "commonwealth:BankingProductEligibility",
+    "eligibilityType": {
+      "@id": "commonwealth:eligibilityType",
+      "@type": "xsd:string"
+    },
+    "CommonPhoneNumber": "commonwealth:CommonPhoneNumber",
+    "isPreferred": {
+      "@id": "commonwealth:isPreferred",
+      "@type": "xsd:boolean"
+    },
+    "purpose": {
+      "@id": "commonwealth:purpose",
+      "@type": "xsd:string"
+    },
+    "countryCode": {
+      "@id": "commonwealth:countryCode",
+      "@type": "xsd:string"
+    },
+    "areaCode": {
+      "@id": "commonwealth:areaCode",
+      "@type": "xsd:string"
+    },
+    "number": {
+      "@id": "commonwealth:number",
+      "@type": "xsd:string"
+    },
+    "extension": {
+      "@id": "commonwealth:extension",
+      "@type": "xsd:string"
+    },
+    "fullNumber": {
+      "@id": "commonwealth:fullNumber",
+      "@type": "xsd:string"
+    },
+    "CommonEmailAddress": "commonwealth:CommonEmailAddress",
+    "address": {
+      "@id": "commonwealth:address",
+      "@type": "xsd:string"
+    },
+    "BankingProductLendingRate": "commonwealth:BankingProductLendingRate",
+    "BankingProductRateTier": "commonwealth:BankingProductRateTier",
+    "subTier": {
+      "@id": "commonwealth:subTier",
+      "@type": "@id"
+    },
+    "BankingProductRateTier_subTier": "commonwealth:BankingProductRateTier_subTier",
+    "Meta": "commonwealth:Meta",
+    "ErrorResponse": "commonwealth:ErrorResponse",
+    "ErrorResponse429": "commonwealth:ErrorResponse429",
+    "RequestAccountIdListV1": "commonwealth:RequestAccountIdListV1",
+    "RequestAccountIdListV1_data": "commonwealth:RequestAccountIdListV1_data",
+    "ErrorV2_meta": "commonwealth:ErrorV2_meta",
+    "urn": {
+      "@id": "commonwealth:urn",
+      "@type": "xsd:string"
+    },
+    "ErrorV2": "commonwealth:ErrorV2",
+    "BankingProductCategoryV2": "commonwealth:BankingProductCategoryV2",
+    "ResponseErrorListV2": "commonwealth:ResponseErrorListV2",
+    "BankingDirectDebit": "commonwealth:BankingDirectDebit",
+    "authorisedEntity": {
+      "@id": "commonwealth:authorisedEntity",
+      "@type": "@id"
+    },
+    "lastDebitDateTime": {
+      "@id": "commonwealth:lastDebitDateTime",
+      "@type": "xsd:string"
+    },
+    "lastDebitAmount": {
+      "@id": "commonwealth:lastDebitAmount",
+      "@type": "xsd:string"
+    },
+    "ResponseBankingDirectDebitAuthorisationList_data": "commonwealth:ResponseBankingDirectDebitAuthorisationList_data",
+    "directDebitAuthorisations": {
+      "@id": "commonwealth:directDebitAuthorisations",
+      "@container": "@list"
+    },
+    "ResponseBankingDirectDebitAuthorisationList": "commonwealth:ResponseBankingDirectDebitAuthorisationList",
+    "BankingAuthorisedEntity": "commonwealth:BankingAuthorisedEntity",
+    "financialInstitution": {
+      "@id": "commonwealth:financialInstitution",
+      "@type": "xsd:string"
+    },
+    "abn": {
+      "@id": "commonwealth:abn",
+      "@type": "xsd:string"
+    },
+    "acn": {
+      "@id": "commonwealth:acn",
+      "@type": "xsd:string"
+    },
+    "arbn": {
+      "@id": "commonwealth:arbn",
+      "@type": "xsd:string"
+    },
+    "BankingScheduledPaymentRecurrenceIntervalSchedule": "commonwealth:BankingScheduledPaymentRecurrenceIntervalSchedule",
+    "finalPaymentDate": {
+      "@id": "commonwealth:finalPaymentDate",
+      "@type": "xsd:string"
+    },
+    "paymentsRemaining": {
+      "@id": "commonwealth:paymentsRemaining",
+      "@type": "xsd:integer"
+    },
+    "nonBusinessDayTreatment": {
+      "@id": "commonwealth:nonBusinessDayTreatment",
+      "@type": "xsd:string"
+    },
+    "intervals": {
+      "@id": "commonwealth:intervals",
+      "@container": "@list"
+    },
+    "BankingInternationalPayee_beneficiaryDetails": "commonwealth:BankingInternationalPayee_beneficiaryDetails",
+    "message": {
+      "@id": "commonwealth:message",
+      "@type": "xsd:string"
+    },
+    "ResponseBankingScheduledPaymentsListV2_data": "commonwealth:ResponseBankingScheduledPaymentsListV2_data",
+    "scheduledPayments": {
+      "@id": "commonwealth:scheduledPayments",
+      "@container": "@list"
+    },
+    "BankingScheduledPaymentRecurrenceEventBased": "commonwealth:BankingScheduledPaymentRecurrenceEventBased",
+    "BankingDomesticPayeeAccount": "commonwealth:BankingDomesticPayeeAccount",
+    "accountName": {
+      "@id": "commonwealth:accountName",
+      "@type": "xsd:string"
+    },
+    "bsb": {
+      "@id": "commonwealth:bsb",
+      "@type": "xsd:string"
+    },
+    "accountNumber": {
+      "@id": "commonwealth:accountNumber",
+      "@type": "xsd:string"
+    },
+    "BankingBillerPayee": "commonwealth:BankingBillerPayee",
+    "billerCode": {
+      "@id": "commonwealth:billerCode",
+      "@type": "xsd:string"
+    },
+    "crn": {
+      "@id": "commonwealth:crn",
+      "@type": "xsd:string"
+    },
+    "billerName": {
+      "@id": "commonwealth:billerName",
+      "@type": "xsd:string"
+    },
+    "ResponseBankingScheduledPaymentsListV2": "commonwealth:ResponseBankingScheduledPaymentsListV2",
+    "BankingScheduledPaymentRecurrenceOnceOff": "commonwealth:BankingScheduledPaymentRecurrenceOnceOff",
+    "paymentDate": {
+      "@id": "commonwealth:paymentDate",
+      "@type": "xsd:string"
+    },
+    "BankingInternationalPayee": "commonwealth:BankingInternationalPayee",
+    "beneficiaryDetails": {
+      "@id": "commonwealth:beneficiaryDetails",
+      "@type": "@id"
+    },
+    "bankDetails": {
+      "@id": "commonwealth:bankDetails",
+      "@type": "@id"
+    },
+    "BankingInstalmentPlanSchedule": "commonwealth:BankingInstalmentPlanSchedule",
+    "amountDue": {
+      "@id": "commonwealth:amountDue",
+      "@type": "xsd:string"
+    },
+    "dueDate": {
+      "@id": "commonwealth:dueDate",
+      "@type": "xsd:string"
+    },
+    "isPaid": {
+      "@id": "commonwealth:isPaid",
+      "@type": "xsd:boolean"
+    },
+    "BankingScheduledPaymentFrom": "commonwealth:BankingScheduledPaymentFrom",
+    "BankingDomesticPayeeCard": "commonwealth:BankingDomesticPayeeCard",
+    "cardNumber": {
+      "@id": "commonwealth:cardNumber",
+      "@type": "xsd:string"
+    },
+    "BankingScheduledPaymentInterval": "commonwealth:BankingScheduledPaymentInterval",
+    "interval": {
+      "@id": "commonwealth:interval",
+      "@type": "xsd:string"
+    },
+    "dayInInterval": {
+      "@id": "commonwealth:dayInInterval",
+      "@type": "xsd:string"
+    },
+    "BankingScheduledPaymentSetV2": "commonwealth:BankingScheduledPaymentSetV2",
+    "to": {
+      "@id": "commonwealth:to",
+      "@type": "@id"
+    },
+    "isAmountCalculated": {
+      "@id": "commonwealth:isAmountCalculated",
+      "@type": "xsd:boolean"
+    },
+    "BankingDomesticPayee": "commonwealth:BankingDomesticPayee",
+    "payeeAccountUType": {
+      "@id": "commonwealth:payeeAccountUType",
+      "@type": "xsd:string"
+    },
+    "account": {
+      "@id": "commonwealth:account",
+      "@type": "@id"
+    },
+    "card": {
+      "@id": "commonwealth:card",
+      "@type": "@id"
+    },
+    "payId": {
+      "@id": "commonwealth:payId",
+      "@type": "@id"
+    },
+    "BankingDomesticPayeePayId": "commonwealth:BankingDomesticPayeePayId",
+    "identifier": {
+      "@id": "commonwealth:identifier",
+      "@type": "xsd:string"
+    },
+    "type": {
+      "@id": "commonwealth:type",
+      "@type": "xsd:string"
+    },
+    "BankingInstalmentPlan": "commonwealth:BankingInstalmentPlan",
+    "planId": {
+      "@id": "commonwealth:planId"
+    },
+    "planReference": {
+      "@id": "commonwealth:planReference",
+      "@type": "xsd:string"
+    },
+    "merchantName": {
+      "@id": "commonwealth:merchantName",
+      "@type": "xsd:string"
+    },
+    "merchantCategoryCode": {
+      "@id": "commonwealth:merchantCategoryCode",
+      "@type": "xsd:string"
+    },
+    "planNickname": {
+      "@id": "commonwealth:planNickname",
+      "@type": "xsd:string"
+    },
+    "planCurrency": {
+      "@id": "commonwealth:planCurrency",
+      "@type": "xsd:string"
+    },
+    "planCharge": {
+      "@id": "commonwealth:planCharge",
+      "@type": "xsd:string"
+    },
+    "planRate": {
+      "@id": "commonwealth:planRate",
+      "@type": "xsd:string"
+    },
+    "duration": {
+      "@id": "commonwealth:duration",
+      "@type": "xsd:string"
+    },
+    "instalmentInterval": {
+      "@id": "commonwealth:instalmentInterval",
+      "@type": "xsd:string"
+    },
+    "schedule": {
+      "@id": "commonwealth:schedule",
+      "@container": "@list"
+    },
+    "BankingInternationalPayee_bankDetails_bankAddress": "commonwealth:BankingInternationalPayee_bankDetails_bankAddress",
+    "ResponseBankingInstalmentPlanList": "commonwealth:ResponseBankingInstalmentPlanList",
+    "BankingScheduledPaymentV2": "commonwealth:BankingScheduledPaymentV2",
+    "scheduledPaymentId": {
+      "@id": "commonwealth:scheduledPaymentId"
+    },
+    "payerReference": {
+      "@id": "commonwealth:payerReference",
+      "@type": "xsd:string"
+    },
+    "payeeReference": {
+      "@id": "commonwealth:payeeReference",
+      "@type": "xsd:string"
+    },
+    "status": {
+      "@id": "commonwealth:status",
+      "@type": "xsd:string"
+    },
+    "from": {
+      "@id": "commonwealth:from",
+      "@type": "@id"
+    },
+    "paymentSet": {
+      "@id": "commonwealth:paymentSet",
+      "@container": "@list"
+    },
+    "recurrence": {
+      "@id": "commonwealth:recurrence",
+      "@type": "@id"
+    },
+    "ResponseBankingInstalmentPlanList_data": "commonwealth:ResponseBankingInstalmentPlanList_data",
+    "plans": {
+      "@id": "commonwealth:plans",
+      "@container": "@list"
+    },
+    "BankingScheduledPaymentRecurrence": "commonwealth:BankingScheduledPaymentRecurrence",
+    "nextPaymentDate": {
+      "@id": "commonwealth:nextPaymentDate",
+      "@type": "xsd:string"
+    },
+    "recurrenceUType": {
+      "@id": "commonwealth:recurrenceUType",
+      "@type": "xsd:string"
+    },
+    "onceOff": {
+      "@id": "commonwealth:onceOff",
+      "@type": "@id"
+    },
+    "intervalSchedule": {
+      "@id": "commonwealth:intervalSchedule",
+      "@type": "@id"
+    },
+    "lastWeekDay": {
+      "@id": "commonwealth:lastWeekDay",
+      "@type": "@id"
+    },
+    "eventBased": {
+      "@id": "commonwealth:eventBased",
+      "@type": "@id"
+    },
+    "BankingScheduledPaymentToV2": "commonwealth:BankingScheduledPaymentToV2",
+    "toUType": {
+      "@id": "commonwealth:toUType",
+      "@type": "xsd:string"
+    },
+    "payeeId": {
+      "@id": "commonwealth:payeeId"
+    },
+    "digitalWallet": {
+      "@id": "commonwealth:digitalWallet",
+      "@type": "@id"
+    },
+    "domestic": {
+      "@id": "commonwealth:domestic",
+      "@type": "@id"
+    },
+    "biller": {
+      "@id": "commonwealth:biller",
+      "@type": "@id"
+    },
+    "international": {
+      "@id": "commonwealth:international",
+      "@type": "@id"
+    },
+    "BankingInternationalPayee_bankDetails": "commonwealth:BankingInternationalPayee_bankDetails",
+    "bankAddress": {
+      "@id": "commonwealth:bankAddress",
+      "@type": "@id"
+    },
+    "beneficiaryBankBIC": {
+      "@id": "commonwealth:beneficiaryBankBIC",
+      "@type": "xsd:string"
+    },
+    "fedWireNumber": {
+      "@id": "commonwealth:fedWireNumber",
+      "@type": "xsd:string"
+    },
+    "sortCode": {
+      "@id": "commonwealth:sortCode",
+      "@type": "xsd:string"
+    },
+    "chipNumber": {
+      "@id": "commonwealth:chipNumber",
+      "@type": "xsd:string"
+    },
+    "routingNumber": {
+      "@id": "commonwealth:routingNumber",
+      "@type": "xsd:string"
+    },
+    "legalEntityIdentifier": {
+      "@id": "commonwealth:legalEntityIdentifier",
+      "@type": "xsd:string"
+    },
+    "BankingScheduledPaymentRecurrenceLastWeekday": "commonwealth:BankingScheduledPaymentRecurrenceLastWeekday",
+    "BankingDigitalWalletPayee": "commonwealth:BankingDigitalWalletPayee",
+    "provider": {
+      "@id": "commonwealth:provider",
+      "@type": "xsd:string"
+    },
+    "ResponseBankingTransactionListV2_data": "commonwealth:ResponseBankingTransactionListV2_data",
+    "transactions": {
+      "@id": "commonwealth:transactions",
+      "@container": "@list"
+    },
+    "BankingTransactionDetailV3_allOf": "commonwealth:BankingTransactionDetailV3_allOf",
+    "extendedData": {
+      "@id": "commonwealth:extendedData",
+      "@type": "@id"
+    },
+    "BankingTransactionV2": "commonwealth:BankingTransactionV2",
+    "transactionId": {
+      "@id": "commonwealth:transactionId"
+    },
+    "isDetailAvailable": {
+      "@id": "commonwealth:isDetailAvailable",
+      "@type": "xsd:boolean"
+    },
+    "postingDateTime": {
+      "@id": "commonwealth:postingDateTime",
+      "@type": "xsd:string"
+    },
+    "valueDateTime": {
+      "@id": "commonwealth:valueDateTime",
+      "@type": "xsd:string"
+    },
+    "executionDateTime": {
+      "@id": "commonwealth:executionDateTime",
+      "@type": "xsd:string"
+    },
+    "reference": {
+      "@id": "commonwealth:reference",
+      "@type": "xsd:string"
+    },
+    "instalmentPlanId": {
+      "@id": "commonwealth:instalmentPlanId"
+    },
+    "apcaNumber": {
+      "@id": "commonwealth:apcaNumber",
+      "@type": "xsd:string"
+    },
+    "MetaPaginatedTransaction_allOf": "commonwealth:MetaPaginatedTransaction_allOf",
+    "isQueryParamUnsupported": {
+      "@id": "commonwealth:isQueryParamUnsupported",
+      "@type": "xsd:boolean"
+    },
+    "ResponseBankingTransactionByIdV3": "commonwealth:ResponseBankingTransactionByIdV3",
+    "NppPaymentService": "commonwealth:NppPaymentService",
+    "ResponseBankingTransactionListV2": "commonwealth:ResponseBankingTransactionListV2",
+    "BankingTransactionDetailV3_allOf_extendedData": "commonwealth:BankingTransactionDetailV3_allOf_extendedData",
+    "payer": {
+      "@id": "commonwealth:payer",
+      "@type": "xsd:string"
+    },
+    "payee": {
+      "@id": "commonwealth:payee",
+      "@type": "xsd:string"
+    },
+    "extensionUType": {
+      "@id": "commonwealth:extensionUType",
+      "@type": "xsd:string"
+    },
+    "nppPayload": {
+      "@id": "commonwealth:nppPayload",
+      "@type": "@id"
+    },
+    "BankingTransactionDetailV3_allOf_extendedData_nppPayload": "commonwealth:BankingTransactionDetailV3_allOf_extendedData_nppPayload",
+    "extendedDescription": {
+      "@id": "commonwealth:extendedDescription",
+      "@type": "xsd:string"
+    },
+    "endToEndId": {
+      "@id": "commonwealth:endToEndId",
+      "@type": "xsd:string"
+    },
+    "purposeCode": {
+      "@id": "commonwealth:purposeCode",
+      "@type": "xsd:string"
+    },
+    "service": {
+      "@id": "commonwealth:service",
+      "@type": "@id"
+    },
+    "serviceVersion": {
+      "@id": "commonwealth:serviceVersion",
+      "@type": "xsd:string"
+    },
+    "BankingProductRateConditionV2": "commonwealth:BankingProductRateConditionV2",
+    "rateApplicabilityType": {
+      "@id": "commonwealth:rateApplicabilityType",
+      "@type": "xsd:string"
+    },
+    "BankingFeeRange": "commonwealth:BankingFeeRange",
+    "feeMinimum": {
+      "@id": "commonwealth:feeMinimum",
+      "@type": "xsd:string"
+    },
+    "feeMaximum": {
+      "@id": "commonwealth:feeMaximum",
+      "@type": "xsd:string"
+    },
+    "BankingFeeRate": "commonwealth:BankingFeeRate",
+    "rateType": {
+      "@id": "commonwealth:rateType",
+      "@type": "xsd:string"
+    },
+    "amountRange": {
+      "@id": "commonwealth:amountRange",
+      "@type": "@id"
+    },
+    "ResponseBankingAccountListV3_data": "commonwealth:ResponseBankingAccountListV3_data",
+    "ResponseBankingAccountByIdV5": "commonwealth:ResponseBankingAccountByIdV5",
+    "BankingFeeAmount": "commonwealth:BankingFeeAmount",
+    "BankingAccountDetailV5_allOf": "commonwealth:BankingAccountDetailV5_allOf",
+    "bundleName": {
+      "@id": "commonwealth:bundleName",
+      "@type": "xsd:string"
+    },
+    "instalments": {
+      "@id": "commonwealth:instalments",
+      "@type": "@id"
+    },
+    "specificAccountUType": {
+      "@id": "commonwealth:specificAccountUType",
+      "@type": "xsd:string"
+    },
+    "termDeposit": {
+      "@id": "commonwealth:termDeposit",
+      "@container": "@list"
+    },
+    "creditCard": {
+      "@id": "commonwealth:creditCard"
+    },
+    "loan": {
+      "@id": "commonwealth:loan"
+    },
+    "depositRate": {
+      "@id": "commonwealth:depositRate",
+      "@type": "xsd:string"
+    },
+    "lendingRate": {
+      "@id": "commonwealth:lendingRate",
+      "@type": "xsd:string"
+    },
+    "depositRates": {
+      "@id": "commonwealth:depositRates",
+      "@container": "@list"
+    },
+    "lendingRates": {
+      "@id": "commonwealth:lendingRates",
+      "@container": "@list"
+    },
+    "features": {
+      "@id": "commonwealth:features",
+      "@container": "@list"
+    },
+    "fees": {
+      "@id": "commonwealth:fees",
+      "@container": "@list"
+    },
+    "addresses": {
+      "@id": "commonwealth:addresses",
+      "@container": "@list"
+    },
+    "BankingProductRateTierV4": "commonwealth:BankingProductRateTierV4",
+    "BankingLoanAccountV3": "commonwealth:BankingLoanAccountV3",
+    "BankingProductFeatureV4": "commonwealth:BankingProductFeatureV4",
+    "BankingFeeDiscountRate": "commonwealth:BankingFeeDiscountRate",
+    "BankingProductDepositRateV2": "commonwealth:BankingProductDepositRateV2",
+    "applicationType": {
+      "@id": "commonwealth:applicationType",
+      "@type": "xsd:string"
+    },
+    "BankingProductDiscountV2": "commonwealth:BankingProductDiscountV2",
+    "discountMethodUType": {
+      "@id": "commonwealth:discountMethodUType",
+      "@type": "xsd:string"
+    },
+    "fixedAmount": {
+      "@id": "commonwealth:fixedAmount"
+    },
+    "rateBased": {
+      "@id": "commonwealth:rateBased"
+    },
+    "BankingProductFeeV2": "commonwealth:BankingProductFeeV2",
+    "feeMethodUType": {
+      "@id": "commonwealth:feeMethodUType",
+      "@type": "xsd:string"
+    },
+    "variable": {
+      "@id": "commonwealth:variable"
+    },
+    "feeCap": {
+      "@id": "commonwealth:feeCap",
+      "@type": "xsd:string"
+    },
+    "feeCapPeriod": {
+      "@id": "commonwealth:feeCapPeriod",
+      "@type": "xsd:string"
+    },
+    "ResponseBankingAccountListV3": "commonwealth:ResponseBankingAccountListV3",
+    "BankingProductInstalments": "commonwealth:BankingProductInstalments",
+    "maximumConcurrentPlans": {
+      "@id": "commonwealth:maximumConcurrentPlans",
+      "@type": "xsd:integer"
+    },
+    "instalmentsLimit": {
+      "@id": "commonwealth:instalmentsLimit",
+      "@type": "xsd:string"
+    },
+    "minimumPlanValue": {
+      "@id": "commonwealth:minimumPlanValue",
+      "@type": "xsd:string"
+    },
+    "maximumPlanValue": {
+      "@id": "commonwealth:maximumPlanValue",
+      "@type": "xsd:string"
+    },
+    "minimumSplit": {
+      "@id": "commonwealth:minimumSplit",
+      "@type": "xsd:integer"
+    },
+    "maximumSplit": {
+      "@id": "commonwealth:maximumSplit",
+      "@type": "xsd:integer"
+    },
+    "BankingFeeDiscountAmount": "commonwealth:BankingFeeDiscountAmount",
+    "BankingProductLendingRateV3": "commonwealth:BankingProductLendingRateV3",
+    "BankingAccountV3": "commonwealth:BankingAccountV3",
+    "accountOwnership": {
+      "@id": "commonwealth:accountOwnership",
+      "@type": "xsd:string"
+    },
+    "isInstalmentDetailAvailable": {
+      "@id": "commonwealth:isInstalmentDetailAvailable",
+      "@type": "xsd:boolean"
+    },
+    "BankingFeeDiscountRange": "commonwealth:BankingFeeDiscountRange",
+    "discountMinimum": {
+      "@id": "commonwealth:discountMinimum",
+      "@type": "xsd:string"
+    },
+    "discountMaximum": {
+      "@id": "commonwealth:discountMaximum",
+      "@type": "xsd:string"
+    },
+    "ResponseBankingPayeeByIdV2": "commonwealth:ResponseBankingPayeeByIdV2",
+    "ResponseBankingPayeeListV2": "commonwealth:ResponseBankingPayeeListV2",
+    "BankingPayeeDetailV2_allOf": "commonwealth:BankingPayeeDetailV2_allOf",
+    "payeeUType": {
+      "@id": "commonwealth:payeeUType",
+      "@type": "xsd:string"
+    },
+    "ResponseBankingPayeeListV2_data": "commonwealth:ResponseBankingPayeeListV2_data",
+    "payees": {
+      "@id": "commonwealth:payees",
+      "@container": "@list"
+    },
+    "BankingPayeeV2": "commonwealth:BankingPayeeV2",
+    "ResponseBankingProductByIdV7": "commonwealth:ResponseBankingProductByIdV7",
+    "BankingProductV6": "commonwealth:BankingProductV6",
+    "productId": {
+      "@id": "commonwealth:productId",
+      "@type": "@id"
+    },
+    "effectiveFrom": {
+      "@id": "commonwealth:effectiveFrom",
+      "@type": "xsd:string"
+    },
+    "effectiveTo": {
+      "@id": "commonwealth:effectiveTo",
+      "@type": "xsd:string"
+    },
+    "lastUpdated": {
+      "@id": "commonwealth:lastUpdated",
+      "@type": "xsd:string"
+    },
+    "brand": {
+      "@id": "commonwealth:brand",
+      "@type": "xsd:string"
+    },
+    "brandName": {
+      "@id": "commonwealth:brandName",
+      "@type": "xsd:string"
+    },
+    "brandGroup": {
+      "@id": "commonwealth:brandGroup",
+      "@type": "xsd:string"
+    },
+    "applicationUri": {
+      "@id": "commonwealth:applicationUri",
+      "@type": "xsd:string"
+    },
+    "isTailored": {
+      "@id": "commonwealth:isTailored",
+      "@type": "xsd:boolean"
+    },
+    "additionalInformation": {
+      "@id": "commonwealth:additionalInformation",
+      "@type": "@id"
+    },
+    "cardArt": {
+      "@id": "commonwealth:cardArt",
+      "@container": "@list"
+    },
+    "ResponseBankingProductListV4_data": "commonwealth:ResponseBankingProductListV4_data",
+    "products": {
+      "@id": "commonwealth:products",
+      "@container": "@list"
+    },
+    "BankingProductAdditionalInformationV2": "commonwealth:BankingProductAdditionalInformationV2",
+    "overviewUri": {
+      "@id": "commonwealth:overviewUri",
+      "@type": "xsd:string"
+    },
+    "termsUri": {
+      "@id": "commonwealth:termsUri",
+      "@type": "xsd:string"
+    },
+    "eligibilityUri": {
+      "@id": "commonwealth:eligibilityUri",
+      "@type": "xsd:string"
+    },
+    "feesAndPricingUri": {
+      "@id": "commonwealth:feesAndPricingUri",
+      "@type": "xsd:string"
+    },
+    "bundleUri": {
+      "@id": "commonwealth:bundleUri",
+      "@type": "xsd:string"
+    },
+    "additionalOverviewUris": {
+      "@id": "commonwealth:additionalOverviewUris",
+      "@container": "@list"
+    },
+    "additionalTermsUris": {
+      "@id": "commonwealth:additionalTermsUris",
+      "@container": "@list"
+    },
+    "additionalEligibilityUris": {
+      "@id": "commonwealth:additionalEligibilityUris",
+      "@container": "@list"
+    },
+    "additionalFeesAndPricingUris": {
+      "@id": "commonwealth:additionalFeesAndPricingUris",
+      "@container": "@list"
+    },
+    "additionalBundleUris": {
+      "@id": "commonwealth:additionalBundleUris",
+      "@container": "@list"
+    },
+    "BankingProductBundle": "commonwealth:BankingProductBundle",
+    "productIds": {
+      "@id": "commonwealth:productIds",
+      "@container": "@list"
+    },
+    "ResponseBankingProductListV4": "commonwealth:ResponseBankingProductListV4"
+  },
+  "@type": "schema:Dataset",
+  "schema:name": "Commonwealth Bank API JSON-LD context",
+  "schema:description": "A JSON-LD @context for the objects Commonwealth Bank's own API contract declares: one class per component schema, one property per declared field, typed from the contract. Derived by script (derive-json-ld.py, 2026-10-20) from openapi/commonwealth-bank-accounts-api-api-openapi.yml, openapi/commonwealth-bank-balances-api-api-openapi.yml, openapi/commonwealth-bank-banking-account-balances-api-openapi.yml.",
+  "dcterms:created": "2026-10-20",
+  "dcterms:source": [
+    "openapi/commonwealth-bank-accounts-api-api-openapi.yml",
+    "openapi/commonwealth-bank-balances-api-api-openapi.yml",
+    "openapi/commonwealth-bank-banking-account-balances-api-openapi.yml",
+    "openapi/commonwealth-bank-banking-account-direct-debits-api-openapi.yml",
+    "openapi/commonwealth-bank-banking-account-scheduled-payments-api-openapi.yml"
+  ]
+}

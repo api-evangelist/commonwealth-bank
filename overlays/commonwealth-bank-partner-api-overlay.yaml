@@ -1,0 +1,29 @@
+overlay: 1.0.0
+info:
+  title: API Evangelist enhancements for FX Pricing and Trading - Partner API
+  version: 1.0.0
+extends: openapi/commonwealth-bank-partner-api-openapi.yml
+x-generated: '2026-10-20'
+x-method: generated
+actions:
+- target: $.info
+  update:
+    x-apievangelist-enriched: '2026-10-20'
+    x-apievangelist-provider: commonwealth-bank
+    x-apievangelist-auth: OAuth2 client_credentials issued at partner onboarding (partner-gated business API).
+- target: $.paths['/partner/api/markets/fx/quote'].put
+  update:
+    x-apievangelist-agent-safe: false
+    x-apievangelist-mcp-tool: partnerAcceptQuote
+- target: $.paths['/partner/api/markets/fx/quote'].post
+  update:
+    x-apievangelist-agent-safe: false
+    x-apievangelist-mcp-tool: partnerGetQuote
+- target: $.paths['/partner/api/markets/fx/quote/{quote_id}'].delete
+  update:
+    x-apievangelist-agent-safe: false
+    x-apievangelist-mcp-tool: partnerCancelQuote
+- target: $.paths['/partner/api/markets/fx/trade-dates'].get
+  update:
+    x-apievangelist-agent-safe: true
+    x-apievangelist-mcp-tool: partnerGetTradeDates

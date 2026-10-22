@@ -311,56 +311,6 @@ paths:
       x-version: '1'
 components:
   schemas:
-    ErrorResponse500:
-      type: object
-      properties:
-        errors:
-          uniqueItems: false
-          type: array
-          items:
-            $ref: '#/components/schemas/Error'
-      example:
-        errors:
-        - code: PY-IS-01
-          title: Server Error
-          detail: An error has occurred whilst processing your request. Please try again later.
-    BankingInternationalPayee_beneficiaryDetails:
-      required:
-      - country
-      properties:
-        name:
-          type: string
-          description: Name of the beneficiary.
-        country:
-          type: string
-          description: Country where the beneficiary resides.
-          x-cds-type: ExternalRef
-        message:
-          type: string
-          description: Response message for the payment.
-    MetaPaginated:
-      type: object
-      required:
-      - totalPages
-      - totalRecords
-      properties:
-        totalRecords:
-          type: integer
-          description: The total number of records in the full set.
-          x-cds-type: NaturalNumber
-        totalPages:
-          type: integer
-          description: The total number of pages in the full set.
-          x-cds-type: NaturalNumber
-    Error:
-      type: object
-      properties:
-        code:
-          type: string
-        title:
-          type: string
-        detail:
-          type: string
     ErrorResponse406:
       type: object
       properties:
@@ -374,6 +324,64 @@ components:
         - code: PY-RH-03
           title: x-v is invalid
           detail: x-v header must be a supported version number.
+    LinksPaginated:
+      type: object
+      required:
+      - self
+      properties:
+        self:
+          type: string
+          description: Fully qualified link that generated the current response document.
+          x-cds-type: URIString
+        first:
+          type: string
+          description: URI to the first page of this set.
+          x-cds-type: URIString
+        prev:
+          type: string
+          description: URI to the previous page of this set.
+          x-cds-type: URIString
+        next:
+          type: string
+          description: URI to the next page of this set.
+          x-cds-type: URIString
+        last:
+          type: string
+          description: URI to the last page of this set.
+          x-cds-type: URIString
+      x-conditional:
+      - prev
+      - next
+      - first
+      - last
+    BankingPayee:
+      type: object
+      required:
+      - nickname
+      - payeeId
+      - type
+      properties:
+        payeeId:
+          type: string
+          description: ID of the payee.
+          x-cds-type: ASCIIString
+        nickname:
+          type: string
+          description: The short display name of the payee as provided by the customer.
+        description:
+          type: string
+          description: A description of the payee provided by the customer.
+        type:
+          type: string
+          description: The type of payee.
+          enum:
+          - BILLER
+          - DOMESTIC
+          - INTERNATIONAL
+        creationDate:
+          type: string
+          description: The date the payee was created by the customer.
+          x-cds-type: DateString
     ResponseBankingPayeeById:
       type: object
       required:
@@ -401,6 +409,95 @@ components:
           $ref: '#/components/schemas/Links'
         meta:
           $ref: '#/components/schemas/Meta'
+    ErrorResponse422:
+      type: object
+      properties:
+        errors:
+          uniqueItems: false
+          type: array
+          items:
+            $ref: '#/components/schemas/Error'
+      example:
+        errors:
+        - Code: PY-UE-01
+          Title: page-size is Invalid
+          Detail: page-size must be a number and between 1 and 1000.
+    BankingDomesticPayee:
+      type: object
+      required:
+      - payeeAccountUType
+      properties:
+        payeeAccountUType:
+          type: string
+          description: Type of account object included.
+          enum:
+          - account
+          - card
+          - payId
+        account:
+          $ref: '#/components/schemas/BankingDomesticPayeeAccount'
+        card:
+          $ref: '#/components/schemas/BankingDomesticPayeeCard'
+        payId:
+          $ref: '#/components/schemas/BankingDomesticPayeePayId'
+      x-conditional:
+      - account
+      - card
+      - payId
+    BankingInternationalPayee_bankDetails:
+      required:
+      - accountNumber
+      - country
+      properties:
+        country:
+          type: string
+          description: Country of the recipient institution.
+          x-cds-type: ExternalRef
+        accountNumber:
+          type: string
+          description: Account Targeted for payment.
+        bankAddress:
+          $ref: '#/components/schemas/BankingInternationalPayee_bankDetails_bankAddress'
+        beneficiaryBankBIC:
+          type: string
+          description: Swift bank code.
+          x-cds-type: ExternalRef
+        fedWireNumber:
+          type: string
+          description: Number for Fedwire payment (Federal Reserve Wire Network).
+        sortCode:
+          type: string
+          description: Sort code used for account identification in some jurisdictions.
+        chipNumber:
+          type: string
+          description: Number for the Clearing House Interbank Payments System.
+        routingNumber:
+          type: string
+          description: International bank routing number.
+        legalEntityIdentifier:
+          type: string
+          description: The legal entity identifier (LEI) for the beneficiary.
+          x-cds-type: ExternalRef
+    BankingInternationalPayee_bankDetails_bankAddress:
+      required:
+      - address
+      - name
+      properties:
+        name:
+          type: string
+          description: Name of the recipient Bank.
+        address:
+          type: string
+          description: Address of the recipient Bank.
+    Links:
+      type: object
+      required:
+      - self
+      properties:
+        self:
+          type: string
+          description: Fully qualified link that generated the current response document.
+          x-cds-type: URIString
     ResponseBankingPayeeList:
       type: object
       required:
@@ -448,6 +545,37 @@ components:
           $ref: '#/components/schemas/LinksPaginated'
         meta:
           $ref: '#/components/schemas/MetaPaginated'
+    BankingDomesticPayeeAccount:
+      type: object
+      required:
+      - accountNumber
+      - bsb
+      properties:
+        accountName:
+          type: string
+          description: Name of the account to pay to.
+        bsb:
+          type: string
+          description: BSB of the account to pay to.
+        accountNumber:
+          type: string
+          description: Number of the account to pay to.
+    BankingInternationalPayee_beneficiaryDetails:
+      required:
+      - country
+      properties:
+        name:
+          type: string
+          description: Name of the beneficiary.
+        country:
+          type: string
+          description: Country where the beneficiary resides.
+          x-cds-type: ExternalRef
+        message:
+          type: string
+          description: Response message for the payment.
+    Meta:
+      type: object
     BankingBillerPayee:
       type: object
       required:
@@ -465,90 +593,32 @@ components:
           description: Name of the Biller.
       x-conditional:
       - crn
-    BankingDomesticPayeeAccount:
+    ErrorResponse404:
       type: object
-      required:
-      - accountNumber
-      - bsb
       properties:
-        accountName:
-          type: string
-          description: Name of the account to pay to.
-        bsb:
-          type: string
-          description: BSB of the account to pay to.
-        accountNumber:
-          type: string
-          description: Number of the account to pay to.
-    BankingPayee:
+        errors:
+          uniqueItems: false
+          type: array
+          items:
+            $ref: '#/components/schemas/Error'
+      example:
+        errors:
+        - code: PY-NF-01
+          title: Payee not found.
+          detail: No payee was found with that id.
+    ErrorResponse500:
       type: object
-      required:
-      - nickname
-      - payeeId
-      - type
       properties:
-        payeeId:
-          type: string
-          description: ID of the payee.
-          x-cds-type: ASCIIString
-        nickname:
-          type: string
-          description: The short display name of the payee as provided by the customer.
-        description:
-          type: string
-          description: A description of the payee provided by the customer.
-        type:
-          type: string
-          description: The type of payee.
-          enum:
-          - BILLER
-          - DOMESTIC
-          - INTERNATIONAL
-        creationDate:
-          type: string
-          description: The date the payee was created by the customer.
-          x-cds-type: DateString
-    BankingInternationalPayee:
-      type: object
-      required:
-      - bankDetails
-      - beneficiaryDetails
-      properties:
-        beneficiaryDetails:
-          $ref: '#/components/schemas/BankingInternationalPayee_beneficiaryDetails'
-        bankDetails:
-          $ref: '#/components/schemas/BankingInternationalPayee_bankDetails'
-    BankingDomesticPayeeCard:
-      type: object
-      required:
-      - cardNumber
-      properties:
-        cardNumber:
-          type: string
-          description: Name of the account to pay to.
-          x-cds-type: MaskedPANString
-    BankingDomesticPayee:
-      type: object
-      required:
-      - payeeAccountUType
-      properties:
-        payeeAccountUType:
-          type: string
-          description: Type of account object included.
-          enum:
-          - account
-          - card
-          - payId
-        account:
-          $ref: '#/components/schemas/BankingDomesticPayeeAccount'
-        card:
-          $ref: '#/components/schemas/BankingDomesticPayeeCard'
-        payId:
-          $ref: '#/components/schemas/BankingDomesticPayeePayId'
-      x-conditional:
-      - account
-      - card
-      - payId
+        errors:
+          uniqueItems: false
+          type: array
+          items:
+            $ref: '#/components/schemas/Error'
+      example:
+        errors:
+        - code: PY-IS-01
+          title: Server Error
+          detail: An error has occurred whilst processing your request. Please try again later.
     BankingDomesticPayeePayId:
       type: object
       required:
@@ -569,106 +639,15 @@ components:
           - EMAIL
           - ORG_IDENTIFIER
           - TELEPHONE
-    LinksPaginated:
+    BankingDomesticPayeeCard:
       type: object
       required:
-      - self
+      - cardNumber
       properties:
-        self:
+        cardNumber:
           type: string
-          description: Fully qualified link that generated the current response document.
-          x-cds-type: URIString
-        first:
-          type: string
-          description: URI to the first page of this set.
-          x-cds-type: URIString
-        prev:
-          type: string
-          description: URI to the previous page of this set.
-          x-cds-type: URIString
-        next:
-          type: string
-          description: URI to the next page of this set.
-          x-cds-type: URIString
-        last:
-          type: string
-          description: URI to the last page of this set.
-          x-cds-type: URIString
-      x-conditional:
-      - prev
-      - next
-      - first
-      - last
-    BankingInternationalPayee_bankDetails_bankAddress:
-      required:
-      - address
-      - name
-      properties:
-        name:
-          type: string
-          description: Name of the recipient Bank.
-        address:
-          type: string
-          description: Address of the recipient Bank.
-    ResponseBankingPayeeList_data:
-      required:
-      - payees
-      properties:
-        payees:
-          type: array
-          description: The list of payees returned
-          items:
-            $ref: '#/components/schemas/BankingPayee'
-    Meta:
-      type: object
-    Links:
-      type: object
-      required:
-      - self
-      properties:
-        self:
-          type: string
-          description: Fully qualified link that generated the current response document.
-          x-cds-type: URIString
-    ErrorResponse422:
-      type: object
-      properties:
-        errors:
-          uniqueItems: false
-          type: array
-          items:
-            $ref: '#/components/schemas/Error'
-      example:
-        errors:
-        - Code: PY-UE-01
-          Title: page-size is Invalid
-          Detail: page-size must be a number and between 1 and 1000.
-    ErrorResponse400:
-      type: object
-      properties:
-        errors:
-          uniqueItems: false
-          type: array
-          items:
-            $ref: '#/components/schemas/Error'
-      example:
-        errors:
-        - code: PY-BR-02
-          title: page is invalid
-          detail: page must be a valid number.
-    ErrorResponse404:
-      type: object
-      properties:
-        errors:
-          uniqueItems: false
-          type: array
-          items:
-            $ref: '#/components/schemas/Error'
-      example:
-        errors:
-        - code: PY-NF-01
-          title: Payee not found.
-          detail: No payee was found with that id.
+          description: Name of the account to pay to.
+          x-cds-type: MaskedPANString
     BankingPayeeDetail:
       allOf:
       - $ref: '#/components/schemas/BankingPayee'
@@ -693,49 +672,62 @@ components:
         - domestic
         - biller
         - international
-    BankingInternationalPayee_bankDetails:
+    MetaPaginated:
+      type: object
       required:
-      - accountNumber
-      - country
+      - totalPages
+      - totalRecords
       properties:
-        country:
+        totalRecords:
+          type: integer
+          description: The total number of records in the full set.
+          x-cds-type: NaturalNumber
+        totalPages:
+          type: integer
+          description: The total number of pages in the full set.
+          x-cds-type: NaturalNumber
+    ErrorResponse400:
+      type: object
+      properties:
+        errors:
+          uniqueItems: false
+          type: array
+          items:
+            $ref: '#/components/schemas/Error'
+      example:
+        errors:
+        - code: PY-BR-02
+          title: page is invalid
+          detail: page must be a valid number.
+    BankingInternationalPayee:
+      type: object
+      required:
+      - bankDetails
+      - beneficiaryDetails
+      properties:
+        beneficiaryDetails:
+          $ref: '#/components/schemas/BankingInternationalPayee_beneficiaryDetails'
+        bankDetails:
+          $ref: '#/components/schemas/BankingInternationalPayee_bankDetails'
+    ResponseBankingPayeeList_data:
+      required:
+      - payees
+      properties:
+        payees:
+          type: array
+          description: The list of payees returned
+          items:
+            $ref: '#/components/schemas/BankingPayee'
+    Error:
+      type: object
+      properties:
+        code:
           type: string
-          description: Country of the recipient institution.
-          x-cds-type: ExternalRef
-        accountNumber:
+        title:
           type: string
-          description: Account Targeted for payment.
-        bankAddress:
-          $ref: '#/components/schemas/BankingInternationalPayee_bankDetails_bankAddress'
-        beneficiaryBankBIC:
+        detail:
           type: string
-          description: Swift bank code.
-          x-cds-type: ExternalRef
-        fedWireNumber:
-          type: string
-          description: Number for Fedwire payment (Federal Reserve Wire Network).
-        sortCode:
-          type: string
-          description: Sort code used for account identification in some jurisdictions.
-        chipNumber:
-          type: string
-          description: Number for the Clearing House Interbank Payments System.
-        routingNumber:
-          type: string
-          description: International bank routing number.
-        legalEntityIdentifier:
-          type: string
-          description: The legal entity identifier (LEI) for the beneficiary.
-          x-cds-type: ExternalRef
   parameters:
-    ParamPage:
-      name: page
-      in: query
-      description: Page number being requested
-      required: false
-      schema:
-        type: integer
-        default: 1
     ParamXMinVHeader:
       name: x-min-v
       in: header
@@ -744,16 +736,6 @@ components:
       required: false
       schema:
         type: integer
-    ParamPageSize:
-      name: page-size
-      in: query
-      description: Number of records to return with the page
-      required: false
-      schema:
-        type: integer
-        default: 25
-        maximum: 1000
-        minimum: 1
     ParamXCdsClientHeaders:
       name: x-cds-client-headers
       in: header
@@ -761,6 +743,14 @@ components:
       required: false
       example: Q3VzdG9tZXJzRGV2OkN1c3RvbWVyc0Rldg==
       x-cds-type: Base64
+      schema:
+        type: string
+    ParamXFapiAuthDate:
+      name: x-fapi-auth-date
+      in: header
+      description: The time when the customer last logged in to the data recipient.
+      required: false
+      example: '2002-10-03T01:00:00+10:00'
       schema:
         type: string
     ParamXVHeader:
@@ -787,14 +777,24 @@ components:
       example: f688ae24-9719-4975-9f58-f6b7e655c37d
       schema:
         type: string
-    ParamXFapiAuthDate:
-      name: x-fapi-auth-date
-      in: header
-      description: The time when the customer last logged in to the data recipient.
+    ParamPageSize:
+      name: page-size
+      in: query
+      description: Number of records to return with the page
       required: false
-      example: '2002-10-03T01:00:00+10:00'
       schema:
-        type: string
+        type: integer
+        default: 25
+        maximum: 1000
+        minimum: 1
+    ParamPage:
+      name: page
+      in: query
+      description: Page number being requested
+      required: false
+      schema:
+        type: integer
+        default: 1
 x-tagGroups:
 - name: ''
   tags:

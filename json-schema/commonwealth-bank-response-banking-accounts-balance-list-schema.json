@@ -1,0 +1,160 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/commonwealth-bank/main/json-schema/commonwealth-bank-response-banking-accounts-balance-list-schema.json",
+  "title": "ResponseBankingAccountsBalanceList",
+  "x-generated": "2026-10-20",
+  "x-method": "derived",
+  "x-generator": "derive-json-schema.py",
+  "x-source": "openapi/commonwealth-bank-balances-api-api-openapi.yml#/components/schemas/ResponseBankingAccountsBalanceList",
+  "type": "object",
+  "required": [
+    "data",
+    "links",
+    "meta"
+  ],
+  "properties": {
+    "data": {
+      "$ref": "#/$defs/ResponseBankingAccountsBalanceList_data"
+    },
+    "links": {
+      "$ref": "#/$defs/LinksPaginated"
+    },
+    "meta": {
+      "$ref": "#/$defs/MetaPaginated"
+    }
+  },
+  "$defs": {
+    "BankingBalance": {
+      "type": "object",
+      "required": [
+        "accountId",
+        "availableBalance",
+        "currentBalance"
+      ],
+      "properties": {
+        "accountId": {
+          "type": "string",
+          "description": "A unique ID of the account adhering to the standards for ID permanence.",
+          "x-cds-type": "ASCIIString"
+        },
+        "currentBalance": {
+          "type": "string",
+          "description": "The balance of the account at this time. Should align to the balance available via other channels such as Internet Banking. Assumed to be negative if the customer has money owing.",
+          "x-cds-type": "AmountString"
+        },
+        "availableBalance": {
+          "type": "string",
+          "description": "Balance representing the amount of funds available for transfer. Assumed to be zero or positive.",
+          "x-cds-type": "AmountString"
+        },
+        "creditLimit": {
+          "type": "string",
+          "description": "Object representing the maximum amount of credit that is available for this account. Assumed to be zero if absent.",
+          "x-cds-type": "AmountString"
+        },
+        "amortisedLimit": {
+          "type": "string",
+          "description": "Object representing the available limit amortised according to payment schedule. Assumed to be zero if absent. <br><i>CommBank does not currently return this value.</i></br>",
+          "x-cds-type": "AmountString"
+        },
+        "currency": {
+          "type": "string",
+          "description": "The currency for the balance amounts. If absent assumed to be AUD.",
+          "x-cds-type": "CurrencyString"
+        },
+        "purses": {
+          "type": "array",
+          "description": "Optional array of balances for the account in other currencies. Included to support accounts that support multi-currency purses such as Travel Cards.",
+          "items": {
+            "$ref": "#/$defs/BankingBalancePurse"
+          }
+        }
+      }
+    },
+    "BankingBalancePurse": {
+      "type": "object",
+      "required": [
+        "amount"
+      ],
+      "properties": {
+        "amount": {
+          "type": "string",
+          "description": "The balance available for this additional currency purse",
+          "x-cds-type": "AmountString"
+        },
+        "currency": {
+          "type": "string",
+          "description": "The currency for the purse",
+          "x-cds-type": "CurrencyString"
+        }
+      }
+    },
+    "LinksPaginated": {
+      "type": "object",
+      "required": [
+        "self"
+      ],
+      "x-conditional": [
+        "prev",
+        "next",
+        "first",
+        "last"
+      ],
+      "properties": {
+        "self": {
+          "type": "string",
+          "description": "Fully qualified link to this API call."
+        },
+        "first": {
+          "type": "string",
+          "description": "URI to the first page of this set."
+        },
+        "prev": {
+          "type": "string",
+          "description": "URI to the previous page of this set."
+        },
+        "next": {
+          "type": "string",
+          "description": "URI to the next page of this set."
+        },
+        "last": {
+          "type": "string",
+          "description": "URI to the last page of this set."
+        }
+      }
+    },
+    "MetaPaginated": {
+      "type": "object",
+      "required": [
+        "totalPages",
+        "totalRecords"
+      ],
+      "properties": {
+        "totalRecords": {
+          "type": "integer",
+          "description": "The total number of records in the full set. See [pagination](#pagination).",
+          "x-cds-type": "NaturalNumber"
+        },
+        "totalPages": {
+          "type": "integer",
+          "description": "The total number of pages in the full set. See [pagination](#pagination).",
+          "x-cds-type": "NaturalNumber"
+        }
+      }
+    },
+    "ResponseBankingAccountsBalanceList_data": {
+      "required": [
+        "balances"
+      ],
+      "properties": {
+        "balances": {
+          "type": "array",
+          "description": "The list of balances returned",
+          "items": {
+            "$ref": "#/$defs/BankingBalance"
+          }
+        }
+      }
+    }
+  }
+}

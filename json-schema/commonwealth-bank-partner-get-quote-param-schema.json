@@ -1,0 +1,63 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/commonwealth-bank/main/json-schema/commonwealth-bank-partner-get-quote-param-schema.json",
+  "title": "partnerGetQuoteParam",
+  "x-generated": "2026-10-20",
+  "x-method": "derived",
+  "x-generator": "derive-json-schema.py",
+  "x-source": "openapi/commonwealth-bank-fx-api-openapi.yml#/components/schemas/partnerGetQuoteParam",
+  "required": [
+    "quoteRequest"
+  ],
+  "type": "object",
+  "properties": {
+    "quoteRequest": {
+      "type": "array",
+      "description": "contains a collection of quote request objects.",
+      "items": {
+        "$ref": "#/$defs/partnerQuoteRequestParam"
+      }
+    }
+  },
+  "$defs": {
+    "partnerQuoteRequestParam": {
+      "required": [
+        "sourceCcy",
+        "targetCcy"
+      ],
+      "type": "object",
+      "properties": {
+        "sourceCcy": {
+          "type": "string",
+          "description": "Three letter code of source currency"
+        },
+        "targetCcy": {
+          "type": "string",
+          "description": "Three letter code of target currency"
+        },
+        "sourceAmount": {
+          "type": "number",
+          "description": "amount of source currency for which the quote is requested - mandatory - if it has a value > 0, targetAmount should be 0"
+        },
+        "targetAmount": {
+          "type": "number",
+          "description": "amount of target currency for which the quote is requested - mandatory - if it has a value > 0, sourceAmount should be 0"
+        },
+        "settlementDate": {
+          "type": "string",
+          "description": "expected date of settlement of the quote - optional - mandatory for non indicative quotes",
+          "format": "date"
+        },
+        "previousQuoteId": {
+          "type": "string",
+          "description": "Allows FXHub to re-use existing and valid quote. Must be used for subsequent requests for the same quote"
+        },
+        "correlationId": {
+          "type": "string",
+          "description": "an Optional Parameter that specifies the correlation Id for quote association"
+        }
+      },
+      "description": "contains a collection of quote request objects."
+    }
+  }
+}

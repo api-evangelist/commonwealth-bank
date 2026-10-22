@@ -1,0 +1,241 @@
+openapi: 3.2.0
+info:
+  title: NameCheck Accounts API
+  version: 1.0.0
+  description: NameCheck API is a security tool designed to help organisations and their own customers avoid false billing scams and mistaken payments.
+security:
+- oauth2: []
+tags:
+- name: Accounts
+  description: Endpoints for validating account information before making a payment.
+paths:
+  /payments/v1/accounts/namecheck:
+    post:
+      summary: NameCheck
+      operationId: post-accounts-name-check
+      responses:
+        '200':
+          description: 'OK
+
+
+            **Result Codes**
+
+
+            | Code  | Description |
+
+            |---|---|
+
+            | Match | The account name seems to match the account |
+
+            | WeakMatch | There''s a different name more commonly used for this account |
+
+            | NotEnoughInfo | We haven''t seen enough payments to indicate if the account details look right |
+
+            | NoMatch | The account name doesn''t seem to match the account |
+
+            | NotFound | BSB and account number not found |'
+          headers:
+            Content-Language:
+              $ref: '#/components/headers/Content-Language'
+            Content-Type:
+              $ref: '#/components/headers/Content-Type'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/accountNameCheckResponse'
+        '400':
+          description: Bad Request
+          headers:
+            Content-Language:
+              $ref: '#/components/headers/Content-Language'
+            Content-Type:
+              $ref: '#/components/headers/Content-Type'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/error'
+        '401':
+          description: Unauthorized
+          headers:
+            Content-Language:
+              $ref: '#/components/headers/Content-Language'
+            Content-Type:
+              $ref: '#/components/headers/Content-Type'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/error'
+        '403':
+          description: Forbidden
+          headers:
+            Content-Language:
+              $ref: '#/components/headers/Content-Language'
+            Content-Type:
+              $ref: '#/components/headers/Content-Type'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/error'
+        '500':
+          description: Internal Server Error
+          headers:
+            Content-Language:
+              $ref: '#/components/headers/Content-Language'
+            Content-Type:
+              $ref: '#/components/headers/Content-Type'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/error'
+        '503':
+          description: Service Unavailable - Temporarily Unavailable
+          headers:
+            Content-Language:
+              $ref: '#/components/headers/Content-Language'
+            Content-Type:
+              $ref: '#/components/headers/Content-Type'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/error'
+      description: 'Supports Account Types: `BankAccount`.'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/accountNameCheckRequest'
+      parameters:
+      - schema:
+          $ref: '#/components/schemas/xRequestId'
+        in: header
+        name: x-request-id
+        description: Unique request id for tracing purposes
+      tags:
+      - Accounts
+      security:
+      - oauth2:
+        - payments:namecheck:read
+components:
+  headers:
+    Content-Type:
+      schema:
+        type: string
+        format: media
+        enum:
+        - application/json
+        pattern: ^application/json$
+        maxLength: 16
+    Content-Language:
+      schema:
+        type: string
+        format: language
+        enum:
+        - en-AU
+        pattern: ^en-AU$
+        maxLength: 5
+  schemas:
+    accountNameCheckResponse:
+      title: AccountNameCheckResponse
+      type: object
+      properties:
+        result:
+          type: object
+          required:
+          - code
+          - description
+          properties:
+            code:
+              type: string
+              format: string
+              enum:
+              - Match
+              - WeakMatch
+              - NotEnoughInfo
+              - NoMatch
+              - NotFound
+              pattern: ^(Match|WeakMatch|NotEnoughInfo|NoMatch|NotFound)?$
+              maxLength: 14
+              description: The result code
+              example: Match
+            description:
+              type: string
+              format: string
+              description: The result description
+              example: The account name seems to match the account
+      required:
+      - result
+    accountReferenceBankAccount:
+      title: AccountReferenceBankAccount
+      type: object
+      properties:
+        type:
+          type: string
+          format: string
+          enum:
+          - bankAccount
+          pattern: ^(bankAccount)?$
+          maxLength: 12
+        bsb:
+          type: string
+          format: string
+          pattern: ^\d{6}$
+          maxLength: 6
+          example: '123456'
+        accountNumber:
+          type: string
+          format: string
+          pattern: ^[ -~]{1,44}$
+          maxLength: 44
+          example: '123456789'
+      required:
+      - type
+      - bsb
+      - accountNumber
+    error:
+      title: Error
+      type: object
+      properties:
+        code:
+          type: string
+          format: string
+        message:
+          type: string
+          format: string
+        details:
+          type: array
+          items:
+            type: object
+      description: Standard error response.
+    accountNameCheckRequest:
+      title: AccountNameCheckRequest
+      type: object
+      required:
+      - name
+      - account
+      properties:
+        account:
+          $ref: '#/components/schemas/accountReferenceBankAccount'
+        name:
+          description: The account name to match against the supplied account details. Must contain at least one non-whitespace character.
+          type: string
+          format: string
+          pattern: ^[ -~]{1,300}$
+          maxLength: 300
+          example: John Smith
+    xRequestId:
+      title: x-request-id
+      description: UUID that was passed to the request in the x-request-id header.
+      type: string
+      format: uuid
+      maxLength: 36
+      pattern: ^[a-f0-9]{8}-[a-f0-9]{4}-[1-5][a-f0-9]{3}-[89ab][a-f0-9]{3}-[a-f0-9]{12}$
+  securitySchemes:
+    oauth2:
+      type: oauth2
+      flows:
+        clientCredentials:
+          tokenUrl: provided-on-onboarding
+          scopes:
+            payments:namecheck:read: Perform account name check
+      description: ''

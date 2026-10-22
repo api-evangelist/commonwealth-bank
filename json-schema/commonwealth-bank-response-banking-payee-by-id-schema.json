@@ -1,0 +1,331 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/commonwealth-bank/main/json-schema/commonwealth-bank-response-banking-payee-by-id-schema.json",
+  "title": "ResponseBankingPayeeById",
+  "x-generated": "2026-10-20",
+  "x-method": "derived",
+  "x-generator": "derive-json-schema.py",
+  "x-source": "openapi/commonwealth-bank-payees-api-api-openapi.yml#/components/schemas/ResponseBankingPayeeById",
+  "type": "object",
+  "required": [
+    "data",
+    "links"
+  ],
+  "properties": {
+    "data": {
+      "$ref": "#/$defs/BankingPayeeDetail"
+    },
+    "links": {
+      "$ref": "#/$defs/Links"
+    },
+    "meta": {
+      "$ref": "#/$defs/Meta"
+    }
+  },
+  "$defs": {
+    "BankingBillerPayee": {
+      "type": "object",
+      "required": [
+        "billerCode",
+        "billerName"
+      ],
+      "properties": {
+        "billerCode": {
+          "type": "string",
+          "description": "BPAY Biller Code of the Biller."
+        },
+        "crn": {
+          "type": "string",
+          "description": "BPAY CRN of the Biller."
+        },
+        "billerName": {
+          "type": "string",
+          "description": "Name of the Biller."
+        }
+      },
+      "x-conditional": [
+        "crn"
+      ]
+    },
+    "BankingDomesticPayee": {
+      "type": "object",
+      "required": [
+        "payeeAccountUType"
+      ],
+      "properties": {
+        "payeeAccountUType": {
+          "type": "string",
+          "description": "Type of account object included.",
+          "enum": [
+            "account",
+            "card",
+            "payId"
+          ]
+        },
+        "account": {
+          "$ref": "#/$defs/BankingDomesticPayeeAccount"
+        },
+        "card": {
+          "$ref": "#/$defs/BankingDomesticPayeeCard"
+        },
+        "payId": {
+          "$ref": "#/$defs/BankingDomesticPayeePayId"
+        }
+      },
+      "x-conditional": [
+        "account",
+        "card",
+        "payId"
+      ]
+    },
+    "BankingDomesticPayeeAccount": {
+      "type": "object",
+      "required": [
+        "accountNumber",
+        "bsb"
+      ],
+      "properties": {
+        "accountName": {
+          "type": "string",
+          "description": "Name of the account to pay to."
+        },
+        "bsb": {
+          "type": "string",
+          "description": "BSB of the account to pay to."
+        },
+        "accountNumber": {
+          "type": "string",
+          "description": "Number of the account to pay to."
+        }
+      }
+    },
+    "BankingDomesticPayeeCard": {
+      "type": "object",
+      "required": [
+        "cardNumber"
+      ],
+      "properties": {
+        "cardNumber": {
+          "type": "string",
+          "description": "Name of the account to pay to.",
+          "x-cds-type": "MaskedPANString"
+        }
+      }
+    },
+    "BankingDomesticPayeePayId": {
+      "type": "object",
+      "required": [
+        "identifier",
+        "type"
+      ],
+      "properties": {
+        "name": {
+          "type": "string",
+          "description": "The name assigned to the PayID by the owner of the PayID."
+        },
+        "identifier": {
+          "type": "string",
+          "description": "The identifier of the PayID (dependent on type)."
+        },
+        "type": {
+          "type": "string",
+          "description": "The type of the PayID.",
+          "enum": [
+            "ABN",
+            "EMAIL",
+            "ORG_IDENTIFIER",
+            "TELEPHONE"
+          ]
+        }
+      }
+    },
+    "BankingInternationalPayee": {
+      "type": "object",
+      "required": [
+        "bankDetails",
+        "beneficiaryDetails"
+      ],
+      "properties": {
+        "beneficiaryDetails": {
+          "$ref": "#/$defs/BankingInternationalPayee_beneficiaryDetails"
+        },
+        "bankDetails": {
+          "$ref": "#/$defs/BankingInternationalPayee_bankDetails"
+        }
+      }
+    },
+    "BankingInternationalPayee_bankDetails": {
+      "required": [
+        "accountNumber",
+        "country"
+      ],
+      "properties": {
+        "country": {
+          "type": "string",
+          "description": "Country of the recipient institution.",
+          "x-cds-type": "ExternalRef"
+        },
+        "accountNumber": {
+          "type": "string",
+          "description": "Account Targeted for payment."
+        },
+        "bankAddress": {
+          "$ref": "#/$defs/BankingInternationalPayee_bankDetails_bankAddress"
+        },
+        "beneficiaryBankBIC": {
+          "type": "string",
+          "description": "Swift bank code.",
+          "x-cds-type": "ExternalRef"
+        },
+        "fedWireNumber": {
+          "type": "string",
+          "description": "Number for Fedwire payment (Federal Reserve Wire Network)."
+        },
+        "sortCode": {
+          "type": "string",
+          "description": "Sort code used for account identification in some jurisdictions."
+        },
+        "chipNumber": {
+          "type": "string",
+          "description": "Number for the Clearing House Interbank Payments System."
+        },
+        "routingNumber": {
+          "type": "string",
+          "description": "International bank routing number."
+        },
+        "legalEntityIdentifier": {
+          "type": "string",
+          "description": "The legal entity identifier (LEI) for the beneficiary.",
+          "x-cds-type": "ExternalRef"
+        }
+      }
+    },
+    "BankingInternationalPayee_bankDetails_bankAddress": {
+      "required": [
+        "address",
+        "name"
+      ],
+      "properties": {
+        "name": {
+          "type": "string",
+          "description": "Name of the recipient Bank."
+        },
+        "address": {
+          "type": "string",
+          "description": "Address of the recipient Bank."
+        }
+      }
+    },
+    "BankingInternationalPayee_beneficiaryDetails": {
+      "required": [
+        "country"
+      ],
+      "properties": {
+        "name": {
+          "type": "string",
+          "description": "Name of the beneficiary."
+        },
+        "country": {
+          "type": "string",
+          "description": "Country where the beneficiary resides.",
+          "x-cds-type": "ExternalRef"
+        },
+        "message": {
+          "type": "string",
+          "description": "Response message for the payment."
+        }
+      }
+    },
+    "BankingPayee": {
+      "type": "object",
+      "required": [
+        "nickname",
+        "payeeId",
+        "type"
+      ],
+      "properties": {
+        "payeeId": {
+          "type": "string",
+          "description": "ID of the payee.",
+          "x-cds-type": "ASCIIString"
+        },
+        "nickname": {
+          "type": "string",
+          "description": "The short display name of the payee as provided by the customer."
+        },
+        "description": {
+          "type": "string",
+          "description": "A description of the payee provided by the customer."
+        },
+        "type": {
+          "type": "string",
+          "description": "The type of payee.",
+          "enum": [
+            "BILLER",
+            "DOMESTIC",
+            "INTERNATIONAL"
+          ]
+        },
+        "creationDate": {
+          "type": "string",
+          "description": "The date the payee was created by the customer.",
+          "x-cds-type": "DateString"
+        }
+      }
+    },
+    "BankingPayeeDetail": {
+      "allOf": [
+        {
+          "$ref": "#/$defs/BankingPayee"
+        },
+        {
+          "type": "object",
+          "required": [
+            "payeeUType"
+          ],
+          "properties": {
+            "payeeUType": {
+              "type": "string",
+              "description": "Type of object included that describes the payee in detail",
+              "enum": [
+                "domestic",
+                "biller",
+                "international"
+              ]
+            },
+            "domestic": {
+              "$ref": "#/$defs/BankingDomesticPayee"
+            },
+            "biller": {
+              "$ref": "#/$defs/BankingBillerPayee"
+            },
+            "international": {
+              "$ref": "#/$defs/BankingInternationalPayee"
+            }
+          },
+          "x-conditional": [
+            "domestic",
+            "biller",
+            "international"
+          ]
+        }
+      ]
+    },
+    "Links": {
+      "type": "object",
+      "required": [
+        "self"
+      ],
+      "properties": {
+        "self": {
+          "type": "string",
+          "description": "Fully qualified link that generated the current response document.",
+          "x-cds-type": "URIString"
+        }
+      }
+    },
+    "Meta": {
+      "type": "object"
+    }
+  }
+}

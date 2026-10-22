@@ -1,0 +1,82 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/commonwealth-bank/main/json-schema/commonwealth-bank-response-discovery-outages-list-schema.json",
+  "title": "ResponseDiscoveryOutagesList",
+  "x-generated": "2026-10-20",
+  "x-method": "derived",
+  "x-generator": "derive-json-schema.py",
+  "x-source": "openapi/commonwealth-bank-status-and-outages-api-openapi.yml#/components/schemas/ResponseDiscoveryOutagesList",
+  "type": "object",
+  "required": [
+    "data",
+    "links"
+  ],
+  "properties": {
+    "data": {
+      "$ref": "#/$defs/ResponseDiscoveryOutagesList_data"
+    },
+    "links": {
+      "$ref": "#/$defs/Links"
+    },
+    "meta": {
+      "$ref": "#/$defs/Meta"
+    }
+  },
+  "$defs": {
+    "DiscoveryOutage": {
+      "type": "object",
+      "required": [
+        "duration",
+        "explanation",
+        "outageTime"
+      ],
+      "properties": {
+        "outageTime": {
+          "type": "string",
+          "description": "Date and time that the outage is scheduled to begin",
+          "x-cds-type": "DateTimeString"
+        },
+        "duration": {
+          "type": "string",
+          "description": "Planned duration of the outage",
+          "x-cds-type": "ExternalRef"
+        },
+        "isPartial": {
+          "type": "boolean",
+          "description": "Flag that indicates the outage is only partial"
+        },
+        "explanation": {
+          "type": "string",
+          "description": "An explanation of the current outage"
+        }
+      }
+    },
+    "Links": {
+      "type": "object",
+      "required": [
+        "self"
+      ],
+      "properties": {
+        "self": {
+          "type": "string",
+          "description": "Fully qualified link to this API call."
+        }
+      }
+    },
+    "Meta": {},
+    "ResponseDiscoveryOutagesList_data": {
+      "required": [
+        "outages"
+      ],
+      "properties": {
+        "outages": {
+          "type": "array",
+          "description": "List of scheduled outages",
+          "items": {
+            "$ref": "#/$defs/DiscoveryOutage"
+          }
+        }
+      }
+    }
+  }
+}

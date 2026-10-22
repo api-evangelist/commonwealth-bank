@@ -1,0 +1,23 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/commonwealth-bank/main/json-schema/commonwealth-bank-partner-accept-quote-param-schema.json",
+  "title": "partnerAcceptQuoteParam",
+  "x-generated": "2026-10-20",
+  "x-method": "derived",
+  "x-generator": "derive-json-schema.py",
+  "x-source": "openapi/commonwealth-bank-fx-api-openapi.yml#/components/schemas/partnerAcceptQuoteParam",
+  "required": [
+    "quoteId"
+  ],
+  "type": "object",
+  "properties": {
+    "quoteId": {
+      "type": "string",
+      "description": "unique quote identifier"
+    },
+    "tradeId": {
+      "type": "string",
+      "description": "trade identifier - optional"
+    }
+  }
+}

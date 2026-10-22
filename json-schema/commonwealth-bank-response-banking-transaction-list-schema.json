@@ -1,0 +1,206 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/commonwealth-bank/main/json-schema/commonwealth-bank-response-banking-transaction-list-schema.json",
+  "title": "ResponseBankingTransactionList",
+  "x-generated": "2026-10-20",
+  "x-method": "derived",
+  "x-generator": "derive-json-schema.py",
+  "x-source": "openapi/commonwealth-bank-transaction-api-api-openapi.yml#/components/schemas/ResponseBankingTransactionList",
+  "type": "object",
+  "required": [
+    "data",
+    "links",
+    "meta"
+  ],
+  "properties": {
+    "data": {
+      "$ref": "#/$defs/ResponseBankingTransactionList_data"
+    },
+    "links": {
+      "$ref": "#/$defs/LinksPaginated"
+    },
+    "meta": {
+      "$ref": "#/$defs/MetaPaginated"
+    }
+  },
+  "$defs": {
+    "BankingTransaction": {
+      "type": "object",
+      "required": [
+        "accountId",
+        "amount",
+        "description",
+        "isDetailAvailable",
+        "reference",
+        "status",
+        "type"
+      ],
+      "properties": {
+        "accountId": {
+          "type": "string",
+          "description": "ID of the account.",
+          "x-cds-type": "ASCIIString"
+        },
+        "transactionId": {
+          "type": "string",
+          "description": "A unique ID of the transaction.",
+          "x-cds-type": "ASCIIString"
+        },
+        "isDetailAvailable": {
+          "type": "boolean",
+          "description": "True if extended information is available.",
+          "x-cds-type": "Boolean"
+        },
+        "type": {
+          "type": "string",
+          "description": "The type of the transaction",
+          "enum": [
+            "FEE",
+            "INTEREST_CHARGED",
+            "INTEREST_PAID",
+            "TRANSFER_OUTGOING",
+            "TRANSFER_INCOMING",
+            "PAYMENT",
+            "DIRECT_DEBIT",
+            "OTHER"
+          ]
+        },
+        "status": {
+          "type": "string",
+          "description": "Status of the transaction whether pending or posted.",
+          "enum": [
+            "PENDING",
+            "POSTED"
+          ]
+        },
+        "description": {
+          "type": "string",
+          "description": "The transaction description as applied by CommBank."
+        },
+        "postingDateTime": {
+          "type": "string",
+          "description": "The time the transaction was posted.",
+          "x-cds-type": "DateTimeString"
+        },
+        "valueDateTime": {
+          "type": "string",
+          "description": "Date and time at which assets become available to the account owner in case of a credit entry, or cease to be available to the account owner in case of a debit transaction entry.<br><i>CommBank does not currently return this value.</i></br>",
+          "x-cds-type": "DateTimeString"
+        },
+        "executionDateTime": {
+          "type": "string",
+          "description": "The time the transaction was executed by the originating customer.",
+          "x-cds-type": "DateTimeString"
+        },
+        "amount": {
+          "type": "string",
+          "description": "The value of the transaction.",
+          "x-cds-type": "AmountString"
+        },
+        "currency": {
+          "type": "string",
+          "description": "The currency for the transaction amount.",
+          "x-cds-type": "CurrencyString"
+        },
+        "reference": {
+          "type": "string",
+          "description": "The reference for the transaction provided by the originating institution."
+        },
+        "merchantName": {
+          "type": "string",
+          "description": "Name of the merchant for an outgoing payment to a merchant.<br><i>CommBank does not currently return this value.</i></br>"
+        },
+        "merchantCategoryCode": {
+          "type": "string",
+          "description": "The merchant category code (or MCC) for an outgoing payment to a merchant."
+        },
+        "billerCode": {
+          "type": "string",
+          "description": "BPAY Biller Code for the transaction."
+        },
+        "billerName": {
+          "type": "string",
+          "description": "Name of the BPAY biller for the transaction.<br><i>CommBank does not currently return this value.</i></br>"
+        },
+        "crn": {
+          "type": "string",
+          "description": "BPAY CRN for the transaction."
+        },
+        "apcaNumber": {
+          "type": "string",
+          "description": "6 Digit APCA number for the initiating institution."
+        }
+      },
+      "x-conditional": [
+        "transactionId",
+        "postingDateTime"
+      ]
+    },
+    "LinksPaginated": {
+      "type": "object",
+      "required": [
+        "self"
+      ],
+      "x-conditional": [
+        "prev",
+        "next",
+        "first",
+        "last"
+      ],
+      "properties": {
+        "self": {
+          "type": "string",
+          "description": "Fully qualified link to this API call."
+        },
+        "first": {
+          "type": "string",
+          "description": "URI to the first page of this set."
+        },
+        "prev": {
+          "type": "string",
+          "description": "URI to the previous page of this set."
+        },
+        "next": {
+          "type": "string",
+          "description": "URI to the next page of this set."
+        },
+        "last": {
+          "type": "string",
+          "description": "URI to the last page of this set."
+        }
+      }
+    },
+    "MetaPaginated": {
+      "type": "object",
+      "required": [
+        "totalPages",
+        "totalRecords"
+      ],
+      "properties": {
+        "totalRecords": {
+          "type": "integer",
+          "description": "The total number of records in the full set. See [pagination](#pagination).",
+          "x-cds-type": "NaturalNumber"
+        },
+        "totalPages": {
+          "type": "integer",
+          "description": "The total number of pages in the full set. See [pagination](#pagination).",
+          "x-cds-type": "NaturalNumber"
+        }
+      }
+    },
+    "ResponseBankingTransactionList_data": {
+      "required": [
+        "transactions"
+      ],
+      "properties": {
+        "transactions": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/BankingTransaction"
+          }
+        }
+      }
+    }
+  }
+}

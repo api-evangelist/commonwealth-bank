@@ -270,78 +270,69 @@ paths:
       x-version: '1'
 components:
   schemas:
-    ResponseCommonCustomerDetail_data:
+    CommonSimpleAddress:
+      type: object
       required:
-      - customerUType
+      - addressLine1
+      - city
+      - state
       properties:
-        customerUType:
+        mailingName:
           type: string
-          description: The type of customer object that is present
-          enum:
-          - person
-          - organisation
-        person:
-          $ref: '#/components/schemas/CommonPersonDetail'
-        organisation:
-          $ref: '#/components/schemas/CommonOrganisationDetail'
-    ErrorResponse500:
+          description: Name of the individual or business formatted address. <br><i>CommBank does not currently return this value.</i></br>
+        addressLine1:
+          type: string
+          description: First line of the standard address.
+        addressLine2:
+          type: string
+          description: Second line of the standard address.
+        addressLine3:
+          type: string
+          description: Third line of the standard address.
+        postcode:
+          type: string
+          description: Postcode for the locality.
+        city:
+          type: string
+          description: Name of the city or locality.
+        state:
+          type: string
+          description: State in which the address belongs.
+        country:
+          type: string
+          description: A valid country code.
+          default: AUS
+          x-cds-type: ExternalRef
+      x-conditional:
+      - postcode
+    ResponseCommonCustomer:
       type: object
-      properties:
-        errors:
-          uniqueItems: false
-          type: array
-          items:
-            $ref: '#/components/schemas/Error'
+      required:
+      - data
+      - links
       example:
-        errors:
-        - code: CA-IS-01
-          title: Server Error
-          detail: An error has occurred whilst processing your request. Please try again later.
-    CommonPersonDetail:
-      allOf:
-      - $ref: '#/components/schemas/CommonPerson'
-      - type: object
-        required:
-        - emailAddresses
-        - phoneNumbers
-        - physicalAddresses
-        properties:
-          phoneNumbers:
-            type: array
-            description: An array of phone numbers.
-            items:
-              $ref: '#/components/schemas/CommonPhoneNumber'
-          emailAddresses:
-            type: array
-            description: An array of emails.
-            items:
-              $ref: '#/components/schemas/CommonEmailAddress'
-          physicalAddresses:
-            type: array
-            description: An array of physical addresses.
-            items:
-              $ref: '#/components/schemas/CommonPhysicalAddressWithPurpose'
-    CommonOrganisationDetail:
-      allOf:
-      - $ref: '#/components/schemas/CommonOrganisation'
-      - type: object
-        required:
-        - physicalAddresses
-        properties:
-          physicalAddresses:
-            type: array
-            description: A list of addresses.
-            items:
-              $ref: '#/components/schemas/CommonPhysicalAddressWithPurpose'
-    Error:
-      type: object
+        data:
+          customerUType: person
+          person:
+            lastUpdateTime: '2019-06-06T05:33:57Z'
+            firstName: SODOR
+            lastName: SODO
+            middleNames: []
+            prefix: ''
+            suffix: ''
+        links:
+          self: https://secure.api.commbank.com.au/api/cds-au/v1/banking/common/customer
+        meta: {}
       properties:
-        code:
-          type: string
-        title:
-          type: string
-        detail:
-          type: string
+        data:
+          $ref: '#/components/schemas/ResponseCommonCustomer_data'
+        links:
+          $ref: '#/components/schemas/Links'
+        meta:
+          $ref: '#/components/schemas/Meta'
+      x-conditional:
+      - person
+      - organisation
     ErrorResponse406:
       type: object
       properties:
@@ -432,45 +423,6 @@ components:
           type: string
           description: State in which the address belongs.
       description: Australian address. <br><i>CommBank does not currently return this value.</i></br>
-    CommonPhoneNumber:
-      type: object
-      required:
-      - fullNumber
-      - number
-      - purpose
-      properties:
-        isPreferred:
-          type: boolean
-          description: Indication of the preferred phone number.
-          x-cds-type: Boolean
-        purpose:
-          type: string
-          description: The purpose of the number as specified by the customer.
-          enum:
-          - MOBILE
-          - HOME
-          - WORK
-          - OTHER
-          - INTERNATIONAL
-          - UNSPECIFIED
-        countryCode:
-          type: string
-          description: If absent, assumed to be Australia (+61).
-        areaCode:
-          type: string
-          description: The area code of the phone number.
-        number:
-          type: string
-          description: The actual phone number.
-        extension:
-          type: string
-          description: An extension number.
-        fullNumber:
-          type: string
-          description: Fully formatted phone number with country code, area code, number and extension incorporated.
-          x-cds-type: ExternalRef
-      x-conditional:
-      - areaCode
     ResponseCommonCustomerDetail:
       type: object
       required:
@@ -533,64 +485,111 @@ components:
       x-conditional:
       - person
       - organisation
-    ResponseCommonCustomer:
+    CommonPhoneNumber:
       type: object
       required:
-      - data
-      - links
-      example:
-        data:
-          customerUType: person
-          person:
-            lastUpdateTime: '2019-06-06T05:33:57Z'
-            firstName: SODOR
-            lastName: SODO
-            middleNames: []
-            prefix: ''
-            suffix: ''
-        links:
-          self: https://secure.api.commbank.com.au/api/cds-au/v1/banking/common/customer
-        meta: {}
+      - fullNumber
+      - number
+      - purpose
       properties:
-        data:
-          $ref: '#/components/schemas/ResponseCommonCustomer_data'
-        links:
-          $ref: '#/components/schemas/Links'
-        meta:
-          $ref: '#/components/schemas/Meta'
+        isPreferred:
+          type: boolean
+          description: Indication of the preferred phone number.
+          x-cds-type: Boolean
+        purpose:
+          type: string
+          description: The purpose of the number as specified by the customer.
+          enum:
+          - MOBILE
+          - HOME
+          - WORK
+          - OTHER
+          - INTERNATIONAL
+          - UNSPECIFIED
+        countryCode:
+          type: string
+          description: If absent, assumed to be Australia (+61).
+        areaCode:
+          type: string
+          description: The area code of the phone number.
+        number:
+          type: string
+          description: The actual phone number.
+        extension:
+          type: string
+          description: An extension number.
+        fullNumber:
+          type: string
+          description: Fully formatted phone number with country code, area code, number and extension incorporated.
+          x-cds-type: ExternalRef
       x-conditional:
-      - person
-      - organisation
-    CommonPerson:
+      - areaCode
+    CommonPersonDetail:
+      allOf:
+      - $ref: '#/components/schemas/CommonPerson'
+      - type: object
+        required:
+        - emailAddresses
+        - phoneNumbers
+        - physicalAddresses
+        properties:
+          phoneNumbers:
+            type: array
+            description: An array of phone numbers.
+            items:
+              $ref: '#/components/schemas/CommonPhoneNumber'
+          emailAddresses:
+            type: array
+            description: An array of emails.
+            items:
+              $ref: '#/components/schemas/CommonEmailAddress'
+          physicalAddresses:
+            type: array
+            description: An array of physical addresses.
+            items:
+              $ref: '#/components/schemas/CommonPhysicalAddressWithPurpose'
+    ResponseNoBody:
+      type: object
+      properties: {}
+      example: {}
+    Links:
       type: object
       required:
-      - lastName
-      - middleNames
+      - self
       properties:
-        lastUpdateTime:
+        self:
           type: string
-          description: The date and time that this record was last updated by the customer.
-          x-cds-type: DateTimeString
-        firstName:
+          description: Fully qualified link to this API call.
+    ResponseCommonCustomerDetail_data:
+      required:
+      - customerUType
+      properties:
+        customerUType:
           type: string
-          description: For people with single names this field need not be present.
-        lastName:
+          description: The type of customer object that is present
+          enum:
+          - person
+          - organisation
+        person:
+          $ref: '#/components/schemas/CommonPersonDetail'
+        organisation:
+          $ref: '#/components/schemas/CommonOrganisationDetail'
+    Meta:
+      type: object
+    ResponseCommonCustomer_data:
+      required:
+      - customerUType
+      properties:
+        customerUType:
           type: string
-          description: For people with single names the single name should be in this field.
-        middleNames:
-          type: array
-          description: Field is mandatory but array may be empty.
-          items:
-            type: string
-        prefix:
-          type: string
-          description: Title or salutation.
-        suffix:
-          type: string
-          description: Used for a trailing suffix to the name.
-        occupationCode:
-          type: string
-          description: Value is a valid ANZSCO v1.2 Standard Occupation classification. <br><i>CommBank does not currently return this value.</i></br>
+          description: The type of customer object that is present
+          enum:
+          - person
+          - organisation
+        person:
+          $ref: '#/components/schemas/CommonPerson'
+        organisation:
+          $ref: '#/components/schemas/CommonOrganisation'
     CommonOrganisation:
       type: object
       required:
@@ -652,6 +651,31 @@ components:
           type: string
           description: The date the organisation described was established.
           x-cds-type: DateString
+    ErrorResponse500:
+      type: object
+      properties:
+        errors:
+          uniqueItems: false
+          type: array
+          items:
+            $ref: '#/components/schemas/Error'
+      example:
+        errors:
+        - code: CA-IS-01
+          title: Server Error
+          detail: An error has occurred whilst processing your request. Please try again later.
+    CommonOrganisationDetail:
+      allOf:
+      - $ref: '#/components/schemas/CommonOrganisation'
+      - type: object
+        required:
+        - physicalAddresses
+        properties:
+          physicalAddresses:
+            type: array
+            description: A list of addresses.
+            items:
+              $ref: '#/components/schemas/CommonPhysicalAddressWithPurpose'
     CommonPhysicalAddressWithPurpose:
       allOf:
       - $ref: '#/components/schemas/CommonPhysicalAddress'
@@ -668,6 +692,36 @@ components:
             - PHYSICAL
             - WORK
             - OTHER
+    CommonPerson:
+      type: object
+      required:
+      - lastName
+      - middleNames
+      properties:
+        lastUpdateTime:
+          type: string
+          description: The date and time that this record was last updated by the customer.
+          x-cds-type: DateTimeString
+        firstName:
+          type: string
+          description: For people with single names this field need not be present.
+        lastName:
+          type: string
+          description: For people with single names the single name should be in this field.
+        middleNames:
+          type: array
+          description: Field is mandatory but array may be empty.
+          items:
+            type: string
+        prefix:
+          type: string
+          description: Title or salutation.
+        suffix:
+          type: string
+          description: Used for a trailing suffix to the name.
+        occupationCode:
+          type: string
+          description: Value is a valid ANZSCO v1.2 Standard Occupation classification. <br><i>CommBank does not currently return this value.</i></br>
     CommonPhysicalAddress:
       type: object
       required:
@@ -686,34 +740,6 @@ components:
       x-conditional:
       - simple
       - paf
-    ResponseNoBody:
-      type: object
-      properties: {}
-      example: {}
-    ResponseCommonCustomer_data:
-      required:
-      - customerUType
-      properties:
-        customerUType:
-          type: string
-          description: The type of customer object that is present
-          enum:
-          - person
-          - organisation
-        person:
-          $ref: '#/components/schemas/CommonPerson'
-        organisation:
-          $ref: '#/components/schemas/CommonOrganisation'
-    Meta:
-      type: object
-    Links:
-      type: object
-      required:
-      - self
-      properties:
-        self:
-          type: string
-          description: Fully qualified link to this API call.
     CommonEmailAddress:
       type: object
       required:
@@ -736,41 +762,15 @@ components:
           type: string
           description: A correctly formatted email address.
           x-cds-type: ExternalRef
-    CommonSimpleAddress:
+    Error:
       type: object
-      required:
-      - addressLine1
-      - city
-      - state
       properties:
-        mailingName:
+        code:
           type: string
-          description: Name of the individual or business formatted address. <br><i>CommBank does not currently return this value.</i></br>
-        addressLine1:
+        title:
           type: string
-          description: First line of the standard address.
-        addressLine2:
+        detail:
           type: string
-          description: Second line of the standard address.
-        addressLine3:
-          type: string
-          description: Third line of the standard address.
-        postcode:
-          type: string
-          description: Postcode for the locality.
-        city:
-          type: string
-          description: Name of the city or locality.
-        state:
-          type: string
-          description: State in which the address belongs.
-        country:
-          type: string
-          description: A valid country code.
-          default: AUS
-          x-cds-type: ExternalRef
-      x-conditional:
-      - postcode
   parameters:
     ParamAcceptHeader:
       name: Accept
@@ -798,6 +798,14 @@ components:
       x-cds-type: Base64
       schema:
         type: string
+    ParamXFapiAuthDate:
+      name: x-fapi-auth-date
+      in: header
+      description: The time when the customer last logged in to the data recipient.
+      required: false
+      example: '2002-10-03T01:00:00+10:00'
+      schema:
+        type: string
     ParamXVHeader:
       name: x-v
       in: header
@@ -820,14 +828,6 @@ components:
       description: Reflects the value of the Interaction ID in the request.
       required: false
       example: f688ae24-9719-4975-9f58-f6b7e655c37d
-      schema:
-        type: string
-    ParamXFapiAuthDate:
-      name: x-fapi-auth-date
-      in: header
-      description: The time when the customer last logged in to the data recipient.
-      required: false
-      example: '2002-10-03T01:00:00+10:00'
       schema:
         type: string
 x-tagGroups:

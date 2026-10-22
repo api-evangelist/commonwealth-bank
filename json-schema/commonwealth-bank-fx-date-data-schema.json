@@ -1,0 +1,33 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/commonwealth-bank/main/json-schema/commonwealth-bank-fx-date-data-schema.json",
+  "title": "fxDateData",
+  "x-generated": "2026-10-20",
+  "x-method": "derived",
+  "x-generator": "derive-json-schema.py",
+  "x-source": "openapi/commonwealth-bank-fx-api-openapi.yml#/components/schemas/fxDateData",
+  "type": "object",
+  "properties": {
+    "sourceCcy": {
+      "type": "string",
+      "description": "echo of input"
+    },
+    "targetCcy": {
+      "type": "string",
+      "description": "echo of input"
+    },
+    "tradeableDays": {
+      "type": "boolean",
+      "description": "indicates what dates were requested"
+    },
+    "dates": {
+      "type": "array",
+      "description": "contains collection of dates",
+      "items": {
+        "type": "string",
+        "description": "contains collection of dates",
+        "format": "date"
+      }
+    }
+  }
+}

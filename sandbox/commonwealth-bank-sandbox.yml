@@ -1,0 +1,88 @@
+generated: '2026-10-20'
+method: searched
+source: https://docs.commbank.com.au/apis/payto/quick-start
+description: CommBank business APIs (PayTo, NameCheck, Fast Payments, FX) are tested in a partner-gated non-prod environment
+  reached over mTLS with OAuth client credentials; a public key is registered per environment (non-production and production).
+  Test cases are supplied by the CommBank Integration Team and evidence of their execution is required before go-live. No
+  self-serve sandbox, test keys or published test data.
+docs: https://docs.commbank.com.au/apis/payto/quick-start
+environments:
+- name: PayTo test
+  base_url: https://secure.edge.api.test.commbank.com.au/payments/v1/
+  text: "PayTo Base URL | Prod: https://secure.edge.api.commbank.com.au/payments/v1/ \u2014 Test: https://secure.edge.api.test.commbank.com.au/payments/v1/"
+- name: PayTo production
+  base_url: https://secure.edge.api.commbank.com.au/payments/v1/
+self_serve: false
+test_values:
+- kind: test_card
+  brand: Mastercard
+  value: '5123450000000008'
+  source: https://paymentgateway.commbank.com.au/api/documentation/integrationGuidelines/supportedFeatures/testAndGoLive.html
+- kind: test_card
+  brand: Visa
+  value: '4508750015741019'
+  source: https://paymentgateway.commbank.com.au/api/documentation/integrationGuidelines/supportedFeatures/testAndGoLive.html
+quotes:
+- Make sure you are using the non-prod environment for initial testing.
+- Test cases will be provided by our Integration Team.
+related_docs:
+- https://docs.commbank.com.au/apis/namecheck/quick-start
+- https://docs.commbank.com.au/apis/fast-payments/quick-start
+- https://docs.commbank.com.au/demo/
+- https://paymentgateway.commbank.com.au/api/documentation/integrationGuidelines/supportedFeatures/testAndGoLive.html
+payment_gateway:
+  docs: https://paymentgateway.commbank.com.au/api/documentation/integrationGuidelines/supportedFeatures/testAndGoLive.html
+  description: 'CommWeb payment gateway test merchant: test with the test merchant profile carrying the "TEST" prefix supplied
+    by the payment service provider; standard test cards plus expiry date, CSC/CVV and billing street name select the simulated
+    response.'
+  quote: You can use different expiry dates, CSC/CVV values, and the billing address street names in the request to generate
+    different responses.
+  test_cards:
+    Mastercard:
+    - '5123450000000008'
+    - '2223000000000007'
+    - '5111111111111118'
+    - '2223000000000023'
+    Visa:
+    - '4508750015741019'
+    - '4012000033330026'
+    American Express:
+    - '371881634498004'
+    - '371881127160004'
+    - '371881245560002'
+    - '371881911767006'
+    Diners Club:
+    - '30123400000000'
+    - '36259600000012'
+    JCB:
+    - '3528000000000007'
+    - '3528111100000001'
+    Discover:
+    - '6011003179988686'
+    - '6011963280099774'
+    Maestro:
+    - '5000000000000000005'
+    - '5666555544443333'
+  expiry_date_responses:
+    01/39: APPROVED
+    05/39: DECLINED
+    04/27: EXPIRED_CARD
+    08/28: TIMED_OUT
+    01/37: ACQUIRER_SYSTEM_ERROR
+    02/37: UNSPECIFIED_FAILURE
+    05/37: UNKNOWN
+  csc_responses:
+    '100': MATCH
+    '101': NOT_PROCESSED
+    '102': NO_MATCH
+    1000 (Amex): MATCH
+    1010 (Amex): NOT_PROCESSED
+    1020 (Amex): NO_MATCH
+  avs_street_responses:
+    Alpha St: ADDRESS_MATCH
+    Gamma St: NOT_VERIFIED
+    November St: NO_MATCH
+    Romeo St: SERVICE_NOT_AVAILABLE_RETRY
+    Sierra St: SERVICE_NOT_SUPPORTED
+    Uniform St: NOT_AVAILABLE
+    Whiskey St: ZIP_MATCH

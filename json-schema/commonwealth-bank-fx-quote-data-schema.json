@@ -1,0 +1,206 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/commonwealth-bank/main/json-schema/commonwealth-bank-fx-quote-data-schema.json",
+  "title": "fxQuoteData",
+  "x-generated": "2026-10-20",
+  "x-method": "derived",
+  "x-generator": "derive-json-schema.py",
+  "x-source": "openapi/commonwealth-bank-fx-api-openapi.yml#/components/schemas/fxQuoteData",
+  "type": "object",
+  "properties": {
+    "streamId": {
+      "type": "string",
+      "description": "quote linking ID for requestor to pass back to link quotes for analytics purposes"
+    },
+    "quotes": {
+      "type": "array",
+      "description": "A collection of responses matching the request",
+      "items": {
+        "$ref": "#/$defs/fxQuote"
+      }
+    }
+  },
+  "$defs": {
+    "fxQuote": {
+      "type": "object",
+      "properties": {
+        "quoteId": {
+          "type": "string",
+          "description": "unique quote identifier. Strongly unique for non-indicative. For indicative, only unique across multiple quotes within a single REST response."
+        },
+        "rate": {
+          "type": "number",
+          "description": "quote rate, set to null if no quote was found for currency pair. This is the outright rate when a forward, or near leg of a swap."
+        },
+        "requestedBasisRate": {
+          "type": "number",
+          "description": "Returns rate expressed as Source Currency as the Base Currency"
+        },
+        "cardedRate": {
+          "type": "number",
+          "description": "contains the base rate the customer would have got if mapped to the base customer group, set to null if no quote was found for currency pair"
+        },
+        "productType": {
+          "type": "string",
+          "description": "echo the request"
+        },
+        "currencyBasis": {
+          "type": "string",
+          "description": "echo of quote currency pair"
+        },
+        "sourceCcy": {
+          "type": "string",
+          "description": "echo of input"
+        },
+        "targetCcy": {
+          "type": "string",
+          "description": "echo of input"
+        },
+        "sourceAmount": {
+          "type": "number",
+          "description": "amount in source currency"
+        },
+        "targetAmount": {
+          "type": "number",
+          "description": "amount in target currency"
+        },
+        "equivalentAudAmount": {
+          "type": "number",
+          "description": "equivalent amount in AUD"
+        },
+        "equivalentAudRate": {
+          "type": "number",
+          "description": "equivalent rate at AUD, of dealt currency, quoted in market convention (standard basis). E.g Only AUD/CAD 0.72 and NEVER CAD/AUD 1.37"
+        },
+        "settlementDate": {
+          "type": "string",
+          "description": "will be echo of input",
+          "format": "date"
+        },
+        "quoteTime": {
+          "type": "string",
+          "description": "time quote was generated",
+          "format": "date-time"
+        },
+        "expiryTime": {
+          "type": "string",
+          "description": "contains the time at which this quote expires",
+          "format": "date-time"
+        },
+        "rfqExpirySeconds": {
+          "type": "integer",
+          "description": "Contains the number of seconds left that this RFQ is valid for. Only supplied in Markets RFQ quote responses",
+          "format": "int32"
+        },
+        "indicative": {
+          "type": "boolean",
+          "description": "indicates whether this quote is acceptable or not"
+        },
+        "msg": {
+          "type": "string",
+          "description": "error message when quote is not available for requested currency pair"
+        },
+        "valid": {
+          "type": "boolean",
+          "description": "indicates whether quote is valid or invalid"
+        },
+        "correlationId": {
+          "type": "string",
+          "description": "indicates the correlation Id associated to quote"
+        },
+        "dealerCode": {
+          "type": "string",
+          "description": "If Eager booking is required then Dealer Code would be provided which will be used to book the trade on accept quote"
+        },
+        "fwdPts": {
+          "type": "number",
+          "description": "Used for forwards and swap near leg only"
+        },
+        "spotRate": {
+          "type": "number",
+          "description": "Used for forwards and swap near leg only"
+        },
+        "farLeg": {
+          "$ref": "#/$defs/fxQuoteLeg"
+        },
+        "swapPts": {
+          "type": "number",
+          "description": "Used for swaps, pre-deliveries, and extensions. Has the swap points of a swap, and adjusted swap points of a Predelivery and extension"
+        },
+        "contractType": {
+          "type": "string",
+          "description": "Identifies between a spot, forward, or swap quote. Valid descriptions are SPOT, FWD, SWAP, PRE_DELIVERY, EXTENSION, EXTENSION_UPTO_SPOT",
+          "enum": [
+            "SPOT",
+            "FWD",
+            "SWAP",
+            "PRE_DELIVERY",
+            "EXTENSION",
+            "EXTENSION_UPTO_SPOT",
+            "TIME_OPTION",
+            "EXTENSION_OPTION"
+          ]
+        },
+        "reasonCode": {
+          "type": "integer",
+          "description": "Provides a computer friendly error code for when the quote is returned as invalid, or is in dealer intervention.",
+          "format": "int32"
+        },
+        "counterFundingAmount": {
+          "type": "number",
+          "description": "Used for pre-deliveries, and extensions. Has the funding amount in counter currency of a Predelivery and extension"
+        },
+        "isOutOfTheMoney": {
+          "type": "boolean",
+          "description": "Used for pre-deliveries, and extensions. Indicates if the customer is out of the money while performing a Predelivery and extension"
+        },
+        "counterCcy": {
+          "type": "string",
+          "description": "Used for pre-deliveries, and extensions. Three letter code of currency in which the counterFundingAmount is mentioned"
+        },
+        "nonCustomisedRate": {
+          "type": "boolean"
+        },
+        "inDI": {
+          "type": "boolean"
+        }
+      },
+      "description": "A collection of responses matching the request"
+    },
+    "fxQuoteLeg": {
+      "type": "object",
+      "properties": {
+        "rate": {
+          "type": "number",
+          "description": "leg outright rate"
+        },
+        "fwdPts": {
+          "type": "number",
+          "description": "leg forward points"
+        },
+        "sourceCcy": {
+          "type": "string",
+          "description": "echo of input"
+        },
+        "targetCcy": {
+          "type": "string",
+          "description": "echo of input"
+        },
+        "sourceAmount": {
+          "type": "number",
+          "description": "amount in source currency"
+        },
+        "targetAmount": {
+          "type": "number",
+          "description": "amount in target currency"
+        },
+        "settlementDate": {
+          "type": "string",
+          "description": "will be echo of input",
+          "format": "date"
+        }
+      },
+      "description": "Used for swaps only. Has the details of the far leg of a swap"
+    }
+  }
+}

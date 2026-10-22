@@ -1,0 +1,11 @@
+generated: '2026-10-20'
+method: none
+source: https://docs.commbank.com.au/
+packages: []
+checked:
+- https://registry.npmjs.org/-/v1/search?text=commbank
+- https://pypi.org/pypi/commbank/json (404)
+- https://api.github.com/orgs/commbank (no public repos, no identifying profile)
+- https://docs.commbank.com.au/sitemap.xml
+note: No first-party SDK or client library is published. The npm package "commbank" (0.0.0, 2013-07-25, rvagg) is
+  an unrelated unofficial scraper and is not recorded.

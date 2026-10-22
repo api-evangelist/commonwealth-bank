@@ -1,0 +1,36 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/commonwealth-bank/main/json-schema/commonwealth-bank-quote-accepted-schema.json",
+  "title": "quoteAccepted",
+  "x-generated": "2026-10-20",
+  "x-method": "derived",
+  "x-generator": "derive-json-schema.py",
+  "x-source": "openapi/commonwealth-bank-fx-api-openapi.yml#/components/schemas/quoteAccepted",
+  "type": "object",
+  "properties": {
+    "quoteId": {
+      "type": "string",
+      "description": "unique quote identifier set in bulk accept response."
+    },
+    "reasonCode": {
+      "type": "integer",
+      "description": "The computer friendly error code if the quote execution was rejected",
+      "format": "int32"
+    },
+    "reasonMsg": {
+      "type": "string",
+      "description": "The human friendly error message if the quote execution was rejected"
+    },
+    "tradeIds": {
+      "type": "array",
+      "description": "The trade ids generated for the quote execution",
+      "items": {
+        "type": "string",
+        "description": "The trade ids generated for the quote execution"
+      }
+    },
+    "accepted": {
+      "type": "boolean"
+    }
+  }
+}

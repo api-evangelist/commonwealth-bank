@@ -1,0 +1,175 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/commonwealth-bank/main/json-schema/commonwealth-bank-create-agreement-payment-request-schema.json",
+  "title": "createAgreementPaymentRequest",
+  "x-generated": "2026-10-20",
+  "x-method": "derived",
+  "x-generator": "derive-json-schema.py",
+  "x-source": "openapi/commonwealth-bank-payto-api-openapi.yml#/components/schemas/createAgreementPaymentRequest",
+  "type": "object",
+  "properties": {
+    "amount": {
+      "$ref": "#/$defs/amount"
+    },
+    "reference": {
+      "type": "string",
+      "maxLength": 64,
+      "format": "string",
+      "pattern": "^.*$",
+      "description": "Short form description of the payment"
+    },
+    "description": {
+      "type": "string",
+      "maxLength": 280,
+      "format": "string",
+      "pattern": "^.*$",
+      "description": "Longer form description of the payment"
+    },
+    "lastPayment": {
+      "type": "boolean",
+      "description": "Indicates if this is the last payment in the agreement"
+    },
+    "initiatingParty": {
+      "description": "The party initiating the agreement",
+      "$ref": "#/$defs/initiatingParty"
+    },
+    "destination": {
+      "type": "object",
+      "description": "Destination account details",
+      "properties": {
+        "account": {
+          "type": "object",
+          "description": "Account details",
+          "properties": {
+            "accountName": {
+              "$ref": "#/$defs/accountName",
+              "description": "The name of the account"
+            },
+            "type": {
+              "$ref": "#/$defs/accountType"
+            },
+            "bsb": {
+              "$ref": "#/$defs/accountName"
+            },
+            "accountNumber": {
+              "$ref": "#/$defs/accountNumber"
+            },
+            "alternateIdentification": {
+              "$ref": "#/$defs/alternateIdentification"
+            }
+          }
+        },
+        "party": {
+          "type": "object",
+          "description": "Party details",
+          "properties": {
+            "ultimatePartyName": {
+              "$ref": "#/$defs/ultimatePartyName",
+              "required": [
+                "ultimatePartyName"
+              ]
+            }
+          }
+        }
+      },
+      "required": [
+        "account",
+        "party"
+      ]
+    }
+  },
+  "required": [
+    "amount",
+    "reference",
+    "initiatingParty"
+  ],
+  "$defs": {
+    "accountName": {
+      "type": "string",
+      "format": "string",
+      "pattern": "^.*$",
+      "minLength": 1,
+      "maxLength": 140,
+      "description": "Full Legal Account Name recorded by the Account Server in their records. Specifies a character string with a maximum length of 140 ASCII printable characters."
+    },
+    "accountNumber": {
+      "format": "string",
+      "minLength": 1,
+      "maxLength": 28,
+      "type": "string",
+      "pattern": "^[0-9]+$"
+    },
+    "accountType": {
+      "type": "string",
+      "maxLength": 24,
+      "format": "string",
+      "pattern": "^[a-zA-Z\\s]+$",
+      "enum": [
+        "bankAccount",
+        "alternateIdentification"
+      ],
+      "description": "Type of account identification. Following rules apply\n- bankAccount: BSB and account number must be provided, and alternateIdentification must not be provided.\n- alternateIdentification: alternateIdentification must be provided, and BSB and account number must not be provided."
+    },
+    "alternateIdentification": {
+      "type": "object",
+      "properties": {
+        "type": {
+          "type": "string",
+          "maxLength": 5,
+          "format": "string",
+          "pattern": "^[a-zA-Z\\s]+$",
+          "enum": [
+            "EMAIL",
+            "PHONE"
+          ],
+          "description": "Type of alternate identification."
+        },
+        "value": {
+          "type": "string",
+          "maxLength": 2048,
+          "format": "string",
+          "pattern": "^(?:[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}|\\+61[4][0-9]{8}|04[0-9]{8}|\\d{11}|[a-zA-Z0-9]{1,50})$",
+          "description": "Value of alternate identification."
+        }
+      },
+      "required": [
+        "type",
+        "value"
+      ]
+    },
+    "amount": {
+      "type": "number",
+      "minimum": 0.01,
+      "maximum": 9999999.99,
+      "format": "decimal",
+      "multipleOf": 0.01,
+      "description": "Amount in AUD dollars with exactly 2 decimal places."
+    },
+    "initiatingParty": {
+      "type": "object",
+      "required": [
+        "id"
+      ],
+      "properties": {
+        "id": {
+          "$ref": "#/$defs/uuid",
+          "description": "Commbank assigned ID for the merchant."
+        }
+      }
+    },
+    "ultimatePartyName": {
+      "type": "string",
+      "format": "string",
+      "pattern": "^.*$",
+      "minLength": 1,
+      "maxLength": 140,
+      "description": "Name by which the ultimate party is known and which is usually used to identify that party.\nSpecifies a character string with a maximum length of 140 ASCII printable characters."
+    },
+    "uuid": {
+      "type": "string",
+      "format": "uuid",
+      "maxLength": 36,
+      "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[1-57][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$"
+    }
+  }
+}

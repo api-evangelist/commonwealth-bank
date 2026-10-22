@@ -1,0 +1,137 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/commonwealth-bank/main/json-schema/commonwealth-bank-response-banking-payee-list-schema.json",
+  "title": "ResponseBankingPayeeList",
+  "x-generated": "2026-10-20",
+  "x-method": "derived",
+  "x-generator": "derive-json-schema.py",
+  "x-source": "openapi/commonwealth-bank-payees-api-api-openapi.yml#/components/schemas/ResponseBankingPayeeList",
+  "type": "object",
+  "required": [
+    "data",
+    "links",
+    "meta"
+  ],
+  "properties": {
+    "data": {
+      "$ref": "#/$defs/ResponseBankingPayeeList_data"
+    },
+    "links": {
+      "$ref": "#/$defs/LinksPaginated"
+    },
+    "meta": {
+      "$ref": "#/$defs/MetaPaginated"
+    }
+  },
+  "$defs": {
+    "BankingPayee": {
+      "type": "object",
+      "required": [
+        "nickname",
+        "payeeId",
+        "type"
+      ],
+      "properties": {
+        "payeeId": {
+          "type": "string",
+          "description": "ID of the payee.",
+          "x-cds-type": "ASCIIString"
+        },
+        "nickname": {
+          "type": "string",
+          "description": "The short display name of the payee as provided by the customer."
+        },
+        "description": {
+          "type": "string",
+          "description": "A description of the payee provided by the customer."
+        },
+        "type": {
+          "type": "string",
+          "description": "The type of payee.",
+          "enum": [
+            "BILLER",
+            "DOMESTIC",
+            "INTERNATIONAL"
+          ]
+        },
+        "creationDate": {
+          "type": "string",
+          "description": "The date the payee was created by the customer.",
+          "x-cds-type": "DateString"
+        }
+      }
+    },
+    "LinksPaginated": {
+      "type": "object",
+      "required": [
+        "self"
+      ],
+      "properties": {
+        "self": {
+          "type": "string",
+          "description": "Fully qualified link that generated the current response document.",
+          "x-cds-type": "URIString"
+        },
+        "first": {
+          "type": "string",
+          "description": "URI to the first page of this set.",
+          "x-cds-type": "URIString"
+        },
+        "prev": {
+          "type": "string",
+          "description": "URI to the previous page of this set.",
+          "x-cds-type": "URIString"
+        },
+        "next": {
+          "type": "string",
+          "description": "URI to the next page of this set.",
+          "x-cds-type": "URIString"
+        },
+        "last": {
+          "type": "string",
+          "description": "URI to the last page of this set.",
+          "x-cds-type": "URIString"
+        }
+      },
+      "x-conditional": [
+        "prev",
+        "next",
+        "first",
+        "last"
+      ]
+    },
+    "MetaPaginated": {
+      "type": "object",
+      "required": [
+        "totalPages",
+        "totalRecords"
+      ],
+      "properties": {
+        "totalRecords": {
+          "type": "integer",
+          "description": "The total number of records in the full set.",
+          "x-cds-type": "NaturalNumber"
+        },
+        "totalPages": {
+          "type": "integer",
+          "description": "The total number of pages in the full set.",
+          "x-cds-type": "NaturalNumber"
+        }
+      }
+    },
+    "ResponseBankingPayeeList_data": {
+      "required": [
+        "payees"
+      ],
+      "properties": {
+        "payees": {
+          "type": "array",
+          "description": "The list of payees returned",
+          "items": {
+            "$ref": "#/$defs/BankingPayee"
+          }
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,43 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/commonwealth-bank/main/json-schema/commonwealth-bank-account-name-check-response-schema.json",
+  "title": "AccountNameCheckResponse",
+  "x-generated": "2026-10-20",
+  "x-method": "derived",
+  "x-generator": "derive-json-schema.py",
+  "x-source": "openapi/commonwealth-bank-namecheck-api-openapi.yml#/components/schemas/accountNameCheckResponse",
+  "type": "object",
+  "properties": {
+    "result": {
+      "type": "object",
+      "required": [
+        "code",
+        "description"
+      ],
+      "properties": {
+        "code": {
+          "type": "string",
+          "format": "string",
+          "enum": [
+            "Match",
+            "WeakMatch",
+            "NotEnoughInfo",
+            "NoMatch",
+            "NotFound"
+          ],
+          "pattern": "^(Match|WeakMatch|NotEnoughInfo|NoMatch|NotFound)?$",
+          "maxLength": 14,
+          "description": "The result code"
+        },
+        "description": {
+          "type": "string",
+          "format": "string",
+          "description": "The result description"
+        }
+      }
+    }
+  },
+  "required": [
+    "result"
+  ]
+}

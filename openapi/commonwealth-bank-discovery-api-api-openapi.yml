@@ -1,0 +1,349 @@
+openapi: 3.2.0
+info:
+  version: ''
+  title: CommBank Status and Outages Discovery API
+  description: 'Obtain the status and the list of scheduled outages for the CommBank Open Banking APIs.
+
+
+    Host URL
+
+
+    CommBank requests are passed to the URL https://api.commbank.com.au/public/cds-au/v1/discovery
+
+
+    CBA – CommBiz requests are passed to the URL https://cdr.commbiz.api.commbank.com.au/cbzpublic/cds-au/v1/discovery'
+servers:
+- url: https://api.commbank.com.au/public/cds-au/v1/discovery
+tags:
+- name: Discovery API
+  description: 'Obtain the status and the list of scheduled outages for the CommBank Open Banking APIs.
+
+
+    Host URL
+
+
+    CommBank requests are passed to the URL https://api.commbank.com.au/public/cds-au/v1/discovery
+
+
+    CBA – CommBiz requests are passed to the URL https://cdr.commbiz.api.commbank.com.au/cbzpublic/cds-au/v1/discovery'
+paths:
+  /status:
+    get:
+      summary: Get Status
+      description: 'Obtain the status and the list of scheduled outages for the CommBank Open Banking APIs.
+
+
+        ### Host URL
+
+
+        CommBank requests are passed to the URL https://api.commbank.com.au/public/cds-au/v1/discovery
+
+
+        CBA – CommBiz requests are passed to the URL https://cdr.commbiz.api.commbank.com.au/cbzpublic/cds-au/v1/discovery
+
+
+        Obtain a health check status for the implementation'
+      operationId: getStatus
+      tags:
+      - Discovery API
+      parameters:
+      - $ref: '#/components/parameters/ParamXVHeader'
+      - $ref: '#/components/parameters/ParamXMinVHeader'
+      responses:
+        '200':
+          description: Success
+          headers:
+            x-v:
+              description: Version of the API end point responded with.
+              schema:
+                type: integer
+            x-min-v:
+              description: Minimum version of the API end point you are requesting.
+              schema:
+                type: integer
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ResponseCommonDiscoveryStatus'
+        '400':
+          description: Bad Request
+          headers:
+            x-v:
+              description: Version of the API end point responded with.
+              schema:
+                type: integer
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse400'
+        '406':
+          description: Not Acceptable
+          headers:
+            x-v:
+              description: Version of the API end point responded with.
+              schema:
+                type: integer
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse406'
+        '500':
+          description: Internal Server Error
+          headers:
+            x-v:
+              description: Version of the API end point responded with.
+              schema:
+                type: integer
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse500'
+  /outages:
+    get:
+      summary: Get Outages
+      description: 'Obtain the status and the list of scheduled outages for the CommBank Open Banking APIs.
+
+
+        ### Host URL
+
+
+        CommBank requests are passed to the URL https://api.commbank.com.au/public/cds-au/v1/discovery
+
+
+        CBA – CommBiz requests are passed to the URL https://cdr.commbiz.api.commbank.com.au/cbzpublic/cds-au/v1/discovery
+
+
+        Obtain a list of scheduled outages for implementation'
+      operationId: getOutages
+      tags:
+      - Discovery API
+      parameters:
+      - $ref: '#/components/parameters/ParamXVHeader'
+      - $ref: '#/components/parameters/ParamXMinVHeader'
+      responses:
+        '200':
+          description: Success
+          headers:
+            x-v:
+              description: Version of the API end point responded with.
+              schema:
+                type: integer
+            x-min-v:
+              description: Minimum version of the API end point you are requesting.
+              schema:
+                type: integer
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ResponseDiscoveryOutagesList'
+        '400':
+          description: Bad Request
+          headers:
+            x-v:
+              description: Version of the API end point responded with.
+              schema:
+                type: integer
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse400'
+        '406':
+          description: Not Acceptable
+          headers:
+            x-v:
+              description: Version of the API end point responded with.
+              schema:
+                type: integer
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse406'
+        '500':
+          description: Internal Server Error
+          headers:
+            x-v:
+              description: Version of the API end point responded with.
+              schema:
+                type: integer
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse500'
+components:
+  schemas:
+    ResponseCommonDiscoveryStatus:
+      type: object
+      required:
+      - data
+      - links
+      example:
+        data:
+          status: OK
+          updateTime: '2020-03-02T03:53:33.6159975Z'
+        links:
+          self: https://api.commbank.com.au/public/cds-au/v1/discovery/status
+        meta: {}
+      properties:
+        data:
+          $ref: '#/components/schemas/ResponseCommonDiscoveryStatus_data'
+        links:
+          $ref: '#/components/schemas/Links'
+        meta:
+          $ref: '#/components/schemas/Meta'
+    Links:
+      type: object
+      required:
+      - self
+      properties:
+        self:
+          type: string
+          description: Fully qualified link to this API call.
+    ResponseCommonDiscoveryStatus_data:
+      required:
+      - status
+      - updateTime
+      properties:
+        status:
+          type: string
+          description: The current status of the API.
+          enum:
+          - OK
+          - PARTIAL_FAILURE
+          - UNAVAILABLE
+          - SCHEDULED_OUTAGE
+        explanation:
+          type: string
+          description: An explanation of the current outage.
+        detectionTime:
+          type: string
+          description: The date and time that the current outage was detected.
+          x-cds-type: DateTimeString
+        expectedResolutionTime:
+          type: string
+          description: The date and time that full service is expected to resume (if known).
+          x-cds-type: DateTimeString
+        updateTime:
+          type: string
+          description: The date and time that this status was last updated by the Data Holder.
+          x-cds-type: DateTimeString
+    Meta: {}
+    ErrorResponse400:
+      type: object
+      properties:
+        errors:
+          uniqueItems: false
+          type: array
+          items:
+            $ref: '#/components/schemas/Error'
+      example:
+        errors:
+        - code: SA-RH-01
+          title: x-v is invalid
+          detail: x-v header must be a supported version number.
+    ResponseDiscoveryOutagesList:
+      type: object
+      required:
+      - data
+      - links
+      example:
+        data:
+          outages: []
+        links:
+          self: https://api.commbank.com.au/public/cds-au/v1/discovery/outages
+        meta: {}
+      properties:
+        data:
+          $ref: '#/components/schemas/ResponseDiscoveryOutagesList_data'
+        links:
+          $ref: '#/components/schemas/Links'
+        meta:
+          $ref: '#/components/schemas/Meta'
+    ResponseDiscoveryOutagesList_data:
+      required:
+      - outages
+      properties:
+        outages:
+          type: array
+          description: List of scheduled outages
+          items:
+            $ref: '#/components/schemas/DiscoveryOutage'
+    Error:
+      type: object
+      properties:
+        code:
+          type: string
+        title:
+          type: string
+        detail:
+          type: string
+    ErrorResponse406:
+      type: object
+      properties:
+        errors:
+          uniqueItems: false
+          type: array
+          items:
+            $ref: '#/components/schemas/Error'
+      example:
+        errors:
+        - code: SA-RH-01
+          title: x-v is invalid
+          detail: x-v header must be a supported version number.
+        - code: SA-RH-02
+          title: x-min-v is invalid
+          detail: x-min-v header must be a supported version number.
+    ErrorResponse500:
+      type: object
+      properties:
+        errors:
+          uniqueItems: false
+          type: array
+          items:
+            $ref: '#/components/schemas/Error'
+      example:
+        errors:
+        - code: SA-IS-01
+          title: Server Error
+          detail: An error has occurred whilst processing your request. Please try again later.
+    DiscoveryOutage:
+      type: object
+      required:
+      - duration
+      - explanation
+      - outageTime
+      properties:
+        outageTime:
+          type: string
+          description: Date and time that the outage is scheduled to begin
+          x-cds-type: DateTimeString
+        duration:
+          type: string
+          description: Planned duration of the outage
+          x-cds-type: ExternalRef
+        isPartial:
+          type: boolean
+          description: Flag that indicates the outage is only partial
+        explanation:
+          type: string
+          description: An explanation of the current outage
+  parameters:
+    ParamXVHeader:
+      name: x-v
+      in: header
+      description: Version of the API end point being requested.
+      example: '1'
+      required: false
+      schema:
+        type: integer
+    ParamXMinVHeader:
+      name: x-min-v
+      in: header
+      description: Minimum version of the API end point you are requesting.
+      example: '1'
+      required: false
+      schema:
+        type: integer
+x-tagGroups:
+- name: ''
+  tags:
+  - Discovery API

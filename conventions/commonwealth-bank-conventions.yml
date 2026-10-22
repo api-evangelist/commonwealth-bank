@@ -1,45 +1,60 @@
-generated: '2026-07-21'
+generated: '2026-10-20'
 method: searched
-source: >-
-  Consumer Data Standards Australia CDR Banking v1.36.0 (HTTP headers, pagination,
-  error) + CommBank developer portal. Derived from openapi/ global parameters.
+source: Consumer Data Standards Australia CDR Banking v1.36.0 (HTTP headers, pagination, error) + CommBank developer
+  portal. Derived from openapi/ global parameters. + CommBank API Developer Docs (https://docs.commbank.com.au/)
+  for the business APIs (Fast Payments, PayTo, FX, NameCheck).
 authentication:
-  style: >-
-    CDR ADR OAuth2 authorization_code + OIDC/FAPI for authorised endpoints; public
-    Product Reference Data is unauthenticated. See
-    authentication/commonwealth-bank-authentication.yml and
-    scopes/commonwealth-bank-scopes.yml.
+  style: CDR ADR OAuth2 authorization_code + OIDC/FAPI for authorised endpoints; public Product Reference Data is
+    unauthenticated. See authentication/commonwealth-bank-authentication.yml and scopes/commonwealth-bank-scopes.yml.
 versioning:
   style: header
   request_header: x-v
   min_version_header: x-min-v
   response_header: x-v
-  note: >-
-    Every endpoint is versioned via the mandatory x-v request header; omitting or
-    sending an unsupported version returns HTTP 406. x-min-v allows negotiating an
-    acceptable range. This is CDR's endpoint-level versioning (not URI-path).
+  note: Every endpoint is versioned via the mandatory x-v request header; omitting or sending an unsupported version
+    returns HTTP 406. x-min-v allows negotiating an acceptable range. This is CDR's endpoint-level versioning (not
+    URI-path).
 idempotency:
-  supported: false
-  note: >-
-    The harvested CDR data-sharing surface is read-only (GET plus bulk-read POST
-    for balances/direct-debits/scheduled-payments); the CDR Banking standard
-    defines no Idempotency-Key contract for these endpoints.
+  coverage: partial
+  header: x-idempotency-id
+  scope:
+  - post-v1-payment-initiation
+  - CreateAgreement
+  - patch-agreement-id
+  - change-agreement-status
+  - post-agreements-id-payments
+  conflict_status: 422
+  note: The CDR data-sharing surface is read-only and has no idempotency contract. The business payment APIs carry
+    a required x-idempotency-id header on the Fast Payments credit-transfer initiation and on the PayTo create/amend/status/payment
+    writes ("It must be provided in every request and have the same value in case of an idempotent retry"). Reusing
+    a key with a modified payload returns 422 Duplicate Request Conflict. FX partnerAcceptQuote/partnerGetQuote/partnerCancelQuote
+    and NameCheck declare no idempotency header. Retention window is not stated.
+  docs: https://docs.commbank.com.au/apis/fast-payments/error-codes
+  source: openapi/commonwealth-bank-fast-payments-api-openapi.yml, openapi/commonwealth-bank-payto-api-openapi.yml
 pagination:
   style: page-number
-  params: [page, page-size]
+  params:
+  - page
+  - page-size
   page_size_max: 1000
-  response_links: {self: true, first: true, prev: true, next: true, last: true}
-  response_meta: [totalRecords, totalPages]
-  envelope: 'Links (LinksPaginated) + Meta (MetaPaginated) alongside data'
+  response_links:
+    self: true
+    first: true
+    prev: true
+    next: true
+    last: true
+  response_meta:
+  - totalRecords
+  - totalPages
+  envelope: Links (LinksPaginated) + Meta (MetaPaginated) alongside data
 request_tracing:
   headers:
-    - x-fapi-interaction-id
-    - x-fapi-auth-date
-    - x-fapi-customer-ip-address
-    - x-cds-client-headers
-  note: >-
-    x-fapi-interaction-id is echoed on the response for correlation; the x-fapi-*
-    headers are the CDR/FAPI request-context headers.
+  - x-fapi-interaction-id
+  - x-fapi-auth-date
+  - x-fapi-customer-ip-address
+  - x-cds-client-headers
+  note: x-fapi-interaction-id is echoed on the response for correlation; the x-fapi-* headers are the CDR/FAPI request-context
+    headers.
 content_negotiation:
   accept: application/json
   note: CDR responses are application/json; there is no application/problem+json.
@@ -50,11 +65,51 @@ error_envelope:
 rate_limiting:
   signalled: true
   status: 429
-  note: >-
-    Endpoints return HTTP 429 when CDR traffic thresholds are exceeded; CDR
-    defines tiered transaction thresholds per session/customer for Data Holders.
+  note: Endpoints return HTTP 429 when CDR traffic thresholds are exceeded; CDR defines tiered transaction thresholds
+    per session/customer for Data Holders.
+  status_code: 429
+  documented_limits:
+  - 'NameCheck: 5 transactions, or checks, per second (5 TPS)'
+  headers: null
+  retry_guidance: Implement retry and exponential backoff handling for temporary failures such as 429, 500, and
+    503 responses
+  docs: https://docs.commbank.com.au/apis/namecheck/batch-validation
 cross_links:
   authentication: authentication/commonwealth-bank-authentication.yml
   scopes: scopes/commonwealth-bank-scopes.yml
   errors: errors/commonwealth-bank-problem-types.yml
   lifecycle: lifecycle/commonwealth-bank-lifecycle.yml
+  error_codes: errors/commonwealth-bank-error-codes.yml
+  rate_limits: rate-limits/commonwealth-bank-rate-limits.yml
+  sandbox: sandbox/commonwealth-bank-sandbox.yml
+reversibility:
+  status: documented
+  surfaces:
+  - surface: PayTo agreements
+    reversal: cancel (or suspend / release) via PATCH /agreements/{id}/status
+    operationId: change-agreement-status
+    window: null
+    window_text: The status can only be changed when the agreement is currently active or suspended.
+    docs: https://docs.commbank.com.au/apis/payto/change-agreement-status
+    note: A cancelled agreement cannot be further updated. This is a state precondition, not a time window.
+  - surface: FX quotes
+    reversal: partnerCancelQuote (DELETE /partner/api/markets/fx/quote/{quote_id})
+    operationId: partnerCancelQuote
+    window: null
+    docs: https://docs.commbank.com.au/apis/fx/partner-cancel-quote
+    note: Cancels an FX quote that is no longer required or will not be executed; the docs state no reversal for
+      an accepted (executed) trade.
+  - surface: Fast Payments credit transfer (NPP)
+    reversal: null
+    operationId: null
+    docs: https://docs.commbank.com.au/apis/fast-payments/
+    note: No recall/reversal operation is documented for an initiated credit transfer.
+  - surface: PayTo payment initiation
+    reversal: null
+    operationId: null
+    note: No reversal operation documented for post-agreements-id-payments.
+  note: No reversal window is stated anywhere in the docs read; none is asserted.
+authentication_business_apis:
+  style: OAuth 2.0 client credentials with a signed JWT client assertion (EC P-256 key pair), over mTLS + IP allow-listing
+  token_lifetime: Access tokens are short-lived (typically under 2 minutes, based on expires_in).
+  docs: https://docs.commbank.com.au/learners/security-and-getting-access/authentication

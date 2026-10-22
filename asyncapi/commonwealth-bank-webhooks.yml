@@ -1,0 +1,12 @@
+generated: '2026-10-20'
+method: derived
+generator: derive-webhooks.py
+source:
+- openapi/commonwealth-bank-fast-payments-api-openapi.yml
+description: 'Event surface derived from the provider''s own OpenAPI: webhooks. No AsyncAPI document is published by the provider; this catalog
+  lists the events the contract names.'
+management_operations: []
+events:
+- event: credit-transfer-status-notification
+  description: Credit Transfer Payment Status Notification
+  declared_in: webhooks

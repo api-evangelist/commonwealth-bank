@@ -1,0 +1,2034 @@
+openapi: 3.1.0
+info:
+  title: PayTo
+  version: 1.0.0
+  summary: PayTo is a modern digital payment solution enabling near real-time,
+    account-to-account payments from a customer’s bank account. PayTo replaces
+    traditional direct debit with a faster, more secure option
+  description: This API follows RESTful principles and provides a simple way to
+    integrate PayTo functionality into your systems. It uses semantic versioning
+    to ensure backward compatibility and includes idempotency support through
+    the x-idempotency-id header to prevent duplicate transactions. The API is
+    designed to be developer-friendly while maintaining the security and
+    reliability required for financial transactions.
+tags:
+  - name: Agreements
+    description: Endpoints for creating, managing, and retrieving PayTo agreements
+      between creditors and debtors.
+  - name: Payments
+    description: Endpoints for initiating, managing, and retrieving payment
+      transactions under PayTo agreements.
+  - name: Utilities
+    description: Endpoints for auxiliary operations such as health checks and other
+      supporting functionalities.
+security:
+  - oauth2: []
+paths:
+  /agreements:
+    parameters:
+      - schema:
+          $ref: "#/components/schemas/xIdempotencyId"
+        in: header
+        name: x-idempotency-id
+        required: true
+        description: Uniquely identifies the operation for safe retries. See API Usage
+          page for more information.
+      - schema:
+          $ref: "#/components/schemas/xRequestId"
+        in: header
+        name: x-request-id
+        description: Unique request id
+    post:
+      summary: Create Agreement
+      operationId: CreateAgreement
+      responses:
+        "202":
+          $ref: "#/components/responses/createAgreementSuccess"
+        "400":
+          $ref: "#/components/responses/400"
+        "401":
+          $ref: "#/components/responses/401"
+        "403":
+          $ref: "#/components/responses/403"
+        "404":
+          $ref: "#/components/responses/404"
+        "422":
+          $ref: "#/components/responses/422"
+        "500":
+          $ref: "#/components/responses/500"
+        "503":
+          $ref: "#/components/responses/503"
+      description: >-
+        Creates an **agreement** which allows the creditor to pull funds from a
+        debtor account.
+
+
+        The agreement must first be approved by the debtor party in order to
+        pull funds from their acccount.
+
+
+        These direct debit **payments** can be on an automated schedule, ad-hoc
+        or one-off. If a recurring schedule is provided, then debits will be
+        automatically created as per the approved schedule.
+      tags:
+        - Agreements
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/createAgreementRequest"
+            examples:
+              OneOff Agreement Creation:
+                $ref: "#/components/examples/CreateAgreementSampleRequestOneOff"
+              Adhoc Agreement Creation:
+                $ref: "#/components/examples/CreateAgreementSampleRequestAdhoc"
+              Recurring Agreement Creation:
+                $ref: "#/components/examples/CreateAgreementSampleRequestRecurring"
+      security:
+        - oauth2:
+            - payments:agreements:write
+  /agreements/{id}:
+    parameters:
+      - schema:
+          type: string
+          format: uuid
+          pattern: ^[0-9a-f]{8}-[0-9a-f]{4}-[1-57][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$
+        in: header
+        name: x-request-id
+      - schema:
+          type: string
+          format: uuid
+          pattern: ^[0-9a-f]{8}-[0-9a-f]{4}-[1-57][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$
+        name: id
+        in: path
+        required: true
+        description: Agreement ID
+    get:
+      summary: Get Agreement
+      tags:
+        - Agreements
+      responses:
+        "200":
+          $ref: "#/components/responses/getAgreementSuccess"
+        "400":
+          $ref: "#/components/responses/400"
+        "401":
+          $ref: "#/components/responses/401"
+        "403":
+          $ref: "#/components/responses/403"
+        "404":
+          $ref: "#/components/responses/404"
+        "422":
+          $ref: "#/components/responses/422"
+        "500":
+          $ref: "#/components/responses/500"
+        "503":
+          $ref: "#/components/responses/503"
+      operationId: get-agreements-id
+      description: Retrieve a single agreement
+      security:
+        - oauth2:
+            - payments:agreements:read
+    patch:
+      summary: Modify Agreement
+      operationId: patch-agreement-id
+      responses:
+        "202":
+          description: Accepted
+          headers:
+            Content-Language:
+              $ref: "#/components/headers/Content-Language"
+            Content-Type:
+              $ref: "#/components/headers/Content-Type"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/modifyAgreementResponse"
+        "400":
+          $ref: "#/components/responses/400"
+        "401":
+          $ref: "#/components/responses/401"
+        "403":
+          $ref: "#/components/responses/403"
+        "404":
+          $ref: "#/components/responses/404"
+        "422":
+          $ref: "#/components/responses/422"
+        "500":
+          $ref: "#/components/responses/500"
+        "503":
+          $ref: "#/components/responses/503"
+      description: >-
+        Modify an existing agreement.
+         **Rules** 
+        - Excluding the `initiatingParty` there must only be `uniLateral` or
+        `biLateral` fields present. They are mutually exclusive.
+
+
+        - If `uniLateral.destination.account.type` is "BSB" then
+        `uniLateral.destination.account.bsb` and
+        `uniLateral.destination.account.number` are required.
+              
+        - If `uniLateral.destination.account.type` is "alternateIdentification"
+        then `uniLateral.destination.account.alternateIdentification.type` and
+        `uniLateral.destination.account.alternateIdentification.value` are
+        required.
+      tags:
+        - Agreements
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/modifyAgreementRequest"
+            examples:
+              Modify unilateral fields:
+                $ref: "#/components/examples/modifyUnilateralAgreementSampleRequest"
+              Modify bilateral fields:
+                $ref: "#/components/examples/modifyBilateralAgreementSampleRequest"
+      security:
+        - oauth2:
+            - payments:agreements:amend
+      parameters:
+        - schema:
+            $ref: "#/components/schemas/xIdempotencyId"
+          in: header
+          name: x-idempotency-id
+          required: true
+          description: Uniquely identifies the operation for safe retries. See API Usage
+            page for more information.
+        - schema:
+            $ref: "#/components/schemas/xRequestId"
+          in: header
+          name: x-request-id
+          description: Unique request ID
+  /agreements/validate:
+    parameters:
+      - name: x-request-id
+        in: header
+        required: true
+        description: Caller generated UUID that can be used to uniquely identify the
+          request in server logs
+        schema:
+          $ref: "#/components/schemas/xRequestId"
+          example: ca9d8fcd-91f5-42b9-ae44-78fbc553f094
+    post:
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/agreementValidationRequest"
+      responses:
+        "200":
+          $ref: "#/components/responses/validateAgreementSuccess"
+        "400":
+          $ref: "#/components/responses/400"
+        "401":
+          $ref: "#/components/responses/401"
+        "403":
+          $ref: "#/components/responses/403"
+        "404":
+          $ref: "#/components/responses/404"
+        "422":
+          $ref: "#/components/responses/422"
+        "500":
+          $ref: "#/components/responses/500"
+        "503":
+          $ref: "#/components/responses/503"
+      summary: Validate Agreement
+      operationId: agreements-validate
+      description: >-
+        Validation step to be used before creating an Agreement to ensure that
+        the agreement can be successfully created between the two parties.
+
+
+        If one of the parties does not support PayTo, then the validation step
+        will fail.
+      tags:
+        - Agreements
+      security:
+        - oauth2:
+            - payments:agreements:read
+  /agreements/{id}/status:
+    parameters:
+      - schema:
+          type: string
+          format: uuid
+          pattern: ^[0-9a-f]{8}-[0-9a-f]{4}-[1-57][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$
+        in: header
+        name: x-request-id
+      - schema:
+          type: string
+          format: uuid
+          pattern: ^[0-9a-f]{8}-[0-9a-f]{4}-[1-57][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$
+        in: path
+        name: id
+        required: true
+        description: Agreement ID
+      - schema:
+          type: string
+          format: uuid
+          pattern: ^[0-9a-f]{8}-[0-9a-f]{4}-[1-57][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$
+        in: header
+        name: x-idempotency-id
+        required: true
+        description: Uniquely identifies the operation for safe retries. See API Usage
+          page for more information.
+    patch:
+      summary: Change Agreement Status
+      operationId: change-agreement-status
+      responses:
+        "200":
+          $ref: "#/components/responses/changeAgreementStatusSuccess"
+        "400":
+          $ref: "#/components/responses/400"
+        "401":
+          $ref: "#/components/responses/401"
+        "403":
+          $ref: "#/components/responses/403"
+        "404":
+          $ref: "#/components/responses/404"
+        "422":
+          $ref: "#/components/responses/422"
+        "500":
+          $ref: "#/components/responses/500"
+        "503":
+          $ref: "#/components/responses/503"
+      description: >-
+        There are three types of agreement states changes that could be
+        requested; **'cancel'**, **'suspend'** and **'release'**.
+
+
+        The status can only be changed when the agreement is currently
+        **active** or **suspended**.
+
+
+        To **release** an Agreement is to activate a suspended agreement.
+        Releasing a suspended agreement can only be performed by the party that
+        suspended the agreement.
+
+
+        To **suspend** an Agreement is equivalent to pausing payments for the
+        agreement.
+
+
+        A **cancelled** agreement cannot be further updated.
+      tags:
+        - Agreements
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              description: >-
+                Request to change the status of an Agreement.
+
+                The following rules apply:
+
+                - When `status` change is equal to either 'cancel' or 'suspend',
+                then value for `code` must be present.
+              properties:
+                initiatingParty:
+                  description: The party initiating the agreement
+                  $ref: "#/components/schemas/initiatingParty"
+                status:
+                  type: string
+                  format: string
+                  maxLength: 7
+                  pattern: ^[a-z\s]+$
+                  enum:
+                    - cancel
+                    - suspend
+                    - release
+                  description: |-
+                    Enumeration of possible status changes.
+                    * cancel - cancel an active or suspended agreement
+                    * suspend - suspend an active agreement
+                    * release - release a suspended agreement
+                reason:
+                  type: object
+                  properties:
+                    code:
+                      type: string
+                      pattern: ^[A-Z0-9]{4}$
+                      maxLength: 4
+                      format: string
+                      enum:
+                        - AC02
+                        - AC04
+                        - AC05
+                        - AC06
+                        - AC13
+                        - AG01
+                        - AG03
+                        - AM03
+                        - AM12
+                        - AM14
+                        - CTAM
+                        - CTCA
+                        - CTEX
+                        - MCFC
+                        - MCOC
+                        - MD07
+                        - MD08
+                        - MD09
+                        - MD16
+                        - MD17
+                        - MD20
+                        - MD21
+                        - MS02
+                        - MS03
+                        - MSUC
+                        - NARR
+                        - NOAS
+                        - RR04
+                        - SL01
+                        - SL11
+                        - SL12
+                      description: >-
+                        Code defining the reason for the status change to the
+                        agreement.
+
+
+                        * AC02 - InvalidDebtorAccountNumber
+
+                        * AC04 - ClosedAccountNumber
+
+                        * AC05 - ClosedDebtorAccountNumber
+
+                        * AC06 - BlockedAccount
+
+                        * AC13 - InvalidDebtorAccountType
+
+                        * AG01 - TransactionForbidden
+
+                        * AG03 - TransactionNotSupported
+
+                        * AM03 - NotAllowedCurrency
+
+                        * AM12 - InvalidAmount
+
+                        * AM14 - AmountExceedsAgreedLimit
+
+                        * CTAM - ContractAmended
+
+                        * CTCA - ContractCancellationInitiatedByDebtor
+
+                        * CTEX - ContractExpired
+
+                        * MCFC - MandateSuspendedFinalCollection
+
+                        * MCOC - MandateSuspendedOnceOffCollection
+
+                        * MD07 - EndCustomerDeceased
+
+                        * MD08 - NoMandateServiceByAgent
+
+                        * MD09 - NoMandateServiceOnCustomer
+
+                        * MD16 - RequestedByCustomer
+
+                        * MD17 - RequestedByInitiatingParty
+
+                        * MD20 - MandateExpired
+
+                        * MD21 - MandateCancelledDueToFraud
+
+                        * MS02 - NotSpecifiedReasonCustomer Generated
+
+                        * MS03 - NotSpecifiedReasonAgentGenerated
+
+                        * MSUC -
+                        MandateSuspended7ConsecutiveUnsuccessfulCollections
+
+                        * NARR - Narrative
+
+                        * NOAS - NoAnswerFromCustomer
+
+                        * RR04 - Regulatory Reason
+
+                        * SL01 - Specific Service offered by Debtor Agent
+
+                        * SL11 - Creditor not on Whitelist of Debtor
+
+                        * SL12 - Creditor on Blacklist of Debtor
+                    description:
+                      type: string
+                      format: string
+                      pattern: ^.*$
+                      maxLength: 256
+                      description: >-
+                        Description of the change reason.
+                         Specifies a character string with a maximum length of 256 characters.
+              required:
+                - status
+                - initiatingParty
+            examples:
+              Suspend an active agreement:
+                $ref: "#/components/examples/SuspendAgreementSampleRequest"
+              Release a suspended agreement:
+                $ref: "#/components/examples/ReleaseAgreementSampleRequest"
+              Cancel an Agreement:
+                $ref: "#/components/examples/CancelAgreementSampleRequest"
+      security:
+        - oauth2:
+            - payments:agreements:write
+  /agreements/{id}/payments:
+    parameters:
+      - schema:
+          type: string
+          format: uuid
+          pattern: ^[0-9a-f]{8}-[0-9a-f]{4}-[1-57][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$
+        in: header
+        name: x-request-id
+      - schema:
+          type: string
+          format: uuid
+          pattern: ^[0-9a-f]{8}-[0-9a-f]{4}-[1-57][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$
+        in: path
+        name: id
+        required: true
+        description: Agreement ID
+      - schema:
+          type: string
+          format: uuid
+          pattern: ^[0-9a-f]{8}-[0-9a-f]{4}-[1-57][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$
+        in: header
+        name: x-idempotency-id
+        required: true
+        description: Uniquely identifies the operation for safe retries. See API Usage
+          page for more information.
+    post:
+      summary: Create Payment
+      operationId: post-agreements-id-payments
+      responses:
+        "202":
+          $ref: "#/components/responses/createPaymentSuccess"
+        "400":
+          $ref: "#/components/responses/400"
+        "401":
+          $ref: "#/components/responses/401"
+        "403":
+          $ref: "#/components/responses/403"
+        "404":
+          $ref: "#/components/responses/404"
+        "422":
+          $ref: "#/components/responses/422"
+        "500":
+          $ref: "#/components/responses/500"
+        "503":
+          $ref: "#/components/responses/503"
+      description: This endpoint allows you to debit an Agreement by creating a **payment**.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/createAgreementPaymentRequest"
+      tags:
+        - Payments
+      security:
+        - oauth2:
+            - payments:payments:write
+  /payments/{id}:
+    parameters:
+      - schema:
+          type: string
+          format: uuid
+          pattern: ^[0-9a-f]{8}-[0-9a-f]{4}-[1-57][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$
+        in: header
+        name: x-request-id
+      - schema:
+          type: string
+          format: uuid
+          pattern: ^[0-9a-f]{8}-[0-9a-f]{4}-[1-57][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$
+        name: id
+        in: path
+        required: true
+        description: The payment Id
+    get:
+      summary: Get Payment
+      tags:
+        - Payments
+      responses:
+        "200":
+          $ref: "#/components/responses/getPaymentSuccess"
+        "400":
+          $ref: "#/components/responses/400"
+        "401":
+          $ref: "#/components/responses/401"
+        "403":
+          $ref: "#/components/responses/403"
+        "404":
+          $ref: "#/components/responses/404"
+        "422":
+          $ref: "#/components/responses/422"
+        "500":
+          $ref: "#/components/responses/500"
+        "503":
+          $ref: "#/components/responses/503"
+      operationId: get-payments-id
+      description: Get the details of a payment
+      security:
+        - oauth2:
+            - payments:payments:read
+  /agreements/health:
+    parameters: []
+    get:
+      summary: Health Check
+      tags:
+        - Utilities
+      responses:
+        "200":
+          $ref: "#/components/responses/healthCheckSuccess"
+        "400":
+          $ref: "#/components/responses/400"
+        "500":
+          $ref: "#/components/responses/500"
+        "503":
+          $ref: "#/components/responses/503"
+      operationId: HealthCheck
+      description: |-
+        Health check endpoint.
+
+        Returns 200 response for success, or 500 if unhealthy.
+components:
+  headers:
+    Content-Language:
+      schema:
+        type: string
+        format: language
+        enum:
+          - en-AU
+        pattern: ^en-AU$
+        maxLength: 5
+    Content-Type:
+      schema:
+        type: string
+        format: media
+        enum:
+          - application/json
+        pattern: ^application/json$
+        maxLength: 16
+  responses:
+    "400":
+      headers:
+        Content-Language:
+          $ref: "#/components/headers/Content-Language"
+        Content-Type:
+          $ref: "#/components/headers/Content-Type"
+      description: |-
+        Bad Request
+
+        Request is not well-formed, syntactically incorrect, or violates schema.
+      content:
+        application/problem+json:
+          schema:
+            $ref: "#/components/schemas/error"
+    "401":
+      headers:
+        Content-Language:
+          $ref: "#/components/headers/Content-Language"
+        Content-Type:
+          $ref: "#/components/headers/Content-Type"
+      description: |-
+        Unauthorized
+
+        Requires authentication
+      content:
+        application/problem+json:
+          schema:
+            $ref: "#/components/schemas/error"
+    "403":
+      headers:
+        Content-Language:
+          $ref: "#/components/headers/Content-Language"
+        Content-Type:
+          $ref: "#/components/headers/Content-Type"
+      description: |-
+        Forbidden
+
+        Token is missing required authorization scope
+      content:
+        application/problem+json:
+          schema:
+            $ref: "#/components/schemas/error"
+    "404":
+      description: Not Found
+      headers:
+        Content-Language:
+          $ref: "#/components/headers/Content-Language"
+        Content-Type:
+          $ref: "#/components/headers/Content-Type"
+      content:
+        application/problem+json:
+          schema:
+            $ref: "#/components/schemas/error"
+    "422":
+      headers:
+        Content-Language:
+          $ref: "#/components/headers/Content-Language"
+        Content-Type:
+          $ref: "#/components/headers/Content-Type"
+      description: >-
+        Unprocessable Entity
+
+
+        The API cannot complete the requested action, or the request action is
+        semantically incorrect or fails business validation.
+      content:
+        application/problem+json:
+          schema:
+            $ref: "#/components/schemas/error"
+    "500":
+      headers:
+        Content-Language:
+          $ref: "#/components/headers/Content-Language"
+        Content-Type:
+          $ref: "#/components/headers/Content-Type"
+      description: |-
+        Internal Server Error
+
+        An internal server error has occurred.
+      content:
+        application/problem+json:
+          schema:
+            $ref: "#/components/schemas/error"
+    "503":
+      headers:
+        Content-Language:
+          $ref: "#/components/headers/Content-Language"
+        Content-Type:
+          $ref: "#/components/headers/Content-Type"
+      description: Service Unavailable - Temporarily Unavailable
+      content:
+        application/problem+json:
+          schema:
+            $ref: "#/components/schemas/error"
+    getAgreementSuccess:
+      description: OK
+      headers:
+        Content-Language:
+          $ref: "#/components/headers/Content-Language"
+        Content-Type:
+          $ref: "#/components/headers/Content-Type"
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/agreement"
+          examples:
+            Get details of a recurring agreement:
+              $ref: "#/components/examples/GetAgreementSampleResponseRecurring"
+            Get details of a oneOff agreement:
+              $ref: "#/components/examples/GetAgreementSampleResponseOneOff"
+            Get details of a adhoc agreement:
+              $ref: "#/components/examples/GetAgreementSampleResponseAdhoc"
+    validateAgreementSuccess:
+      description: OK
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/agreementValidationResponse"
+      headers:
+        Content-Language:
+          $ref: "#/components/headers/Content-Language"
+        Content-Type:
+          $ref: "#/components/headers/Content-Type"
+    changeAgreementStatusSuccess:
+      description: OK
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/changeAgreementStatusResponse"
+      headers:
+        Content-Language:
+          $ref: "#/components/headers/Content-Language"
+        Content-Type:
+          $ref: "#/components/headers/Content-Type"
+    getPaymentSuccess:
+      description: OK
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/getPaymentResponse"
+      headers:
+        Content-Language:
+          $ref: "#/components/headers/Content-Language"
+        Content-Type:
+          $ref: "#/components/headers/Content-Type"
+    healthCheckSuccess:
+      description: OK
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/healthCheckResponse"
+      headers:
+        Content-Language:
+          $ref: "#/components/headers/Content-Language"
+        Content-Type:
+          $ref: "#/components/headers/Content-Type"
+    createAgreementSuccess:
+      description: Accepted
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/createAgreementResponse"
+      headers:
+        Content-Language:
+          $ref: "#/components/headers/Content-Language"
+        Content-Type:
+          $ref: "#/components/headers/Content-Type"
+    createPaymentSuccess:
+      description: Accepted
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/createAgreementPaymentResponse"
+      headers:
+        Content-Language:
+          $ref: "#/components/headers/Content-Language"
+        Content-Type:
+          $ref: "#/components/headers/Content-Type"
+  schemas:
+    amount:
+      type: number
+      minimum: 0.01
+      maximum: 9999999.99
+      format: decimal
+      multipleOf: 0.01
+      description: Amount in AUD dollars with exactly 2 decimal places.
+      example: 100.5
+    agreement:
+      allOf:
+        - type: object
+          properties:
+            id:
+              $ref: "#/components/schemas/uuid"
+              description: Unique id for the agreement
+        - $ref: "#/components/schemas/createAgreementRequest"
+        - type: object
+          properties:
+            status:
+              type: string
+              maxLength: 12
+              format: string
+              pattern: ^[a-z\s]+$
+              enum:
+                - accepted
+                - failed
+                - created
+                - activated
+                - cancelled
+                - suspended
+            reason:
+              type: object
+              properties:
+                reasonCode:
+                  type: string
+                  format: string
+                  pattern: ^[A-Z0-9]{4}$
+                  maxLength: 4
+                reasonDescription:
+                  type: string
+                  format: string
+                  pattern: ^.*$
+                  description: Description of the mandate status change reason.
+                  minLength: 1
+                  maxLength: 256
+                  example: Customer on Holiday
+            pendingBilateralAmendment:
+              type: object
+              description: The details of any bilateral amendment that has not yet been
+                resolved.
+              readOnly: true
+              properties:
+                actionId:
+                  type: string
+                  format: uuidv1
+                  maxLength: 36
+                  pattern: ^[a-f0-9]{8}-[a-f0-9]{4}-1[a-f0-9]{3}-[89ab][a-f0-9]{3}-[a-f0-9]{12}$
+                  description: Unique ID, as assigned by Paypa Plane, to identify an action on an
+                    agreement.
+                  example: 95b9414e-6733-11ee-8c99-0242ac120002
+                status:
+                  type: string
+                  maxLength: 21
+                  description: The status of the bilateral amendment.
+                  enum:
+                    - CREATION_PENDING
+                    - AWAITING_CONFIRMATION
+                    - RECALL_PENDING
+                  example: AWAITING_CONFIRMATION
+                resolutionRequestedBy:
+                  type: string
+                  format: date-time
+                  maxLength: 24
+                  pattern: ^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}\.\d{3}Z$
+                  description: >-
+                    Time by when resolution of a bilateral action is requested.
+                    This time is for
+
+                    informational purposes only and does not affect the expiry
+                    time imposed by the MMS.
+
+                    An ISODateTime whereby all timezoned dateTime values are
+                    UTC.
+                  example: 2022-06-10T11:16:55.533Z
+        - type: object
+          properties:
+            links:
+              type: object
+    createAgreementRequest:
+      type: object
+      properties:
+        type:
+          type: string
+          format: string
+          maxLength: 9
+          pattern: ^[a-z\s]+$
+          enum:
+            - oneoff
+            - adhoc
+            - recurring
+          description: >-
+            The type of agreement
+
+            Classified as
+
+            - oneoff: Use oneoff agreement to allow single payment only.
+            Following rules apply
+              - paymentDetails\schedule is not applicable & should not be provided.
+              - paymentDetails\maxNumberOfPayments is not applicable & should not be provided.
+            - recurring: Use recurring agreement to allow periodic payments.
+            Following rules apply
+              - paymentDetails\schedule is mandatory.
+              - paymentDetails\maxNumberOfPayments is not applicable & should not be provided.
+            - adhoc: Use adhoc agreement to allow multiple non-periodic
+            payments. Following rules apply
+              - paymentDetails\schedule is not applicable & should not be provided.
+              - paymentDetails\maxNumberOfPayments is optional, if supplied then value must be greater than 1.
+        reference:
+          $ref: "#/components/schemas/reference"
+        description:
+          $ref: "#/components/schemas/description"
+        validFrom:
+          $ref: "#/components/schemas/validFrom"
+        validTo:
+          $ref: "#/components/schemas/validTo"
+        source:
+          description: The account details from where the funds will be debited
+          $ref: "#/components/schemas/partyAccount"
+        destination:
+          description: The account details to where the funds will be credited
+          $ref: "#/components/schemas/partyAccount"
+        initiatingParty:
+          description: The party initiating the agreement
+          $ref: "#/components/schemas/initiatingParty"
+        paymentDetails:
+          $ref: "#/components/schemas/paymentDetails"
+      required:
+        - type
+        - reference
+        - description
+        - validFrom
+        - source
+        - destination
+        - paymentDetails
+        - initiatingParty
+    createAgreementResponse:
+      type: object
+      properties:
+        id:
+          $ref: "#/components/schemas/agreementId"
+        status:
+          type: string
+          maxLength: 12
+          format: string
+          pattern: ^[a-z\s]+$
+          description: Agreement status
+          enum:
+            - accepted
+        links:
+          type: object
+    changeAgreementStatusResponse:
+      type: object
+      properties:
+        referenceNumber:
+          $ref: "#/components/schemas/uuid"
+          description: Unique ID to identify the agreement status change request.
+    alternateIdentification:
+      type: object
+      properties:
+        type:
+          type: string
+          maxLength: 5
+          format: string
+          pattern: ^[a-zA-Z\s]+$
+          enum:
+            - EMAIL
+            - PHONE
+          description: Type of alternate identification.
+        value:
+          type: string
+          maxLength: 2048
+          format: string
+          pattern: ^(?:[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}|\+61[4][0-9]{8}|04[0-9]{8}|\d{11}|[a-zA-Z0-9]{1,50})$
+          description: Value of alternate identification.
+      required:
+        - type
+        - value
+    accountReference:
+      type: object
+      properties:
+        type:
+          $ref: "#/components/schemas/accountType"
+        bsb:
+          $ref: "#/components/schemas/bsb"
+        accountNumber:
+          $ref: "#/components/schemas/accountNumber"
+        accountName:
+          $ref: "#/components/schemas/accountName"
+        alternateIdentification:
+          $ref: "#/components/schemas/alternateIdentification"
+      required:
+        - type
+        - accountName
+    accountReferenceInternalAccount:
+      allOf:
+        - title: Internal Account
+        - $ref: "#/components/schemas/accountReference"
+        - type: object
+          properties:
+            accountId:
+              type: string
+          required:
+            - accountId
+    party:
+      type: object
+      properties:
+        type:
+          type: string
+          format: string
+          pattern: ^[a-z\s]+$
+          maxLength: 12
+          enum:
+            - organisation
+            - person
+          description: Specifies the type of party involved in the transaction as either a
+            person or organisation.
+        idType:
+          type: string
+          format: string
+          pattern: ^[a-zA-Z\s]+$
+          maxLength: 32
+          description: Identification type of the party, for example in the case of a
+            person; passportNumber, driversLicenseNumber etc or in the case of
+            an organisation; australianBusinessNumber, australianCompanyNumber
+            etc
+          enum:
+            - passportNumber
+            - customerIdentificationNumber
+            - driversLicenseNumber
+            - employeeIdentificationNumber
+            - taxIdentificationNumber
+            - bankPartyIdentification
+            - certificateOfIncorporationNumber
+            - australianBusinessNumber
+            - australianCompanyNumber
+        id:
+          type: string
+          maxLength: 35
+          format: string
+          pattern: ^.*$
+          description: Unique and unambiguous identification of the party. Specifies a
+            character string with a maximum length of 35 ASCII printable
+            characters.
+        ultimatePartyName:
+          $ref: "#/components/schemas/ultimatePartyName"
+        reference:
+          $ref: "#/components/schemas/reference"
+      required:
+        - type
+        - ultimatePartyName
+    partyOptionalDetails:
+      type: object
+      properties:
+        type:
+          type: string
+          maxLength: 12
+          format: string
+          pattern: ^[a-zA-Z\s]+$
+          enum:
+            - organisation
+            - person
+          description: |-
+            Identifies the party as either a person or
+            organisation
+        reference:
+          $ref: "#/components/schemas/reference"
+        idType:
+          type: string
+          maxLength: 64
+          format: string
+          pattern: ^[a-zA-Z\s]+$
+          description: The party identifier type
+          enum:
+            - passportNumber
+            - customerIdentificationNumber
+            - driversLicenseNumber
+            - employeeIdentificationNumber
+            - taxIdentificationNumber
+            - bankPartyIdentification
+            - certificateOfIncorporationNumber
+            - australianBusinessNumber
+            - australianCompanyNumber
+        id:
+          type: string
+          description: The party identifier
+          maxLength: 64
+          format: string
+          pattern: ^.*$
+        ultimatePartyName:
+          $ref: "#/components/schemas/ultimatePartyName"
+    payment:
+      allOf:
+        - type: object
+          properties:
+            id:
+              type: string
+              description: Unique id for the payment
+        - $ref: "#/components/schemas/createPaymentRequest"
+        - type: object
+          properties:
+            status:
+              type: string
+              description: The payment status
+            scheme:
+              type: string
+              description: The scheme which was used to process the payment
+            links:
+              type: object
+              description: HATEOS links
+      title: Payment
+    paymentDetails:
+      type: object
+      required:
+        - type
+        - purpose
+      properties:
+        type:
+          type: string
+          format: string
+          maxLength: 10
+          pattern: ^[a-zA-Z\s]+$
+          enum:
+            - fixed
+            - usageBased
+            - variable
+            - balloon
+          description: >-
+            Identifes the agreement payment arrangement
+             - fixed: Agreement with fixed payment amount, following rules apply
+                - amount must be specified.
+                - maxAmount must not be specified.
+             - variable: Agreement with variable payment amount, following rules apply
+                - maxAmount is recommended. However, amount and max amount are optional. If both amount and max amount are present, amount must not be greater than maxAmount.
+             - usageBased: Agreement with payment amount based on usage, following rules apply
+                - maxAmount is recommended. However, amount and max amount are optional. If both amount and max amount are present, amount must not be greater than maxAmount.
+             - balloon: Agreement with fixed payment amount and large final payment amount, following rules apply
+                - amount must be specified.
+                - maxAmount must not be specified.
+        amount:
+          $ref: "#/components/schemas/amount"
+          description: Fixed amount to be debited from the debtor's account
+        maxAmount:
+          $ref: "#/components/schemas/amount"
+          description: Maximum amount that may be paid from the debtor's account, per
+            instruction.
+        firstCollectionAmount:
+          $ref: "#/components/schemas/amount"
+          description: Amount different from the Payment amount, as it includes the costs
+            associated with the first debited amount
+        purpose:
+          type: string
+          maxLength: 16
+          format: string
+          pattern: ^[a-zA-Z\s]+$
+          description: Specifies the high level purpose of the agreement based on a set of
+            pre-defined categories.
+          enum:
+            - mortgage
+            - utility
+            - loan
+            - dependantSupport
+            - gambling
+            - retail
+            - salary
+            - personal
+            - government
+            - pension
+            - tax
+            - other
+        maxNumberOfPayments:
+          type: number
+          maxLength: 18
+          description: Maximum number of payment instructions to be created and processed
+            during the specified period. Must be a positive integer greater than
+            1.
+        finalCollectionAmount:
+          $ref: "#/components/schemas/amount"
+        schedule:
+          description: >-
+            Describes the recurring schedule details, if applicable
+              - Both pointInTime and countPerPeriod can't be provided in the same request. Where value for pointInTime is not provided countPerPeriod must have a valid non decimal numeric value, greater than zero
+          type: object
+          properties:
+            period:
+              type: string
+              maxLength: 12
+              format: string
+              pattern: ^[a-zA-Z\s-]+$
+              enum:
+                - daily
+                - weekly
+                - fortnightly
+                - monthly
+                - quarterly
+                - semi-annual
+                - annually
+              description: Specifies the regularity of payment instruction. If period is
+                provided, either countPerPeriod or pointInTime must be
+                specified, but not both.
+            countPerPeriod:
+              type: integer
+              format: int64
+              minimum: 1
+              maximum: 1000000000000000000
+              maxLength: 18
+              description: >-
+                Specifies the number of payments to be created and processed
+                during the agreement's specified calendar period. If defined,
+                payment initiations will be validated such that the number of
+                PENDING or SUCCESSFUL payments within the current period do not
+                exceed the countPerPeriod.
+
+                - For period as "daily", specifies the number of payments that
+                can be made each day.
+
+                - For period as "weekly", specifies the number of payments that
+                can be made each week. The first WEEKLY period is considered to
+                begin from the most recent Monday before the Agreement's first
+                payment date.
+
+                - For period as "fortnightly", specifies the number of payments
+                that can be made each fortnight. The first day of the fortnight
+                is considered to be from the most recent Monday before the
+                Agreement's first payment date.
+
+                - For period as "monthly", specifies the number of payments that
+                can be made each month. e.g. February 1st - February 28th
+
+                - For period as "quarterly", specifies the number of payments
+                that can be made each Quarter. e.g. January - March
+
+                - For period as "semi-annual", specifies the number of payments
+                that can be made for the first and second half of the year. e.g.
+                January - June
+
+                - For period as "annually", specifies the number of payments
+                that can be made each year.
+            pointInTime:
+              type: integer
+              format: int64
+              minimum: 1
+              maximum: 99
+              maxLength: 2
+              description: >-
+                Exact point in time or moment for processing payment instruction
+                within the specified period.
+                  - For period as "daily", supported values for pointInTime are any value 1 - 24 which specifies hour of the day.
+                    - Example '1' - Payment every day between 12 am - 1 am, '24' - Payment every day between 11 pm - 12 am
+                  - For period as "weekly", supported values for pointInTime are any value 1 - 7 which specifies the day of the week.
+                    - Example '1' - Payment every Monday, '5' - Payment every Friday.
+                  - For period as "fortnightly", supported values for pointInTime are any value 1 - 14 which specifies the day within a fortnight.
+                    - Example '1' - Payment every first Monday of the fortnight, '12' - Payment every second Friday of the fortnight.
+                  - For period as "monthly", supported values for pointInTime are any value 1 - 31, 99 which specifies the day of the month.
+                    - Note if a pointInTime > `28` is defined a payment cannot be reliably made every month.
+                    - Example '1' - Payment on 1st of every month, '31' - Payment on every 31st January, March, May and '99' - Payment on the last day of each month on January 31st, Febuary 28th/29th, March 31st etc.
+                  - For period as "quarterly", supported values for pointInTime are any value 1 - 3 which specifies the month within the quarter of year.
+                    - Example '1' - Payment every January, April, July, October and '3' - Payment every March, June, September, December.
+                  - For period as "semi-annual", supported values for pointInTime are any value 1 - 6 which specifies the month within the half of the year.
+                    - Example '1' - Payment every January & July, '3' - Payment every March & September.
+                  - For period as "annually", supported values for pointInTime are any value 1 - 12 which specifies the month of the year.
+                    - Example '1' - Payment every January, '11' - Payment every December.
+            firstCollectionDate:
+              $ref: "#/components/schemas/firstCollectionDate"
+            finalCollectionDate:
+              $ref: "#/components/schemas/finalCollectionDate"
+          required:
+            - period
+    createAgreementPaymentRequest:
+      type: object
+      properties:
+        amount:
+          $ref: "#/components/schemas/amount"
+        reference:
+          type: string
+          maxLength: 64
+          format: string
+          pattern: ^.*$
+          description: Short form description of the payment
+        description:
+          type: string
+          maxLength: 280
+          format: string
+          pattern: ^.*$
+          description: Longer form description of the payment
+        lastPayment:
+          type: boolean
+          description: Indicates if this is the last payment in the agreement
+        initiatingParty:
+          description: The party initiating the agreement
+          $ref: "#/components/schemas/initiatingParty"
+        destination:
+          type: object
+          description: Destination account details
+          properties:
+            account:
+              type: object
+              description: Account details
+              properties:
+                accountName:
+                  $ref: "#/components/schemas/accountName"
+                  description: The name of the account
+                type:
+                  $ref: "#/components/schemas/accountType"
+                bsb:
+                  $ref: "#/components/schemas/accountName"
+                accountNumber:
+                  $ref: "#/components/schemas/accountNumber"
+                alternateIdentification:
+                  $ref: "#/components/schemas/alternateIdentification"
+            party:
+              type: object
+              description: Party details
+              properties:
+                ultimatePartyName:
+                  $ref: "#/components/schemas/ultimatePartyName"
+                  required:
+                    - ultimatePartyName
+          required:
+            - account
+            - party
+      required:
+        - amount
+        - reference
+        - initiatingParty
+    createAgreementPaymentResponse:
+      type: object
+      properties:
+        id:
+          $ref: "#/components/schemas/paymentId"
+        status:
+          type: string
+          maxLength: 8
+          format: string
+          pattern: ^[a-z\s]+$
+          enum:
+            - received
+          description: The payment id
+    createPaymentRequest:
+      type: object
+      properties:
+        amount:
+          $ref: "#/components/schemas/amount"
+        reference:
+          type: string
+          format: string
+          pattern: ^.*$
+          maxLength: 64
+          description: Short form description of the payment
+        description:
+          type: string
+          format: string
+          pattern: ^.*$
+          maxLength: 256
+          description: Longer form description of the payment
+        qos:
+          type: array
+          description: QOS methods allowed
+          items:
+            type: string
+            format: string
+            pattern: ^[a-z\s]+$
+            maxLength: 8
+            enum:
+              - realtime
+              - batched
+        source:
+          description: The account where funds will be debited
+          $ref: "#/components/schemas/partyAccount"
+        destination:
+          description: The account where funds will be credited
+          $ref: "#/components/schemas/partyAccount"
+        metadata:
+          type: object
+          description: Optional key/value pair metadata
+      required:
+        - amount
+        - reference
+        - description
+        - source
+        - destination
+    getPaymentResponse:
+      type: object
+      properties:
+        id:
+          $ref: "#/components/schemas/paymentId"
+        agreementId:
+          $ref: "#/components/schemas/agreementId"
+        status:
+          type: string
+          format: string
+          enum:
+            - payment_accepted
+            - settlement_in_progress
+            - successful
+            - failed
+        statusReason:
+          type: object
+          properties:
+            code:
+              type: string
+              format: string
+              pattern: ^[A-Z0-9]+$
+              maxLength: 10
+              description: See Status Reason Codes section for all possible values
+            description:
+              type: string
+              maxLength: 256
+              format: string
+              pattern: ^.*$
+        completedDate:
+          $ref: "#/components/schemas/dateTime"
+        amount:
+          $ref: "#/components/schemas/amount"
+        reference:
+          type: string
+          maxLength: 64
+          pattern: ^.*$
+          format: string
+        source:
+          $ref: "#/components/schemas/partyAccountOptionalPartyDetails"
+        destination:
+          $ref: "#/components/schemas/partyAccountOptionalPartyDetails"
+        description:
+          type: string
+        initiatingParty:
+          description: The party initiating the agreement
+          $ref: "#/components/schemas/initiatingParty"
+    healthCheckResponse:
+      type: object
+      properties:
+        status:
+          maxLength: 7
+          pattern: ^[a-z\s]+$
+          format: string
+          type: string
+          enum:
+            - healthy
+      required:
+        - status
+    agreementValidationResponse:
+      type: object
+      title: AgreementValidationResponse
+      properties:
+        valid:
+          type: boolean
+          example: true
+          description: Determines if an Agreement can be created between the two parties.
+          enum:
+            - true
+            - false
+        validation:
+          $ref: "#/components/schemas/validationResult"
+      required:
+        - valid
+    validationResult:
+      type: object
+      title: ValidationResult
+      description: Validation failure information, present only when valid is false.
+      properties:
+        code:
+          type: string
+          description: Error code indicating the type of validation failure
+          example: ACCOUNT_VALIDATION_FAILED
+        message:
+          type: string
+          description: Human-readable summary of the validation failure
+          example: One or more accounts are not valid for PayTo agreements.
+        details:
+          type: array
+          description: Per-field validation issues
+          items:
+            $ref: "#/components/schemas/validationDetail"
+      required:
+        - code
+        - message
+        - details
+    validationDetail:
+      type: object
+      title: ValidationDetail
+      description: A single field-level validation issue.
+      properties:
+        field:
+          type: string
+          description: The request body path of the field that failed validation
+          example: source.account
+        error:
+          type: string
+          description: Human-readable description of the validation issue for this field
+          example: Source account is not valid for PayTo agreements.
+      required:
+        - field
+        - error
+    agreementValidationRequest:
+      title: AgreementValidationRequest
+      type: object
+      properties:
+        source:
+          description: The account where funds will be debited
+          $ref: "#/components/schemas/accountWrapper"
+        destination:
+          description: The account where funds will be credited
+          $ref: "#/components/schemas/accountWrapper"
+        initiatingParty:
+          description: The party initiating the agreement
+          $ref: "#/components/schemas/initiatingParty"
+      required:
+        - source
+        - destination
+        - initiatingParty
+    accountWrapper:
+      type: object
+      required:
+        - account
+      properties:
+        account:
+          $ref: "#/components/schemas/accountReference"
+      title: ""
+    initiatingParty:
+      type: object
+      required:
+        - id
+      properties:
+        id:
+          $ref: "#/components/schemas/uuid"
+          description: Commbank assigned ID for the merchant.
+    partyAccount:
+      type: object
+      required:
+        - account
+        - party
+      properties:
+        account:
+          $ref: "#/components/schemas/accountReference"
+        party:
+          $ref: "#/components/schemas/party"
+    partyAccountOptionalPartyDetails:
+      type: object
+      required:
+        - account
+        - party
+      properties:
+        account:
+          $ref: "#/components/schemas/accountReference"
+        party:
+          $ref: "#/components/schemas/partyOptionalDetails"
+    modifyAgreementResponse:
+      type: object
+      properties:
+        actionId:
+          $ref: "#/components/schemas/uuid"
+          description: Unique ID to identify the agreement status change request.
+    reference:
+      type: string
+      pattern: ^.*$
+      format: string
+      description: Short description of the reason for agreement  setup as narrative
+        text. Specifies a character string with a maximum length of 35 ASCII
+        printable characters.
+      maxLength: 35
+    error:
+      title: Error
+      type: object
+      description: Standard error response.
+      properties:
+        code:
+          type: string
+          format: string
+          description: The error code.
+          pattern: ^[ -~]{1,40}$
+          maxLength: 40
+        severity:
+          type: string
+          format: string
+          description: The severity of the error.
+          enum:
+            - FATL
+            - CRIT
+            - LOGI
+          pattern: ^[A-Z]{4}$
+          maxLength: 4
+        message:
+          type: string
+          format: string
+          description: The error message.
+          pattern: ^[ -~]{1,500}$
+          maxLength: 500
+        details:
+          type: array
+          items:
+            type: string
+            format: string
+            description: The error details.
+            pattern: ^[ -~]{1,2000}$
+            maxLength: 2000
+    uuid:
+      type: string
+      format: uuid
+      maxLength: 36
+      pattern: ^[0-9a-f]{8}-[0-9a-f]{4}-[1-57][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$
+    dateTime:
+      type: string
+      format: date-time
+      pattern: ^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}\.\d{3}Z$
+      example: 2025-02-25T00:33:38.806Z
+      maxLength: 24
+    xIdempotencyId:
+      $ref: "#/components/schemas/uuid"
+    xRequestId:
+      $ref: "#/components/schemas/uuid"
+    agreementId:
+      $ref: "#/components/schemas/uuid"
+    paymentId:
+      $ref: "#/components/schemas/uuid"
+    validFrom:
+      type: string
+      format: date
+      maxLength: 10
+      pattern: ^\d{4}-\d{2}-\d{2}$
+      description: Start date of the validity of the agreement. The agreement  is
+        valid as of 00:00:00.000 Australia Sydney time on this date. A
+        particular point in the progression of time in a calendar year expressed
+        in the YYYY-MM-DD format. Can either be today or a future date. Must not
+        be a past date.
+    validTo:
+      type: string
+      format: date
+      maxLength: 10
+      pattern: ^\d{4}-\d{2}-\d{2}$
+      description: End date of the validity of the agreement. If specified, the
+        agreement  is valid until 23:59:59.999 Australia Sydney time on this
+        date. A particular point in the progression of time in a calendar year
+        expressed in the YYYY-MM-DD format. Can either be equal to or after the
+        validFrom date
+    firstCollectionDate:
+      type: string
+      format: date
+      maxLength: 10
+      pattern: ^\d{4}-\d{2}-\d{2}$
+      description: Date of the first payment predefined in agreement. Must be on or
+        after validFrom and before or on validTo. Must not be after
+        finalCollectionDate if both are provided.
+    finalCollectionDate:
+      type: string
+      format: date
+      maxLength: 10
+      pattern: ^\d{4}-\d{2}-\d{2}$
+      description: Date of the final payment predefined in mandate. Must be after or
+        on validFrom and before or on validTo.
+    description:
+      type: string
+      description: Reason for the agreement setup as narrative text. Specifies a
+        character string with a maximum length of 140 ASCII printable
+        characters.
+      maxLength: 140
+      pattern: ^.*$
+      format: string
+    bsb:
+      type: string
+      pattern: ^[0-9]{6}$
+      maxLength: 6
+      format: string
+      description: The BSB (Bank-State-Branch) code
+    accountNumber:
+      format: string
+      minLength: 1
+      maxLength: 28
+      type: string
+      pattern: ^[0-9]+$
+    modifyAgreementRequest:
+      description: Modify an agreement
+      type: object
+      properties:
+        initiatingParty:
+          $ref: "#/components/schemas/initiatingParty"
+        uniLateral:
+          type: object
+          properties:
+            reference:
+              $ref: "#/components/schemas/reference"
+            description:
+              $ref: "#/components/schemas/description"
+            destination:
+              description: The account where funds will be credited
+              $ref: "#/components/schemas/partyAccountOptionalPartyDetails"
+        biLateral:
+          type: object
+          properties:
+            validTo:
+              $ref: "#/components/schemas/validTo"
+            paymentDetails:
+              $ref: "#/components/schemas/paymentDetails"
+      required:
+        - initiatingParty
+    accountType:
+      type: string
+      maxLength: 24
+      format: string
+      pattern: ^[a-zA-Z\s]+$
+      enum:
+        - bankAccount
+        - alternateIdentification
+      description: >-
+        Type of account identification. Following rules apply
+
+        - bankAccount: BSB and account number must be provided, and
+        alternateIdentification must not be provided.
+
+        - alternateIdentification: alternateIdentification must be provided, and
+        BSB and account number must not be provided.
+    accountName:
+      type: string
+      format: string
+      pattern: ^.*$
+      minLength: 1
+      maxLength: 140
+      description: Full Legal Account Name recorded by the Account Server in their
+        records. Specifies a character string with a maximum length of 140 ASCII
+        printable characters.
+    ultimatePartyName:
+      type: string
+      format: string
+      pattern: ^.*$
+      minLength: 1
+      maxLength: 140
+      description: >-
+        Name by which the ultimate party is known and which is usually used to
+        identify that party.
+
+        Specifies a character string with a maximum length of 140 ASCII
+        printable characters.
+  securitySchemes:
+    oauth2:
+      type: oauth2
+      flows:
+        clientCredentials:
+          tokenUrl: provided-on-onboarding
+          scopes:
+            payments:payments:read: View payments
+            payments:payments:write: Manage payments
+            payments:agreements:read: View agreements
+            payments:agreements:write: Create agreements and Update agreement status
+            payments:agreements:amend: Modify agreements
+      description: ""
+  examples:
+    modifyUnilateralAgreementSampleRequest:
+      value:
+        initiatingParty:
+          id: 3a817cbb-f91b-40b3-86a9-566078ba185a
+        uniLateral:
+          reference: OneOff retail purchase ref
+          description: Friendly description of the oneOff agreement
+          destination:
+            account:
+              type: bankAccount
+              bsb: "802950"
+              accountNumber: "333333333"
+              accountName: ss
+            party:
+              type: organisation
+              id: orga-src
+              ultimatePartyName: PAAS test client
+              idType: australianCompanyNumber
+    modifyBilateralAgreementSampleRequest:
+      value:
+        initiatingParty:
+          id: 3a817cbb-f91b-40b3-86a9-566078ba185a
+        biLateral:
+          validTo: 2029-03-07
+          paymentDetails:
+            type: usageBased
+            amount: 9.99
+            maxAmount: 1000
+            firstCollectionAmount: 10
+            purpose: retail
+            maxNumberOfPayments: 13
+            finalCollectionAmount: 100
+            schedule:
+              period: monthly
+              countPerPeriod: 1
+              pointInTime: 1
+              firstCollectionDate: 2024-03-08
+              finalCollectionDate: 2029-03-06
+    CreateAgreementSampleRequestOneOff:
+      value:
+        type: oneoff
+        reference: OneOff retail purchase ref
+        description: Friendly description of the oneOff agreement
+        validFrom: 2024-03-07
+        validTo: 2029-03-07
+        initiatingParty:
+          id: 3a817cbb-f91b-40b3-86a9-566078ba185a
+        source:
+          account:
+            type: bankAccount
+            bsb: "802950"
+            accountNumber: "333333333"
+            accountName: ss
+          party:
+            type: organisation
+            id: orga-src
+            ultimatePartyName: PAAS test client
+            idType: australianCompanyNumber
+        destination:
+          account:
+            type: bankAccount
+            bsb: "802950"
+            accountNumber: "333333331"
+            accountName: kk
+          party:
+            type: person
+            id: orga-dest
+            ultimatePartyName: kk
+            idType: australianCompanyNumber
+        paymentDetails:
+          type: usageBased
+          purpose: retail
+          amount: 9.99
+    CreateAgreementSampleRequestAdhoc:
+      value:
+        type: adhoc
+        reference: Reference for adhoc agreement
+        description: Friendly description of the agreement
+        validFrom: 2024-03-07
+        validTo: 2029-03-07
+        initiatingParty:
+          id: 3a817cbb-f91b-40b3-86a9-566078ba185a
+        source:
+          account:
+            type: bankAccount
+            bsb: "802950"
+            accountNumber: "333333333"
+            accountName: ss
+          party:
+            type: organisation
+            id: orga-src
+            ultimatePartyName: PAAS test client
+            idType: australianCompanyNumber
+        destination:
+          account:
+            type: bankAccount
+            bsb: "802950"
+            accountNumber: "333333331"
+            accountName: kk
+          party:
+            type: person
+            id: orga-dest
+            ultimatePartyName: kk
+            idType: australianCompanyNumber
+        paymentDetails:
+          type: variable
+          purpose: other
+          amount: 10
+          maxAmount: 1000
+          maxNumberOfPayments: 13
+    CreateAgreementSampleRequestRecurring:
+      value:
+        type: recurring
+        reference: For monthly phone billing
+        description: Agreement with customer for monthly billing of phone 040xxxxxx
+        validFrom: 2024-03-07
+        validTo: 2029-08-24
+        initiatingParty:
+          id: 3a817cbb-f91b-40b3-86a9-566078ba185a
+        source:
+          account:
+            type: bankAccount
+            bsb: "802950"
+            accountNumber: "333333333"
+            accountName: SAccount
+          party:
+            type: organisation
+            id: orga-src
+            ultimatePartyName: PAAS test client
+            idType: customerIdentificationNumber
+        destination:
+          account:
+            type: bankAccount
+            bsb: "802950"
+            accountNumber: "333333331"
+            accountName: DAccount
+          party:
+            type: person
+            id: orga-dest
+            ultimatePartyName: Dultimate
+            idType: australianBusinessNumber
+        paymentDetails:
+          type: usageBased
+          maxAmount: 100
+          purpose: retail
+          schedule:
+            period: monthly
+            countPerPeriod: 1
+    SuspendAgreementSampleRequest:
+      value:
+        status: suspend
+        initiatingParty:
+          id: 3a817cbb-f91b-40b3-86a9-566078ba185a
+        reason:
+          code: AC02
+          description: suspension agreement
+    ReleaseAgreementSampleRequest:
+      value:
+        status: release
+        initiatingParty:
+          id: 3a817cbb-f91b-40b3-86a9-566078ba185a
+        reason:
+          description: release agreement description
+    CancelAgreementSampleRequest:
+      value:
+        status: cancel
+        initiatingParty:
+          id: 3a817cbb-f91b-40b3-86a9-566078ba185a
+        reason:
+          code: AC02
+          description: cancellation description
+    GetAgreementSampleResponseRecurring:
+      value:
+        initiatingParty:
+          id: 3a817cbb-f91b-40b3-86a9-566078ba185a
+        type: recurring
+        reference: Short reference of the agreement
+        description: Friendly description of the agreement
+        validFrom: 2024-05-23
+        source:
+          account:
+            type: bankAccount
+            bsb: "802950"
+            accountNumber: "333333333"
+            accountName: ss
+          party:
+            type: organisation
+            idType: australianCompanyNumber
+            id: orga-src
+            ultimatePartyName: PAAS test client
+        destination:
+          account:
+            type: bankAccount
+            bsb: "062000"
+            accountNumber: "333333331"
+            accountName: kk
+          party:
+            type: person
+            idType: australianCompanyNumber
+            id: orga-dest
+            ultimatePartyName: kk
+        paymentDetails:
+          type: usageBased
+          purpose: retail
+          amount: 9.99
+          schedule:
+            period: monthly
+            countPerPeriod: 99
+        id: 7af61033-1897-11ef-9b88-1ebfd4149e2d
+        validTo: 2029-05-23
+        status: activated
+    GetAgreementSampleResponseOneOff:
+      value:
+        initiatingParty:
+          id: 3a817cbb-f91b-40b3-86a9-566078ba185a
+        type: oneoff
+        reference: Short reference of the agreement
+        description: Friendly description of the agreement
+        validFrom: 2024-05-23
+        source:
+          account:
+            type: bankAccount
+            bsb: "801950"
+            accountNumber: "10566054"
+            accountName: ss
+          party:
+            type: organisation
+            idType: australianCompanyNumber
+            id: orga-src
+            ultimatePartyName: PAAS client
+        destination:
+          account:
+            type: bankAccount
+            bsb: "062000"
+            accountNumber: "10577054"
+            accountName: kk
+          party:
+            type: person
+            idType: australianCompanyNumber
+            id: orga-dest
+            ultimatePartyName: kk
+        paymentDetails:
+          type: fixed
+          purpose: retail
+          amount: 9.99
+        id: 8ae42acc-18ac-11ef-9b88-1ebfd4149e2d
+        validTo: 2029-05-23
+        status: activated
+    GetAgreementSampleResponseAdhoc:
+      value:
+        initiatingParty:
+          id: 3a817cbb-f91b-40b3-86a9-566078ba185a
+        type: adhoc
+        reference: Short reference of the agreement
+        description: Friendly description of the agreement
+        validFrom: 2024-05-23
+        source:
+          account:
+            type: bankAccount
+            bsb: "802950"
+            accountNumber: "333333333"
+            accountName: ss
+          party:
+            type: organisation
+            idType: australianCompanyNumber
+            id: orga-src
+            ultimatePartyName: PAAS test client
+        destination:
+          account:
+            type: bankAccount
+            bsb: "062000"
+            accountNumber: "333333331"
+            accountName: kk
+          party:
+            type: person
+            idType: australianCompanyNumber
+            id: orga-dest
+            ultimatePartyName: kk
+        paymentDetails:
+          type: variable
+          purpose: retail
+          maxNumberOfPayments: 99
+        id: 3c9a573e-18c6-11ef-9b88-1ebfd4149e2d
+        validTo: 2029-05-23
+        status: activated

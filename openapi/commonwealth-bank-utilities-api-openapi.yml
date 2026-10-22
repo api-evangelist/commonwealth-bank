@@ -1,0 +1,162 @@
+openapi: 3.2.0
+info:
+  title: PayTo Utilities API
+  version: 1.0.0
+  summary: PayTo is a modern digital payment solution enabling near real-time, account-to-account payments from a customer’s bank account. PayTo replaces traditional direct debit with a faster, more secure option
+  description: This API follows RESTful principles and provides a simple way to integrate PayTo functionality into your systems. It uses semantic versioning to ensure backward compatibility and includes idempotency support through the x-idempotency-id header to prevent duplicate transactions. The API is designed to be developer-friendly while maintaining the security and reliability required for financial transactions.
+security:
+- oauth2: []
+tags:
+- name: Utilities
+  description: Endpoints for auxiliary operations such as health checks and other supporting functionalities.
+paths:
+  /agreements/health:
+    parameters: []
+    get:
+      summary: Health Check
+      tags:
+      - Utilities
+      responses:
+        '200':
+          $ref: '#/components/responses/healthCheckSuccess'
+        '400':
+          $ref: '#/components/responses/400'
+        '500':
+          $ref: '#/components/responses/500'
+        '503':
+          $ref: '#/components/responses/503'
+      operationId: HealthCheck
+      description: 'Health check endpoint.
+
+
+        Returns 200 response for success, or 500 if unhealthy.'
+components:
+  headers:
+    Content-Type:
+      schema:
+        type: string
+        format: media
+        enum:
+        - application/json
+        pattern: ^application/json$
+        maxLength: 16
+    Content-Language:
+      schema:
+        type: string
+        format: language
+        enum:
+        - en-AU
+        pattern: ^en-AU$
+        maxLength: 5
+  responses:
+    '400':
+      headers:
+        Content-Language:
+          $ref: '#/components/headers/Content-Language'
+        Content-Type:
+          $ref: '#/components/headers/Content-Type'
+      description: 'Bad Request
+
+
+        Request is not well-formed, syntactically incorrect, or violates schema.'
+      content:
+        application/problem+json:
+          schema:
+            $ref: '#/components/schemas/error'
+    healthCheckSuccess:
+      description: OK
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/healthCheckResponse'
+      headers:
+        Content-Language:
+          $ref: '#/components/headers/Content-Language'
+        Content-Type:
+          $ref: '#/components/headers/Content-Type'
+    '500':
+      headers:
+        Content-Language:
+          $ref: '#/components/headers/Content-Language'
+        Content-Type:
+          $ref: '#/components/headers/Content-Type'
+      description: 'Internal Server Error
+
+
+        An internal server error has occurred.'
+      content:
+        application/problem+json:
+          schema:
+            $ref: '#/components/schemas/error'
+    '503':
+      headers:
+        Content-Language:
+          $ref: '#/components/headers/Content-Language'
+        Content-Type:
+          $ref: '#/components/headers/Content-Type'
+      description: Service Unavailable - Temporarily Unavailable
+      content:
+        application/problem+json:
+          schema:
+            $ref: '#/components/schemas/error'
+  schemas:
+    error:
+      title: Error
+      type: object
+      description: Standard error response.
+      properties:
+        code:
+          type: string
+          format: string
+          description: The error code.
+          pattern: ^[ -~]{1,40}$
+          maxLength: 40
+        severity:
+          type: string
+          format: string
+          description: The severity of the error.
+          enum:
+          - FATL
+          - CRIT
+          - LOGI
+          pattern: ^[A-Z]{4}$
+          maxLength: 4
+        message:
+          type: string
+          format: string
+          description: The error message.
+          pattern: ^[ -~]{1,500}$
+          maxLength: 500
+        details:
+          type: array
+          items:
+            type: string
+            format: string
+            description: The error details.
+            pattern: ^[ -~]{1,2000}$
+            maxLength: 2000
+    healthCheckResponse:
+      type: object
+      properties:
+        status:
+          maxLength: 7
+          pattern: ^[a-z\s]+$
+          format: string
+          type: string
+          enum:
+          - healthy
+      required:
+      - status
+  securitySchemes:
+    oauth2:
+      type: oauth2
+      flows:
+        clientCredentials:
+          tokenUrl: provided-on-onboarding
+          scopes:
+            payments:payments:read: View payments
+            payments:payments:write: Manage payments
+            payments:agreements:read: View agreements
+            payments:agreements:write: Create agreements and Update agreement status
+            payments:agreements:amend: Modify agreements
+      description: ''

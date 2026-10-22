@@ -1,0 +1,51 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/commonwealth-bank/main/json-schema/commonwealth-bank-request-account-ids-schema.json",
+  "title": "RequestAccountIds",
+  "x-generated": "2026-10-20",
+  "x-method": "derived",
+  "x-generator": "derive-json-schema.py",
+  "x-source": "openapi/commonwealth-bank-balances-api-api-openapi.yml#/components/schemas/RequestAccountIds",
+  "type": "object",
+  "required": [
+    "data"
+  ],
+  "properties": {
+    "data": {
+      "$ref": "#/$defs/RequestAccountIds_data"
+    },
+    "meta": {
+      "$ref": "#/$defs/Meta"
+    }
+  },
+  "$defs": {
+    "Meta": {
+      "type": "object",
+      "properties": {
+        "totalRecords": {
+          "type": "integer",
+          "description": "Total number of records in the full set."
+        },
+        "totalPages": {
+          "description": "Total number of pages in the full set.",
+          "type": "integer"
+        }
+      }
+    },
+    "RequestAccountIds_data": {
+      "required": [
+        "accountIds"
+      ],
+      "properties": {
+        "accountIds": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "description": "Array of specific accountIds to obtain authorisations for",
+            "x-cds-type": "ASCIIString"
+          }
+        }
+      }
+    }
+  }
+}

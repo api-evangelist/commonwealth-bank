@@ -1,0 +1,14 @@
+name: Commonwealth Bank pricing
+generated: '2026-10-20'
+method: none
+source: https://docs.commbank.com.au/apis
+audience: unclear
+pricing_basis: none
+published: false
+plan_count: 0
+plans: []
+delivery:
+  model: managed
+note: No API pricing or plans are published on the CommBank API Developer Docs or developer portal; business APIs
+  are onboarded through a CommBank Integration Lead. CDR (Open Banking) data-holder APIs are regulated access for
+  accredited recipients, not a priced product.

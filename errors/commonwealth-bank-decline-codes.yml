@@ -1,0 +1,45 @@
+generated: '2026-10-20'
+method: searched
+source: https://paymentgateway.commbank.com.au/api/documentation/integrationGuidelines/supportedFeatures/testAndGoLive.html
+name: Commonwealth Bank (CommWeb payment gateway) decline codes
+envelope: response.gatewayCode (Transaction Response Gateway Code)
+decline_codes:
+- code: APPROVED
+  meaning: Transaction Response Gateway Code APPROVED; produced on the test merchant by standard test cards with expiry date
+    01/39
+  action: null
+  test_trigger: expiry 01/39
+- code: DECLINED
+  meaning: Transaction Response Gateway Code DECLINED; produced on the test merchant by standard test cards with expiry date
+    05/39
+  action: null
+  test_trigger: expiry 05/39
+- code: EXPIRED_CARD
+  meaning: Transaction Response Gateway Code EXPIRED_CARD; produced on the test merchant by standard test cards with expiry
+    date 04/27
+  action: null
+  test_trigger: expiry 04/27
+- code: TIMED_OUT
+  meaning: Transaction Response Gateway Code TIMED_OUT; produced on the test merchant by standard test cards with expiry date
+    08/28
+  action: null
+  test_trigger: expiry 08/28
+- code: ACQUIRER_SYSTEM_ERROR
+  meaning: Transaction Response Gateway Code ACQUIRER_SYSTEM_ERROR; produced on the test merchant by standard test cards with
+    expiry date 01/37
+  action: null
+  test_trigger: expiry 01/37
+- code: UNSPECIFIED_FAILURE
+  meaning: Transaction Response Gateway Code UNSPECIFIED_FAILURE; produced on the test merchant by standard test cards with
+    expiry date 02/37
+  action: null
+  test_trigger: expiry 02/37
+- code: UNKNOWN
+  meaning: Transaction Response Gateway Code UNKNOWN; produced on the test merchant by standard test cards with expiry date
+    05/37
+  action: null
+  test_trigger: expiry 05/37
+masked_to_buyers: null
+note: Only the gateway codes the CommWeb test-and-go-live page publishes as test-card responses are recorded; the page states
+  no recommended action or buyer-masking rule, so action and masked_to_buyers are null. CSC/CVV (MATCH, NOT_PROCESSED, NO_MATCH)
+  and AVS response gateway codes are also listed on that page.

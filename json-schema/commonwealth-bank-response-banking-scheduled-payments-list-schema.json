@@ -1,0 +1,627 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/commonwealth-bank/main/json-schema/commonwealth-bank-response-banking-scheduled-payments-list-schema.json",
+  "title": "ResponseBankingScheduledPaymentsList",
+  "x-generated": "2026-10-20",
+  "x-method": "derived",
+  "x-generator": "derive-json-schema.py",
+  "x-source": "openapi/commonwealth-bank-regular-payments-api-api-openapi.yml#/components/schemas/ResponseBankingScheduledPaymentsList",
+  "type": "object",
+  "required": [
+    "data",
+    "links",
+    "meta"
+  ],
+  "properties": {
+    "data": {
+      "$ref": "#/$defs/ResponseBankingScheduledPaymentsList_data"
+    },
+    "links": {
+      "$ref": "#/$defs/LinksPaginated"
+    },
+    "meta": {
+      "$ref": "#/$defs/MetaPaginated"
+    }
+  },
+  "$defs": {
+    "BankingBillerPayee": {
+      "type": "object",
+      "required": [
+        "billerCode",
+        "billerName"
+      ],
+      "properties": {
+        "billerCode": {
+          "type": "string",
+          "description": "BPAY Biller Code of the Biller."
+        },
+        "crn": {
+          "type": "string",
+          "description": "BPAY CRN of the Biller."
+        },
+        "billerName": {
+          "type": "string",
+          "description": "Name of the Biller."
+        }
+      },
+      "x-conditional": [
+        "crn"
+      ]
+    },
+    "BankingDomesticPayee": {
+      "type": "object",
+      "required": [
+        "payeeAccountUType"
+      ],
+      "properties": {
+        "payeeAccountUType": {
+          "type": "string",
+          "description": "Type of account object included.",
+          "enum": [
+            "account",
+            "card",
+            "payId"
+          ]
+        },
+        "account": {
+          "$ref": "#/$defs/BankingDomesticPayeeAccount"
+        },
+        "card": {
+          "$ref": "#/$defs/BankingDomesticPayeeCard"
+        },
+        "payId": {
+          "$ref": "#/$defs/BankingDomesticPayeePayId"
+        }
+      },
+      "x-conditional": [
+        "account",
+        "card",
+        "payId"
+      ]
+    },
+    "BankingDomesticPayeeAccount": {
+      "type": "object",
+      "required": [
+        "accountNumber",
+        "bsb"
+      ],
+      "properties": {
+        "accountName": {
+          "type": "string",
+          "description": "Name of the account to pay to."
+        },
+        "bsb": {
+          "type": "string",
+          "description": "BSB of the account to pay to."
+        },
+        "accountNumber": {
+          "type": "string",
+          "description": "Number of the account to pay to."
+        }
+      }
+    },
+    "BankingDomesticPayeeCard": {
+      "type": "object",
+      "required": [
+        "cardNumber"
+      ],
+      "properties": {
+        "cardNumber": {
+          "type": "string",
+          "description": "Name of the account to pay to.",
+          "x-cds-type": "MaskedPANString"
+        }
+      }
+    },
+    "BankingDomesticPayeePayId": {
+      "type": "object",
+      "required": [
+        "identifier",
+        "type"
+      ],
+      "properties": {
+        "name": {
+          "type": "string",
+          "description": "The name assigned to the PayID by the owner of the PayID."
+        },
+        "identifier": {
+          "type": "string",
+          "description": "The identifier of the PayID (dependent on type)."
+        },
+        "type": {
+          "type": "string",
+          "description": "The type of the PayID",
+          "enum": [
+            "ABN",
+            "EMAIL",
+            "ORG_IDENTIFIER",
+            "TELEPHONE"
+          ]
+        }
+      }
+    },
+    "BankingInternationalPayee": {
+      "type": "object",
+      "required": [
+        "bankDetails",
+        "beneficiaryDetails"
+      ],
+      "properties": {
+        "beneficiaryDetails": {
+          "$ref": "#/$defs/BankingInternationalPayee_beneficiaryDetails"
+        },
+        "bankDetails": {
+          "$ref": "#/$defs/BankingInternationalPayee_bankDetails"
+        }
+      }
+    },
+    "BankingInternationalPayee_bankDetails": {
+      "required": [
+        "accountNumber",
+        "country"
+      ],
+      "properties": {
+        "country": {
+          "type": "string",
+          "description": "Country of the recipient institution.",
+          "x-cds-type": "ExternalRef"
+        },
+        "accountNumber": {
+          "type": "string",
+          "description": "Account Targeted for payment."
+        },
+        "bankAddress": {
+          "$ref": "#/$defs/BankingInternationalPayee_bankDetails_bankAddress"
+        },
+        "beneficiaryBankBIC": {
+          "type": "string",
+          "description": "Swift bank code.",
+          "x-cds-type": "ExternalRef"
+        },
+        "fedWireNumber": {
+          "type": "string",
+          "description": "Number for Fedwire payment (Federal Reserve Wire Network)."
+        },
+        "sortCode": {
+          "type": "string",
+          "description": "Sort code used for account identification in some jurisdictions."
+        },
+        "chipNumber": {
+          "type": "string",
+          "description": "Number for the Clearing House Interbank Payments System."
+        },
+        "routingNumber": {
+          "type": "string",
+          "description": "International bank routing number."
+        },
+        "legalEntityIdentifier": {
+          "type": "string",
+          "description": "The legal entity identifier (LEI) for the beneficiary.",
+          "x-cds-type": "ExternalRef"
+        }
+      }
+    },
+    "BankingInternationalPayee_bankDetails_bankAddress": {
+      "required": [
+        "address",
+        "name"
+      ],
+      "properties": {
+        "name": {
+          "type": "string",
+          "description": "Name of the recipient Bank>"
+        },
+        "address": {
+          "type": "string",
+          "description": "Address of the recipient Bank."
+        }
+      }
+    },
+    "BankingInternationalPayee_beneficiaryDetails": {
+      "required": [
+        "country"
+      ],
+      "properties": {
+        "name": {
+          "type": "string",
+          "description": "Name of the beneficiary."
+        },
+        "country": {
+          "type": "string",
+          "description": "Country where the beneficiary resides.",
+          "x-cds-type": "ExternalRef"
+        },
+        "message": {
+          "type": "string",
+          "description": "Response message for the payment."
+        }
+      }
+    },
+    "BankingScheduledPayment": {
+      "type": "object",
+      "required": [
+        "from",
+        "payeeReference",
+        "payerReference",
+        "paymentSet",
+        "recurrence",
+        "scheduledPaymentId",
+        "status"
+      ],
+      "properties": {
+        "scheduledPaymentId": {
+          "type": "string",
+          "description": "A unique ID of the scheduled payment adhering to the standards for ID permanence.",
+          "x-cds-type": "ASCIIString"
+        },
+        "nickname": {
+          "type": "string",
+          "description": "The short display name of the payee as provided by the customer."
+        },
+        "payerReference": {
+          "type": "string",
+          "description": "The reference for the transaction, empty string if no data provided."
+        },
+        "payeeReference": {
+          "type": "string",
+          "description": "The reference for the transaction, empty string if no data provided."
+        },
+        "status": {
+          "type": "string",
+          "description": "Indicates the schedule status.",
+          "enum": [
+            "ACTIVE",
+            "INACTIVE",
+            "SKIP"
+          ]
+        },
+        "from": {
+          "$ref": "#/$defs/BankingScheduledPaymentFrom"
+        },
+        "paymentSet": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/BankingScheduledPaymentSet"
+          }
+        },
+        "recurrence": {
+          "$ref": "#/$defs/BankingScheduledPaymentRecurrence"
+        }
+      }
+    },
+    "BankingScheduledPaymentFrom": {
+      "type": "object",
+      "required": [
+        "accountId"
+      ],
+      "properties": {
+        "accountId": {
+          "type": "string",
+          "description": "ID of the account that is the source of funds for the payment.",
+          "x-cds-type": "ASCIIString"
+        }
+      },
+      "description": "Object containing details of the source of the payment."
+    },
+    "BankingScheduledPaymentInterval": {
+      "type": "object",
+      "required": [
+        "interval"
+      ],
+      "properties": {
+        "interval": {
+          "type": "string",
+          "description": "An interval for the payment.",
+          "x-cds-type": "ExternalRef"
+        },
+        "dayInInterval": {
+          "type": "string",
+          "description": "Uses an interval to define the ordinal day within the interval defined by the interval field on which the payment occurs.",
+          "x-cds-type": "ExternalRef"
+        }
+      }
+    },
+    "BankingScheduledPaymentRecurrence": {
+      "type": "object",
+      "required": [
+        "recurrenceUType"
+      ],
+      "properties": {
+        "nextPaymentDate": {
+          "type": "string",
+          "description": "The date of the next payment under the recurrence schedule.",
+          "x-cds-type": "DateString"
+        },
+        "recurrenceUType": {
+          "type": "string",
+          "description": "The type of recurrence used to define the schedule.",
+          "enum": [
+            "onceOff",
+            "intervalSchedule",
+            "lastWeekDay",
+            "eventBased"
+          ]
+        },
+        "onceOff": {
+          "$ref": "#/$defs/BankingScheduledPaymentRecurrenceOnceOff"
+        },
+        "intervalSchedule": {
+          "$ref": "#/$defs/BankingScheduledPaymentRecurrenceIntervalSchedule"
+        },
+        "lastWeekDay": {
+          "$ref": "#/$defs/BankingScheduledPaymentRecurrenceLastWeekday"
+        },
+        "eventBased": {
+          "$ref": "#/$defs/BankingScheduledPaymentRecurrenceEventBased"
+        }
+      },
+      "description": "Object containing the detail of the schedule for the payment",
+      "x-conditional": [
+        "onceOff",
+        "intervalSchedule",
+        "lastWeekDay",
+        "eventBased"
+      ]
+    },
+    "BankingScheduledPaymentRecurrenceEventBased": {
+      "type": "object",
+      "required": [
+        "description"
+      ],
+      "properties": {
+        "description": {
+          "type": "string",
+          "description": "Description of the event and conditions that will result in the payment."
+        }
+      },
+      "description": "Indicates that the schedule of payments is defined according to an external event that cannot be predetermined."
+    },
+    "BankingScheduledPaymentRecurrenceIntervalSchedule": {
+      "type": "object",
+      "required": [
+        "intervals"
+      ],
+      "properties": {
+        "finalPaymentDate": {
+          "type": "string",
+          "description": "The limit date after which no more payments should be made using this schedule.",
+          "x-cds-type": "DateString"
+        },
+        "paymentsRemaining": {
+          "type": "integer",
+          "description": "Indicates the number of payments remaining in the schedule.",
+          "x-cds-type": "PositiveInteger"
+        },
+        "nonBusinessDayTreatment": {
+          "type": "string",
+          "description": "Enumerated field giving the treatment where a scheduled payment date is not a business day.",
+          "default": true,
+          "enum": [
+            "AFTER",
+            "BEFORE",
+            true,
+            "ONLY"
+          ]
+        },
+        "intervals": {
+          "type": "array",
+          "description": "An array of interval objects defining the payment schedule.",
+          "items": {
+            "$ref": "#/$defs/BankingScheduledPaymentInterval"
+          }
+        }
+      },
+      "description": "Indicates that the schedule of payments is defined by a series of intervals."
+    },
+    "BankingScheduledPaymentRecurrenceLastWeekday": {
+      "type": "object",
+      "required": [
+        "interval",
+        "lastWeekDay"
+      ],
+      "properties": {
+        "finalPaymentDate": {
+          "type": "string",
+          "description": "The limit date after which no more payments should be made using this schedule.",
+          "x-cds-type": "DateString"
+        },
+        "paymentsRemaining": {
+          "type": "integer",
+          "description": "Indicates the number of payments remaining in the schedule.",
+          "x-cds-type": "PositiveInteger"
+        },
+        "interval": {
+          "type": "string",
+          "description": "The interval for the payment.",
+          "x-cds-type": "ExternalRef"
+        },
+        "lastWeekDay": {
+          "type": "string",
+          "description": "The weekDay specified. The payment will occur on the last occurrence of this weekday in the interval.",
+          "enum": [
+            "MON",
+            "TUE",
+            "WED",
+            "THU",
+            "FRI",
+            "SAT",
+            "SUN"
+          ]
+        },
+        "nonBusinessDayTreatment": {
+          "type": "string",
+          "description": "Enumerated field giving the treatment where a scheduled payment date is not a business day.",
+          "default": true,
+          "enum": [
+            "AFTER",
+            "BEFORE",
+            true,
+            "ONLY"
+          ]
+        }
+      },
+      "description": "Indicates that the schedule of payments is defined according to the last occurrence of a specific weekday in an interval."
+    },
+    "BankingScheduledPaymentRecurrenceOnceOff": {
+      "type": "object",
+      "required": [
+        "paymentDate"
+      ],
+      "properties": {
+        "paymentDate": {
+          "type": "string",
+          "description": "The scheduled date for the once off payment.",
+          "x-cds-type": "DateString"
+        }
+      },
+      "description": "Indicates that the payment is a once off payment on a specific future date."
+    },
+    "BankingScheduledPaymentSet": {
+      "required": [
+        "to"
+      ],
+      "properties": {
+        "to": {
+          "$ref": "#/$defs/BankingScheduledPaymentTo"
+        },
+        "isAmountCalculated": {
+          "type": "boolean",
+          "description": "Flag indicating whether the amount of the payment is calculated based on the context of the event.",
+          "x-cds-type": "Boolean"
+        },
+        "amount": {
+          "type": "string",
+          "description": "The amount of the next payment if known.",
+          "x-cds-type": "AmountString"
+        },
+        "currency": {
+          "type": "string",
+          "description": "The currency for the payment. AUD assumed if not present.",
+          "x-cds-type": "CurrencyString"
+        }
+      },
+      "description": "The set of payment amounts and destination accounts for this payment accommodating multi-part payments.",
+      "x-conditional": [
+        "amount"
+      ]
+    },
+    "BankingScheduledPaymentTo": {
+      "type": "object",
+      "required": [
+        "toUType"
+      ],
+      "properties": {
+        "toUType": {
+          "type": "string",
+          "description": "The type of object provided that specifies the destination of the funds for the payment.",
+          "enum": [
+            "accountId",
+            "payeeId",
+            "domestic",
+            "biller",
+            "international"
+          ]
+        },
+        "accountId": {
+          "type": "string",
+          "description": "Present if toUType is set to accountId.",
+          "x-cds-type": "ASCIIString"
+        },
+        "payeeId": {
+          "type": "string",
+          "description": "Present if toUType is set to payeeId. Indicates that the payment is to registered payee that can be accessed using the payee end point.",
+          "x-cds-type": "ASCIIString"
+        },
+        "domestic": {
+          "$ref": "#/$defs/BankingDomesticPayee"
+        },
+        "biller": {
+          "$ref": "#/$defs/BankingBillerPayee"
+        },
+        "international": {
+          "$ref": "#/$defs/BankingInternationalPayee"
+        }
+      },
+      "description": "Object containing details of the destination of the payment.",
+      "x-conditional": [
+        "accountId",
+        "payeeId",
+        "domestic",
+        "biller",
+        "international"
+      ]
+    },
+    "LinksPaginated": {
+      "type": "object",
+      "required": [
+        "self"
+      ],
+      "properties": {
+        "self": {
+          "type": "string",
+          "description": "Fully qualified link that generated the current response document2.",
+          "x-cds-type": "URIString"
+        },
+        "first": {
+          "type": "string",
+          "description": "URI to the first page of this set. Mandatory if this response is not the first page.",
+          "x-cds-type": "URIString"
+        },
+        "prev": {
+          "type": "string",
+          "description": "URI to the previous page of this set. Mandatory if this response is not the first page.",
+          "x-cds-type": "URIString"
+        },
+        "next": {
+          "type": "string",
+          "description": "URI to the next page of this set. Mandatory if this response is not the last page.",
+          "x-cds-type": "URIString"
+        },
+        "last": {
+          "type": "string",
+          "description": "URI to the last page of this set. Mandatory if this response is not the last page.",
+          "x-cds-type": "URIString"
+        }
+      },
+      "x-conditional": [
+        "prev",
+        "next",
+        "first",
+        "last"
+      ]
+    },
+    "MetaPaginated": {
+      "type": "object",
+      "required": [
+        "totalPages",
+        "totalRecords"
+      ],
+      "properties": {
+        "totalRecords": {
+          "type": "integer",
+          "description": "The total number of records in the full set. See [pagination](#pagination).",
+          "x-cds-type": "NaturalNumber"
+        },
+        "totalPages": {
+          "type": "integer",
+          "description": "The total number of pages in the full set. See [pagination](#pagination).",
+          "x-cds-type": "NaturalNumber"
+        }
+      }
+    },
+    "ResponseBankingScheduledPaymentsList_data": {
+      "required": [
+        "scheduledPayments"
+      ],
+      "properties": {
+        "scheduledPayments": {
+          "type": "array",
+          "description": "The list of scheduled payments to return.",
+          "items": {
+            "$ref": "#/$defs/BankingScheduledPayment"
+          }
+        }
+      }
+    }
+  }
+}

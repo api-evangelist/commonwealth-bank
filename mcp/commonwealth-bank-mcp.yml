@@ -1,114 +1,234 @@
-generated: '2026-07-21'
+name: Commonwealth Bank MCP server (candidate)
+generated: '2026-10-20'
 method: derived
 status: candidate
-source: openapi/ operations (CDR Banking read APIs)
-notes: Commonwealth Bank publishes no official hosted MCP server. This is a CANDIDATE tool list derived
-  one-to-one from the operationIds in the repo's harvested CDR Banking OpenAPI/Swagger specs. All operations
-  are read-only (CDR data-sharing); any real deployment must front the CDR ADR OAuth2/FAPI + mTLS consent
-  flow.
+source: openapi/ operations (CommBank docs.commbank.com.au contracts); MCP search 2026-10-20
+notes: 'Commonwealth Bank publishes no official MCP server (hosted or local). A web search on 2026-10-20 found none,
+  and the pre-flight probe of https://api.commbank.com.au/mcp returned 403 with a 403 control path (opaque: the
+  edge refuses before routing, which proves nothing about an MCP endpoint). This is a CANDIDATE tool list derived
+  one-to-one from operationIds in the repo''s CommBank-published OpenAPI contracts. Source paths re-pointed
+  2026-10-20 after the openapi/ contracts were split per tag (PayTo -> agreements/payments/utilities).'
+deployment:
+  mode: none
+  auth: unknown
+  verified: searched
+evidence:
+- url: https://api.commbank.com.au/mcp
+  status: 403
+  note: pre-flight 2026-10-20; control path also 403 -> opaque
+- url: https://openbankingtracker.com/provider/commbank
+  note: no confirmed MCP program listed
 server:
   name: commonwealth-bank
-  transport: http
+  transport: none
 tools:
 - name: listAccounts
   description: Get Accounts
-  source_operation: openapi/commonwealth-bank-cdr-accounts-openapi.json#listAccounts
+  source_operation: openapi/commonwealth-bank-accounts-api-api-openapi.yml#listAccounts
+  method: GET
+  path: /accounts
+  read_only: true
 - name: getAccountDetail
   description: Get Account Detail
-  source_operation: openapi/commonwealth-bank-cdr-accounts-openapi.json#getAccountDetail
+  source_operation: openapi/commonwealth-bank-accounts-api-api-openapi.yml#getAccountDetail
+  method: GET
+  path: /accounts/{accountId}
+  read_only: true
 - name: getBalances
   description: Get Balances
-  source_operation: openapi/commonwealth-bank-cdr-balances-openapi.json#getBalances
+  source_operation: openapi/commonwealth-bank-balances-api-api-openapi.yml#getBalances
+  method: GET
+  path: /accounts/{accountId}/balance
+  read_only: true
 - name: listBalancesBulk
   description: Get Bulk Balances
-  source_operation: openapi/commonwealth-bank-cdr-balances-openapi.json#listBalancesBulk
+  source_operation: openapi/commonwealth-bank-balances-api-api-openapi.yml#listBalancesBulk
+  method: GET
+  path: /accounts/balances
+  read_only: true
 - name: listBalancesSpecificAccounts
   description: Get Balances For Specific Accounts
-  source_operation: openapi/commonwealth-bank-cdr-balances-openapi.json#listBalancesSpecificAccounts
+  source_operation: openapi/commonwealth-bank-balances-api-api-openapi.yml#listBalancesSpecificAccounts
+  method: POST
+  path: /accounts/balances
+  read_only: true
 - name: getCustomer
   description: Get customer
-  source_operation: openapi/commonwealth-bank-cdr-customer-openapi.json#getCustomer
+  source_operation: openapi/commonwealth-bank-customer-api-api-openapi.yml#getCustomer
+  method: GET
+  path: /common/customer
+  read_only: true
 - name: getCustomerDetail
   description: Get Customer Detail
-  source_operation: openapi/commonwealth-bank-cdr-customer-openapi.json#getCustomerDetail
+  source_operation: openapi/commonwealth-bank-customer-api-api-openapi.yml#getCustomerDetail
+  method: GET
+  path: /common/customer/detail
+  read_only: true
+- name: post_v1_payment_initiation
+  description: Payment Initiation Credit Transfer
+  source_operation: openapi/commonwealth-bank-credit-transfer-initiations-api-openapi.yml#post-v1-payment-initiation
+  method: POST
+  path: /core-payments/payment-initiation/v1/credit-transfer-initiations
+  read_only: false
+- name: partnerAcceptQuote
+  description: partnerAcceptQuote
+  source_operation: openapi/commonwealth-bank-partner-api-openapi.yml#partnerAcceptQuote
+  method: PUT
+  path: /partner/api/markets/fx/quote
+  read_only: false
+- name: partnerGetQuote
+  description: partnerGetQuote
+  source_operation: openapi/commonwealth-bank-partner-api-openapi.yml#partnerGetQuote
+  method: POST
+  path: /partner/api/markets/fx/quote
+  read_only: false
+- name: partnerCancelQuote
+  description: partnerCancelQuote
+  source_operation: openapi/commonwealth-bank-partner-api-openapi.yml#partnerCancelQuote
+  method: DELETE
+  path: /partner/api/markets/fx/quote/{quote_id}
+  read_only: false
+- name: partnerGetTradeDates
+  description: partnerGetTradeDates
+  source_operation: openapi/commonwealth-bank-partner-api-openapi.yml#partnerGetTradeDates
+  method: GET
+  path: /partner/api/markets/fx/trade-dates
+  read_only: true
+- name: post_accounts_name_check
+  description: NameCheck
+  source_operation: openapi/commonwealth-bank-accounts-api-openapi.yml#post-accounts-name-check
+  method: POST
+  path: /payments/v1/accounts/namecheck
+  read_only: false
 - name: listPayees
   description: Get Payees
-  source_operation: openapi/commonwealth-bank-cdr-payees-openapi.json#listPayees
+  source_operation: openapi/commonwealth-bank-payees-api-api-openapi.yml#listPayees
+  method: GET
+  path: /payees
+  read_only: true
 - name: getPayeeDetail
   description: Get Payee Detail
-  source_operation: openapi/commonwealth-bank-cdr-payees-openapi.json#getPayeeDetail
+  source_operation: openapi/commonwealth-bank-payees-api-api-openapi.yml#getPayeeDetail
+  method: GET
+  path: /payees/{payeeId}
+  read_only: true
+- name: CreateAgreement
+  description: Create Agreement
+  source_operation: openapi/commonwealth-bank-agreements-api-openapi.yml#CreateAgreement
+  method: POST
+  path: /agreements
+  read_only: false
+- name: get_agreements_id
+  description: Get Agreement
+  source_operation: openapi/commonwealth-bank-agreements-api-openapi.yml#get-agreements-id
+  method: GET
+  path: /agreements/{id}
+  read_only: true
+- name: patch_agreement_id
+  description: Modify Agreement
+  source_operation: openapi/commonwealth-bank-agreements-api-openapi.yml#patch-agreement-id
+  method: PATCH
+  path: /agreements/{id}
+  read_only: false
+- name: agreements_validate
+  description: Validate Agreement
+  source_operation: openapi/commonwealth-bank-agreements-api-openapi.yml#agreements-validate
+  method: POST
+  path: /agreements/validate
+  read_only: false
+- name: change_agreement_status
+  description: Change Agreement Status
+  source_operation: openapi/commonwealth-bank-agreements-api-openapi.yml#change-agreement-status
+  method: PATCH
+  path: /agreements/{id}/status
+  read_only: false
+- name: post_agreements_id_payments
+  description: Create Payment
+  source_operation: openapi/commonwealth-bank-payments-api-openapi.yml#post-agreements-id-payments
+  method: POST
+  path: /agreements/{id}/payments
+  read_only: false
+- name: get_payments_id
+  description: Get Payment
+  source_operation: openapi/commonwealth-bank-payments-api-openapi.yml#get-payments-id
+  method: GET
+  path: /payments/{id}
+  read_only: true
+- name: HealthCheck
+  description: Health Check
+  source_operation: openapi/commonwealth-bank-utilities-api-openapi.yml#HealthCheck
+  method: GET
+  path: /agreements/health
+  read_only: true
 - name: listProducts
   description: Get Products
-  source_operation: openapi/commonwealth-bank-cdr-products-openapi.json#listProducts
+  source_operation: openapi/commonwealth-bank-products-api-api-openapi.yml#listProducts
+  method: GET
+  path: /products
+  read_only: true
 - name: getProductDetail
   description: Get Product Detail
-  source_operation: openapi/commonwealth-bank-cdr-products-openapi.json#getProductDetail
+  source_operation: openapi/commonwealth-bank-products-api-api-openapi.yml#getProductDetail
+  method: GET
+  path: /products/{productId}
+  read_only: true
 - name: listDirectDebits
   description: Get Direct Debits For Account
-  source_operation: openapi/commonwealth-bank-cdr-regular-payments-openapi.json#listDirectDebits
+  source_operation: openapi/commonwealth-bank-regular-payments-api-api-openapi.yml#listDirectDebits
+  method: GET
+  path: /accounts/{accountId}/direct-debits
+  read_only: true
 - name: listDirectDebitsBulk
   description: Get Bulk Direct Debits
-  source_operation: openapi/commonwealth-bank-cdr-regular-payments-openapi.json#listDirectDebitsBulk
+  source_operation: openapi/commonwealth-bank-regular-payments-api-api-openapi.yml#listDirectDebitsBulk
+  method: GET
+  path: /accounts/direct-debits
+  read_only: true
 - name: listDirectDebitsSpecificAccounts
   description: Get Direct Debits For Specific Accounts
-  source_operation: openapi/commonwealth-bank-cdr-regular-payments-openapi.json#listDirectDebitsSpecificAccounts
+  source_operation: openapi/commonwealth-bank-regular-payments-api-api-openapi.yml#listDirectDebitsSpecificAccounts
+  method: POST
+  path: /accounts/direct-debits
+  read_only: true
 - name: listScheduledPayments
   description: Get Scheduled Payments for Account
-  source_operation: openapi/commonwealth-bank-cdr-regular-payments-openapi.json#listScheduledPayments
+  source_operation: openapi/commonwealth-bank-regular-payments-api-api-openapi.yml#listScheduledPayments
+  method: GET
+  path: /accounts/{accountId}/payments/scheduled
+  read_only: true
 - name: listScheduledPaymentsBulk
   description: Get Scheduled Payments Bulk
-  source_operation: openapi/commonwealth-bank-cdr-regular-payments-openapi.json#listScheduledPaymentsBulk
+  source_operation: openapi/commonwealth-bank-regular-payments-api-api-openapi.yml#listScheduledPaymentsBulk
+  method: GET
+  path: /payments/scheduled
+  read_only: true
 - name: listScheduledPaymentsSpecificAccounts
   description: Get Scheduled Payments For Specific Accounts
-  source_operation: openapi/commonwealth-bank-cdr-regular-payments-openapi.json#listScheduledPaymentsSpecificAccounts
+  source_operation: openapi/commonwealth-bank-regular-payments-api-api-openapi.yml#listScheduledPaymentsSpecificAccounts
+  method: POST
+  path: /payments/scheduled
+  read_only: true
+- name: getStatus
+  description: Get Status
+  source_operation: openapi/commonwealth-bank-discovery-api-api-openapi.yml#getStatus
+  method: GET
+  path: /status
+  read_only: true
+- name: getOutages
+  description: Get Outages
+  source_operation: openapi/commonwealth-bank-discovery-api-api-openapi.yml#getOutages
+  method: GET
+  path: /outages
+  read_only: true
 - name: getTransactions
   description: Get Transactions
-  source_operation: openapi/commonwealth-bank-cdr-transactions-openapi.json#getTransactions
+  source_operation: openapi/commonwealth-bank-transaction-api-api-openapi.yml#getTransactions
+  method: GET
+  path: /accounts/{accountId}/transactions
+  read_only: true
 - name: getTransactionDetail
   description: Get Transaction detail
-  source_operation: openapi/commonwealth-bank-cdr-transactions-openapi.json#getTransactionDetail
-- name: listBankingAccounts
-  description: Get Accounts
-  source_operation: openapi/commonwealth-bank-cds-banking-openapi.json#listBankingAccounts
-- name: listBankingBalancesBulk
-  description: Get Bulk Balances
-  source_operation: openapi/commonwealth-bank-cds-banking-openapi.json#listBankingBalancesBulk
-- name: listBankingBalancesSpecificAccounts
-  description: Get Balances For Specific Accounts
-  source_operation: openapi/commonwealth-bank-cds-banking-openapi.json#listBankingBalancesSpecificAccounts
-- name: getBankingBalance
-  description: Get Account Balance
-  source_operation: openapi/commonwealth-bank-cds-banking-openapi.json#getBankingBalance
-- name: getBankingAccountDetail
-  description: Get Account Detail
-  source_operation: openapi/commonwealth-bank-cds-banking-openapi.json#getBankingAccountDetail
-- name: listBankingTransactions
-  description: Get Transactions For Account
-  source_operation: openapi/commonwealth-bank-cds-banking-openapi.json#listBankingTransactions
-- name: getBankingTransactionDetail
-  description: Get Transaction Detail
-  source_operation: openapi/commonwealth-bank-cds-banking-openapi.json#getBankingTransactionDetail
-- name: listInstalmentPlans
-  description: Get Instalment Plans for Account
-  source_operation: openapi/commonwealth-bank-cds-banking-openapi.json#listInstalmentPlans
-- name: listInstalmentPlansBulk
-  description: Get Instalment Plans Bulk
-  source_operation: openapi/commonwealth-bank-cds-banking-openapi.json#listInstalmentPlansBulk
-- name: listBankingPayees
-  description: Get Payees
-  source_operation: openapi/commonwealth-bank-cds-banking-openapi.json#listBankingPayees
-- name: getBankingPayeeDetail
-  description: Get Payee Detail
-  source_operation: openapi/commonwealth-bank-cds-banking-openapi.json#getBankingPayeeDetail
-- name: listBankingProducts
-  description: Get Products
-  source_operation: openapi/commonwealth-bank-cds-banking-openapi.json#listBankingProducts
-- name: getBankingProductDetail
-  description: Get Product Detail
-  source_operation: openapi/commonwealth-bank-cds-banking-openapi.json#getBankingProductDetail
-deployment:
-  mode: none
-  verified: derived
-  tools: 32
-  checked: '2026-08-12'
-  source: catalog MCP census
+  source_operation: openapi/commonwealth-bank-transaction-api-api-openapi.yml#getTransactionDetail
+  method: GET
+  path: /accounts/{accountId}/transactions/{transactionId}
+  read_only: true

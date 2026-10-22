@@ -1,0 +1,54 @@
+generated: '2026-10-20'
+method: searched
+source: https://paymentgateway.commbank.com.au/api/documentation/apiDocumentation/rest-json/version/100/changelog.html?locale=en_US
+scope: CommWeb payment gateway Web Services API (REST-JSON / NVP). The CDR Open Banking and docs.commbank.com.au business
+  APIs publish no provider changelog (docs.commbank.com.au/changelog 404; www.commbank.com.au/developer/changelog 404).
+scheme: integer URI-path versions (api/rest/version/100/...); from v100 non-breaking changes are released into the current
+  version
+current_version: '100'
+entries:
+- version: '100'
+  date: 2026-01
+  breaking: true
+  highlights:
+  - 'Endpoints added: Update Application Transaction Counter, Create Payment Instrument Reference Id, Generate Payment Data'
+  - onlinePaymentCryptogram request property maxLength increased from 128 to 200 on several operations
+  - 'Retrieve Order: response property transaction/items/transaction/paymentPlan/offerId became optional; new enum values
+    (B2B_PAYMENT, BUSINESS_DISBURSEMENT, HIGH_RISK_SECURITIES, KNET) added'
+- version: '85'
+  date: 2024-08
+  breaking: true
+  highlights:
+  - Changelog lists breaking and non-breaking changes for this version
+- version: '84'
+  date: 2024-07
+  breaking: true
+  highlights:
+  - Changelog lists breaking and non-breaking changes for this version
+- version: '83'
+  date: 2024-05
+  breaking: true
+  highlights:
+  - Changelog lists breaking and non-breaking changes for this version
+- version: '82'
+  date: 2024-05
+  breaking: false
+  highlights:
+  - Version released May 2024 (no breaking/non-breaking change sections parsed)
+- version: '81'
+  date: 2024-02
+  breaking: true
+  highlights:
+  - Changelog lists breaking and non-breaking changes for this version
+- version: '80'
+  date: 2024-01
+  breaking: true
+  highlights:
+  - Changelog lists breaking and non-breaking changes for this version
+- version: '79'
+  date: 2023-11
+  breaking: true
+  highlights:
+  - Changelog lists breaking and non-breaking changes for this version
+note: Dates are month-level as published ("January 2026 Version 100"). The page lists 85 dated version sections in total;
+  only the recent window is recorded.

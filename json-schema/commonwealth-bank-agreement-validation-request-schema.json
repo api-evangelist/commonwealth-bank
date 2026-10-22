@@ -1,0 +1,145 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/commonwealth-bank/main/json-schema/commonwealth-bank-agreement-validation-request-schema.json",
+  "title": "AgreementValidationRequest",
+  "x-generated": "2026-10-20",
+  "x-method": "derived",
+  "x-generator": "derive-json-schema.py",
+  "x-source": "openapi/commonwealth-bank-payto-api-openapi.yml#/components/schemas/agreementValidationRequest",
+  "type": "object",
+  "properties": {
+    "source": {
+      "description": "The account where funds will be debited",
+      "$ref": "#/$defs/accountWrapper"
+    },
+    "destination": {
+      "description": "The account where funds will be credited",
+      "$ref": "#/$defs/accountWrapper"
+    },
+    "initiatingParty": {
+      "description": "The party initiating the agreement",
+      "$ref": "#/$defs/initiatingParty"
+    }
+  },
+  "required": [
+    "source",
+    "destination",
+    "initiatingParty"
+  ],
+  "$defs": {
+    "accountName": {
+      "type": "string",
+      "format": "string",
+      "pattern": "^.*$",
+      "minLength": 1,
+      "maxLength": 140,
+      "description": "Full Legal Account Name recorded by the Account Server in their records. Specifies a character string with a maximum length of 140 ASCII printable characters."
+    },
+    "accountNumber": {
+      "format": "string",
+      "minLength": 1,
+      "maxLength": 28,
+      "type": "string",
+      "pattern": "^[0-9]+$"
+    },
+    "accountReference": {
+      "type": "object",
+      "properties": {
+        "type": {
+          "$ref": "#/$defs/accountType"
+        },
+        "bsb": {
+          "$ref": "#/$defs/bsb"
+        },
+        "accountNumber": {
+          "$ref": "#/$defs/accountNumber"
+        },
+        "accountName": {
+          "$ref": "#/$defs/accountName"
+        },
+        "alternateIdentification": {
+          "$ref": "#/$defs/alternateIdentification"
+        }
+      },
+      "required": [
+        "type",
+        "accountName"
+      ]
+    },
+    "accountType": {
+      "type": "string",
+      "maxLength": 24,
+      "format": "string",
+      "pattern": "^[a-zA-Z\\s]+$",
+      "enum": [
+        "bankAccount",
+        "alternateIdentification"
+      ],
+      "description": "Type of account identification. Following rules apply\n- bankAccount: BSB and account number must be provided, and alternateIdentification must not be provided.\n- alternateIdentification: alternateIdentification must be provided, and BSB and account number must not be provided."
+    },
+    "accountWrapper": {
+      "type": "object",
+      "required": [
+        "account"
+      ],
+      "properties": {
+        "account": {
+          "$ref": "#/$defs/accountReference"
+        }
+      },
+      "title": ""
+    },
+    "alternateIdentification": {
+      "type": "object",
+      "properties": {
+        "type": {
+          "type": "string",
+          "maxLength": 5,
+          "format": "string",
+          "pattern": "^[a-zA-Z\\s]+$",
+          "enum": [
+            "EMAIL",
+            "PHONE"
+          ],
+          "description": "Type of alternate identification."
+        },
+        "value": {
+          "type": "string",
+          "maxLength": 2048,
+          "format": "string",
+          "pattern": "^(?:[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}|\\+61[4][0-9]{8}|04[0-9]{8}|\\d{11}|[a-zA-Z0-9]{1,50})$",
+          "description": "Value of alternate identification."
+        }
+      },
+      "required": [
+        "type",
+        "value"
+      ]
+    },
+    "bsb": {
+      "type": "string",
+      "pattern": "^[0-9]{6}$",
+      "maxLength": 6,
+      "format": "string",
+      "description": "The BSB (Bank-State-Branch) code"
+    },
+    "initiatingParty": {
+      "type": "object",
+      "required": [
+        "id"
+      ],
+      "properties": {
+        "id": {
+          "$ref": "#/$defs/uuid",
+          "description": "Commbank assigned ID for the merchant."
+        }
+      }
+    },
+    "uuid": {
+      "type": "string",
+      "format": "uuid",
+      "maxLength": 36,
+      "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[1-57][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$"
+    }
+  }
+}

@@ -1,0 +1,574 @@
+openapi: 3.2.0
+info:
+  title: PayTo Payments API
+  version: 1.0.0
+  summary: PayTo is a modern digital payment solution enabling near real-time, account-to-account payments from a customer’s bank account. PayTo replaces traditional direct debit with a faster, more secure option
+  description: This API follows RESTful principles and provides a simple way to integrate PayTo functionality into your systems. It uses semantic versioning to ensure backward compatibility and includes idempotency support through the x-idempotency-id header to prevent duplicate transactions. The API is designed to be developer-friendly while maintaining the security and reliability required for financial transactions.
+security:
+- oauth2: []
+tags:
+- name: Payments
+  description: Endpoints for initiating, managing, and retrieving payment transactions under PayTo agreements.
+paths:
+  /agreements/{id}/payments:
+    parameters:
+    - schema:
+        type: string
+        format: uuid
+        pattern: ^[0-9a-f]{8}-[0-9a-f]{4}-[1-57][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$
+      in: header
+      name: x-request-id
+    - schema:
+        type: string
+        format: uuid
+        pattern: ^[0-9a-f]{8}-[0-9a-f]{4}-[1-57][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$
+      in: path
+      name: id
+      required: true
+      description: Agreement ID
+    - schema:
+        type: string
+        format: uuid
+        pattern: ^[0-9a-f]{8}-[0-9a-f]{4}-[1-57][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$
+      in: header
+      name: x-idempotency-id
+      required: true
+      description: Uniquely identifies the operation for safe retries. See API Usage page for more information.
+    post:
+      summary: Create Payment
+      operationId: post-agreements-id-payments
+      responses:
+        '202':
+          $ref: '#/components/responses/createPaymentSuccess'
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '422':
+          $ref: '#/components/responses/422'
+        '500':
+          $ref: '#/components/responses/500'
+        '503':
+          $ref: '#/components/responses/503'
+      description: This endpoint allows you to debit an Agreement by creating a **payment**.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/createAgreementPaymentRequest'
+      tags:
+      - Payments
+      security:
+      - oauth2:
+        - payments:payments:write
+  /payments/{id}:
+    parameters:
+    - schema:
+        type: string
+        format: uuid
+        pattern: ^[0-9a-f]{8}-[0-9a-f]{4}-[1-57][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$
+      in: header
+      name: x-request-id
+    - schema:
+        type: string
+        format: uuid
+        pattern: ^[0-9a-f]{8}-[0-9a-f]{4}-[1-57][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$
+      name: id
+      in: path
+      required: true
+      description: The payment Id
+    get:
+      summary: Get Payment
+      tags:
+      - Payments
+      responses:
+        '200':
+          $ref: '#/components/responses/getPaymentSuccess'
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '422':
+          $ref: '#/components/responses/422'
+        '500':
+          $ref: '#/components/responses/500'
+        '503':
+          $ref: '#/components/responses/503'
+      operationId: get-payments-id
+      description: Get the details of a payment
+      security:
+      - oauth2:
+        - payments:payments:read
+components:
+  schemas:
+    accountNumber:
+      format: string
+      minLength: 1
+      maxLength: 28
+      type: string
+      pattern: ^[0-9]+$
+    accountName:
+      type: string
+      format: string
+      pattern: ^.*$
+      minLength: 1
+      maxLength: 140
+      description: Full Legal Account Name recorded by the Account Server in their records. Specifies a character string with a maximum length of 140 ASCII printable characters.
+    partyAccountOptionalPartyDetails:
+      type: object
+      required:
+      - account
+      - party
+      properties:
+        account:
+          $ref: '#/components/schemas/accountReference'
+        party:
+          $ref: '#/components/schemas/partyOptionalDetails'
+    ultimatePartyName:
+      type: string
+      format: string
+      pattern: ^.*$
+      minLength: 1
+      maxLength: 140
+      description: 'Name by which the ultimate party is known and which is usually used to identify that party.
+
+        Specifies a character string with a maximum length of 140 ASCII printable characters.'
+    accountReference:
+      type: object
+      properties:
+        type:
+          $ref: '#/components/schemas/accountType'
+        bsb:
+          $ref: '#/components/schemas/bsb'
+        accountNumber:
+          $ref: '#/components/schemas/accountNumber'
+        accountName:
+          $ref: '#/components/schemas/accountName'
+        alternateIdentification:
+          $ref: '#/components/schemas/alternateIdentification'
+      required:
+      - type
+      - accountName
+    agreementId:
+      $ref: '#/components/schemas/uuid'
+    amount:
+      type: number
+      minimum: 0.01
+      maximum: 9999999.99
+      format: decimal
+      multipleOf: 0.01
+      description: Amount in AUD dollars with exactly 2 decimal places.
+      example: 100.5
+    initiatingParty:
+      type: object
+      required:
+      - id
+      properties:
+        id:
+          $ref: '#/components/schemas/uuid'
+          description: Commbank assigned ID for the merchant.
+    uuid:
+      type: string
+      format: uuid
+      maxLength: 36
+      pattern: ^[0-9a-f]{8}-[0-9a-f]{4}-[1-57][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$
+    createAgreementPaymentResponse:
+      type: object
+      properties:
+        id:
+          $ref: '#/components/schemas/paymentId'
+        status:
+          type: string
+          maxLength: 8
+          format: string
+          pattern: ^[a-z\s]+$
+          enum:
+          - received
+          description: The payment id
+    alternateIdentification:
+      type: object
+      properties:
+        type:
+          type: string
+          maxLength: 5
+          format: string
+          pattern: ^[a-zA-Z\s]+$
+          enum:
+          - EMAIL
+          - PHONE
+          description: Type of alternate identification.
+        value:
+          type: string
+          maxLength: 2048
+          format: string
+          pattern: ^(?:[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}|\+61[4][0-9]{8}|04[0-9]{8}|\d{11}|[a-zA-Z0-9]{1,50})$
+          description: Value of alternate identification.
+      required:
+      - type
+      - value
+    createAgreementPaymentRequest:
+      type: object
+      properties:
+        amount:
+          $ref: '#/components/schemas/amount'
+        reference:
+          type: string
+          maxLength: 64
+          format: string
+          pattern: ^.*$
+          description: Short form description of the payment
+        description:
+          type: string
+          maxLength: 280
+          format: string
+          pattern: ^.*$
+          description: Longer form description of the payment
+        lastPayment:
+          type: boolean
+          description: Indicates if this is the last payment in the agreement
+        initiatingParty:
+          description: The party initiating the agreement
+          $ref: '#/components/schemas/initiatingParty'
+        destination:
+          type: object
+          description: Destination account details
+          properties:
+            account:
+              type: object
+              description: Account details
+              properties:
+                accountName:
+                  $ref: '#/components/schemas/accountName'
+                  description: The name of the account
+                type:
+                  $ref: '#/components/schemas/accountType'
+                bsb:
+                  $ref: '#/components/schemas/accountName'
+                accountNumber:
+                  $ref: '#/components/schemas/accountNumber'
+                alternateIdentification:
+                  $ref: '#/components/schemas/alternateIdentification'
+            party:
+              type: object
+              description: Party details
+              properties:
+                ultimatePartyName:
+                  $ref: '#/components/schemas/ultimatePartyName'
+                  required:
+                  - ultimatePartyName
+          required:
+          - account
+          - party
+      required:
+      - amount
+      - reference
+      - initiatingParty
+    error:
+      title: Error
+      type: object
+      description: Standard error response.
+      properties:
+        code:
+          type: string
+          format: string
+          description: The error code.
+          pattern: ^[ -~]{1,40}$
+          maxLength: 40
+        severity:
+          type: string
+          format: string
+          description: The severity of the error.
+          enum:
+          - FATL
+          - CRIT
+          - LOGI
+          pattern: ^[A-Z]{4}$
+          maxLength: 4
+        message:
+          type: string
+          format: string
+          description: The error message.
+          pattern: ^[ -~]{1,500}$
+          maxLength: 500
+        details:
+          type: array
+          items:
+            type: string
+            format: string
+            description: The error details.
+            pattern: ^[ -~]{1,2000}$
+            maxLength: 2000
+    dateTime:
+      type: string
+      format: date-time
+      pattern: ^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}\.\d{3}Z$
+      example: 2025-02-25 00:33:38.806000+00:00
+      maxLength: 24
+    partyOptionalDetails:
+      type: object
+      properties:
+        type:
+          type: string
+          maxLength: 12
+          format: string
+          pattern: ^[a-zA-Z\s]+$
+          enum:
+          - organisation
+          - person
+          description: 'Identifies the party as either a person or
+
+            organisation'
+        reference:
+          $ref: '#/components/schemas/reference'
+        idType:
+          type: string
+          maxLength: 64
+          format: string
+          pattern: ^[a-zA-Z\s]+$
+          description: The party identifier type
+          enum:
+          - passportNumber
+          - customerIdentificationNumber
+          - driversLicenseNumber
+          - employeeIdentificationNumber
+          - taxIdentificationNumber
+          - bankPartyIdentification
+          - certificateOfIncorporationNumber
+          - australianBusinessNumber
+          - australianCompanyNumber
+        id:
+          type: string
+          description: The party identifier
+          maxLength: 64
+          format: string
+          pattern: ^.*$
+        ultimatePartyName:
+          $ref: '#/components/schemas/ultimatePartyName'
+    getPaymentResponse:
+      type: object
+      properties:
+        id:
+          $ref: '#/components/schemas/paymentId'
+        agreementId:
+          $ref: '#/components/schemas/agreementId'
+        status:
+          type: string
+          format: string
+          enum:
+          - payment_accepted
+          - settlement_in_progress
+          - successful
+          - failed
+        statusReason:
+          type: object
+          properties:
+            code:
+              type: string
+              format: string
+              pattern: ^[A-Z0-9]+$
+              maxLength: 10
+              description: See Status Reason Codes section for all possible values
+            description:
+              type: string
+              maxLength: 256
+              format: string
+              pattern: ^.*$
+        completedDate:
+          $ref: '#/components/schemas/dateTime'
+        amount:
+          $ref: '#/components/schemas/amount'
+        reference:
+          type: string
+          maxLength: 64
+          pattern: ^.*$
+          format: string
+        source:
+          $ref: '#/components/schemas/partyAccountOptionalPartyDetails'
+        destination:
+          $ref: '#/components/schemas/partyAccountOptionalPartyDetails'
+        description:
+          type: string
+        initiatingParty:
+          description: The party initiating the agreement
+          $ref: '#/components/schemas/initiatingParty'
+    bsb:
+      type: string
+      pattern: ^[0-9]{6}$
+      maxLength: 6
+      format: string
+      description: The BSB (Bank-State-Branch) code
+    paymentId:
+      $ref: '#/components/schemas/uuid'
+    reference:
+      type: string
+      pattern: ^.*$
+      format: string
+      description: Short description of the reason for agreement  setup as narrative text. Specifies a character string with a maximum length of 35 ASCII printable characters.
+      maxLength: 35
+    accountType:
+      type: string
+      maxLength: 24
+      format: string
+      pattern: ^[a-zA-Z\s]+$
+      enum:
+      - bankAccount
+      - alternateIdentification
+      description: 'Type of account identification. Following rules apply
+
+        - bankAccount: BSB and account number must be provided, and alternateIdentification must not be provided.
+
+        - alternateIdentification: alternateIdentification must be provided, and BSB and account number must not be provided.'
+  responses:
+    '500':
+      headers:
+        Content-Language:
+          $ref: '#/components/headers/Content-Language'
+        Content-Type:
+          $ref: '#/components/headers/Content-Type'
+      description: 'Internal Server Error
+
+
+        An internal server error has occurred.'
+      content:
+        application/problem+json:
+          schema:
+            $ref: '#/components/schemas/error'
+    '400':
+      headers:
+        Content-Language:
+          $ref: '#/components/headers/Content-Language'
+        Content-Type:
+          $ref: '#/components/headers/Content-Type'
+      description: 'Bad Request
+
+
+        Request is not well-formed, syntactically incorrect, or violates schema.'
+      content:
+        application/problem+json:
+          schema:
+            $ref: '#/components/schemas/error'
+    '404':
+      description: Not Found
+      headers:
+        Content-Language:
+          $ref: '#/components/headers/Content-Language'
+        Content-Type:
+          $ref: '#/components/headers/Content-Type'
+      content:
+        application/problem+json:
+          schema:
+            $ref: '#/components/schemas/error'
+    createPaymentSuccess:
+      description: Accepted
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/createAgreementPaymentResponse'
+      headers:
+        Content-Language:
+          $ref: '#/components/headers/Content-Language'
+        Content-Type:
+          $ref: '#/components/headers/Content-Type'
+    '401':
+      headers:
+        Content-Language:
+          $ref: '#/components/headers/Content-Language'
+        Content-Type:
+          $ref: '#/components/headers/Content-Type'
+      description: 'Unauthorized
+
+
+        Requires authentication'
+      content:
+        application/problem+json:
+          schema:
+            $ref: '#/components/schemas/error'
+    '422':
+      headers:
+        Content-Language:
+          $ref: '#/components/headers/Content-Language'
+        Content-Type:
+          $ref: '#/components/headers/Content-Type'
+      description: 'Unprocessable Entity
+
+
+        The API cannot complete the requested action, or the request action is semantically incorrect or fails business validation.'
+      content:
+        application/problem+json:
+          schema:
+            $ref: '#/components/schemas/error'
+    '403':
+      headers:
+        Content-Language:
+          $ref: '#/components/headers/Content-Language'
+        Content-Type:
+          $ref: '#/components/headers/Content-Type'
+      description: 'Forbidden
+
+
+        Token is missing required authorization scope'
+      content:
+        application/problem+json:
+          schema:
+            $ref: '#/components/schemas/error'
+    getPaymentSuccess:
+      description: OK
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/getPaymentResponse'
+      headers:
+        Content-Language:
+          $ref: '#/components/headers/Content-Language'
+        Content-Type:
+          $ref: '#/components/headers/Content-Type'
+    '503':
+      headers:
+        Content-Language:
+          $ref: '#/components/headers/Content-Language'
+        Content-Type:
+          $ref: '#/components/headers/Content-Type'
+      description: Service Unavailable - Temporarily Unavailable
+      content:
+        application/problem+json:
+          schema:
+            $ref: '#/components/schemas/error'
+  headers:
+    Content-Language:
+      schema:
+        type: string
+        format: language
+        enum:
+        - en-AU
+        pattern: ^en-AU$
+        maxLength: 5
+    Content-Type:
+      schema:
+        type: string
+        format: media
+        enum:
+        - application/json
+        pattern: ^application/json$
+        maxLength: 16
+  securitySchemes:
+    oauth2:
+      type: oauth2
+      flows:
+        clientCredentials:
+          tokenUrl: provided-on-onboarding
+          scopes:
+            payments:payments:read: View payments
+            payments:payments:write: Manage payments
+            payments:agreements:read: View agreements
+            payments:agreements:write: Create agreements and Update agreement status
+            payments:agreements:amend: Modify agreements
+      description: ''

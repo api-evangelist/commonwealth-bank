@@ -1,0 +1,33 @@
+overlay: 1.0.0
+info:
+  title: API Evangelist enhancements for PayTo - PayTo Agreements API
+  version: 1.0.0
+extends: openapi/commonwealth-bank-agreements-api-openapi.yml
+x-generated: '2026-10-20'
+x-method: generated
+actions:
+- target: $.info
+  update:
+    x-apievangelist-enriched: '2026-10-20'
+    x-apievangelist-provider: commonwealth-bank
+    x-apievangelist-auth: OAuth2 client_credentials issued at partner onboarding (partner-gated business API).
+- target: $.paths['/agreements'].post
+  update:
+    x-apievangelist-agent-safe: false
+    x-apievangelist-mcp-tool: CreateAgreement
+- target: $.paths['/agreements/{id}'].get
+  update:
+    x-apievangelist-agent-safe: true
+    x-apievangelist-mcp-tool: get_agreements_id
+- target: $.paths['/agreements/{id}'].patch
+  update:
+    x-apievangelist-agent-safe: false
+    x-apievangelist-mcp-tool: patch_agreement_id
+- target: $.paths['/agreements/validate'].post
+  update:
+    x-apievangelist-agent-safe: false
+    x-apievangelist-mcp-tool: agreements_validate
+- target: $.paths['/agreements/{id}/status'].patch
+  update:
+    x-apievangelist-agent-safe: false
+    x-apievangelist-mcp-tool: change_agreement_status

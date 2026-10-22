@@ -1,0 +1,399 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/commonwealth-bank/main/json-schema/commonwealth-bank-create-agreement-request-schema.json",
+  "title": "createAgreementRequest",
+  "x-generated": "2026-10-20",
+  "x-method": "derived",
+  "x-generator": "derive-json-schema.py",
+  "x-source": "openapi/commonwealth-bank-payto-api-openapi.yml#/components/schemas/createAgreementRequest",
+  "type": "object",
+  "properties": {
+    "type": {
+      "type": "string",
+      "format": "string",
+      "maxLength": 9,
+      "pattern": "^[a-z\\s]+$",
+      "enum": [
+        "oneoff",
+        "adhoc",
+        "recurring"
+      ],
+      "description": "The type of agreement\nClassified as\n- oneoff: Use oneoff agreement to allow single payment only. Following rules apply\n  - paymentDetails\\schedule is not applicable & should not be provided.\n  - paymentDetails\\maxNumberOfPayments is not applicable & should not be provided.\n- recurring: Use recurring agreement to allow periodic payments. Following rules apply\n  - paymentDetails\\schedule is mandatory.\n  - paymentDetails\\maxNumberOfPayments is not applicable & should not be provided.\n- adhoc: Use adhoc agreement to allow multiple non-periodic payments. Following rules apply\n  - paymentDetails\\schedule is not applicable & should not be provided.\n  - paymentDetails\\maxNumberOfPayments is optional, if supplied then value must be greater than 1."
+    },
+    "reference": {
+      "$ref": "#/$defs/reference"
+    },
+    "description": {
+      "$ref": "#/$defs/description"
+    },
+    "validFrom": {
+      "$ref": "#/$defs/validFrom"
+    },
+    "validTo": {
+      "$ref": "#/$defs/validTo"
+    },
+    "source": {
+      "description": "The account details from where the funds will be debited",
+      "$ref": "#/$defs/partyAccount"
+    },
+    "destination": {
+      "description": "The account details to where the funds will be credited",
+      "$ref": "#/$defs/partyAccount"
+    },
+    "initiatingParty": {
+      "description": "The party initiating the agreement",
+      "$ref": "#/$defs/initiatingParty"
+    },
+    "paymentDetails": {
+      "$ref": "#/$defs/paymentDetails"
+    }
+  },
+  "required": [
+    "type",
+    "reference",
+    "description",
+    "validFrom",
+    "source",
+    "destination",
+    "paymentDetails",
+    "initiatingParty"
+  ],
+  "$defs": {
+    "accountName": {
+      "type": "string",
+      "format": "string",
+      "pattern": "^.*$",
+      "minLength": 1,
+      "maxLength": 140,
+      "description": "Full Legal Account Name recorded by the Account Server in their records. Specifies a character string with a maximum length of 140 ASCII printable characters."
+    },
+    "accountNumber": {
+      "format": "string",
+      "minLength": 1,
+      "maxLength": 28,
+      "type": "string",
+      "pattern": "^[0-9]+$"
+    },
+    "accountReference": {
+      "type": "object",
+      "properties": {
+        "type": {
+          "$ref": "#/$defs/accountType"
+        },
+        "bsb": {
+          "$ref": "#/$defs/bsb"
+        },
+        "accountNumber": {
+          "$ref": "#/$defs/accountNumber"
+        },
+        "accountName": {
+          "$ref": "#/$defs/accountName"
+        },
+        "alternateIdentification": {
+          "$ref": "#/$defs/alternateIdentification"
+        }
+      },
+      "required": [
+        "type",
+        "accountName"
+      ]
+    },
+    "accountType": {
+      "type": "string",
+      "maxLength": 24,
+      "format": "string",
+      "pattern": "^[a-zA-Z\\s]+$",
+      "enum": [
+        "bankAccount",
+        "alternateIdentification"
+      ],
+      "description": "Type of account identification. Following rules apply\n- bankAccount: BSB and account number must be provided, and alternateIdentification must not be provided.\n- alternateIdentification: alternateIdentification must be provided, and BSB and account number must not be provided."
+    },
+    "alternateIdentification": {
+      "type": "object",
+      "properties": {
+        "type": {
+          "type": "string",
+          "maxLength": 5,
+          "format": "string",
+          "pattern": "^[a-zA-Z\\s]+$",
+          "enum": [
+            "EMAIL",
+            "PHONE"
+          ],
+          "description": "Type of alternate identification."
+        },
+        "value": {
+          "type": "string",
+          "maxLength": 2048,
+          "format": "string",
+          "pattern": "^(?:[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}|\\+61[4][0-9]{8}|04[0-9]{8}|\\d{11}|[a-zA-Z0-9]{1,50})$",
+          "description": "Value of alternate identification."
+        }
+      },
+      "required": [
+        "type",
+        "value"
+      ]
+    },
+    "amount": {
+      "type": "number",
+      "minimum": 0.01,
+      "maximum": 9999999.99,
+      "format": "decimal",
+      "multipleOf": 0.01,
+      "description": "Amount in AUD dollars with exactly 2 decimal places."
+    },
+    "bsb": {
+      "type": "string",
+      "pattern": "^[0-9]{6}$",
+      "maxLength": 6,
+      "format": "string",
+      "description": "The BSB (Bank-State-Branch) code"
+    },
+    "description": {
+      "type": "string",
+      "description": "Reason for the agreement setup as narrative text. Specifies a character string with a maximum length of 140 ASCII printable characters.",
+      "maxLength": 140,
+      "pattern": "^.*$",
+      "format": "string"
+    },
+    "finalCollectionDate": {
+      "type": "string",
+      "format": "date",
+      "maxLength": 10,
+      "pattern": "^\\d{4}-\\d{2}-\\d{2}$",
+      "description": "Date of the final payment predefined in mandate. Must be after or on validFrom and before or on validTo."
+    },
+    "firstCollectionDate": {
+      "type": "string",
+      "format": "date",
+      "maxLength": 10,
+      "pattern": "^\\d{4}-\\d{2}-\\d{2}$",
+      "description": "Date of the first payment predefined in agreement. Must be on or after validFrom and before or on validTo. Must not be after finalCollectionDate if both are provided."
+    },
+    "initiatingParty": {
+      "type": "object",
+      "required": [
+        "id"
+      ],
+      "properties": {
+        "id": {
+          "$ref": "#/$defs/uuid",
+          "description": "Commbank assigned ID for the merchant."
+        }
+      }
+    },
+    "party": {
+      "type": "object",
+      "properties": {
+        "type": {
+          "type": "string",
+          "format": "string",
+          "pattern": "^[a-z\\s]+$",
+          "maxLength": 12,
+          "enum": [
+            "organisation",
+            "person"
+          ],
+          "description": "Specifies the type of party involved in the transaction as either a person or organisation."
+        },
+        "idType": {
+          "type": "string",
+          "format": "string",
+          "pattern": "^[a-zA-Z\\s]+$",
+          "maxLength": 32,
+          "description": "Identification type of the party, for example in the case of a person; passportNumber, driversLicenseNumber etc or in the case of an organisation; australianBusinessNumber, australianCompanyNumber etc",
+          "enum": [
+            "passportNumber",
+            "customerIdentificationNumber",
+            "driversLicenseNumber",
+            "employeeIdentificationNumber",
+            "taxIdentificationNumber",
+            "bankPartyIdentification",
+            "certificateOfIncorporationNumber",
+            "australianBusinessNumber",
+            "australianCompanyNumber"
+          ]
+        },
+        "id": {
+          "type": "string",
+          "maxLength": 35,
+          "format": "string",
+          "pattern": "^.*$",
+          "description": "Unique and unambiguous identification of the party. Specifies a character string with a maximum length of 35 ASCII printable characters."
+        },
+        "ultimatePartyName": {
+          "$ref": "#/$defs/ultimatePartyName"
+        },
+        "reference": {
+          "$ref": "#/$defs/reference"
+        }
+      },
+      "required": [
+        "type",
+        "ultimatePartyName"
+      ]
+    },
+    "partyAccount": {
+      "type": "object",
+      "required": [
+        "account",
+        "party"
+      ],
+      "properties": {
+        "account": {
+          "$ref": "#/$defs/accountReference"
+        },
+        "party": {
+          "$ref": "#/$defs/party"
+        }
+      }
+    },
+    "paymentDetails": {
+      "type": "object",
+      "required": [
+        "type",
+        "purpose"
+      ],
+      "properties": {
+        "type": {
+          "type": "string",
+          "format": "string",
+          "maxLength": 10,
+          "pattern": "^[a-zA-Z\\s]+$",
+          "enum": [
+            "fixed",
+            "usageBased",
+            "variable",
+            "balloon"
+          ],
+          "description": "Identifes the agreement payment arrangement\n - fixed: Agreement with fixed payment amount, following rules apply\n    - amount must be specified.\n    - maxAmount must not be specified.\n - variable: Agreement with variable payment amount, following rules apply\n    - maxAmount is recommended. However, amount and max amount are optional. If both amount and max amount are present, amount must not be greater than maxAmount.\n - usageBased: Agreement with payment amount based on usage, following rules apply\n    - maxAmount is recommended. However, amount and max amount are optional. If both amount and max amount are present, amount must not be greater than maxAmount.\n - balloon: Agreement with fixed payment amount and large final payment amount, following rules apply\n    - amount must be specified.\n    - maxAmount must not be specified."
+        },
+        "amount": {
+          "$ref": "#/$defs/amount",
+          "description": "Fixed amount to be debited from the debtor's account"
+        },
+        "maxAmount": {
+          "$ref": "#/$defs/amount",
+          "description": "Maximum amount that may be paid from the debtor's account, per instruction."
+        },
+        "firstCollectionAmount": {
+          "$ref": "#/$defs/amount",
+          "description": "Amount different from the Payment amount, as it includes the costs associated with the first debited amount"
+        },
+        "purpose": {
+          "type": "string",
+          "maxLength": 16,
+          "format": "string",
+          "pattern": "^[a-zA-Z\\s]+$",
+          "description": "Specifies the high level purpose of the agreement based on a set of pre-defined categories.",
+          "enum": [
+            "mortgage",
+            "utility",
+            "loan",
+            "dependantSupport",
+            "gambling",
+            "retail",
+            "salary",
+            "personal",
+            "government",
+            "pension",
+            "tax",
+            "other"
+          ]
+        },
+        "maxNumberOfPayments": {
+          "type": "number",
+          "maxLength": 18,
+          "description": "Maximum number of payment instructions to be created and processed during the specified period. Must be a positive integer greater than 1."
+        },
+        "finalCollectionAmount": {
+          "$ref": "#/$defs/amount"
+        },
+        "schedule": {
+          "description": "Describes the recurring schedule details, if applicable\n  - Both pointInTime and countPerPeriod can't be provided in the same request. Where value for pointInTime is not provided countPerPeriod must have a valid non decimal numeric value, greater than zero",
+          "type": "object",
+          "properties": {
+            "period": {
+              "type": "string",
+              "maxLength": 12,
+              "format": "string",
+              "pattern": "^[a-zA-Z\\s-]+$",
+              "enum": [
+                "daily",
+                "weekly",
+                "fortnightly",
+                "monthly",
+                "quarterly",
+                "semi-annual",
+                "annually"
+              ],
+              "description": "Specifies the regularity of payment instruction. If period is provided, either countPerPeriod or pointInTime must be specified, but not both."
+            },
+            "countPerPeriod": {
+              "type": "integer",
+              "format": "int64",
+              "minimum": 1,
+              "maximum": 1000000000000000000,
+              "maxLength": 18,
+              "description": "Specifies the number of payments to be created and processed during the agreement's specified calendar period. If defined, payment initiations will be validated such that the number of PENDING or SUCCESSFUL payments within the current period do not exceed the countPerPeriod.\n- For period as \"daily\", specifies the number of payments that can be made each day.\n- For period as \"weekly\", specifies the number of payments that can be made each week. The first WEEKLY period is considered to begin from the most recent Monday before the Agreement's first payment date.\n- For period as \"fortnightly\", specifies the number of payments that can be made each fortnight. The first day of the fortnight is considered to be from the most recent Monday before the Agreement's first payment date.\n- For period as \"monthly\", specifies the number of payments that can be made each month. e.g. February 1st - February 28th\n- For period as \"quarterly\", specifies the number of payments that can be made each Quarter. e.g. January - March\n- For period as \"semi-annual\", specifies the number of payments that can be made for the first and second half of the year. e.g. January - June\n- For period as \"annually\", specifies the number of payments that can be made each year."
+            },
+            "pointInTime": {
+              "type": "integer",
+              "format": "int64",
+              "minimum": 1,
+              "maximum": 99,
+              "maxLength": 2,
+              "description": "Exact point in time or moment for processing payment instruction within the specified period.\n  - For period as \"daily\", supported values for pointInTime are any value 1 - 24 which specifies hour of the day.\n    - Example '1' - Payment every day between 12 am - 1 am, '24' - Payment every day between 11 pm - 12 am\n  - For period as \"weekly\", supported values for pointInTime are any value 1 - 7 which specifies the day of the week.\n    - Example '1' - Payment every Monday, '5' - Payment every Friday.\n  - For period as \"fortnightly\", supported values for pointInTime are any value 1 - 14 which specifies the day within a fortnight.\n    - Example '1' - Payment every first Monday of the fortnight, '12' - Payment every second Friday of the fortnight.\n  - For period as \"monthly\", supported values for pointInTime are any value 1 - 31, 99 which specifies the day of the month.\n    - Note if a pointInTime > `28` is defined a payment cannot be reliably made every month.\n    - Example '1' - Payment on 1st of every month, '31' - Payment on every 31st January, March, May and '99' - Payment on the last day of each month on January 31st, Febuary 28th/29th, March 31st etc.\n  - For period as \"quarterly\", supported values for pointInTime are any value 1 - 3 which specifies the month within the quarter of year.\n    - Example '1' - Payment every January, April, July, October and '3' - Payment every March, June, September, December.\n  - For period as \"semi-annual\", supported values for pointInTime are any value 1 - 6 which specifies the month within the half of the year.\n    - Example '1' - Payment every January & July, '3' - Payment every March & September.\n  - For period as \"annually\", supported values for pointInTime are any value 1 - 12 which specifies the month of the year.\n    - Example '1' - Payment every January, '11' - Payment every December."
+            },
+            "firstCollectionDate": {
+              "$ref": "#/$defs/firstCollectionDate"
+            },
+            "finalCollectionDate": {
+              "$ref": "#/$defs/finalCollectionDate"
+            }
+          },
+          "required": [
+            "period"
+          ]
+        }
+      }
+    },
+    "reference": {
+      "type": "string",
+      "pattern": "^.*$",
+      "format": "string",
+      "description": "Short description of the reason for agreement  setup as narrative text. Specifies a character string with a maximum length of 35 ASCII printable characters.",
+      "maxLength": 35
+    },
+    "ultimatePartyName": {
+      "type": "string",
+      "format": "string",
+      "pattern": "^.*$",
+      "minLength": 1,
+      "maxLength": 140,
+      "description": "Name by which the ultimate party is known and which is usually used to identify that party.\nSpecifies a character string with a maximum length of 140 ASCII printable characters."
+    },
+    "uuid": {
+      "type": "string",
+      "format": "uuid",
+      "maxLength": 36,
+      "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[1-57][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$"
+    },
+    "validFrom": {
+      "type": "string",
+      "format": "date",
+      "maxLength": 10,
+      "pattern": "^\\d{4}-\\d{2}-\\d{2}$",
+      "description": "Start date of the validity of the agreement. The agreement  is valid as of 00:00:00.000 Australia Sydney time on this date. A particular point in the progression of time in a calendar year expressed in the YYYY-MM-DD format. Can either be today or a future date. Must not be a past date."
+    },
+    "validTo": {
+      "type": "string",
+      "format": "date",
+      "maxLength": 10,
+      "pattern": "^\\d{4}-\\d{2}-\\d{2}$",
+      "description": "End date of the validity of the agreement. If specified, the agreement  is valid until 23:59:59.999 Australia Sydney time on this date. A particular point in the progression of time in a calendar year expressed in the YYYY-MM-DD format. Can either be equal to or after the validFrom date"
+    }
+  }
+}

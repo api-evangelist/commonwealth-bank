@@ -1,0 +1,187 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/commonwealth-bank/main/json-schema/commonwealth-bank-response-common-customer-schema.json",
+  "title": "ResponseCommonCustomer",
+  "x-generated": "2026-10-20",
+  "x-method": "derived",
+  "x-generator": "derive-json-schema.py",
+  "x-source": "openapi/commonwealth-bank-customer-api-api-openapi.yml#/components/schemas/ResponseCommonCustomer",
+  "type": "object",
+  "required": [
+    "data",
+    "links"
+  ],
+  "properties": {
+    "data": {
+      "$ref": "#/$defs/ResponseCommonCustomer_data"
+    },
+    "links": {
+      "$ref": "#/$defs/Links"
+    },
+    "meta": {
+      "$ref": "#/$defs/Meta"
+    }
+  },
+  "x-conditional": [
+    "person",
+    "organisation"
+  ],
+  "$defs": {
+    "CommonOrganisation": {
+      "type": "object",
+      "required": [
+        "agentLastName",
+        "agentRole",
+        "businessName",
+        "organisationType"
+      ],
+      "properties": {
+        "lastUpdateTime": {
+          "type": "string",
+          "description": "The date and time that this record was last updated by the customer.",
+          "x-cds-type": "DateTimeString"
+        },
+        "agentFirstName": {
+          "type": "string",
+          "description": "The first name of the individual providing access on behalf of the organisation."
+        },
+        "agentLastName": {
+          "type": "string",
+          "description": "The last name of the individual providing access on behalf of the organisation."
+        },
+        "agentRole": {
+          "type": "string",
+          "description": "The role of the individual identified as the agent who is providing authorisation."
+        },
+        "businessName": {
+          "type": "string",
+          "description": "Name of the organisation."
+        },
+        "legalName": {
+          "type": "string",
+          "description": "Legal name, if different to the business name. <br><i>CommBank does not currently return this value.</i></br>"
+        },
+        "shortName": {
+          "type": "string",
+          "description": "Short name used for communication, if different to the business name. <br><i>CommBank does not currently return this value.</i></br>"
+        },
+        "abn": {
+          "type": "string",
+          "description": "Australian Business Number for the organisation."
+        },
+        "acn": {
+          "type": "string",
+          "description": "Australian Company Number for the organisation. Required only if an ACN is applicable for the organisation type. <br><i>CommBank does not currently return this value.</i></br>"
+        },
+        "isACNCRegistered": {
+          "type": "boolean",
+          "description": "True if registered with the ACNC.  False if not. Absent or null if not confirmed. <br><i>CommBank does not currently return this value.</i></br>",
+          "x-cds-type": "Boolean"
+        },
+        "industryCode": {
+          "type": "string",
+          "description": "[ANZSIC (2006)](http://www.abs.gov.au/anzsic) code for the organisation. <br><i>CommBank does not currently return this value.</i></br>"
+        },
+        "organisationType": {
+          "type": "string",
+          "description": "Legal organisation type.",
+          "enum": [
+            "SOLE_TRADER",
+            "COMPANY",
+            "PARTNERSHIP",
+            "TRUST",
+            "GOVERNMENT_ENTITY",
+            "OTHER"
+          ]
+        },
+        "registeredCountry": {
+          "type": "string",
+          "description": "",
+          "x-cds-type": "ExternalRef"
+        },
+        "establishmentDate": {
+          "type": "string",
+          "description": "The date the organisation described was established.",
+          "x-cds-type": "DateString"
+        }
+      }
+    },
+    "CommonPerson": {
+      "type": "object",
+      "required": [
+        "lastName",
+        "middleNames"
+      ],
+      "properties": {
+        "lastUpdateTime": {
+          "type": "string",
+          "description": "The date and time that this record was last updated by the customer.",
+          "x-cds-type": "DateTimeString"
+        },
+        "firstName": {
+          "type": "string",
+          "description": "For people with single names this field need not be present."
+        },
+        "lastName": {
+          "type": "string",
+          "description": "For people with single names the single name should be in this field."
+        },
+        "middleNames": {
+          "type": "array",
+          "description": "Field is mandatory but array may be empty.",
+          "items": {
+            "type": "string"
+          }
+        },
+        "prefix": {
+          "type": "string",
+          "description": "Title or salutation."
+        },
+        "suffix": {
+          "type": "string",
+          "description": "Used for a trailing suffix to the name."
+        },
+        "occupationCode": {
+          "type": "string",
+          "description": "Value is a valid ANZSCO v1.2 Standard Occupation classification. <br><i>CommBank does not currently return this value.</i></br>"
+        }
+      }
+    },
+    "Links": {
+      "type": "object",
+      "required": [
+        "self"
+      ],
+      "properties": {
+        "self": {
+          "type": "string",
+          "description": "Fully qualified link to this API call."
+        }
+      }
+    },
+    "Meta": {
+      "type": "object"
+    },
+    "ResponseCommonCustomer_data": {
+      "required": [
+        "customerUType"
+      ],
+      "properties": {
+        "customerUType": {
+          "type": "string",
+          "description": "The type of customer object that is present",
+          "enum": [
+            "person",
+            "organisation"
+          ]
+        },
+        "person": {
+          "$ref": "#/$defs/CommonPerson"
+        },
+        "organisation": {
+          "$ref": "#/$defs/CommonOrganisation"
+        }
+      }
+    }
+  }
+}

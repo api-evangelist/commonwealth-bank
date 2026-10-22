@@ -1,0 +1,23 @@
+name: Commonwealth Bank rate limits
+generated: '2026-10-20'
+method: searched
+source: https://docs.commbank.com.au/apis/namecheck/batch-validation
+limit_count: 1
+limits:
+- name: NameCheck default maximum rate
+  endpoint: post-accounts-name-check
+  limit_text: 5 transactions, or checks, per second (5 TPS)
+  max: 5
+  limit: 5
+  window: 1 second
+  scope: per-client (default)
+  note: If your organisation requires a higher throughput, contact your CommBank Integration Lead to discuss your
+    requirements. Higher transaction rates may be approved on an exception basis.
+exhaustion:
+  status: 429
+  sources:
+  - https://docs.commbank.com.au/apis/namecheck/error-codes
+  - https://docs.commbank.com.au/apis/fast-payments/error-codes
+headers: []
+note: Fast Payments documents 429 "Too many requests submitted in a short period" but publishes no number; PayTo,
+  FX and the CDR APIs publish no numeric limit in the pages read. No rate-limit response headers are documented.

@@ -1,7 +1,18 @@
 openapi: 3.2.0
 info:
   title: CommBank Public Products API
-  description: Get details on available CommBank products including deposit and transaction accounts, credit cards, home loans, personal loans, and offset accounts.
+  description: 'Get details on available CommBank products including deposit and transaction accounts, credit cards, home loans, personal loans, and offset accounts. Information available through the API includes eligibility, features, pricing, and links to terms & conditions.
+
+
+    The Products API is public and does not require any authentication by consumers.
+
+
+    Product details including features, eligibility, rates and fees may change from time to time without notice. Please direct your end users to refer to commbank.com.au for current product details.
+
+
+    Host URL
+
+    All requests are passed to the URL https://api.commbank.com.au/public/cds-au/v1/banking'
   x-provenance: First-party CommBank OpenAPI (Swagger 2.0) harvested verbatim from the CommBank developer portal. These are Commonwealth Bank's own renderings of its CDR / Open Banking Consumer Data Standards endpoints.
   x-source-url: https://www.commbank.com.au/developer/Documentation/specification/Products
   x-doc-url: https://www.commbank.com.au/developer/documentation/Products
@@ -10,7 +21,18 @@ servers:
 - url: https://api.commbank.com.au/public/cds-au/v1/banking
 tags:
 - name: Products API
-  description: Get details on available CommBank products including deposit and transaction accounts, credit cards, home loans, personal loans, and offset accounts.
+  description: 'Get details on available CommBank products including deposit and transaction accounts, credit cards, home loans, personal loans, and offset accounts. Information available through the API includes eligibility, features, pricing, and links to terms & conditions.
+
+
+    The Products API is public and does not require any authentication by consumers.
+
+
+    Product details including features, eligibility, rates and fees may change from time to time without notice. Please direct your end users to refer to commbank.com.au for current product details.
+
+
+    Host URL
+
+    All requests are passed to the URL https://api.commbank.com.au/public/cds-au/v1/banking'
 paths:
   /products:
     get:
@@ -278,173 +300,94 @@ paths:
       x-version: '1'
 components:
   schemas:
-    Eligibility:
+    ResponseBankingProductById:
       type: object
       required:
-      - eligibilityType
-      x-conditional:
-      - additionalValue
-      - additionalInfo
+      - data
+      - links
+      - meta
       properties:
-        eligibilityType:
-          description: The type of eligibility criteria described.
-          enum:
-          - BUSINESS
-          - PENSION_RECIPIENT
-          - MIN_AGE
-          - MAX_AGE
-          - MIN_INCOME
-          - MIN_TURNOVER
-          - STAFF
-          - STUDENT
-          - EMPLOYMENT_STATUS
-          - RESIDENCY_STATUS
-          - NATURAL_PERSON
-          - INTRODUCTORY
-          - OTHER
-          type: string
-        additionalValue:
-          type: string
-          description: 'Generic field containing additional information relevant to the eligibilityType specified. Whether mandatory or not is dependent on the value of eligibilityType.
-
-
-            See the below table for more details.
-
-
-            |Value|Description|Use of additionalValue Field|
-
-            |--- |--- |--- |
-
-            |BUSINESS|Only business may apply for the account|NA|
-
-            |PENSION_RECIPIENT|A recipient of a government pension may apply for the product|NA|
-
-            |MIN_AGE|Only customers older than a minimum age may apply|The minimum age in years|
-
-            |MAX_AGE|Only customers younger than a maximum age may apply|The maximum age in years|
-
-            |MIN_INCOME|The customer must have an income greater than a specified threshold to obtain the product|Minimum income in AmountString format|
-
-            |MIN_TURNOVER|Only a business with greater than a minimum turnover may apply|Minimum turnover in AmountString format|
-
-            |STAFF|Only a staff member of the provider may apply|NA|
-
-            |STUDENT|Only students may apply for the product|NA|
-
-            |EMPLOYMENT_STATUS|An eligibility constraint based on employment status applies|A description of the status required|
-
-            |RESIDENCY_STATUS|An eligibility constraint based on residency status applies|A description of the status required|
-
-            |NATURAL_PERSON|The customer must be a natural person rather than another legal entity|NA|
-
-            |OTHER|Another eligibility criteria exists as described in the additionalInfo field (if this option is specified then the additionalInfo field is mandatory)|Value relevant to the criteria|
-
-
-            '
-          example: '14'
-        additionalInfo:
-          type: string
-          description: Display text providing more information on the eligibility criteria. Mandatory if the eligibilityType field is set to OTHER.
-        additionalInfoUri:
-          type: string
-          description: Link to a web page with more information on this eligibility criteria.
-    ErrorResponse500:
-      type: object
-      properties:
-        errors:
-          uniqueItems: false
-          type: array
-          items:
-            $ref: '#/components/schemas/Error'
+        data:
+          $ref: '#/components/schemas/BankingProductDetailV3'
+        links:
+          $ref: '#/components/schemas/Links'
+        meta:
+          $ref: '#/components/schemas/Meta'
       example:
-        errors:
-        - code: PA-IS-01
-          title: Server Error
-          detail: An error has occurred whilst processing your request. Please try again later.
-    Tier:
-      type: object
-      description: Defines the criteria and conditions for which a rate applies.
-      required:
-      - name
-      - unitOfMeasure
-      - minimumValue
-      - maximumValue
-      properties:
-        name:
-          type: string
-          description: A display name for the tier.
-        unitOfMeasure:
-          type: string
-          description: The unit of measure that applies to the tierValueMinimum and tierValueMaximum values e.g. 'DOLLAR', 'MONTH' (in the case of term deposit tiers), 'PERCENT' (in the case of loan-to-value ratio or LVR).
-          enum:
-          - DOLLAR
-          - PERCENT
-          - MONTH
-          - DAY
-        minimumValue:
-          type: number
-          description: The number of tierUnitOfMeasure units that form the lower bound of the tier. The tier should be inclusive of this value.
-        maximumValue:
-          type: number
-          description: 'The number of tierUnitOfMeasure units that form the upper bound of the tier or band. For a tier with a discrete value (as opposed to a range of values e.g. 1 month) this must be the same as tierValueMinimum. Where this is the same as the tierValueMinimum value of the next-higher tier the referenced tier should be exclusive of this value. For example a term deposit of 2 months falls into the upper tier of the following tiers: (1 – 2 months, 2 – 3 months).'
-        rateApplicationMethod:
-          type: string
-          description: The method used to calculate the amount to be applied using one or more tiers. A single rate may be applied to the entire balance or each applicable tier rate is applied to the portion of the balance that falls into that tier (referred to as 'bands' or 'steps').
-          enum:
-          - WHOLE_BALANCE
-          - PER_TIER
-        applicabilityConditions:
-          $ref: '#/components/schemas/BankingProductRateCondition'
-        subTier:
-          type: object
-          description: Defines the sub-tier criteria and conditions for which a rate applies.
-          required:
-          - name
-          - unitOfMeasure
-          - minimumValue
-          - maximumValue
-          properties:
-            name:
-              type: string
-              description: A display name for the tier.
-            unitOfMeasure:
-              type: string
-              description: The unit of measure that applies to the tierValueMinimum and tierValueMaximum values e.g. 'DOLLAR', 'MONTH' (in the case of term deposit tiers), 'PERCENT' (in the case of loan-to-value ratio or LVR).
-              enum:
-              - DOLLAR
-              - PERCENT
-              - MONTH
-              - DAY
-            minimumValue:
-              type: number
-              description: The number of tierUnitOfMeasure units that form the lower bound of the tier. The tier should be inclusive of this value.
-            maximumValue:
-              type: number
-              description: 'The number of tierUnitOfMeasure units that form the upper bound of the tier or band. For a tier with a discrete value (as opposed to a range of values e.g. 1 month) this must be the same as tierValueMinimum. Where this is the same as the tierValueMinimum value of the next-higher tier the referenced tier should be exclusive of this value. For example a term deposit of 2 months falls into the upper tier of the following tiers: (1 – 2 months, 2 – 3 months).'
-            rateApplicationMethod:
-              type: string
-              description: The method used to calculate the amount to be applied using one or more tiers. A single rate may be applied to the entire balance or each applicable tier rate is applied to the portion of the balance that falls into that tier (referred to as 'bands' or 'steps').
-              enum:
-              - WHOLE_BALANCE
-              - PER_TIER
-            applicabilityConditions:
-              $ref: '#/components/schemas/BankingProductRateCondition'
-    BankingEnumProductCategory:
-      type: string
-      description: Product category of the product.
-      enum:
-      - TRANS_AND_SAVINGS_ACCOUNTS
-      - TERM_DEPOSITS
-      - CRED_AND_CHRG_CARDS
-    Error:
-      type: object
-      properties:
-        code:
-          type: string
-        title:
-          type: string
-        detail:
-          type: string
+        data:
+          bundles: []
+          features:
+          - featureType: NPP_PAYID
+            additionalValue: 'No'
+          - featureType: DIGITAL_BANKING
+            additionalValue: 'Yes'
+          - featureType: NPP_ENABLED
+            additionalValue: 'Yes'
+          - featureType: CARD_ACCESS
+            additionalValue: No Card Required
+          - featureType: UNLIMITED_TXNS
+            additionalValue: Unlimited CommBank electronic transactions
+          - featureType: DIGITAL_BANKING
+            additionalInfo: Wherever you are in the world, CommBank gives you the choice and control to securely manage all of your accounts on a range of devices, the way you want.
+            additionalInfoUri: https://www.commbank.com.au/digital-banking.html
+          - featureType: NPP_ENABLED
+          - featureType: OTHER
+            additionalValue: Goal Tracker
+            additionalInfo: Whether you have a savings goal in mind or want to build a buffer for those �just in case' moments, Goal Tracker in the CommBank app helps you set and reach your goals.
+            additionalInfoUri: https://www.commbank.com.au/digital-banking/goal-tracker.html
+          - featureType: OTHER
+            additionalValue: Automatic Bank Feeds
+            additionalInfo: 'Streamline your business banking and save time with automatic data feeds from your online banking to your accounting software '
+            additionalInfoUri: https://www.commbank.com.au/business/accounting-software-integration.html
+          constraints: []
+          eligibility:
+          - eligibilityType: STAFF
+          - eligibilityType: MIN_AGE
+            additionalValue: '14'
+          - eligibilityType: NATURAL_PERSON
+          - eligibilityType: MIN_AGE
+            additionalValue: '14'
+          - eligibilityType: NATURAL_PERSON
+          - eligibilityType: OTHER
+            additionalValue: 1) Other product holdings 2) Digital customer
+            additionalInfo: 1) Have a Smart Access, Complete Access, Everyday Offset, Pensioner Security or Streamline Basic account with CommBank in the same name as the NetBank Saver account. This is to transfer money to and from their NetBank Saver account. 2) Be registered for NetBank and have an email address
+          fees:
+          - name: NetBank transfers and BPAY
+            feeType: EVENT
+            amount: ''
+            discounts: []
+            additionalValue: Free
+          - name: Online Statement Fee
+            feeType: EVENT
+            amount: ''
+            discounts: []
+            additionalValue: Not applicable
+          depositRates:
+          - depositRateType: STANDARD
+            rate: '0.005'
+            calculationFrequency: P1D
+            applicationFrequency: P
+          productId: ad22b1f0967349e8a5d586afe7f0d845
+          effectiveFrom: '2010-07-14T14:00:00Z'
+          effectiveTo: '9999-12-30T13:00:00Z'
+          lastUpdated: '2019-05-29T16:16:12.630613Z'
+          productCategory: TRANS_AND_SAVINGS_ACCOUNTS
+          name: NetBank Saver
+          description: NetBank Saver
+          brand: CBA
+          brandName: Commonwealth Bank
+          applicationUri: https://www.commbank.com.au/banking/netbank-saver.html#apply
+          isTailored: false
+          additionalInformation:
+            overviewUri: https://www.commbank.com.au/banking/netbank-saver.html
+            termsUri: https://www.commbank.com.au/content/dam/commbank/personal/apply-online/download-printed-forms/SavingsInvestment_ADB2852.pdf
+            eligibilityUri: https://www.commbank.com.au/banking/netbank-saver.html#apply
+            feesAndPricingUri: https://www.commbank.com.au/banking/netbank-saver.html#rates
+        links:
+          self: '#/cds-au/v1/banking/products/ad22b1f0967349e8a5d586afe7f0d845'
+        meta:
+          totalRecords: 1
+          totalPages: 1
     ErrorResponse406:
       type: object
       properties:
@@ -467,6 +410,126 @@ components:
         - code: PA-RH-04
           title: x-min-v is invalid
           detail: x-min-v header must be a supported version number.
+    LinksPaginated:
+      type: object
+      required:
+      - self
+      x-conditional:
+      - prev
+      - next
+      - first
+      - last
+      properties:
+        self:
+          type: string
+          description: Fully qualified link to this API call.
+        first:
+          type: string
+          description: URI to the first page of this set.
+        prev:
+          type: string
+          description: URI to the previous page of this set.
+        next:
+          type: string
+          description: URI to the next page of this set.
+        last:
+          type: string
+          description: URI to the last page of this set.
+    DepositRate:
+      type: object
+      required:
+      - depositRateType
+      - rate
+      x-conditional:
+      - additionalValue
+      properties:
+        depositRateType:
+          description: The type of rate (base, bonus, etc). See the next section for an overview of valid values and their meaning
+          enum:
+          - STANDARD
+          - FIXED
+          - BONUS
+          - BUNDLE_BONUS
+          - VARIABLE
+          - INTRODUCTORY
+          - FLOATING
+          - MARKET_LINKED
+          type: string
+        rate:
+          type: string
+          description: The rate to be applied
+        calculationFrequency:
+          type: string
+          description: The period after which the rate is applied to the balance to calculate the amount due for the period. Calculation of the amount is often daily (as balances may change) but accumulated until the total amount is 'applied' to the account (see applicationFrequency). Formatted according to [ISO 8601 Durations](https://en.wikipedia.org/wiki/ISO_8601#Durations).
+        applicationFrequency:
+          type: string
+          description: The period after which the calculated amount(s) (see calculationFrequency) are 'applied' (i.e. debited or credited) to the account. Formatted according to [ISO 8601 Durations](https://en.wikipedia.org/wiki/ISO_8601#Durations).
+        tiers:
+          uniqueItems: false
+          type: array
+          description: Rate tiers applicable for this rate
+          items:
+            $ref: '#/components/schemas/Tier'
+        additionalValue:
+          type: string
+          description: 'Generic field containing additional information relevant to the depositRateType specified. Whether mandatory or not is dependent on the value of depositRateType.
+
+
+            See the below table for more details.
+
+
+            |Value|Description|Use of additionalValue Field|
+
+            |--- |--- |--- |
+
+            |FIXED|Fixed rate for a period of time|The period of time fixed. Formatted according to ISO 8601 Durations|
+
+            |BONUS|A bonus rate available by meeting a specific criteria|A description of the criteria to obtain the bonus|
+
+            |BUNDLE_BONUS|A bonus rate obtained by originating a bundle instead of a standalone product|The name of the bundle|
+
+            |VARIABLE|A variable base rate for the product|NA|
+
+            |INTRODUCTORY|An introductory bonus that will expire after a set period|The period of time for the introductory rate.  Formatted according to ISO 8601 Durations|
+
+            |FLOATING|A floating rate is relatively fixed but still adjusts under specific circumstances|Details of the float parameters|
+
+            |MARKET_LINKED|A rate that is linked to a specific market, commodity or asset class|Details of the market linkage|
+
+
+            '
+        additionalInfo:
+          type: string
+          description: Display text providing more information on the rate
+        additionalInfoUri:
+          type: string
+          description: Link to a web page with more information on this rate
+    Error:
+      type: object
+      properties:
+        code:
+          type: string
+        title:
+          type: string
+        detail:
+          type: string
+    ResponseNoBody:
+      type: object
+      properties: {}
+      example: {}
+    ErrorResponse422:
+      type: object
+      properties:
+        errors:
+          uniqueItems: false
+          type: array
+          items:
+            $ref: '#/components/schemas/Error'
+      example:
+        errors:
+        - code: PA-BR-01
+          title: page-size is invalid
+          detail: page-size must be a number and between 1 and 1000.
     DiscountEligibility:
       type: object
       required:
@@ -536,31 +599,214 @@ components:
         additionalInfoUri:
           type: string
           description: Link to a web page with more information on this eligibility constraint.
-    Bundle:
+    Links:
       type: object
       required:
+      - self
+      properties:
+        self:
+          type: string
+          description: Fully qualified link to this API call.
+    BankingProductDetailV3:
+      allOf:
+      - $ref: '#/components/schemas/BankingProductV3'
+      - type: object
+        properties:
+          bundles:
+            description: An array of bundles that this product participates in.  Each bundle is described by free form information but also by a list of product IDs of the other products that are included in the bundle.  It is assumed that the current product is included in the bundle.
+            uniqueItems: false
+            type: array
+            items:
+              $ref: '#/components/schemas/Bundle'
+          features:
+            description: Array of features available for the product.
+            uniqueItems: false
+            type: array
+            items:
+              $ref: '#/components/schemas/Feature'
+          constraints:
+            description: Constraints on the application for or operation of the product such as minimum balances or limit thresholds.
+            uniqueItems: false
+            type: array
+            items:
+              $ref: '#/components/schemas/Constraint'
+          eligibility:
+            description: Eligibility criteria for the product.
+            uniqueItems: false
+            type: array
+            items:
+              $ref: '#/components/schemas/Eligibility'
+          fees:
+            description: Fees applicable for the product.
+            uniqueItems: false
+            type: array
+            items:
+              $ref: '#/components/schemas/Fee'
+          depositRates:
+            description: Interest rates available for deposits.
+            uniqueItems: false
+            type: array
+            items:
+              $ref: '#/components/schemas/DepositRate'
+          lendingRates:
+            description: Interest rates charged against lending balances.
+            uniqueItems: false
+            type: array
+            items:
+              $ref: '#/components/schemas/LendingRate'
+          productId:
+            type: string
+          effectiveFrom:
+            format: date-time
+            type: string
+          effectiveTo:
+            format: date-time
+            type: string
+          lastUpdated:
+            format: date-time
+            type: string
+          productCategory:
+            type: string
+          name:
+            type: string
+          description:
+            type: string
+          brand:
+            type: string
+          brandName:
+            type: string
+          applicationUri:
+            type: string
+          isTailored:
+            type: boolean
+    Meta:
+      type: object
+      required:
+      - totalRecords
+      - totalPages
+      properties:
+        totalRecords:
+          type: integer
+          description: Total number of records in the full set.
+          example: 10
+        totalPages:
+          description: Total number of pages in the full set.
+          example: 10
+          type: integer
+    Constraint:
+      type: object
+      required:
+      - constraintType
+      x-conditional:
+      - additionalValue
+      properties:
+        constraintType:
+          description: The type of constraint described.
+          enum:
+          - MIN_BALANCE
+          - MAX_BALANCE
+          - OPENING_BALANCE
+          - MAX_LIMIT
+          - MIN_LIMIT
+          type: string
+        additionalValue:
+          description: 'Generic field containing additional information relevant to the constraintType specified. Whether mandatory or not is dependent on the value of constraintType.
+
+
+            See the below table for more details.
+
+
+            |Value|Description|Use of additionalValue Field|
+
+            |--- |--- |--- |
+
+            |MIN_BALANCE|A minimum balance is required for the product|The minimum balance in AmountString format|
+
+            |MAX_BALANCE|A maximum balance is required for the product|The maximum balance in AmountString format|
+
+            |OPENING_BALANCE|An opening balance is required for the product|The minimum opening balance in AmountString format|
+
+            |MAX_LIMIT|A maximum credit limit exists|The maximum limit in AmountString format|
+
+            |MIN_LIMIT|A minimum credit limit exists|The minimum limit in AmountString format|
+
+
+            '
+          type: string
+        additionalInfo:
+          type: string
+          description: Display text providing more information describing the constraint.
+        additionalInfoUri:
+          type: string
+          description: Link to a web page with more information on the constraint.
+    Tier:
+      type: object
+      description: Defines the criteria and conditions for which a rate applies.
+      required:
       - name
-      - description
-      - productIds
+      - unitOfMeasure
+      - minimumValue
+      - maximumValue
       properties:
         name:
           type: string
-          description: Name of the bundle.
-        description:
+          description: A display name for the tier.
+        unitOfMeasure:
           type: string
-          description: Description of the bundle.
-        additionalInfo:
+          description: The unit of measure that applies to the tierValueMinimum and tierValueMaximum values e.g. 'DOLLAR', 'MONTH' (in the case of term deposit tiers), 'PERCENT' (in the case of loan-to-value ratio or LVR).
+          enum:
+          - DOLLAR
+          - PERCENT
+          - MONTH
+          - DAY
+        minimumValue:
+          type: number
+          description: The number of tierUnitOfMeasure units that form the lower bound of the tier. The tier should be inclusive of this value.
+        maximumValue:
+          type: number
+          description: 'The number of tierUnitOfMeasure units that form the upper bound of the tier or band. For a tier with a discrete value (as opposed to a range of values e.g. 1 month) this must be the same as tierValueMinimum. Where this is the same as the tierValueMinimum value of the next-higher tier the referenced tier should be exclusive of this value. For example a term deposit of 2 months falls into the upper tier of the following tiers: (1 – 2 months, 2 – 3 months).'
+        rateApplicationMethod:
           type: string
-          description: Display text providing more information on the bundle.
-        additionalInfoUri:
-          type: string
-          description: Link to a web page with more information on the bundle criteria and benefits.
-        productIds:
-          type: array
-          description: Array of product IDs for products included in the bundle.
-          uniqueItems: false
-          items:
-            type: string
+          description: The method used to calculate the amount to be applied using one or more tiers. A single rate may be applied to the entire balance or each applicable tier rate is applied to the portion of the balance that falls into that tier (referred to as 'bands' or 'steps').
+          enum:
+          - WHOLE_BALANCE
+          - PER_TIER
+        applicabilityConditions:
+          $ref: '#/components/schemas/BankingProductRateCondition'
+        subTier:
+          type: object
+          description: Defines the sub-tier criteria and conditions for which a rate applies.
+          required:
+          - name
+          - unitOfMeasure
+          - minimumValue
+          - maximumValue
+          properties:
+            name:
+              type: string
+              description: A display name for the tier.
+            unitOfMeasure:
+              type: string
+              description: The unit of measure that applies to the tierValueMinimum and tierValueMaximum values e.g. 'DOLLAR', 'MONTH' (in the case of term deposit tiers), 'PERCENT' (in the case of loan-to-value ratio or LVR).
+              enum:
+              - DOLLAR
+              - PERCENT
+              - MONTH
+              - DAY
+            minimumValue:
+              type: number
+              description: The number of tierUnitOfMeasure units that form the lower bound of the tier. The tier should be inclusive of this value.
+            maximumValue:
+              type: number
+              description: 'The number of tierUnitOfMeasure units that form the upper bound of the tier or band. For a tier with a discrete value (as opposed to a range of values e.g. 1 month) this must be the same as tierValueMinimum. Where this is the same as the tierValueMinimum value of the next-higher tier the referenced tier should be exclusive of this value. For example a term deposit of 2 months falls into the upper tier of the following tiers: (1 – 2 months, 2 – 3 months).'
+            rateApplicationMethod:
+              type: string
+              description: The method used to calculate the amount to be applied using one or more tiers. A single rate may be applied to the entire balance or each applicable tier rate is applied to the portion of the balance that falls into that tier (referred to as 'bands' or 'steps').
+              enum:
+              - WHOLE_BALANCE
+              - PER_TIER
+            applicabilityConditions:
+              $ref: '#/components/schemas/BankingProductRateCondition'
     BankingProductV3:
       type: object
       required:
@@ -607,70 +853,126 @@ components:
           description: Indicates whether the pricing for the product can be tailored to a specific customer.
         additionalInformation:
           $ref: '#/components/schemas/AdditionalInformation'
-    ResponseBankingProductList:
+    AdditionalInformation:
+      description: Object containing links to additional information on specific topics.
+      type: object
+      properties:
+        overviewUri:
+          type: string
+          description: General overview of the product.
+        termsUri:
+          type: string
+          description: Terms and conditions for the product.
+        eligibilityUri:
+          type: string
+          description: Eligibility rules and criteria for the product.
+        feesAndPricingUri:
+          type: string
+          description: Description of fees, pricing, discounts, exemptions and bonuses for the product.
+        bundleUri:
+          type: string
+          description: Description of a bundle that this product can be part of.
+    LendingRate:
       type: object
       required:
-      - data
-      - links
-      - meta
-      example:
-        data:
-          products:
-          - productId: ad22b1f0967349e8a5d586afe7f0d845
-            effectiveFrom: '2010-07-14T14:00:00Z'
-            effectiveTo: '9999-12-30T13:00:00Z'
-            lastUpdated: '2019-06-03T02:43:35.193777Z'
-            productCategory: TRANS_AND_SAVINGS_ACCOUNTS
-            name: NetBank Saver
-            description: NetBank Saver
-            brand: CBA
-            brandName: CommBank
-            applicationUri: https://www.commbank.com.au/banking/netbank-saver.html#apply
-            isTailored: false
-            additionalInformation:
-              overviewUri: https://www.commbank.com.au/banking/netbank-saver.html
-              termsUri: https://www.commbank.com.au/content/dam/commbank/personal/apply-online/download-printed-forms/SavingsInvestment_ADB2852.pdf
-              eligibilityUri: https://www.commbank.com.au/banking/netbank-saver.html#apply
-              feesAndPricingUri: https://www.commbank.com.au/banking/netbank-saver.html#rates
-          - productId: 7aff9e0e85e6450eb052d4ff2e953223
-            effectiveFrom: '2011-05-10T04:00:00Z'
-            effectiveTo: '9999-12-30T13:00:00Z'
-            lastUpdated: '2019-06-03T02:42:57.57482Z'
-            productCategory: TRANS_AND_SAVINGS_ACCOUNTS
-            name: Youthsaver Account
-            description: Youthsaver Account
-            brand: CBA
-            brandName: CommBank
-            applicationUri: https://www.commbank.com.au/banking/youthsaver.html#apply
-            isTailored: false
-            additionalInformation:
-              overviewUri: https://www.commbank.com.au/banking/youthsaver.html
-              termsUri: https://www.commbank.com.au/content/dam/commbank/personal/apply-online/download-printed-forms/SavingsInvestment_ADB2852.pdf
-              eligibilityUri: https://www.commbank.com.au/banking/youthsaver.html#apply
-              feesAndPricingUri: https://www.commbank.com.au/banking/youthsaver.html#rates
-        links:
-          self: /cds-au/v1/banking/products?page-size=2
-          first: /cds-au/v1/banking/products?page-size=2&page=1
-          next: /cds-au/v1/banking/products?page-size=2&page=2
-          last: /cds-au/v1/banking/products?page-size=2&page=14
-        meta:
-          totalRecords: 28
-          totalPages: 14
+      - lendingRateType
+      - rate
+      x-conditional:
+      - additionalValue
       properties:
-        data:
-          type: object
-          required:
-          - products
-          properties:
-            products:
-              description: The list of products returned for the query.
-              type: array
-              items:
-                $ref: '#/components/schemas/BankingProductV3'
-        links:
-          $ref: '#/components/schemas/LinksPaginated'
-        meta:
-          $ref: '#/components/schemas/Meta'
+        lendingRateType:
+          description: The type of rate (fixed, variable, etc). See the next section for an overview of valid values and their meaning.
+          enum:
+          - FIXED
+          - VARIABLE
+          - INTRODUCTORY
+          - DISCOUNT
+          - PENALTY
+          - FLOATING
+          - MARKET_LINKED
+          - CASH_ADVANCE
+          - PURCHASE
+          - BUNDLE_DISCOUNT_FIXED
+          - BUNDLE_DISCOUNT_VARIABLE
+          type: string
+        rate:
+          type: string
+          description: The rate to be applied.
+        comparisonRate:
+          type: string
+          description: A comparison rate equivalent for this rate.
+        calculationFrequency:
+          type: string
+          description: The period after which the rate is applied to the balance to calculate the amount due for the period. Formatted according to [ISO 8601 Durations](https://en.wikipedia.org/wiki/ISO_8601#Durations).
+        applicationFrequency:
+          type: string
+          description: The period after which the calculated amount(s) (see calculationFrequency) are 'applied' (i.e. debited or credited) to the account. Formatted according to [ISO 8601 Durations](https://en.wikipedia.org/wiki/ISO_8601#Durations).
+        interestPaymentDue:
+          type: string
+          description: When loan payments are due to be paid within each period. The investment benefit of earlier payments affect the rate that can be offered.
+          enum:
+          - IN_ARREARS
+          - IN_ADVANCE
+        repaymentType:
+          type: string
+          description: Options in place for repayments.
+          enum:
+          - INTEREST_ONLY
+          - PRINCIPAL_AND_INTEREST
+        loanPurpose:
+          type: string
+          description: The reason for taking out the loan.
+          enum:
+          - OWNER_OCCUPIED
+          - INVESTMENT
+        tiers:
+          uniqueItems: false
+          type: array
+          description: Rate tiers applicable for this rate.
+          items:
+            $ref: '#/components/schemas/Tier'
+        additionalValue:
+          type: string
+          description: 'Generic field containing additional information relevant to the lendingRateType specified. Whether mandatory or not is dependent on the value of lendingRateType.
+
+
+            See the below table for more details.
+
+
+            |Value|Description|Use of additionalValue Field|
+
+            |--- |--- |--- |
+
+            |FIXED|Fixed rate for a period of time|The period of time fixed. Formatted according to ISO 8601 Durations|
+
+            |VARIABLE|A variable base rate for the product|NA|
+
+            |INTRODUCTORY|An introductory discount that will expire after a set period|The period of time for the introductory rate.  Formatted according to ISO 8601 Durations|
+
+            |DISCOUNT|A specific discount rate that may be applied.  A discount rate reduces the interest payable|Description of the discount rate that is applicable|
+
+            |PENALTY|A specific penalty rate that may be applied.  A penalty rate increases the interest payable|Description of the penalty rate that is applicable|
+
+            |FLOATING|A floating rate is relatively fixed but still adjusts under specific circumstances|Details of the float parameters|
+
+            |MARKET_LINKED|A rate that is linked to a specific market, commodity or asset class|Details of the market linkage|
+
+            |CASH_ADVANCE|Specific rate applied to cash advances from the account|NA|
+
+            |PURCHASE|Specific rate applied to purchases from the account|NA|
+
+            |BUNDLE_DISCOUNT_FIXED|A discount rate off the fixed rate obtained by originating a bundle instead of a standalone product|The name of the bundle|
+
+            |BUNDLE_DISCOUNT_VARIABLE|A discount rate off the variable rate obtained by originating a bundle instead of a standalone product|The name of the bundle|
+
+
+            '
+        additionalInfo:
+          type: string
+          description: Display text providing more information on the rate.
+        additionalInfoUri:
+          type: string
+          description: Link to a web page with more information on this rate.
     Discount:
       type: object
       required:
@@ -747,44 +1049,111 @@ components:
         additionalInfoUri:
           type: string
           description: Link to a web page with more information on this discount.
-    DepositRate:
+    ErrorResponse500:
       type: object
-      required:
-      - depositRateType
-      - rate
-      x-conditional:
-      - additionalValue
       properties:
-        depositRateType:
-          description: The type of rate (base, bonus, etc). See the next section for an overview of valid values and their meaning
-          enum:
-          - STANDARD
-          - FIXED
-          - BONUS
-          - BUNDLE_BONUS
-          - VARIABLE
-          - INTRODUCTORY
-          - FLOATING
-          - MARKET_LINKED
-          type: string
-        rate:
-          type: string
-          description: The rate to be applied
-        calculationFrequency:
-          type: string
-          description: The period after which the rate is applied to the balance to calculate the amount due for the period. Calculation of the amount is often daily (as balances may change) but accumulated until the total amount is 'applied' to the account (see applicationFrequency). Formatted according to [ISO 8601 Durations](https://en.wikipedia.org/wiki/ISO_8601#Durations).
-        applicationFrequency:
-          type: string
-          description: The period after which the calculated amount(s) (see calculationFrequency) are 'applied' (i.e. debited or credited) to the account. Formatted according to [ISO 8601 Durations](https://en.wikipedia.org/wiki/ISO_8601#Durations).
-        tiers:
+        errors:
           uniqueItems: false
           type: array
-          description: Rate tiers applicable for this rate
           items:
-            $ref: '#/components/schemas/Tier'
+            $ref: '#/components/schemas/Error'
+      example:
+        errors:
+        - code: PA-IS-01
+          title: Server Error
+          detail: An error has occurred whilst processing your request. Please try again later.
+    ResponseBankingProductList:
+      type: object
+      required:
+      - data
+      - links
+      - meta
+      example:
+        data:
+          products:
+          - productId: ad22b1f0967349e8a5d586afe7f0d845
+            effectiveFrom: '2010-07-14T14:00:00Z'
+            effectiveTo: '9999-12-30T13:00:00Z'
+            lastUpdated: '2019-06-03T02:43:35.193777Z'
+            productCategory: TRANS_AND_SAVINGS_ACCOUNTS
+            name: NetBank Saver
+            description: NetBank Saver
+            brand: CBA
+            brandName: CommBank
+            applicationUri: https://www.commbank.com.au/banking/netbank-saver.html#apply
+            isTailored: false
+            additionalInformation:
+              overviewUri: https://www.commbank.com.au/banking/netbank-saver.html
+              termsUri: https://www.commbank.com.au/content/dam/commbank/personal/apply-online/download-printed-forms/SavingsInvestment_ADB2852.pdf
+              eligibilityUri: https://www.commbank.com.au/banking/netbank-saver.html#apply
+              feesAndPricingUri: https://www.commbank.com.au/banking/netbank-saver.html#rates
+          - productId: 7aff9e0e85e6450eb052d4ff2e953223
+            effectiveFrom: '2011-05-10T04:00:00Z'
+            effectiveTo: '9999-12-30T13:00:00Z'
+            lastUpdated: '2019-06-03T02:42:57.57482Z'
+            productCategory: TRANS_AND_SAVINGS_ACCOUNTS
+            name: Youthsaver Account
+            description: Youthsaver Account
+            brand: CBA
+            brandName: CommBank
+            applicationUri: https://www.commbank.com.au/banking/youthsaver.html#apply
+            isTailored: false
+            additionalInformation:
+              overviewUri: https://www.commbank.com.au/banking/youthsaver.html
+              termsUri: https://www.commbank.com.au/content/dam/commbank/personal/apply-online/download-printed-forms/SavingsInvestment_ADB2852.pdf
+              eligibilityUri: https://www.commbank.com.au/banking/youthsaver.html#apply
+              feesAndPricingUri: https://www.commbank.com.au/banking/youthsaver.html#rates
+        links:
+          self: /cds-au/v1/banking/products?page-size=2
+          first: /cds-au/v1/banking/products?page-size=2&page=1
+          next: /cds-au/v1/banking/products?page-size=2&page=2
+          last: /cds-au/v1/banking/products?page-size=2&page=14
+        meta:
+          totalRecords: 28
+          totalPages: 14
+      properties:
+        data:
+          type: object
+          required:
+          - products
+          properties:
+            products:
+              description: The list of products returned for the query.
+              type: array
+              items:
+                $ref: '#/components/schemas/BankingProductV3'
+        links:
+          $ref: '#/components/schemas/LinksPaginated'
+        meta:
+          $ref: '#/components/schemas/Meta'
+    Eligibility:
+      type: object
+      required:
+      - eligibilityType
+      x-conditional:
+      - additionalValue
+      - additionalInfo
+      properties:
+        eligibilityType:
+          description: The type of eligibility criteria described.
+          enum:
+          - BUSINESS
+          - PENSION_RECIPIENT
+          - MIN_AGE
+          - MAX_AGE
+          - MIN_INCOME
+          - MIN_TURNOVER
+          - STAFF
+          - STUDENT
+          - EMPLOYMENT_STATUS
+          - RESIDENCY_STATUS
+          - NATURAL_PERSON
+          - INTRODUCTORY
+          - OTHER
+          type: string
         additionalValue:
           type: string
-          description: 'Generic field containing additional information relevant to the depositRateType specified. Whether mandatory or not is dependent on the value of depositRateType.
+          description: 'Generic field containing additional information relevant to the eligibilityType specified. Whether mandatory or not is dependent on the value of eligibilityType.
 
 
             See the below table for more details.
@@ -794,119 +1163,200 @@ components:
 
             |--- |--- |--- |
 
-            |FIXED|Fixed rate for a period of time|The period of time fixed. Formatted according to ISO 8601 Durations|
+            |BUSINESS|Only business may apply for the account|NA|
 
-            |BONUS|A bonus rate available by meeting a specific criteria|A description of the criteria to obtain the bonus|
+            |PENSION_RECIPIENT|A recipient of a government pension may apply for the product|NA|
 
-            |BUNDLE_BONUS|A bonus rate obtained by originating a bundle instead of a standalone product|The name of the bundle|
+            |MIN_AGE|Only customers older than a minimum age may apply|The minimum age in years|
 
-            |VARIABLE|A variable base rate for the product|NA|
+            |MAX_AGE|Only customers younger than a maximum age may apply|The maximum age in years|
 
-            |INTRODUCTORY|An introductory bonus that will expire after a set period|The period of time for the introductory rate.  Formatted according to ISO 8601 Durations|
+            |MIN_INCOME|The customer must have an income greater than a specified threshold to obtain the product|Minimum income in AmountString format|
 
-            |FLOATING|A floating rate is relatively fixed but still adjusts under specific circumstances|Details of the float parameters|
+            |MIN_TURNOVER|Only a business with greater than a minimum turnover may apply|Minimum turnover in AmountString format|
 
-            |MARKET_LINKED|A rate that is linked to a specific market, commodity or asset class|Details of the market linkage|
+            |STAFF|Only a staff member of the provider may apply|NA|
+
+            |STUDENT|Only students may apply for the product|NA|
+
+            |EMPLOYMENT_STATUS|An eligibility constraint based on employment status applies|A description of the status required|
+
+            |RESIDENCY_STATUS|An eligibility constraint based on residency status applies|A description of the status required|
+
+            |NATURAL_PERSON|The customer must be a natural person rather than another legal entity|NA|
+
+            |OTHER|Another eligibility criteria exists as described in the additionalInfo field (if this option is specified then the additionalInfo field is mandatory)|Value relevant to the criteria|
+
+
+            '
+          example: '14'
+        additionalInfo:
+          type: string
+          description: Display text providing more information on the eligibility criteria. Mandatory if the eligibilityType field is set to OTHER.
+        additionalInfoUri:
+          type: string
+          description: Link to a web page with more information on this eligibility criteria.
+    Bundle:
+      type: object
+      required:
+      - name
+      - description
+      - productIds
+      properties:
+        name:
+          type: string
+          description: Name of the bundle.
+        description:
+          type: string
+          description: Description of the bundle.
+        additionalInfo:
+          type: string
+          description: Display text providing more information on the bundle.
+        additionalInfoUri:
+          type: string
+          description: Link to a web page with more information on the bundle criteria and benefits.
+        productIds:
+          type: array
+          description: Array of product IDs for products included in the bundle.
+          uniqueItems: false
+          items:
+            type: string
+    BankingProductRateCondition:
+      type: object
+      description: Defines a condition for the applicability of a tiered rate.
+      properties:
+        additionalValue:
+          type: string
+        additionalInfo:
+          type: string
+          description: Display text providing more information on the condition.
+        additionalInfoUri:
+          type: string
+          description: Link to a web page with more information on this condition.
+    ErrorResponse400:
+      type: object
+      properties:
+        errors:
+          uniqueItems: false
+          type: array
+          items:
+            $ref: '#/components/schemas/Error'
+      example:
+        errors:
+        - code: PA-BR-02
+          title: updated-since is invalid
+          detail: updated-since must be a valid date.
+        - code: PA-BR-03
+          title: effective is invalid
+          detail: effective must be either ALL, CURRENT or FUTURE.
+        - code: PA-BR-04
+          title: product-category is invalid
+          detail: product-category must be a valid enumeration.
+        - code: PA-BR-05
+          title: page is invalid
+          detail: page must be a number and must be greater than 0.
+        - code: PA-BR-06
+          title: '{field-name} is Invalid'
+          detail: Something is wrong with your request. Please check your query parameters and try again.
+        - code: PA-BR-07
+          title: brand is Invalid
+          detail: brand must be a valid value.
+    BankingEnumProductCategory:
+      type: string
+      description: Product category of the product.
+      enum:
+      - TRANS_AND_SAVINGS_ACCOUNTS
+      - TERM_DEPOSITS
+      - CRED_AND_CHRG_CARDS
+    Fee:
+      type: object
+      required:
+      - name
+      - feeType
+      - amount
+      x-conditional:
+      - additionalValue
+      - balanceRate
+      - transactionRate
+      - accruedRate
+      properties:
+        name:
+          type: string
+          description: A display name for the fee.
+        feeType:
+          enum:
+          - PERIODIC
+          - TRANSACTION
+          - WITHDRAWAL
+          - DEPOSIT
+          - PAYMENT
+          - PURCHASE
+          - EVENT
+          - UPFRONT
+          - EXIT
+          type: string
+        amount:
+          type: string
+          description: 'The amount charged for the fee. One of: amount, balanceRate, transactionRate and accruedRate is mandatory.'
+        balanceRate:
+          type: string
+          description: 'A fee rate calculated based on a proportion of the balance. One of: amount, balanceRate, transactionRate and accruedRate is mandatory.'
+        transactionRate:
+          type: string
+          description: 'A fee rate calculated based on a proportion of a transaction. One of: amount, balanceRate, transactionRate and accruedRate is mandatory.'
+        accruedRate:
+          type: string
+          description: A fee rate calculated based on a proportion of the calculated interest accrued on the account. One of amount, balanceRate, transactionRate and accruedRate is mandatory.
+        accrualFrequency:
+          type: string
+          description: The indicative frequency with which the fee is calculated on the account. Only applies if balanceRate or accruedRate is also present. Formatted according to [ISO 8601 Durations](https://en.wikipedia.org/wiki/ISO_8601#Durations).
+        currency:
+          type: string
+          description: The currency the fee will be charged in. Assumes AUD if absent.
+        discounts:
+          description: An optional list of discounts to this fee that may be available.
+          uniqueItems: false
+          type: array
+          items:
+            $ref: '#/components/schemas/Discount'
+        additionalValue:
+          type: string
+          description: 'Generic field containing additional information relevant to the feeType specified. Whether mandatory or not is dependent on the value of feeType.
+
+
+            See the below table for more details.
+
+
+            |Value|Description|Use of additionalValue Field|
+
+            |--- |--- |--- |
+
+            |PERIODIC|A periodic fee such as a monthly account servicing fee|The period of charge.  Formatted according to ISO 8601 Durations|
+
+            |TRANSACTION|A fee associated with any transaction (incorporates WITHDRAWAL, DEPOSIT, PAYMENT and PURCHASE)|NA|
+
+            |WITHDRAWAL|A fee associated with making a withdrawal|NA|
+
+            |DEPOSIT|A fee associated with making a deposit|NA|
+
+            |PAYMENT|A fee associated with making a payment|NA|
+
+            |PURCHASE|A fee associated with making a purchase at a merchant|NA|
+
+            |EVENT|A fee in relation to a particular event (e.g. NA ordering a new card, viewing a balance or stopping a cheque)|NA|
+
+            |UPFRONT|A fee paid at the beginning of the product NA lifecycle, such as an establishment fee, loyalty program fee or application fee|NA|
+
+            |EXIT|A fee for closing the product|NA|
 
 
             '
         additionalInfo:
           type: string
-          description: Display text providing more information on the rate
+          description: Display text providing more information on the fee.
         additionalInfoUri:
           type: string
-          description: Link to a web page with more information on this rate
-    BankingProductDetailV3:
-      allOf:
-      - $ref: '#/components/schemas/BankingProductV3'
-      - type: object
-        properties:
-          bundles:
-            description: An array of bundles that this product participates in.  Each bundle is described by free form information but also by a list of product IDs of the other products that are included in the bundle.  It is assumed that the current product is included in the bundle.
-            uniqueItems: false
-            type: array
-            items:
-              $ref: '#/components/schemas/Bundle'
-          features:
-            description: Array of features available for the product.
-            uniqueItems: false
-            type: array
-            items:
-              $ref: '#/components/schemas/Feature'
-          constraints:
-            description: Constraints on the application for or operation of the product such as minimum balances or limit thresholds.
-            uniqueItems: false
-            type: array
-            items:
-              $ref: '#/components/schemas/Constraint'
-          eligibility:
-            description: Eligibility criteria for the product.
-            uniqueItems: false
-            type: array
-            items:
-              $ref: '#/components/schemas/Eligibility'
-          fees:
-            description: Fees applicable for the product.
-            uniqueItems: false
-            type: array
-            items:
-              $ref: '#/components/schemas/Fee'
-          depositRates:
-            description: Interest rates available for deposits.
-            uniqueItems: false
-            type: array
-            items:
-              $ref: '#/components/schemas/DepositRate'
-          lendingRates:
-            description: Interest rates charged against lending balances.
-            uniqueItems: false
-            type: array
-            items:
-              $ref: '#/components/schemas/LendingRate'
-          productId:
-            type: string
-          effectiveFrom:
-            format: date-time
-            type: string
-          effectiveTo:
-            format: date-time
-            type: string
-          lastUpdated:
-            format: date-time
-            type: string
-          productCategory:
-            type: string
-          name:
-            type: string
-          description:
-            type: string
-          brand:
-            type: string
-          brandName:
-            type: string
-          applicationUri:
-            type: string
-          isTailored:
-            type: boolean
-    AdditionalInformation:
-      description: Object containing links to additional information on specific topics.
-      type: object
-      properties:
-        overviewUri:
-          type: string
-          description: General overview of the product.
-        termsUri:
-          type: string
-          description: Terms and conditions for the product.
-        eligibilityUri:
-          type: string
-          description: Eligibility rules and criteria for the product.
-        feesAndPricingUri:
-          type: string
-          description: Description of fees, pricing, discounts, exemptions and bonuses for the product.
-        bundleUri:
-          type: string
-          description: Description of a bundle that this product can be part of.
+          description: Link to a web page with more information on this fee.
     Feature:
       type: object
       required:
@@ -1010,434 +1460,6 @@ components:
         additionalInfoUri:
           type: string
           description: Link to a web page with more information on this feature.
-    Constraint:
-      type: object
-      required:
-      - constraintType
-      x-conditional:
-      - additionalValue
-      properties:
-        constraintType:
-          description: The type of constraint described.
-          enum:
-          - MIN_BALANCE
-          - MAX_BALANCE
-          - OPENING_BALANCE
-          - MAX_LIMIT
-          - MIN_LIMIT
-          type: string
-        additionalValue:
-          description: 'Generic field containing additional information relevant to the constraintType specified. Whether mandatory or not is dependent on the value of constraintType.
-
-
-            See the below table for more details.
-
-
-            |Value|Description|Use of additionalValue Field|
-
-            |--- |--- |--- |
-
-            |MIN_BALANCE|A minimum balance is required for the product|The minimum balance in AmountString format|
-
-            |MAX_BALANCE|A maximum balance is required for the product|The maximum balance in AmountString format|
-
-            |OPENING_BALANCE|An opening balance is required for the product|The minimum opening balance in AmountString format|
-
-            |MAX_LIMIT|A maximum credit limit exists|The maximum limit in AmountString format|
-
-            |MIN_LIMIT|A minimum credit limit exists|The minimum limit in AmountString format|
-
-
-            '
-          type: string
-        additionalInfo:
-          type: string
-          description: Display text providing more information describing the constraint.
-        additionalInfoUri:
-          type: string
-          description: Link to a web page with more information on the constraint.
-    ResponseNoBody:
-      type: object
-      properties: {}
-      example: {}
-    LinksPaginated:
-      type: object
-      required:
-      - self
-      x-conditional:
-      - prev
-      - next
-      - first
-      - last
-      properties:
-        self:
-          type: string
-          description: Fully qualified link to this API call.
-        first:
-          type: string
-          description: URI to the first page of this set.
-        prev:
-          type: string
-          description: URI to the previous page of this set.
-        next:
-          type: string
-          description: URI to the next page of this set.
-        last:
-          type: string
-          description: URI to the last page of this set.
-    LendingRate:
-      type: object
-      required:
-      - lendingRateType
-      - rate
-      x-conditional:
-      - additionalValue
-      properties:
-        lendingRateType:
-          description: The type of rate (fixed, variable, etc). See the next section for an overview of valid values and their meaning.
-          enum:
-          - FIXED
-          - VARIABLE
-          - INTRODUCTORY
-          - DISCOUNT
-          - PENALTY
-          - FLOATING
-          - MARKET_LINKED
-          - CASH_ADVANCE
-          - PURCHASE
-          - BUNDLE_DISCOUNT_FIXED
-          - BUNDLE_DISCOUNT_VARIABLE
-          type: string
-        rate:
-          type: string
-          description: The rate to be applied.
-        comparisonRate:
-          type: string
-          description: A comparison rate equivalent for this rate.
-        calculationFrequency:
-          type: string
-          description: The period after which the rate is applied to the balance to calculate the amount due for the period. Formatted according to [ISO 8601 Durations](https://en.wikipedia.org/wiki/ISO_8601#Durations).
-        applicationFrequency:
-          type: string
-          description: The period after which the calculated amount(s) (see calculationFrequency) are 'applied' (i.e. debited or credited) to the account. Formatted according to [ISO 8601 Durations](https://en.wikipedia.org/wiki/ISO_8601#Durations).
-        interestPaymentDue:
-          type: string
-          description: When loan payments are due to be paid within each period. The investment benefit of earlier payments affect the rate that can be offered.
-          enum:
-          - IN_ARREARS
-          - IN_ADVANCE
-        repaymentType:
-          type: string
-          description: Options in place for repayments.
-          enum:
-          - INTEREST_ONLY
-          - PRINCIPAL_AND_INTEREST
-        loanPurpose:
-          type: string
-          description: The reason for taking out the loan.
-          enum:
-          - OWNER_OCCUPIED
-          - INVESTMENT
-        tiers:
-          uniqueItems: false
-          type: array
-          description: Rate tiers applicable for this rate.
-          items:
-            $ref: '#/components/schemas/Tier'
-        additionalValue:
-          type: string
-          description: 'Generic field containing additional information relevant to the lendingRateType specified. Whether mandatory or not is dependent on the value of lendingRateType.
-
-
-            See the below table for more details.
-
-
-            |Value|Description|Use of additionalValue Field|
-
-            |--- |--- |--- |
-
-            |FIXED|Fixed rate for a period of time|The period of time fixed. Formatted according to ISO 8601 Durations|
-
-            |VARIABLE|A variable base rate for the product|NA|
-
-            |INTRODUCTORY|An introductory discount that will expire after a set period|The period of time for the introductory rate.  Formatted according to ISO 8601 Durations|
-
-            |DISCOUNT|A specific discount rate that may be applied.  A discount rate reduces the interest payable|Description of the discount rate that is applicable|
-
-            |PENALTY|A specific penalty rate that may be applied.  A penalty rate increases the interest payable|Description of the penalty rate that is applicable|
-
-            |FLOATING|A floating rate is relatively fixed but still adjusts under specific circumstances|Details of the float parameters|
-
-            |MARKET_LINKED|A rate that is linked to a specific market, commodity or asset class|Details of the market linkage|
-
-            |CASH_ADVANCE|Specific rate applied to cash advances from the account|NA|
-
-            |PURCHASE|Specific rate applied to purchases from the account|NA|
-
-            |BUNDLE_DISCOUNT_FIXED|A discount rate off the fixed rate obtained by originating a bundle instead of a standalone product|The name of the bundle|
-
-            |BUNDLE_DISCOUNT_VARIABLE|A discount rate off the variable rate obtained by originating a bundle instead of a standalone product|The name of the bundle|
-
-
-            '
-        additionalInfo:
-          type: string
-          description: Display text providing more information on the rate.
-        additionalInfoUri:
-          type: string
-          description: Link to a web page with more information on this rate.
-    Fee:
-      type: object
-      required:
-      - name
-      - feeType
-      - amount
-      x-conditional:
-      - additionalValue
-      - balanceRate
-      - transactionRate
-      - accruedRate
-      properties:
-        name:
-          type: string
-          description: A display name for the fee.
-        feeType:
-          enum:
-          - PERIODIC
-          - TRANSACTION
-          - WITHDRAWAL
-          - DEPOSIT
-          - PAYMENT
-          - PURCHASE
-          - EVENT
-          - UPFRONT
-          - EXIT
-          type: string
-        amount:
-          type: string
-          description: 'The amount charged for the fee. One of: amount, balanceRate, transactionRate and accruedRate is mandatory.'
-        balanceRate:
-          type: string
-          description: 'A fee rate calculated based on a proportion of the balance. One of: amount, balanceRate, transactionRate and accruedRate is mandatory.'
-        transactionRate:
-          type: string
-          description: 'A fee rate calculated based on a proportion of a transaction. One of: amount, balanceRate, transactionRate and accruedRate is mandatory.'
-        accruedRate:
-          type: string
-          description: A fee rate calculated based on a proportion of the calculated interest accrued on the account. One of amount, balanceRate, transactionRate and accruedRate is mandatory.
-        accrualFrequency:
-          type: string
-          description: The indicative frequency with which the fee is calculated on the account. Only applies if balanceRate or accruedRate is also present. Formatted according to [ISO 8601 Durations](https://en.wikipedia.org/wiki/ISO_8601#Durations).
-        currency:
-          type: string
-          description: The currency the fee will be charged in. Assumes AUD if absent.
-        discounts:
-          description: An optional list of discounts to this fee that may be available.
-          uniqueItems: false
-          type: array
-          items:
-            $ref: '#/components/schemas/Discount'
-        additionalValue:
-          type: string
-          description: 'Generic field containing additional information relevant to the feeType specified. Whether mandatory or not is dependent on the value of feeType.
-
-
-            See the below table for more details.
-
-
-            |Value|Description|Use of additionalValue Field|
-
-            |--- |--- |--- |
-
-            |PERIODIC|A periodic fee such as a monthly account servicing fee|The period of charge.  Formatted according to ISO 8601 Durations|
-
-            |TRANSACTION|A fee associated with any transaction (incorporates WITHDRAWAL, DEPOSIT, PAYMENT and PURCHASE)|NA|
-
-            |WITHDRAWAL|A fee associated with making a withdrawal|NA|
-
-            |DEPOSIT|A fee associated with making a deposit|NA|
-
-            |PAYMENT|A fee associated with making a payment|NA|
-
-            |PURCHASE|A fee associated with making a purchase at a merchant|NA|
-
-            |EVENT|A fee in relation to a particular event (e.g. NA ordering a new card, viewing a balance or stopping a cheque)|NA|
-
-            |UPFRONT|A fee paid at the beginning of the product NA lifecycle, such as an establishment fee, loyalty program fee or application fee|NA|
-
-            |EXIT|A fee for closing the product|NA|
-
-
-            '
-        additionalInfo:
-          type: string
-          description: Display text providing more information on the fee.
-        additionalInfoUri:
-          type: string
-          description: Link to a web page with more information on this fee.
-    Meta:
-      type: object
-      required:
-      - totalRecords
-      - totalPages
-      properties:
-        totalRecords:
-          type: integer
-          description: Total number of records in the full set.
-          example: 10
-        totalPages:
-          description: Total number of pages in the full set.
-          example: 10
-          type: integer
-    ResponseBankingProductById:
-      type: object
-      required:
-      - data
-      - links
-      - meta
-      properties:
-        data:
-          $ref: '#/components/schemas/BankingProductDetailV3'
-        links:
-          $ref: '#/components/schemas/Links'
-        meta:
-          $ref: '#/components/schemas/Meta'
-      example:
-        data:
-          bundles: []
-          features:
-          - featureType: NPP_PAYID
-            additionalValue: 'No'
-          - featureType: DIGITAL_BANKING
-            additionalValue: 'Yes'
-          - featureType: NPP_ENABLED
-            additionalValue: 'Yes'
-          - featureType: CARD_ACCESS
-            additionalValue: No Card Required
-          - featureType: UNLIMITED_TXNS
-            additionalValue: Unlimited CommBank electronic transactions
-          - featureType: DIGITAL_BANKING
-            additionalInfo: Wherever you are in the world, CommBank gives you the choice and control to securely manage all of your accounts on a range of devices, the way you want.
-            additionalInfoUri: https://www.commbank.com.au/digital-banking.html
-          - featureType: NPP_ENABLED
-          - featureType: OTHER
-            additionalValue: Goal Tracker
-            additionalInfo: Whether you have a savings goal in mind or want to build a buffer for those �just in case' moments, Goal Tracker in the CommBank app helps you set and reach your goals.
-            additionalInfoUri: https://www.commbank.com.au/digital-banking/goal-tracker.html
-          - featureType: OTHER
-            additionalValue: Automatic Bank Feeds
-            additionalInfo: 'Streamline your business banking and save time with automatic data feeds from your online banking to your accounting software '
-            additionalInfoUri: https://www.commbank.com.au/business/accounting-software-integration.html
-          constraints: []
-          eligibility:
-          - eligibilityType: STAFF
-          - eligibilityType: MIN_AGE
-            additionalValue: '14'
-          - eligibilityType: NATURAL_PERSON
-          - eligibilityType: MIN_AGE
-            additionalValue: '14'
-          - eligibilityType: NATURAL_PERSON
-          - eligibilityType: OTHER
-            additionalValue: 1) Other product holdings 2) Digital customer
-            additionalInfo: 1) Have a Smart Access, Complete Access, Everyday Offset, Pensioner Security or Streamline Basic account with CommBank in the same name as the NetBank Saver account. This is to transfer money to and from their NetBank Saver account. 2) Be registered for NetBank and have an email address
-          fees:
-          - name: NetBank transfers and BPAY
-            feeType: EVENT
-            amount: ''
-            discounts: []
-            additionalValue: Free
-          - name: Online Statement Fee
-            feeType: EVENT
-            amount: ''
-            discounts: []
-            additionalValue: Not applicable
-          depositRates:
-          - depositRateType: STANDARD
-            rate: '0.005'
-            calculationFrequency: P1D
-            applicationFrequency: P
-          productId: ad22b1f0967349e8a5d586afe7f0d845
-          effectiveFrom: '2010-07-14T14:00:00Z'
-          effectiveTo: '9999-12-30T13:00:00Z'
-          lastUpdated: '2019-05-29T16:16:12.630613Z'
-          productCategory: TRANS_AND_SAVINGS_ACCOUNTS
-          name: NetBank Saver
-          description: NetBank Saver
-          brand: CBA
-          brandName: Commonwealth Bank
-          applicationUri: https://www.commbank.com.au/banking/netbank-saver.html#apply
-          isTailored: false
-          additionalInformation:
-            overviewUri: https://www.commbank.com.au/banking/netbank-saver.html
-            termsUri: https://www.commbank.com.au/content/dam/commbank/personal/apply-online/download-printed-forms/SavingsInvestment_ADB2852.pdf
-            eligibilityUri: https://www.commbank.com.au/banking/netbank-saver.html#apply
-            feesAndPricingUri: https://www.commbank.com.au/banking/netbank-saver.html#rates
-        links:
-          self: '#/cds-au/v1/banking/products/ad22b1f0967349e8a5d586afe7f0d845'
-        meta:
-          totalRecords: 1
-          totalPages: 1
-    Links:
-      type: object
-      required:
-      - self
-      properties:
-        self:
-          type: string
-          description: Fully qualified link to this API call.
-    ErrorResponse422:
-      type: object
-      properties:
-        errors:
-          uniqueItems: false
-          type: array
-          items:
-            $ref: '#/components/schemas/Error'
-      example:
-        errors:
-        - code: PA-BR-01
-          title: page-size is invalid
-          detail: page-size must be a number and between 1 and 1000.
-    ErrorResponse400:
-      type: object
-      properties:
-        errors:
-          uniqueItems: false
-          type: array
-          items:
-            $ref: '#/components/schemas/Error'
-      example:
-        errors:
-        - code: PA-BR-02
-          title: updated-since is invalid
-          detail: updated-since must be a valid date.
-        - code: PA-BR-03
-          title: effective is invalid
-          detail: effective must be either ALL, CURRENT or FUTURE.
-        - code: PA-BR-04
-          title: product-category is invalid
-          detail: product-category must be a valid enumeration.
-        - code: PA-BR-05
-          title: page is invalid
-          detail: page must be a number and must be greater than 0.
-        - code: PA-BR-06
-          title: '{field-name} is Invalid'
-          detail: Something is wrong with your request. Please check your query parameters and try again.
-        - code: PA-BR-07
-          title: brand is Invalid
-          detail: brand must be a valid value.
-    BankingProductRateCondition:
-      type: object
-      description: Defines a condition for the applicability of a tiered rate.
-      properties:
-        additionalValue:
-          type: string
-        additionalInfo:
-          type: string
-          description: Display text providing more information on the condition.
-        additionalInfoUri:
-          type: string
-          description: Link to a web page with more information on this condition.
   parameters:
     ParamAcceptHeader:
       name: Accept
@@ -1448,14 +1470,6 @@ components:
         type: string
         enum:
         - application/json
-    ParamPage:
-      name: page
-      in: query
-      description: Page number being requested
-      required: false
-      schema:
-        type: integer
-        default: 1
     ParamXMinVHeader:
       name: x-min-v
       in: header
@@ -1475,16 +1489,6 @@ components:
         - TRANS_AND_SAVINGS_ACCOUNTS
         - TERM_DEPOSITS
         - CRED_AND_CHRG_CARDS
-    ParamPageSize:
-      name: page-size
-      in: query
-      description: Number of records to return with the page
-      required: false
-      schema:
-        type: integer
-        default: 25
-        maximum: 1000
-        minimum: 1
     ParamXVHeader:
       name: x-v
       in: header
@@ -1501,6 +1505,24 @@ components:
       example: f688ae24-9719-4975-9f58-f6b7e655c37d
       schema:
         type: string
+    ParamPageSize:
+      name: page-size
+      in: query
+      description: Number of records to return with the page
+      required: false
+      schema:
+        type: integer
+        default: 25
+        maximum: 1000
+        minimum: 1
+    ParamPage:
+      name: page
+      in: query
+      description: Page number being requested
+      required: false
+      schema:
+        type: integer
+        default: 1
 x-tagGroups:
 - name: ''
   tags:

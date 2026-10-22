@@ -1,0 +1,195 @@
+generated: '2026-10-20'
+method: searched
+source:
+- https://docs.commbank.com.au/apis/fast-payments/error-codes
+- https://docs.commbank.com.au/apis/namecheck/error-codes
+- https://docs.commbank.com.au/apis/payto/error-codes
+- https://docs.commbank.com.au/apis/fx/error-codes
+format: http-status
+envelope: 'Per-API HTTP status codes; OAuth token errors use the OAuth error/error_description JSON body (FX page
+  example: {"error": "invalid_request", "error_description": ...}).'
+apis:
+- api: Fast Payments
+  docs: https://docs.commbank.com.au/apis/fast-payments/error-codes
+  problems:
+  - status: 400
+    title: Bad Request
+    description: Validation error in the request payload
+    remediation: Validate request fields before submission
+  - status: 401
+    title: Unauthorized
+    description: Invalid or expired access token
+    remediation: Generate a new access token
+  - status: 403
+    title: Forbidden
+    description: Incorrect client permissions or token scope
+    remediation: Confirm the access token contains the required scopes
+  - status: 422
+    title: Duplicate Request Conflict
+    description: Reuse of an idempotency key with a modified payload
+    remediation: Generate a new idempotency key if the request payload changes
+  - status: 429
+    title: Rate limit exceeded
+    description: Too many requests submitted in a short period
+    remediation: Retry the request after a delay
+  - status: 500
+    title: Internal Server Error
+    description: Internal or downstream processing failure
+    remediation: Retry the request
+  - status: 501
+    title: Payment Initiation services not implemented for the request
+    description: Unsupported functionality or configuration
+  - status: 503
+    title: Payment Initiation services unavailable
+    description: Service temporarily unavailable
+- api: NameCheck
+  docs: https://docs.commbank.com.au/apis/namecheck/error-codes
+  problems:
+  - status: 400
+    title: Bad Request
+    description: Validation error in the request payload (incorrect BSB number, missing name, etc)
+  - status: 401
+    title: Unauthorized
+    description: Invalid credentials or invalid access token
+  - status: 403
+    title: Forbidden
+    description: Incorrect client ID or token scope
+  - status: 429
+    title: Too Many Requests
+    description: Rate limit exceeded (propagated from FDP rate limit)
+  - status: 500
+    title: Internal Server Error
+    description: Downstream processing failure
+  - status: 503
+    title: Service Unavailable
+    description: NameCheck service temporarily unavailable
+- api: PayTo
+  docs: https://docs.commbank.com.au/apis/payto/error-codes
+  problems:
+  - status: 400
+    title: Bad Request
+    description: Invalid or malformed request payload
+  - status: 401
+    title: Unauthorized
+    description: Missing or invalid authentication token
+  - status: 403
+    title: Forbidden
+    description: Missing required authorization scope
+  - status: 404
+    title: Not Found
+    description: Requested agreement or payment resource does not exist
+  - status: 422
+    title: Unprocessable Entity
+    description: Business validation or semantic validation failure
+  - status: 500
+    title: Internal Server Error
+    description: Internal or downstream processing failure
+  - status: 503
+    title: Service Unavailable
+    description: Service temporarily unavailable
+- api: FX
+  docs: https://docs.commbank.com.au/apis/fx/error-codes
+  note: The FX page publishes troubleshooting scenarios rather than a status table.
+  problems:
+  - status: 400
+    title: invalid_request
+    description: The client id in the request does not match the JWT's sub claim value
+    remediation: Ensure you are using the correct client_id in your token request and that it matches the JWT sub
+      claim value.
+problems:
+- status: 400
+  title: Bad Request
+  description: Validation error in the request payload
+  remediation: Validate request fields before submission
+  api: Fast Payments
+- status: 401
+  title: Unauthorized
+  description: Invalid or expired access token
+  remediation: Generate a new access token
+  api: Fast Payments
+- status: 403
+  title: Forbidden
+  description: Incorrect client permissions or token scope
+  remediation: Confirm the access token contains the required scopes
+  api: Fast Payments
+- status: 422
+  title: Duplicate Request Conflict
+  description: Reuse of an idempotency key with a modified payload
+  remediation: Generate a new idempotency key if the request payload changes
+  api: Fast Payments
+- status: 429
+  title: Rate limit exceeded
+  description: Too many requests submitted in a short period
+  remediation: Retry the request after a delay
+  api: Fast Payments
+- status: 500
+  title: Internal Server Error
+  description: Internal or downstream processing failure
+  remediation: Retry the request
+  api: Fast Payments
+- status: 501
+  title: Payment Initiation services not implemented for the request
+  description: Unsupported functionality or configuration
+  api: Fast Payments
+- status: 503
+  title: Payment Initiation services unavailable
+  description: Service temporarily unavailable
+  api: Fast Payments
+- status: 400
+  title: Bad Request
+  description: Validation error in the request payload (incorrect BSB number, missing name, etc)
+  api: NameCheck
+- status: 401
+  title: Unauthorized
+  description: Invalid credentials or invalid access token
+  api: NameCheck
+- status: 403
+  title: Forbidden
+  description: Incorrect client ID or token scope
+  api: NameCheck
+- status: 429
+  title: Too Many Requests
+  description: Rate limit exceeded (propagated from FDP rate limit)
+  api: NameCheck
+- status: 500
+  title: Internal Server Error
+  description: Downstream processing failure
+  api: NameCheck
+- status: 503
+  title: Service Unavailable
+  description: NameCheck service temporarily unavailable
+  api: NameCheck
+- status: 400
+  title: Bad Request
+  description: Invalid or malformed request payload
+  api: PayTo
+- status: 401
+  title: Unauthorized
+  description: Missing or invalid authentication token
+  api: PayTo
+- status: 403
+  title: Forbidden
+  description: Missing required authorization scope
+  api: PayTo
+- status: 404
+  title: Not Found
+  description: Requested agreement or payment resource does not exist
+  api: PayTo
+- status: 422
+  title: Unprocessable Entity
+  description: Business validation or semantic validation failure
+  api: PayTo
+- status: 500
+  title: Internal Server Error
+  description: Internal or downstream processing failure
+  api: PayTo
+- status: 503
+  title: Service Unavailable
+  description: Service temporarily unavailable
+  api: PayTo
+- status: 400
+  title: invalid_request
+  description: The client id in the request does not match the JWT's sub claim value
+  remediation: Ensure you are using the correct client_id in your token request and that it matches the JWT sub
+    claim value.
+  api: FX

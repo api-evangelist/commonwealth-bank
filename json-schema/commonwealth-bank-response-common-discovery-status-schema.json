@@ -1,0 +1,77 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/commonwealth-bank/main/json-schema/commonwealth-bank-response-common-discovery-status-schema.json",
+  "title": "ResponseCommonDiscoveryStatus",
+  "x-generated": "2026-10-20",
+  "x-method": "derived",
+  "x-generator": "derive-json-schema.py",
+  "x-source": "openapi/commonwealth-bank-status-and-outages-api-openapi.yml#/components/schemas/ResponseCommonDiscoveryStatus",
+  "type": "object",
+  "required": [
+    "data",
+    "links"
+  ],
+  "properties": {
+    "data": {
+      "$ref": "#/$defs/ResponseCommonDiscoveryStatus_data"
+    },
+    "links": {
+      "$ref": "#/$defs/Links"
+    },
+    "meta": {
+      "$ref": "#/$defs/Meta"
+    }
+  },
+  "$defs": {
+    "Links": {
+      "type": "object",
+      "required": [
+        "self"
+      ],
+      "properties": {
+        "self": {
+          "type": "string",
+          "description": "Fully qualified link to this API call."
+        }
+      }
+    },
+    "Meta": {},
+    "ResponseCommonDiscoveryStatus_data": {
+      "required": [
+        "status",
+        "updateTime"
+      ],
+      "properties": {
+        "status": {
+          "type": "string",
+          "description": "The current status of the API.",
+          "enum": [
+            "OK",
+            "PARTIAL_FAILURE",
+            "UNAVAILABLE",
+            "SCHEDULED_OUTAGE"
+          ]
+        },
+        "explanation": {
+          "type": "string",
+          "description": "An explanation of the current outage."
+        },
+        "detectionTime": {
+          "type": "string",
+          "description": "The date and time that the current outage was detected.",
+          "x-cds-type": "DateTimeString"
+        },
+        "expectedResolutionTime": {
+          "type": "string",
+          "description": "The date and time that full service is expected to resume (if known).",
+          "x-cds-type": "DateTimeString"
+        },
+        "updateTime": {
+          "type": "string",
+          "description": "The date and time that this status was last updated by the Data Holder.",
+          "x-cds-type": "DateTimeString"
+        }
+      }
+    }
+  }
+}

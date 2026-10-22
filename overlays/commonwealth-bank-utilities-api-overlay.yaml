@@ -1,0 +1,17 @@
+overlay: 1.0.0
+info:
+  title: API Evangelist enhancements for PayTo - PayTo Utilities API
+  version: 1.0.0
+extends: openapi/commonwealth-bank-utilities-api-openapi.yml
+x-generated: '2026-10-20'
+x-method: generated
+actions:
+- target: $.info
+  update:
+    x-apievangelist-enriched: '2026-10-20'
+    x-apievangelist-provider: commonwealth-bank
+    x-apievangelist-auth: OAuth2 client_credentials issued at partner onboarding (partner-gated business API).
+- target: $.paths['/agreements/health'].get
+  update:
+    x-apievangelist-agent-safe: true
+    x-apievangelist-mcp-tool: HealthCheck

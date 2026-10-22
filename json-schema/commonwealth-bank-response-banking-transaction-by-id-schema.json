@@ -1,0 +1,237 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/commonwealth-bank/main/json-schema/commonwealth-bank-response-banking-transaction-by-id-schema.json",
+  "title": "ResponseBankingTransactionById",
+  "x-generated": "2026-10-20",
+  "x-method": "derived",
+  "x-generator": "derive-json-schema.py",
+  "x-source": "openapi/commonwealth-bank-transaction-api-api-openapi.yml#/components/schemas/ResponseBankingTransactionById",
+  "type": "object",
+  "required": [
+    "data",
+    "links"
+  ],
+  "properties": {
+    "data": {
+      "$ref": "#/$defs/BankingTransactionDetail"
+    },
+    "links": {
+      "$ref": "#/$defs/Links"
+    },
+    "meta": {
+      "$ref": "#/$defs/Meta"
+    }
+  },
+  "$defs": {
+    "BankingTransaction": {
+      "type": "object",
+      "required": [
+        "accountId",
+        "amount",
+        "description",
+        "isDetailAvailable",
+        "reference",
+        "status",
+        "type"
+      ],
+      "properties": {
+        "accountId": {
+          "type": "string",
+          "description": "ID of the account.",
+          "x-cds-type": "ASCIIString"
+        },
+        "transactionId": {
+          "type": "string",
+          "description": "A unique ID of the transaction.",
+          "x-cds-type": "ASCIIString"
+        },
+        "isDetailAvailable": {
+          "type": "boolean",
+          "description": "True if extended information is available.",
+          "x-cds-type": "Boolean"
+        },
+        "type": {
+          "type": "string",
+          "description": "The type of the transaction",
+          "enum": [
+            "FEE",
+            "INTEREST_CHARGED",
+            "INTEREST_PAID",
+            "TRANSFER_OUTGOING",
+            "TRANSFER_INCOMING",
+            "PAYMENT",
+            "DIRECT_DEBIT",
+            "OTHER"
+          ]
+        },
+        "status": {
+          "type": "string",
+          "description": "Status of the transaction whether pending or posted.",
+          "enum": [
+            "PENDING",
+            "POSTED"
+          ]
+        },
+        "description": {
+          "type": "string",
+          "description": "The transaction description as applied by CommBank."
+        },
+        "postingDateTime": {
+          "type": "string",
+          "description": "The time the transaction was posted.",
+          "x-cds-type": "DateTimeString"
+        },
+        "valueDateTime": {
+          "type": "string",
+          "description": "Date and time at which assets become available to the account owner in case of a credit entry, or cease to be available to the account owner in case of a debit transaction entry.<br><i>CommBank does not currently return this value.</i></br>",
+          "x-cds-type": "DateTimeString"
+        },
+        "executionDateTime": {
+          "type": "string",
+          "description": "The time the transaction was executed by the originating customer.",
+          "x-cds-type": "DateTimeString"
+        },
+        "amount": {
+          "type": "string",
+          "description": "The value of the transaction.",
+          "x-cds-type": "AmountString"
+        },
+        "currency": {
+          "type": "string",
+          "description": "The currency for the transaction amount.",
+          "x-cds-type": "CurrencyString"
+        },
+        "reference": {
+          "type": "string",
+          "description": "The reference for the transaction provided by the originating institution."
+        },
+        "merchantName": {
+          "type": "string",
+          "description": "Name of the merchant for an outgoing payment to a merchant.<br><i>CommBank does not currently return this value.</i></br>"
+        },
+        "merchantCategoryCode": {
+          "type": "string",
+          "description": "The merchant category code (or MCC) for an outgoing payment to a merchant."
+        },
+        "billerCode": {
+          "type": "string",
+          "description": "BPAY Biller Code for the transaction."
+        },
+        "billerName": {
+          "type": "string",
+          "description": "Name of the BPAY biller for the transaction.<br><i>CommBank does not currently return this value.</i></br>"
+        },
+        "crn": {
+          "type": "string",
+          "description": "BPAY CRN for the transaction."
+        },
+        "apcaNumber": {
+          "type": "string",
+          "description": "6 Digit APCA number for the initiating institution."
+        }
+      },
+      "x-conditional": [
+        "transactionId",
+        "postingDateTime"
+      ]
+    },
+    "BankingTransactionDetail": {
+      "allOf": [
+        {
+          "$ref": "#/$defs/BankingTransaction"
+        },
+        {
+          "type": "object",
+          "required": [
+            "extendedData"
+          ],
+          "properties": {
+            "extendedData": {
+              "$ref": "#/$defs/BankingTransactionDetail_extendedData"
+            }
+          }
+        }
+      ]
+    },
+    "BankingTransactionDetail_extendedData": {
+      "required": [
+        "service"
+      ],
+      "properties": {
+        "payer": {
+          "type": "string",
+          "description": "Label of the originating payer."
+        },
+        "payee": {
+          "type": "string",
+          "description": "Label of the target PayID. The name assigned to the BSB/Account Number or PayID (by the owner of the PayID)."
+        },
+        "extensionUType": {
+          "type": "string",
+          "description": "Optional extended data provided specific to transaction originated via NPP.",
+          "enum": [
+            "x2p101Payload"
+          ]
+        },
+        "x2p101Payload": {
+          "$ref": "#/$defs/BankingTransactionDetail_extendedData_x2p101Payload"
+        },
+        "service": {
+          "type": "string",
+          "description": "Identifier of the applicable overlay service. Valid values are: X2P1.01.",
+          "enum": [
+            "X2P1.01"
+          ]
+        }
+      }
+    },
+    "BankingTransactionDetail_extendedData_x2p101Payload": {
+      "required": [
+        "extendedDescription"
+      ],
+      "properties": {
+        "extendedDescription": {
+          "type": "string",
+          "description": "An extended string description."
+        },
+        "endToEndId": {
+          "type": "string",
+          "description": "An end to end ID for the payment created at initiation."
+        },
+        "purposeCode": {
+          "type": "string",
+          "description": "Purpose of the payment.<br><i>CommBank does not currently return this value.</i></br>"
+        }
+      }
+    },
+    "Links": {
+      "type": "object",
+      "required": [
+        "self"
+      ],
+      "properties": {
+        "self": {
+          "type": "string",
+          "description": "Fully qualified link to this API call."
+        }
+      }
+    },
+    "Meta": {
+      "type": "object",
+      "required": [
+        "totalRecords",
+        "totalPages"
+      ],
+      "properties": {
+        "totalRecords": {
+          "type": "integer",
+          "description": "Total number of records in the full set."
+        },
+        "totalPages": {
+          "description": "Total number of pages in the full set.",
+          "type": "integer"
+        }
+      }
+    }
+  }
+}

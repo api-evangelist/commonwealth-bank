@@ -1,0 +1,152 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/commonwealth-bank/main/json-schema/commonwealth-bank-response-banking-direct-debit-authorisation-bulk-list-schema.json",
+  "title": "ResponseBankingDirectDebitAuthorisationBulkList",
+  "x-generated": "2026-10-20",
+  "x-method": "derived",
+  "x-generator": "derive-json-schema.py",
+  "x-source": "openapi/commonwealth-bank-regular-payments-api-api-openapi.yml#/components/schemas/ResponseBankingDirectDebitAuthorisationBulkList",
+  "type": "object",
+  "required": [
+    "data",
+    "links",
+    "meta"
+  ],
+  "properties": {
+    "data": {
+      "$ref": "#/$defs/ResponseBankingDirectDebitAuthorisationList_data"
+    },
+    "links": {
+      "$ref": "#/$defs/LinksPaginated"
+    },
+    "meta": {
+      "$ref": "#/$defs/MetaPaginated"
+    }
+  },
+  "$defs": {
+    "BankingAuthorisedEntity": {
+      "type": "object",
+      "properties": {
+        "description": {
+          "type": "string",
+          "description": "Description of the authorised entity derived from previously executed direct debits"
+        },
+        "financialInstitution": {
+          "type": "string",
+          "description": "Name of the financial institution through which the direct debit will be executed. Is required unless the payment is made via a credit card scheme."
+        },
+        "abn": {
+          "type": "string",
+          "description": "Australian Business Number for the authorised entity."
+        },
+        "acn": {
+          "type": "string",
+          "description": "Australian Company Number for the authorised entity."
+        },
+        "arbn": {
+          "type": "string",
+          "description": "Australian Registered Body Number for the authorised entity."
+        }
+      }
+    },
+    "BankingDirectDebit": {
+      "type": "object",
+      "required": [
+        "accountId",
+        "authorisedEntity"
+      ],
+      "properties": {
+        "accountId": {
+          "type": "string",
+          "description": "A unique ID of the account adhering to the standards for ID permanence.",
+          "x-cds-type": "ASCIIString"
+        },
+        "authorisedEntity": {
+          "$ref": "#/$defs/BankingAuthorisedEntity"
+        },
+        "lastDebitDateTime": {
+          "type": "string",
+          "description": "The date and time of the last debit executed under this authorisation.",
+          "x-cds-type": "DateTimeString"
+        },
+        "lastDebitAmount": {
+          "type": "string",
+          "description": "The amount of the last debit executed under this authorisation.",
+          "x-cds-type": "AmountString"
+        }
+      }
+    },
+    "LinksPaginated": {
+      "type": "object",
+      "required": [
+        "self"
+      ],
+      "properties": {
+        "self": {
+          "type": "string",
+          "description": "Fully qualified link that generated the current response document2.",
+          "x-cds-type": "URIString"
+        },
+        "first": {
+          "type": "string",
+          "description": "URI to the first page of this set. Mandatory if this response is not the first page.",
+          "x-cds-type": "URIString"
+        },
+        "prev": {
+          "type": "string",
+          "description": "URI to the previous page of this set. Mandatory if this response is not the first page.",
+          "x-cds-type": "URIString"
+        },
+        "next": {
+          "type": "string",
+          "description": "URI to the next page of this set. Mandatory if this response is not the last page.",
+          "x-cds-type": "URIString"
+        },
+        "last": {
+          "type": "string",
+          "description": "URI to the last page of this set. Mandatory if this response is not the last page.",
+          "x-cds-type": "URIString"
+        }
+      },
+      "x-conditional": [
+        "prev",
+        "next",
+        "first",
+        "last"
+      ]
+    },
+    "MetaPaginated": {
+      "type": "object",
+      "required": [
+        "totalPages",
+        "totalRecords"
+      ],
+      "properties": {
+        "totalRecords": {
+          "type": "integer",
+          "description": "The total number of records in the full set. See [pagination](#pagination).",
+          "x-cds-type": "NaturalNumber"
+        },
+        "totalPages": {
+          "type": "integer",
+          "description": "The total number of pages in the full set. See [pagination](#pagination).",
+          "x-cds-type": "NaturalNumber"
+        }
+      }
+    },
+    "ResponseBankingDirectDebitAuthorisationList_data": {
+      "required": [
+        "directDebitAuthorisations"
+      ],
+      "properties": {
+        "directDebitAuthorisations": {
+          "type": "array",
+          "description": "The list of authorisations returned.",
+          "items": {
+            "$ref": "#/$defs/BankingDirectDebit"
+          }
+        }
+      }
+    }
+  }
+}

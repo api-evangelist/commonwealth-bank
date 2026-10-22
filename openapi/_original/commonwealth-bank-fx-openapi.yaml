@@ -1,0 +1,644 @@
+openapi: 3.0.1
+info:
+  title: FX Pricing and Trading - Partner API
+  description: The FX Pricing and Trading API provides pricing and execution
+    services. The API endpoints allow clients to quote FX rates, execute FX
+    trades and retrieve FX related static data like trade-dates. It additionally
+    can provide trade details and currency information if required, upon client
+    request.
+  version: v1.0.0
+tags:
+  - name: Partner
+    description: Partner API endpoints for FX quoting and trading
+paths:
+  /partner/api/markets/fx/quote:
+    put:
+      security:
+        - OAuth2:
+            - foreign-exchange.partner-quote.read-execute
+      tags:
+        - Partner
+      summary: partnerAcceptQuote
+      description: Update requested quote at same session
+      operationId: partnerAcceptQuote
+      parameters:
+        - name: x-request-id
+          in: header
+          required: true
+          schema:
+            type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/partnerAcceptQuoteParam"
+        required: true
+      responses:
+        "200":
+          description: OK
+          content:
+            "*/*":
+              schema:
+                $ref: "#/components/schemas/quoteAccepted"
+        "400":
+          description: Bad Request
+          content:
+            "*/*":
+              schema:
+                $ref: "#/components/schemas/errorWithCode"
+        "401":
+          description: Unauthorized
+          content:
+            "*/*":
+              schema:
+                $ref: "#/components/schemas/error"
+        "403":
+          description: Forbidden
+          content:
+            "*/*":
+              schema:
+                $ref: "#/components/schemas/error"
+        "404":
+          description: Quote not found
+          content:
+            "*/*":
+              schema:
+                oneOf:
+                  - $ref: "#/components/schemas/error"
+                  - $ref: "#/components/schemas/errorWithCode"
+        "409":
+          description: Conflict
+          content:
+            "*/*":
+              schema:
+                $ref: "#/components/schemas/error"
+        "410":
+          description: Quote execution rejected
+          content:
+            "*/*":
+              schema:
+                $ref: "#/components/schemas/error"
+        "412":
+          description: Precondition Failed
+          content:
+            "*/*":
+              schema:
+                type: string
+        "422":
+          description: Required parameters not supplied for accept quote
+          content:
+            "*/*":
+              schema:
+                $ref: "#/components/schemas/error"
+        "429":
+          description: Too Many Requests
+          content:
+            "*/*":
+              schema:
+                $ref: "#/components/schemas/error"
+    post:
+      security:
+        - OAuth2:
+            - foreign-exchange.partner-quote.read-execute
+      tags:
+        - Partner
+      summary: partnerGetQuote
+      description: This api Returns fx quotes by currency pairs
+      operationId: partnerGetQuote
+      parameters:
+        - name: x-request-id
+          in: header
+          required: true
+          schema:
+            type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/partnerGetQuoteParam"
+        required: true
+      responses:
+        "200":
+          description: OK
+          content:
+            "*/*":
+              schema:
+                $ref: "#/components/schemas/fxQuoteData"
+        "400":
+          description: Bad Request
+          content:
+            "*/*":
+              schema:
+                $ref: "#/components/schemas/errorWithCode"
+        "401":
+          description: Unauthorized
+          content:
+            "*/*":
+              schema:
+                $ref: "#/components/schemas/error"
+        "403":
+          description: Forbidden
+          content:
+            "*/*":
+              schema:
+                $ref: "#/components/schemas/error"
+        "404":
+          description: Not Found
+          content:
+            "*/*":
+              schema:
+                oneOf:
+                  - $ref: "#/components/schemas/error"
+                  - $ref: "#/components/schemas/errorWithCode"
+        "409":
+          description: Conflict
+          content:
+            "*/*":
+              schema:
+                $ref: "#/components/schemas/error"
+        "412":
+          description: Conditions are not met
+          content:
+            "*/*":
+              schema:
+                type: string
+        "422":
+          description: Required parameters not supplied
+          content:
+            "*/*":
+              schema:
+                $ref: "#/components/schemas/error"
+        "429":
+          description: Too Many Requests
+          content:
+            "*/*":
+              schema:
+                $ref: "#/components/schemas/error"
+  /partner/api/markets/fx/quote/{quote_id}:
+    delete:
+      security:
+        - OAuth2:
+            - foreign-exchange.partner-quote.read-execute
+      tags:
+        - Partner
+      summary: partnerCancelQuote
+      description: Cancel existing quote
+      operationId: partnerCancelQuote
+      parameters:
+        - name: x-request-id
+          description: UUID for each request
+          required: true
+          style: simple
+          explode: false
+          schema:
+            type: string
+          in: header
+        - name: quote_id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: OK
+        "400":
+          description: Bad Request
+          content:
+            "*/*":
+              schema:
+                $ref: "#/components/schemas/errorWithCode"
+        "401":
+          description: Unauthorized
+          content:
+            "*/*":
+              schema:
+                $ref: "#/components/schemas/error"
+        "403":
+          description: Forbidden
+          content:
+            "*/*":
+              schema:
+                $ref: "#/components/schemas/error"
+        "404":
+          description: Not Found
+          content:
+            "*/*":
+              schema:
+                oneOf:
+                  - $ref: "#/components/schemas/error"
+                  - $ref: "#/components/schemas/errorWithCode"
+        "409":
+          description: Conflict
+          content:
+            "*/*":
+              schema:
+                $ref: "#/components/schemas/error"
+        "412":
+          description: Precondition Failed
+          content:
+            "*/*":
+              schema:
+                type: string
+        "422":
+          description: Unprocessable Entity
+          content:
+            "*/*":
+              schema:
+                $ref: "#/components/schemas/error"
+        "429":
+          description: Too Many Requests
+          content:
+            "*/*":
+              schema:
+                $ref: "#/components/schemas/error"
+  /partner/api/markets/fx/trade-dates:
+    get:
+      security:
+        - OAuth2:
+            - foreign-exchange.partner-quote.read-execute
+      tags:
+        - Partner
+      summary: partnerGetTradeDates
+      description: Gets trade  / non tradeable / first available dates by currency pair
+      operationId: partnerGetTradeDates
+      parameters:
+        - name: x-request-id
+          description: UUID for each request
+          required: true
+          style: simple
+          explode: false
+          schema:
+            type: string
+          in: header
+        - name: sourceCcy
+          in: query
+          description: base currency
+          required: true
+          schema:
+            type: string
+          example: AUD
+        - name: targetCcy
+          in: query
+          description: term currency
+          required: true
+          schema:
+            type: string
+          example: USD
+        - name: nonTradeableDays
+          in: query
+          required: false
+          schema:
+            type: boolean
+            default: false
+        - name: firstAvailableDateOnly
+          in: query
+          required: false
+          schema:
+            type: boolean
+            default: false
+      responses:
+        "200":
+          description: OK
+          content:
+            "*/*":
+              schema:
+                $ref: "#/components/schemas/fxDateData"
+        "400":
+          description: Bad Request
+          content:
+            "*/*":
+              schema:
+                $ref: "#/components/schemas/errorWithCode"
+        "401":
+          description: Unauthorized
+          content:
+            "*/*":
+              schema:
+                $ref: "#/components/schemas/error"
+        "403":
+          description: Forbidden
+          content:
+            "*/*":
+              schema:
+                $ref: "#/components/schemas/error"
+        "404":
+          description: Not Found
+          content:
+            "*/*":
+              schema:
+                oneOf:
+                  - $ref: "#/components/schemas/error"
+                  - $ref: "#/components/schemas/errorWithCode"
+        "409":
+          description: Conflict
+          content:
+            "*/*":
+              schema:
+                $ref: "#/components/schemas/error"
+        "412":
+          description: Precondition Failed
+          content:
+            "*/*":
+              schema:
+                type: string
+        "422":
+          description: Unprocessable Entity
+          content:
+            "*/*":
+              schema:
+                $ref: "#/components/schemas/error"
+        "429":
+          description: Too Many Requests
+          content:
+            "*/*":
+              schema:
+                $ref: "#/components/schemas/error"
+components:
+  schemas:
+    error:
+      type: object
+      properties:
+        message:
+          type: string
+    errorWithCode:
+      type: object
+      properties:
+        errorCode:
+          type: integer
+          format: int32
+        message:
+          type: string
+    partnerAcceptQuoteParam:
+      required:
+        - quoteId
+      type: object
+      properties:
+        quoteId:
+          type: string
+          description: unique quote identifier
+        tradeId:
+          type: string
+          description: trade identifier - optional
+    partnerGetQuoteParam:
+      required:
+        - quoteRequest
+      type: object
+      properties:
+        quoteRequest:
+          type: array
+          description: contains a collection of quote request objects.
+          items:
+            $ref: "#/components/schemas/partnerQuoteRequestParam"
+    partnerQuoteRequestParam:
+      required:
+        - sourceCcy
+        - targetCcy
+      type: object
+      properties:
+        sourceCcy:
+          type: string
+          description: Three letter code of source currency
+          example: AUD
+        targetCcy:
+          type: string
+          description: Three letter code of target currency
+          example: USD
+        sourceAmount:
+          type: number
+          description: amount of source currency for which the quote is requested -
+            mandatory - if it has a value > 0, targetAmount should be 0
+          example: 0
+        targetAmount:
+          type: number
+          description: amount of target currency for which the quote is requested -
+            mandatory - if it has a value > 0, sourceAmount should be 0
+          example: 0
+        settlementDate:
+          type: string
+          description: expected date of settlement of the quote - optional - mandatory for
+            non indicative quotes
+          format: date
+          example: 2025-01-30
+        previousQuoteId:
+          type: string
+          description: Allows FXHub to re-use existing and valid quote. Must be used for
+            subsequent requests for the same quote
+        correlationId:
+          type: string
+          description: an Optional Parameter that specifies the correlation Id for quote
+            association
+      description: contains a collection of quote request objects.
+    quoteAccepted:
+      type: object
+      properties:
+        quoteId:
+          type: string
+          description: unique quote identifier set in bulk accept response.
+        reasonCode:
+          type: integer
+          description: The computer friendly error code if the quote execution was rejected
+          format: int32
+        reasonMsg:
+          type: string
+          description: The human friendly error message if the quote execution was rejected
+        tradeIds:
+          type: array
+          description: The trade ids generated for the quote execution
+          items:
+            type: string
+            description: The trade ids generated for the quote execution
+        accepted:
+          type: boolean
+    fxQuoteData:
+      type: object
+      properties:
+        streamId:
+          type: string
+          description: quote linking ID for requestor to pass back to link quotes for
+            analytics purposes
+        quotes:
+          type: array
+          description: A collection of responses matching the request
+          items:
+            $ref: "#/components/schemas/fxQuote"
+    fxQuote:
+      type: object
+      properties:
+        quoteId:
+          type: string
+          description: unique quote identifier. Strongly unique for non-indicative. For
+            indicative, only unique across multiple quotes within a single REST
+            response.
+        rate:
+          type: number
+          description: quote rate, set to null if no quote was found for currency pair.
+            This is the outright rate when a forward, or near leg of a swap.
+        requestedBasisRate:
+          type: number
+          description: Returns rate expressed as Source Currency as the Base Currency
+        cardedRate:
+          type: number
+          description: contains the base rate the customer would have got if mapped to the
+            base customer group, set to null if no quote was found for currency
+            pair
+        productType:
+          type: string
+          description: echo the request
+        currencyBasis:
+          type: string
+          description: echo of quote currency pair
+        sourceCcy:
+          type: string
+          description: echo of input
+        targetCcy:
+          type: string
+          description: echo of input
+        sourceAmount:
+          type: number
+          description: amount in source currency
+        targetAmount:
+          type: number
+          description: amount in target currency
+        equivalentAudAmount:
+          type: number
+          description: equivalent amount in AUD
+        equivalentAudRate:
+          type: number
+          description: equivalent rate at AUD, of dealt currency, quoted in market
+            convention (standard basis). E.g Only AUD/CAD 0.72 and NEVER CAD/AUD
+            1.37
+        settlementDate:
+          type: string
+          description: will be echo of input
+          format: date
+        quoteTime:
+          type: string
+          description: time quote was generated
+          format: date-time
+        expiryTime:
+          type: string
+          description: contains the time at which this quote expires
+          format: date-time
+        rfqExpirySeconds:
+          type: integer
+          description: Contains the number of seconds left that this RFQ is valid for.
+            Only supplied in Markets RFQ quote responses
+          format: int32
+        indicative:
+          type: boolean
+          description: indicates whether this quote is acceptable or not
+        msg:
+          type: string
+          description: error message when quote is not available for requested currency pair
+        valid:
+          type: boolean
+          description: indicates whether quote is valid or invalid
+        correlationId:
+          type: string
+          description: indicates the correlation Id associated to quote
+        dealerCode:
+          type: string
+          description: If Eager booking is required then Dealer Code would be provided
+            which will be used to book the trade on accept quote
+        fwdPts:
+          type: number
+          description: Used for forwards and swap near leg only
+        spotRate:
+          type: number
+          description: Used for forwards and swap near leg only
+        farLeg:
+          $ref: "#/components/schemas/fxQuoteLeg"
+        swapPts:
+          type: number
+          description: Used for swaps, pre-deliveries, and extensions. Has the swap points
+            of a swap, and adjusted swap points of a Predelivery and extension
+        contractType:
+          type: string
+          description: Identifies between a spot, forward, or swap quote. Valid
+            descriptions are SPOT, FWD, SWAP, PRE_DELIVERY, EXTENSION,
+            EXTENSION_UPTO_SPOT
+          enum:
+            - SPOT
+            - FWD
+            - SWAP
+            - PRE_DELIVERY
+            - EXTENSION
+            - EXTENSION_UPTO_SPOT
+            - TIME_OPTION
+            - EXTENSION_OPTION
+        reasonCode:
+          type: integer
+          description: Provides a computer friendly error code for when the quote is
+            returned as invalid, or is in dealer intervention.
+          format: int32
+        counterFundingAmount:
+          type: number
+          description: Used for pre-deliveries, and extensions. Has the funding amount in
+            counter currency of a Predelivery and extension
+        isOutOfTheMoney:
+          type: boolean
+          description: Used for pre-deliveries, and extensions. Indicates if the customer
+            is out of the money while performing a Predelivery and extension
+        counterCcy:
+          type: string
+          description: Used for pre-deliveries, and extensions. Three letter code of
+            currency in which the counterFundingAmount is mentioned
+        nonCustomisedRate:
+          type: boolean
+        inDI:
+          type: boolean
+      description: A collection of responses matching the request
+    fxQuoteLeg:
+      type: object
+      properties:
+        rate:
+          type: number
+          description: leg outright rate
+        fwdPts:
+          type: number
+          description: leg forward points
+        sourceCcy:
+          type: string
+          description: echo of input
+        targetCcy:
+          type: string
+          description: echo of input
+        sourceAmount:
+          type: number
+          description: amount in source currency
+        targetAmount:
+          type: number
+          description: amount in target currency
+        settlementDate:
+          type: string
+          description: will be echo of input
+          format: date
+      description: Used for swaps only. Has the details of the far leg of a swap
+    fxDateData:
+      type: object
+      properties:
+        sourceCcy:
+          type: string
+          description: echo of input
+        targetCcy:
+          type: string
+          description: echo of input
+        tradeableDays:
+          type: boolean
+          description: indicates what dates were requested
+        dates:
+          type: array
+          description: contains collection of dates
+          items:
+            type: string
+            description: contains collection of dates
+            format: date
+  securitySchemes:
+    OAuth2:
+      type: oauth2
+      flows:
+        clientCredentials:
+          tokenUrl: provided-on-onboarding
+          scopes:
+            foreign-exchange.partner-quote.read-execute: Access to fxhub partner quote, currency and trade dates APIs
+            foreign-exchange.partner-trade.read-execute: Access to fxhub partner trade APIs

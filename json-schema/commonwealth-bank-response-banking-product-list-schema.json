@@ -1,0 +1,187 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/commonwealth-bank/main/json-schema/commonwealth-bank-response-banking-product-list-schema.json",
+  "title": "ResponseBankingProductList",
+  "x-generated": "2026-10-20",
+  "x-method": "derived",
+  "x-generator": "derive-json-schema.py",
+  "x-source": "openapi/commonwealth-bank-products-api-api-openapi.yml#/components/schemas/ResponseBankingProductList",
+  "type": "object",
+  "required": [
+    "data",
+    "links",
+    "meta"
+  ],
+  "properties": {
+    "data": {
+      "type": "object",
+      "required": [
+        "products"
+      ],
+      "properties": {
+        "products": {
+          "description": "The list of products returned for the query.",
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/BankingProductV3"
+          }
+        }
+      }
+    },
+    "links": {
+      "$ref": "#/$defs/LinksPaginated"
+    },
+    "meta": {
+      "$ref": "#/$defs/Meta"
+    }
+  },
+  "$defs": {
+    "AdditionalInformation": {
+      "description": "Object containing links to additional information on specific topics.",
+      "type": "object",
+      "properties": {
+        "overviewUri": {
+          "type": "string",
+          "description": "General overview of the product."
+        },
+        "termsUri": {
+          "type": "string",
+          "description": "Terms and conditions for the product."
+        },
+        "eligibilityUri": {
+          "type": "string",
+          "description": "Eligibility rules and criteria for the product."
+        },
+        "feesAndPricingUri": {
+          "type": "string",
+          "description": "Description of fees, pricing, discounts, exemptions and bonuses for the product."
+        },
+        "bundleUri": {
+          "type": "string",
+          "description": "Description of a bundle that this product can be part of."
+        }
+      }
+    },
+    "BankingEnumProductCategory": {
+      "type": "string",
+      "description": "Product category of the product.",
+      "enum": [
+        "TRANS_AND_SAVINGS_ACCOUNTS",
+        "TERM_DEPOSITS",
+        "CRED_AND_CHRG_CARDS"
+      ]
+    },
+    "BankingProductV3": {
+      "type": "object",
+      "required": [
+        "productId",
+        "lastUpdated",
+        "productCategory",
+        "name",
+        "description",
+        "brand",
+        "isTailored"
+      ],
+      "properties": {
+        "productId": {
+          "type": "string",
+          "description": "CommBank’s unique identifier for this product."
+        },
+        "effectiveFrom": {
+          "type": "string",
+          "description": "Date and time from which this product is made available to customers."
+        },
+        "effectiveTo": {
+          "type": "string",
+          "description": "Date and time at which this product will be retired and will no longer be offered."
+        },
+        "lastUpdated": {
+          "type": "string",
+          "description": "Date and time that the information for this product was last updated."
+        },
+        "productCategory": {
+          "type": "string",
+          "$ref": "#/$defs/BankingEnumProductCategory"
+        },
+        "name": {
+          "type": "string",
+          "description": "Display name of the product."
+        },
+        "description": {
+          "type": "string",
+          "description": "Description of the product."
+        },
+        "brand": {
+          "type": "string",
+          "description": "Label of the brand for the product."
+        },
+        "brandName": {
+          "type": "string",
+          "description": "Brand display name"
+        },
+        "applicationUri": {
+          "type": "string",
+          "description": "A link to the web page where this product can be applied for."
+        },
+        "isTailored": {
+          "type": "boolean",
+          "description": "Indicates whether the pricing for the product can be tailored to a specific customer."
+        },
+        "additionalInformation": {
+          "$ref": "#/$defs/AdditionalInformation"
+        }
+      }
+    },
+    "LinksPaginated": {
+      "type": "object",
+      "required": [
+        "self"
+      ],
+      "x-conditional": [
+        "prev",
+        "next",
+        "first",
+        "last"
+      ],
+      "properties": {
+        "self": {
+          "type": "string",
+          "description": "Fully qualified link to this API call."
+        },
+        "first": {
+          "type": "string",
+          "description": "URI to the first page of this set."
+        },
+        "prev": {
+          "type": "string",
+          "description": "URI to the previous page of this set."
+        },
+        "next": {
+          "type": "string",
+          "description": "URI to the next page of this set."
+        },
+        "last": {
+          "type": "string",
+          "description": "URI to the last page of this set."
+        }
+      }
+    },
+    "Meta": {
+      "type": "object",
+      "required": [
+        "totalRecords",
+        "totalPages"
+      ],
+      "properties": {
+        "totalRecords": {
+          "type": "integer",
+          "description": "Total number of records in the full set."
+        },
+        "totalPages": {
+          "description": "Total number of pages in the full set.",
+          "type": "integer"
+        }
+      }
+    }
+  }
+}

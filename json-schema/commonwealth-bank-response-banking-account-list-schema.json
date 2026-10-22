@@ -1,0 +1,175 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/commonwealth-bank/main/json-schema/commonwealth-bank-response-banking-account-list-schema.json",
+  "title": "ResponseBankingAccountList",
+  "x-generated": "2026-10-20",
+  "x-method": "derived",
+  "x-generator": "derive-json-schema.py",
+  "x-source": "openapi/commonwealth-bank-accounts-api-api-openapi.yml#/components/schemas/ResponseBankingAccountList",
+  "type": "object",
+  "required": [
+    "data",
+    "links",
+    "meta"
+  ],
+  "properties": {
+    "data": {
+      "$ref": "#/$defs/ResponseBankingAccountList_data"
+    },
+    "links": {
+      "$ref": "#/$defs/LinksPaginated"
+    },
+    "meta": {
+      "$ref": "#/$defs/MetaPaginated"
+    }
+  },
+  "$defs": {
+    "BankingAccount": {
+      "type": "object",
+      "required": [
+        "accountId",
+        "displayName",
+        "maskedNumber",
+        "productCategory",
+        "productName"
+      ],
+      "properties": {
+        "accountId": {
+          "type": "string",
+          "description": "A unique ID of the account.",
+          "x-cds-type": "ASCIIString"
+        },
+        "creationDate": {
+          "type": "string",
+          "description": "Date that the account was created.",
+          "x-cds-type": "DateString"
+        },
+        "displayName": {
+          "type": "string",
+          "description": "The display name of the account as defined by CommBank."
+        },
+        "nickname": {
+          "type": "string",
+          "description": "The nick name for the account."
+        },
+        "openStatus": {
+          "type": "string",
+          "description": "Open or closed status for the account.",
+          "default": "OPEN",
+          "enum": [
+            "OPEN",
+            "CLOSED"
+          ]
+        },
+        "isOwned": {
+          "type": "boolean",
+          "description": "Flag indicating that the customer associated with the authorisation is an owner of the account.",
+          "default": true,
+          "x-cds-type": "Boolean"
+        },
+        "maskedNumber": {
+          "type": "string",
+          "description": "A masked version of the account.",
+          "x-cds-type": "MaskedAccountString"
+        },
+        "productCategory": {
+          "$ref": "#/$defs/BankingProductCategory"
+        },
+        "productName": {
+          "type": "string",
+          "description": "The unique identifier of the account as defined by CommBank."
+        }
+      }
+    },
+    "BankingProductCategory": {
+      "type": "string",
+      "description": "The category to which a product or account belongs.",
+      "enum": [
+        "TRANS_AND_SAVINGS_ACCOUNTS",
+        "TERM_DEPOSITS",
+        "TRAVEL_CARDS",
+        "REGULATED_TRUST_ACCOUNTS",
+        "RESIDENTIAL_MORTGAGES",
+        "CRED_AND_CHRG_CARDS",
+        "PERS_LOANS",
+        "MARGIN_LOANS",
+        "LEASES",
+        "TRADE_FINANCE",
+        "OVERDRAFTS",
+        "BUSINESS_LOANS"
+      ]
+    },
+    "LinksPaginated": {
+      "type": "object",
+      "required": [
+        "self"
+      ],
+      "properties": {
+        "self": {
+          "type": "string",
+          "description": "Fully qualified link that generated the current response document",
+          "x-cds-type": "URIString"
+        },
+        "first": {
+          "type": "string",
+          "description": "URI to the first page of this set. Mandatory if this response is not the first page",
+          "x-cds-type": "URIString"
+        },
+        "prev": {
+          "type": "string",
+          "description": "URI to the previous page of this set. Mandatory if this response is not the first page",
+          "x-cds-type": "URIString"
+        },
+        "next": {
+          "type": "string",
+          "description": "URI to the next page of this set. Mandatory if this response is not the last page",
+          "x-cds-type": "URIString"
+        },
+        "last": {
+          "type": "string",
+          "description": "URI to the last page of this set. Mandatory if this response is not the last page",
+          "x-cds-type": "URIString"
+        }
+      },
+      "x-conditional": [
+        "prev",
+        "next",
+        "first",
+        "last"
+      ]
+    },
+    "MetaPaginated": {
+      "type": "object",
+      "required": [
+        "totalPages",
+        "totalRecords"
+      ],
+      "properties": {
+        "totalRecords": {
+          "type": "integer",
+          "description": "The total number of records in the full set. See [pagination](#pagination).",
+          "x-cds-type": "NaturalNumber"
+        },
+        "totalPages": {
+          "type": "integer",
+          "description": "The total number of pages in the full set. See [pagination](#pagination).",
+          "x-cds-type": "NaturalNumber"
+        }
+      }
+    },
+    "ResponseBankingAccountList_data": {
+      "required": [
+        "accounts"
+      ],
+      "properties": {
+        "accounts": {
+          "type": "array",
+          "description": "The list of accounts returned.",
+          "items": {
+            "$ref": "#/$defs/BankingAccount"
+          }
+        }
+      }
+    }
+  }
+}

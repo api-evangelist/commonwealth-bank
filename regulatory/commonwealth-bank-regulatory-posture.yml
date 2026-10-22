@@ -1,0 +1,105 @@
+generated: '2026-10-20'
+method: searched
+probe: true
+source: https://www.commbank.com.au/support/privacy.html
+notes: >-
+  Read the four legal/trust pages named in the pre-flight dossier (Group Privacy Statement, Open Banking,
+  security, developer API terms of use; all HTTP 200 on 2026-10-20). The erasure, portability and
+  retention clauses below sit in the privacy statement's "European Economic Area and United Kingdom"
+  appendix and apply to UK/EEA customers. No sub-processor list, incident-notification SLA, GPC statement,
+  transparency report, SBOM or support-lifetime statement was found. The security page links a
+  "Vulnerability Disclosure Program", which is outside this artifact's signal list.
+signals:
+  data_subject_request:
+    url: https://www.commbank.com.au/support/privacy.html
+    section: European Economic Area and United Kingdom — Your rights
+    channel: myprivacyrequest@cba.com.au
+    rights_named: [informed, withdraw consent, access, rectification, erasure, restrict processing, data portability, object]
+    evidence:
+    - source: https://www.commbank.com.au/support/privacy.html
+      http_status: 200
+      fetched: '2026-10-20'
+      quote: You can exercise your rights by contacting myprivacyrequest@cba.com.au .
+    - source: https://www.commbank.com.au/support/privacy.html
+      http_status: 200
+      fetched: '2026-10-20'
+      quote: You have the right to ask us to delete your personal information if there is no need for us to keep it.
+    - source: https://www.commbank.com.au/support/privacy.html
+      http_status: 200
+      fetched: '2026-10-20'
+      quote: You can contact us and ask to view your information. For more detailed information, we may ask you to fill out a request form.
+    note: >-
+      The Group Privacy Statement gives all customers an access/correction route (section 5a) and, in its
+      UK/EEA appendix, names GDPR-style rights with a dedicated request mailbox. No API for requests and no
+      response deadline are stated.
+  exit_assistance:
+    url: https://www.commbank.com.au/support/privacy.html
+    section: The right to data portability
+    evidence:
+    - source: https://www.commbank.com.au/support/privacy.html
+      http_status: 200
+      fetched: '2026-10-20'
+      quote: In some circumstances you have the right to request we provide you with a copy of the personal information you have provided to us in a format that can be easily reused.
+    - source: https://www.commbank.com.au/banking/open-banking.html
+      http_status: 200
+      fetched: '2026-10-20'
+      quote: It means you can share your CommBank data with organisations accredited by the Australian Competition and Consumer Commission.
+    note: >-
+      A personal-data portability right (UK/EEA appendix) plus Consumer Data Right data sharing with
+      accredited recipients described on the Open Banking page. This is customer data portability, not a
+      cloud-switching / exit-assistance commitment in the EU Data Act sense.
+  data_retention:
+    url: https://www.commbank.com.au/support/privacy.html
+    section: How long we keep your personal information
+    stated_period: up to 7 years after you stop being a customer
+    evidence:
+    - source: https://www.commbank.com.au/support/privacy.html
+      http_status: 200
+      fetched: '2026-10-20'
+      quote: 'We generally keep your personal information for up to 7 years after you stop being a customer but we may keep your personal information for longer for the following purposes:'
+    note: States a general 7-year post-relationship retention period, with exceptions for legal/regulatory obligations, internal research and analytics, and complaints.
+  ai_transparency:
+    url: https://www.commbank.com.au/support/privacy.html
+    section: Artificial Intelligence
+    vendors_named: [Microsoft]
+    evidence:
+    - source: https://www.commbank.com.au/support/privacy.html
+      http_status: 200
+      fetched: '2026-10-20'
+      quote: 'Sometimes we use your information, for example your transaction information, to train, develop, and in deployed artificial intelligence models for purposes such as:'
+    - source: https://www.commbank.com.au/support/privacy.html
+      http_status: 200
+      fetched: '2026-10-20'
+      quote: we may also use any information you provide through our online chat to improve our automated responses generated with GenAI.
+    - source: https://www.commbank.com.au/support/privacy.html
+      http_status: 200
+      fetched: '2026-10-20'
+      quote: external technology service providers that support our artificial intelligence capabilities (such as Microsoft).
+    note: Discloses that customer data (including transaction data and chat) is used to train and run AI models, lists purposes, and names Microsoft as an AI technology provider. No model-level disclosure or opt-out is stated.
+  data_residency:
+    url: https://www.commbank.com.au/support/privacy.html
+    section: Sending information overseas
+    residency: not confined to Australia
+    countries_named: [China, India, Hong Kong, Singapore, Japan, United Kingdom, Netherlands, New Zealand, United States of America]
+    evidence:
+    - source: https://www.commbank.com.au/support/privacy.html
+      http_status: 200
+      fetched: '2026-10-20'
+      quote: If we do this, we make sure there are appropriate privacy, data handling and security arrangements in place to protect your information.
+    note: >-
+      The section says information may be sent overseas to CommBank Group members located in the named
+      countries and to service providers that store data or operate outside Australia. This is a disclosure
+      of overseas transfer, not a residency guarantee.
+  age_assurance:
+    url: https://www.commbank.com.au/banking/open-banking.html
+    section: 5. Why am I unable to share my account data via Open Banking?
+    evidence:
+    - source: https://www.commbank.com.au/banking/open-banking.html
+      http_status: 200
+      fetched: '2026-10-20'
+      quote: 'You may not be eligible to share data if:   You’re under 18'
+    - source: https://www.commbank.com.au/support/privacy.html
+      http_status: 200
+      fetched: '2026-10-20'
+      quote: For certain services, we will seek parent or guardian consent to collect the details of children under certain ages.
+    note: An age-based eligibility rule (18+) for Open Banking data sharing and a parental-consent statement for minors. No age-verification mechanism is described.

@@ -1,0 +1,39 @@
+overlay: 1.0.0
+info:
+  title: API Evangelist enhancements for CommBank Regular Payments API
+  version: 1.0.0
+extends: openapi/commonwealth-bank-regular-payments-api-api-openapi.yml
+x-generated: '2026-10-20'
+x-method: generated
+actions:
+- target: $.info
+  update:
+    x-apievangelist-enriched: '2026-10-20'
+    x-apievangelist-provider: commonwealth-bank
+    x-apievangelist-standard: CDR Consumer Data Standards (Banking)
+    x-apievangelist-auth: CDR Accredited Data Recipient OAuth2 authorization_code + FAPI/mTLS on consumer consent;
+      x-v header required.
+- target: $.paths['/accounts/{accountId}/direct-debits'].get
+  update:
+    x-apievangelist-agent-safe: true
+    x-apievangelist-mcp-tool: listDirectDebits
+- target: $.paths['/accounts/direct-debits'].get
+  update:
+    x-apievangelist-agent-safe: true
+    x-apievangelist-mcp-tool: listDirectDebitsBulk
+- target: $.paths['/accounts/direct-debits'].post
+  update:
+    x-apievangelist-agent-safe: true
+    x-apievangelist-mcp-tool: listDirectDebitsSpecificAccounts
+- target: $.paths['/accounts/{accountId}/payments/scheduled'].get
+  update:
+    x-apievangelist-agent-safe: true
+    x-apievangelist-mcp-tool: listScheduledPayments
+- target: $.paths['/payments/scheduled'].get
+  update:
+    x-apievangelist-agent-safe: true
+    x-apievangelist-mcp-tool: listScheduledPaymentsBulk
+- target: $.paths['/payments/scheduled'].post
+  update:
+    x-apievangelist-agent-safe: true
+    x-apievangelist-mcp-tool: listScheduledPaymentsSpecificAccounts
