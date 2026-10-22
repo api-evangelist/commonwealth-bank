@@ -16,6 +16,9 @@ checked:
 - https://www.iso20022.org/sites/default/files/ISO10383_MIC/ISO10383_MIC.csv
 - https://www.ojk.go.id/id/kanal/iknb/data-dan-statistik/direktori/fintech/Default.aspx
 - https://zapier.com/apps/commonwealth-bank/integrations
+- https://docs.commbank.com.au/integration-overview
+- https://docs.commbank.com.au/apis
+- https://api.cdr.gov.au/cdr-register/v1/all/data-recipients
 summary: null
 marketplace_apps: []
 edges:
@@ -121,4 +124,36 @@ edges:
     detected: '2026-10-18'
   detected_by: sweep-gulf-asean-open-finance.py
   first_seen: '2026-10-18'
+- partner_name: Consumer Data Right (ACCC accredited data recipient)
+  partner: null
+  partner_match: register
+  type: register
+  channel: regulator-register
+  relationship: standard-participant
+  direction: partner-built
+  evidence: https://api.cdr.gov.au/cdr-register/v1/all/data-recipients
+  category: Australian Consumer Data Right accreditation
+  contract_reference:
+    register: 'CDR Register (Australia, ACCC): accredited data recipients'
+    standard: Consumer Data Right
+    spec_file: null
+    role: accredited-data-recipient
+    registered_name: Commonwealth Bank of Australia
+    registered_brands:
+    - CommBank
+    - Unloan
+    register_id: ADRBNK000069
+    accreditation_level: UNRESTRICTED
+    register_status: ACTIVE
+    lapsed: false
+    register_country: AU
+    matched_domain: commbank.com.au
+    matched_by: domain
+    signal_note: 'regulated: ACCC accreditation to receive CDR data (a licence, not a product conformance test);
+      software products under the accreditation are the recipient''s own products or its customers / CDR representatives
+      and are never counted'
+    detected_by: sweep-australia-cdr-register.py
+    detected: '2026-10-22'
+  detected_by: sweep-australia-cdr-register.py
+  first_seen: '2026-10-22'
 templates: []
